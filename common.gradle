@@ -1,0 +1,66 @@
+// Gradle settings and tasks common to all subprojects
+
+apply plugin: 'java'
+
+group = 'com.github.stephengold'
+
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) { // compile-time options:
+        options.compilerArgs << '-Xdiags:verbose'
+        options.compilerArgs << '-Xlint:unchecked'
+        options.deprecation = true
+        options.encoding = 'UTF-8'
+    }
+    tasks.withType(JavaExec) { // runtime options:
+        classpath sourceSets.main.runtimeClasspath
+        //debug true
+        //doFirst { println commandLine }
+        enableAssertions true
+        //jvmArgs '-verbose:gc'
+        //jvmArgs '-Xbatch'
+        //jvmArgs '-Xms512m', '-Xmx512m'
+        //jvmArgs '-XX:+PrintCompilation'
+        //jvmArgs '-XX:+UseConcMarkSweepGC'
+        jvmArgs '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=10'
+    }
+}
+
+ext {
+    // current versions of various libraries
+    jcommanderVersion = '1.80'
+    heartVersion = '5.3.0'
+    jme3utilitiesniftyVersion = '0.9.14'
+    jme3utilitiesuiVersion = '0.8.3'
+    jmonkeyengineVersion = '3.3.2-stable'
+    skycontrolVersion = '0.9.26'
+}
+
+repositories {
+    //mavenLocal()
+    maven { url 'https://dl.bintray.com/stephengold/org.jmonkeyengine' } // for jme3-testdata
+    jcenter()
+    maven { url 'https://nifty-gui.sourceforge.net/nifty-maven-repo' }
+}
+
+// custom tasks for creating source/javadoc JARs
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    dependsOn 'classes'
+    description 'Create a JAR of source files.'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from sourceSets.main.allJava
+}
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    dependsOn 'javadoc'
+    description 'Create a JAR of javadoc.'
+    from javadoc.destinationDir
+}
+
+// add javadoc/source jar tasks as artifacts
+artifacts {
+    archives jar, sourcesJar, javadocJar
+}

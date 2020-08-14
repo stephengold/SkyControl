@@ -1,0 +1,92 @@
+// Note: "common.gradle" in the root project contains additional initialization
+//   for this project. This initialization is applied in the "build.gradle"
+//   of the root project.
+
+description = 'demos, examples, and tests that do not generate reports'
+
+dependencies {
+    implementation "com.beust:jcommander:$jcommanderVersion"
+    runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
+    runtimeOnly "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
+    implementation "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
+    runtimeOnly "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
+    runtimeOnly "org.jmonkeyengine:jme3-lwjgl3:$jmonkeyengineVersion"
+    implementation "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
+    implementation "org.jmonkeyengine:jme3-terrain:$jmonkeyengineVersion"
+    runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
+
+    implementation 'com.github.stephengold:Heart:' + heartVersion
+
+    //implementation "com.github.stephengold:SkyControl:$skycontrolVersion"
+    implementation project(':SkyLibrary')
+
+    implementation "com.github.stephengold:jme3-utilities-nifty:$jme3utilitiesniftyVersion"
+    implementation "com.github.stephengold:jme3-utilities-ui:$jme3utilitiesuiVersion"
+
+    //runtimeOnly project(':moon-ccbysa')
+}
+
+// cleanup tasks
+clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs', 'cleanWrittenAssets')
+
+task cleanDLLs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.dll')
+}
+task cleanDyLibs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.dylib')
+}
+task cleanLogs(type: Delete) {
+    delete fileTree(dir: '.', include: 'hs_err_pid*.log')
+}
+task cleanSOs(type: Delete) {
+    delete fileTree(dir: '.', include: '*.so')
+}
+task cleanWrittenAssets(type: Delete) {
+    delete 'Written Assets'
+}
+
+task runCubeMapExample(type: JavaExec) {
+    main 'jme3utilities.sky.test.CubeMapExample'
+}
+task runTestGlobeRenderer(type: JavaExec) {
+    main 'jme3utilities.sky.test.TestGlobeRenderer'
+}
+
+task debugTestSkyControl(type: JavaExec) {
+    debug true
+    main 'jme3utilities.sky.test.TestSkyControl'
+}
+task runTestSkyControl(type: JavaExec) {
+    main 'jme3utilities.sky.test.TestSkyControl'
+}
+task runTestSkyControlCyclone(type: JavaExec) {
+    args = ['-c']
+    main 'jme3utilities.sky.test.TestSkyControl'
+}
+task runTestSkyControlShadowFilter(type: JavaExec) {
+    args = ['-f']
+    main 'jme3utilities.sky.test.TestSkyControl'
+}
+task runTestSkyControlNoCubes(type: JavaExec) {
+    args = ['-n']
+    main 'jme3utilities.sky.test.TestSkyControl'
+}
+task runTestSkyControlSingleDome(type: JavaExec) {
+    args = ['-s']
+    main 'jme3utilities.sky.test.TestSkyControl'
+}
+task runTestSkyControlUsage(type: JavaExec) {
+    args = ['-u']
+    main 'jme3utilities.sky.test.TestSkyControl'
+}
+task runTestSkyControlWater(type: JavaExec) {
+    args = ['-w']
+    main 'jme3utilities.sky.test.TestSkyControl'
+}
+
+task runTestSkyMaterial(type: JavaExec) {
+    main 'jme3utilities.sky.test.TestSkyMaterial'
+}
+task TestSunAndStars(type: JavaExec) {
+    main 'jme3utilities.sky.test.TestSunAndStars'
+}
