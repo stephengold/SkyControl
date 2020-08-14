@@ -143,17 +143,16 @@ Clone the SkyControl repository using Git:
 10. Click on the "Finish" button.
 11. When the "Clone Completed" dialog appears, click on the "Open Project..."
     button.
-12. Expand the root project node to reveal the 8 sub-projects.
-13. To start with, I recommend opening 3 sub-projects:  "SkyControl",
-    "tests", and "textures".  Select them using control-click, then click on the
+12. Expand the root project node to reveal the 3 sub-projects.
+13. Select all 3 using control-click, then click on the
     "Open" button.
-14. There will be errors in the "textures" sub-project.  However, the build
+14. There will be errors in the "SkyAssets" sub-project.  However, the build
     task should resolve them.
 
 ### Build the project
 
  1. In the "Projects" window of the IDE,
-    right-click on the "tests" sub-project to select it.
+    right-click on the "SkyExamples" sub-project to select it.
  2. Select "Build".
 
 ### How to build SkyControl without an IDE
@@ -172,7 +171,7 @@ Clone the SkyControl repository using Git:
    + using Bash:  `./gradlew build`
    + using Windows Command Prompt:  `.\gradlew build`
 
-After a successful build, new jars will be found in `*/build/libs`.
+After a successful build, new jars will be found in `SkyLibrary/build/libs`.
 
 <a name="add"/>
 
@@ -232,22 +231,23 @@ Adding SkyControl to an existing JME3 project should be a simple 6-step process:
 
 ## History
 
-Since August 2020, the SkyControl Project has been hosted at
-[GitHub](https://github.com/stephengold/SkyControl).
+The evolution of the project is chronicled in [its release log][log].
 
-From September 2015 to August 2020,
-SkyControl was part of the Jme3-utilities Project at
-[GitHub](https://github.com/stephengold/jme3-utilities).
+SkyControl has its roots in SkyDome by Cris (aka "t0neg0d").
 
 From November 2013 to September 2015,
 SkyControl was part of the Jme3-utilities Project at
 [Google Code](https://code.google.com/archive/).
 
+From September 2015 to August 2020,
+SkyControl was part of the Jme3-utilities Project at
+[GitHub](https://github.com/stephengold/jme3-utilities).
+
+Since August 2020, SkyControl has been an independent project at
+[GitHub](https://github.com/stephengold/SkyControl).
+
 Old (2014) versions of SkyControl can still be found in
 [the jMonkeyEngine-Contributions Project](https://github.com/jMonkeyEngine-Contributions/SkyControl).
-
-The evolution of SkyControl is chronicled in
-[its release log](https://github.com/stephengold/SkyControl/blob/master/SkyLibrary/release-notes.md)
 
 [Jump to table of contents](#toc)
 
