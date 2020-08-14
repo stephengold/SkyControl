@@ -302,6 +302,7 @@ artists and software developers:
     + [Open Broadcaster Software Studio][obs]
     + the PMD source-code analyzer
     + Alex Peterson's Spacescape tool
+    + the Subversion revision-control systems
     + the [WinMerge] differencing and merging tool
 
 Many of SkyControl's assets were based on the works of others who licensed their
