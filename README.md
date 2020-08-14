@@ -1,7 +1,7 @@
 <img height="150" src="https://i.imgur.com/HfTbw30.png">
 
-The [SkyControl Project][skycontrol] provides a sky-simulation library
-for the [jMonkeyEngine game engine][jme].
+The [SkyControl Project][skycontrol] provides a sky-simulation library for the
+[jMonkeyEngine game engine][jme].
 
 It contains 3 sub-projects:
 
@@ -12,7 +12,7 @@ It contains 3 sub-projects:
 Complete source code (in Java) is provided under
 [a 3-clause BSD license][license].
 
-Summary of SkyControl features:
+Summary of features:
 
  + sun, moon, stars, horizon haze, and up to 6 cloud layers
  + compatible with static backgrounds such as cube maps
@@ -169,13 +169,21 @@ Clone the SkyControl repository using Git:
    + using Bash:  `./gradlew build`
    + using Windows Command Prompt:  `.\gradlew build`
 
-After a successful build, new jars will be found in `SkyLibrary/build/libs`.
+After a successful build,
+Maven artifacts will be found in `SkyLibrary/build/libs`.
+
+You can install the Maven artifacts to your local cache:
+ + using Bash:  `./gradlew :SkyLibrary:publishToMavenLocal`
+ + using Windows Command Prompt:  `.\gradlew :SkyLibrary:publishToMavenLocal`
+
+[Jump to table of contents](#toc)
 
 <a name="add"/>
 
 ## How to add SkyControl to an existing project
 
-Adding SkyControl to an existing JME3 project should be a simple 6-step process:
+Adding SkyControl to an existing jMonkeyEngine][jme] project should be
+a simple 6-step process:
 
  1. Add SkyControl and its dependencies to the classpath.
  2. Disable any existing sky which might interfere with SkyControl.
@@ -183,6 +191,57 @@ Adding SkyControl to an existing JME3 project should be a simple 6-step process:
  4. Configure the `SkyControl` instance.
  5. Enable the `SkyControl` instance.
  6. Test and tune as necessary.
+
+The SkyControl Library depends on [the Heart Library][heart],
+which in turn depends on
+the standard jme3-core library from jMonkeyEngine.
+
+#### For Gradle projects
+
+For projects built using Maven or Gradle, it is sufficient to specify the
+dependency on the SkyControl Library.  The build tools should automatically
+resolve the remaining dependencies automatically.
+
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        compile 'com.github.stephengold:SkyControl:0.9.26'
+    }
+
+#### For Ant projects
+
+For project built using [Ant], download the SkyControl and Heart
+libraries from GitHub:
+
+ + https://github.com/stephengold/jme3-utilities/releases/tag/ui-0.8.2
+ + https://github.com/stephengold/Heart/releases/tag/5.2.1
+
+You'll want both class jars
+and probably the `-sources` and `-javadoc` jars as well.
+
+Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
+
+ 1. Right-click on the project (not its assets) in the "Projects" window.
+ 2. Select "Properties to open the "Project Properties" dialog.
+ 3. Under "Categories:" select "Libraries".
+ 4. Click on the "Compile" tab.
+ 5. Add the `Heart` class jar:
+    + Click on the "Add JAR/Folder" button.
+    + Navigate to the download folder.
+    + Select the "SkyControl-0.9.26.jar" file.
+    + Click on the "Open" button.
+ 6. (optional) Add jars for javadoc and sources:
+    + Click on the "Edit" button.
+    + Click on the "Browse..." button to the right of "Javadoc:"
+    + Select the "SkyControl-0.9.26-javadoc.jar" file.
+    + Click on the "Open" button.
+    + Click on the "Browse..." button to the right of "Sources:"
+    + Select the "SkyControl-0.9.26-sources.jar" file.
+    + Click on the "Open" button again.
+    + Click on the "OK" button to close the "Edit Jar Reference" dialog.
+ 7. Similarly, add the `Heart` jar(s).
+ 8. Click on the "OK" button to exit the "Project Properties" dialog.
 
 [Jump to table of contents](#toc)
 
@@ -197,7 +256,6 @@ Adding SkyControl to an existing JME3 project should be a simple 6-step process:
 [ant]: https://ant.apache.org "Apache Ant Project"
 [blender]: https://docs.blender.org "Blender Project"
 [bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
-[bullet]: https://pybullet.org/wordpress "Bullet Real-Time Physics Simulation"
 [chrome]: https://www.google.com/chrome "Chrome"
 [elements]: http://www.adobe.com/products/photoshop-elements.html "Photoshop Elements"
 [findbugs]: http://findbugs.sourceforge.net "FindBugs Project"
@@ -209,9 +267,8 @@ Adding SkyControl to an existing JME3 project should be a simple 6-step process:
 [imgur]: https://imgur.com/ "Imgur"
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
-[latest]: https://github.com/stephengold/Minie/releases/tag/1.6.0 "latest release"
 [license]: https://github.com/stephengold/SkyControl/blob/master/LICENSE "SkyControl license"
-[log]: https://github.com/stephengold/Minie/blob/master/MinieLibrary/release-notes.md "release log"
+[log]: https://github.com/stephengold/SkyControl/blob/master/SkyLibrary/release-notes.md "release log"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
 [meld]: http://meldmerge.org/ "Meld Tool"
 [mint]: https://linuxmint.com "Linux Mint Project"
