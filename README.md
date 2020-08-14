@@ -146,8 +146,6 @@ Clone the SkyControl repository using Git:
 12. Expand the root project node to reveal the 3 sub-projects.
 13. Select all 3 using control-click, then click on the
     "Open" button.
-14. There will be errors in the "SkyAssets" sub-project.  However, the build
-    task should resolve them.
 
 ### Build the project
 
