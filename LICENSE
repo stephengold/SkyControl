@@ -1,7 +1,12 @@
-BSD 3-Clause License
-
-Copyright (c) 2020, Stephen Gold
+Copyright (c) 2013-2020, Stephen Gold
 All rights reserved.
+
+Note: the following license does not apply to certain assets/resources
+(1 file in SkyExamples/src/main/resources/Textures/skies/clouds and
+ 2 files in SkyExamples/src/main/resources/Textures/skies/t0neg0d)
+which are separately licensed.
+
+BSD 3-Clause License
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
