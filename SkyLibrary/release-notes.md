@@ -1,10 +1,10 @@
 # release log for the SkyControl library and related software
 
-## Version 0.9.27 released on TBD
+## Version 0.9.27 released on 17 August 2020
 
 Notable changes:
  + use JCommander version 1.80 in tests
- + base on version 6.0.0 of the Heart Library and target JME 3.3.0-stable
+ + base on version 6.0.0 of the Heart Library and target JME 3.3.2-stable
  + SkyControl became a project separate from jme3-utilities.
 
 ## Version 0.9.26 released on 1 April 2020

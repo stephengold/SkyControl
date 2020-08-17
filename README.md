@@ -43,8 +43,11 @@ Summary of features:
 
 ## Downloads
 
-Recent releases (v0.9.0 through v0.9.26) can be downloaded from
-[GitHub](https://github.com/stephengold/jme3-utilities/releases).
+Newer releases (since v0.9.27) can be downloaded from
+[GitHub](https://github.com/stephengold/SkyControl/releases).
+
+Older releases (v0.9.0 through v0.9.26) can be downloaded from
+[the Jme3-utilities Project](https://github.com/stephengold/jme3-utilities/releases).
 
 Newer Maven artifacts (since v0.9.25) are available from
 [JCenter](https://bintray.com/stephengold/com.github.stephengold/SkyControl).
@@ -156,12 +159,18 @@ Clone the SkyControl repository using Git:
 ### How to build SkyControl without an IDE
 
  1. Install build software:
-   + a Java Development Kit,
-   + Gradle, and
-   + Git
+   + a Java Development Kit and
+   + [Gradle]
  2. Download and extract the source code from GitHub:
      + `git clone https://github.com/stephengold/SkyControl.git`
      + `cd SkyControl`
+     + `git checkout -b latest 0.9.27`
+   + using a web browser:
+     + browse to [https://github.com/stephengold/SkyControl/releases/latest][latest]
+     + follow the "Source code (zip)" link
+     + save the ZIP file
+     + unzip the saved ZIP file
+     + `cd` to the extracted directory/folder
  3. Set the `JAVA_HOME` environment variable:
    + using Bash:  `export JAVA_HOME="` *path to your JDK* `"`
    + using Windows Command Prompt:  `set JAVA_HOME="` *path to your JDK* `"`
@@ -206,7 +215,7 @@ resolve the remaining dependencies automatically.
         jcenter()
     }
     dependencies {
-        compile 'com.github.stephengold:SkyControl:0.9.26'
+        compile 'com.github.stephengold:SkyControl:0.9.27'
     }
 
 #### For Ant projects
@@ -214,8 +223,8 @@ resolve the remaining dependencies automatically.
 For project built using [Ant], download the SkyControl and Heart
 libraries from GitHub:
 
- + https://github.com/stephengold/jme3-utilities/releases/tag/ui-0.8.2
- + https://github.com/stephengold/Heart/releases/tag/5.2.1
+ + https://github.com/stephengold/SkyControl/releases/tag/0.9.27
+ + https://github.com/stephengold/Heart/releases/tag/6.0.0
 
 You'll want both class jars
 and probably the `-sources` and `-javadoc` jars as well.
@@ -229,18 +238,18 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
  5. Add the `Heart` class jar:
     + Click on the "Add JAR/Folder" button.
     + Navigate to the download folder.
-    + Select the "SkyControl-0.9.26.jar" file.
+    + Select the "Heart-6.0.0.jar" file.
     + Click on the "Open" button.
  6. (optional) Add jars for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "SkyControl-0.9.26-javadoc.jar" file.
+    + Select the "Heart-6.0.0-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "SkyControl-0.9.26-sources.jar" file.
+    + Select the "Heart-6.0.0-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
- 7. Similarly, add the `Heart` jar(s).
+ 7. Similarly, add the `SkyControl` jar(s).
  8. Click on the "OK" button to exit the "Project Properties" dialog.
 
 [Jump to table of contents](#toc)
@@ -267,6 +276,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 [imgur]: https://imgur.com/ "Imgur"
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
+[latest]: https://github.com/stephengold/SkyControl/releases/latest "latest release"
 [license]: https://github.com/stephengold/SkyControl/blob/master/LICENSE "SkyControl license"
 [log]: https://github.com/stephengold/SkyControl/blob/master/SkyLibrary/release-notes.md "release log"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
@@ -298,8 +308,8 @@ From September 2015 to August 2020,
 SkyControl was part of the Jme3-utilities Project at
 [GitHub](https://github.com/stephengold/jme3-utilities).
 
-Since August 2020, SkyControl has been an independent project at
-[GitHub](https://github.com/stephengold/SkyControl).
+Since August 2020, SkyControl has been a separate project at
+[GitHub][skycontrol].
 
 Old (2014) versions of SkyControl can still be found in
 [the jMonkeyEngine-Contributions Project](https://github.com/jMonkeyEngine-Contributions/SkyControl).
