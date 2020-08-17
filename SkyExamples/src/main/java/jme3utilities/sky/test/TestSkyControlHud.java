@@ -600,7 +600,7 @@ public class TestSkyControlHud
         /*
          * The action is not handled: forward it to the application class.
          */
-        guiApplication.onAction(actionString, ongoing, tpf);
+        getApplication().onAction(actionString, ongoing, tpf);
     }
     // *************************************************************************
     // GuiScreenController methods

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2018, Stephen Gold
+ Copyright (c) 2013-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -316,7 +316,7 @@ public class TestSkyMaterialHud
         /*
          * The action is not handled: forward it to the application class.
          */
-        guiApplication.onAction(actionString, ongoing, tpf);
+        getApplication().onAction(actionString, ongoing, tpf);
     }
     // *************************************************************************
     // BasicScreenController methods
