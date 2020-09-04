@@ -1,4 +1,4 @@
-// Copyright (c) 2014, Stephen Gold
+// Copyright (c) 2014-2020, Stephen Gold
 // All rights reserved.
 
 // Redistribution and use in source and binary forms, with or without
@@ -61,8 +61,8 @@ MaterialDef dome20 {
 	    HAS_OBJECT1 : Object1ColorMap
 	    HAS_HAZE : HazeAlphaMap
         }
-        FragmentShader GLSL110: Shaders/skies/dome20/dome20.frag
-        VertexShader   GLSL110: Shaders/skies/dome20/dome20.vert
+        FragmentShader GLSL100: Shaders/skies/dome20/dome20.frag
+        VertexShader   GLSL100: Shaders/skies/dome20/dome20.vert
         WorldParameters {
             WorldViewProjectionMatrix
         }
@@ -74,8 +74,8 @@ MaterialDef dome20 {
 	    HAS_OBJECT1 : Object1ColorMap
 	    HAS_HAZE : HazeAlphaMap
         }
-        FragmentShader GLSL110: Shaders/skies/dome20/dome20glow.frag
-        VertexShader   GLSL110: Shaders/skies/dome20/dome20.vert
+        FragmentShader GLSL100: Shaders/skies/dome20/dome20glow.frag
+        VertexShader   GLSL100: Shaders/skies/dome20/dome20.vert
         WorldParameters {
             WorldViewProjectionMatrix
         }
