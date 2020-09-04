@@ -92,10 +92,6 @@ public class GlobeRenderer extends SimpleAppState {
      */
     final private static Vector3f unitX = new Vector3f(1f, 0f, 0f);
     /**
-     * local copy of {@link com.jme3.math.Vector3f#UNIT_Y}
-     */
-    final private static Vector3f unitY = new Vector3f(0f, 1f, 0f);
-    /**
      * local copy of {@link com.jme3.math.Vector3f#UNIT_Z}
      */
     final private static Vector3f unitZ = new Vector3f(0f, 0f, 1f);
@@ -295,9 +291,9 @@ public class GlobeRenderer extends SimpleAppState {
         Validate.inRange(phi, "phi", -FastMath.HALF_PI, FastMath.HALF_PI);
 
         Quaternion xRot = new Quaternion();
-        xRot.fromAngleNormalAxis(-theta, unitX);
+        xRot.fromAngles(-theta, 0f, 0f);
         Quaternion yRot = new Quaternion();
-        yRot.fromAngleNormalAxis(-phi, unitY);
+        yRot.fromAngles(0f, -phi, 0f);
         Quaternion turn = yRot.mult(xRot);
 
         Vector3f lightDirection = turn.mult(unitZ);

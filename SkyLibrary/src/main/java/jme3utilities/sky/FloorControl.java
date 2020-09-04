@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2019, Stephen Gold
+ Copyright (c) 2014-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -83,10 +83,6 @@ public class FloorControl extends SubtreeControl {
      * name for the node
      */
     final private static String nodeName = "floor node";
-    /**
-     * local copy of {@link com.jme3.math.Vector3f#UNIT_X}
-     */
-    final private static Vector3f unitX = new Vector3f(1f, 0f, 0f);
     // *************************************************************************
     // fields
 
@@ -285,7 +281,7 @@ public class FloorControl extends SubtreeControl {
         floor.setMaterial(material);
 
         Quaternion rotation = new Quaternion();
-        rotation.fromAngleNormalAxis(-FastMath.HALF_PI, unitX);
+        rotation.fromAngles(-FastMath.HALF_PI, 0f, 0f);
         floor.setLocalRotation(rotation); // rotate from X-Y plane to X-Z plane
 
         float radius = camera.getFrustumFar();
