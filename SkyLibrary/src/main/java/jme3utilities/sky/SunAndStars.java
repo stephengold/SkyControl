@@ -70,8 +70,7 @@ import jme3utilities.math.MyMath;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class SunAndStars
-        implements Cloneable, Savable {
+public class SunAndStars implements Cloneable, Savable {
     // *************************************************************************
     // constants and loggers
 
@@ -166,13 +165,13 @@ public class SunAndStars
     }
 
     /**
-     * Convert ecliptical angles into a world direction vector.
+     * Convert ecliptical angles into a world direction vector. TODO storeResult
      *
      * @param latitude celestial latitude (radians north of the ecliptic,
      * &le;Pi/2, &ge;-Pi/2)
      * @param longitude celestial longitude (radians east of the March equinox,
      * &le;2*Pi, &ge;0)
-     * @return a new unit vector in world (horizontal) coordinates
+     * @return a new unit vector in world coordinates
      */
     public Vector3f convertToWorld(float latitude, float longitude) {
         Validate.inRange(latitude, "latitude",
@@ -187,36 +186,42 @@ public class SunAndStars
     }
 
     /**
-     * Convert equatorial coordinates to world (horizontal) coordinates.
+     * Convert equatorial coordinates to world coordinates. TODO storeResult
      *
      * @param equatorial coordinates (not null, unaffected)
      * @return a new vector in a world coordinates
      */
     public Vector3f convertToWorld(Vector3f equatorial) {
-        Validate.nonNull(equatorial, "coordinates");
+        Validate.nonNull(equatorial, "equatorial coordinates");
 
         float siderealAngle = siderealAngle();
         /*
-         * The conversion consists of a (-siderealAngle) rotation about the Z
-         * (north celestial pole) axis followed by a (latitude - Pi/2) rotation
-         * about the Y (east) axis followed by a permutation of the axes.
+         * Convert to horizontal coordinates:
+         * 1. rotate by (-siderealAngle) around +Z (north celestial pole)
+         * 2. rotate by (latitude - Pi/2) around +Y (east horizon)
+         * 3. permute the axes
          */
-        Quaternion zRotation = new Quaternion();
-        zRotation.fromAngles(0f, 0f, -siderealAngle);
-        Vector3f rotated = zRotation.mult(equatorial);
+        Quaternion rotation = new Quaternion();
+        rotation.fromAngles(0f, 0f, -siderealAngle);
+        Vector3f rotated = rotation.mult(equatorial);
 
         float coLatitude = FastMath.HALF_PI - observerLatitude;
-        Quaternion yRotation = new Quaternion();
-        yRotation.fromAngles(0f, -coLatitude, 0f);
-        rotated = yRotation.mult(rotated);
+        rotation.fromAngles(0f, -coLatitude, 0f);
+        rotation.mult(rotated, rotated);
 
-        Vector3f world = new Vector3f(-rotated.x, rotated.z, rotated.y);
+        float northing = -rotated.x;
+        float height = rotated.z;
+        float easting = rotated.y;
+        /*
+         * Convert to world coordinates.
+         */
+        Vector3f result = new Vector3f(northing, height, easting);
 
-        return world;
+        return result;
     }
 
     /**
-     * Read the time of day.
+     * Determine the time of day.
      *
      * @return hours since midnight, solar time (&le;24, &ge;0)
      */
@@ -228,7 +233,7 @@ public class SunAndStars
     }
 
     /**
-     * Read the observer's latitude.
+     * Determine the observer's latitude.
      *
      * @return radians north of the equator (&le;Pi/2, &ge;-Pi/2)
      */
@@ -240,7 +245,7 @@ public class SunAndStars
     }
 
     /**
-     * Read the solar longitude.
+     * Determine the solar longitude.
      *
      * @return radians east of the March equinox (&le;2*Pi, &ge;0)
      */
@@ -309,7 +314,8 @@ public class SunAndStars
     /**
      * Alter the time of day.
      *
-     * @param newHour hours since midnight, solar time (&le;24, &ge;0)
+     * @param newHour the number of hours since solar midnight (&le;24, &ge;0,
+     * default=0)
      */
     public void setHour(float newHour) {
         Validate.inRange(newHour, "new hour", 0f, Constants.hoursPerDay);
@@ -319,7 +325,8 @@ public class SunAndStars
     /**
      * Alter the observer's latitude.
      *
-     * @param latitude radians north of the equator (&le;Pi/2, &ge;-Pi/2)
+     * @param latitude radians north of the equator (&le;Pi/2, &ge;-Pi/2,
+     * default=0.89324)
      */
     public void setObserverLatitude(float latitude) {
         Validate.inRange(latitude, "latitude",
@@ -328,9 +335,10 @@ public class SunAndStars
     }
 
     /**
-     * Alter the sun's celestial longitude directly.
+     * Directly alter the sun's celestial longitude.
      *
-     * @param longitude radians east of the March equinox (&le;2*Pi, &ge;0)
+     * @param longitude radians east of the March equinox (&le;2*Pi, &ge;0,
+     * default=0)
      */
     public void setSolarLongitude(float longitude) {
         Validate.inRange(longitude, "longitude", 0f, FastMath.TWO_PI);
@@ -409,12 +417,13 @@ public class SunAndStars
     }
 
     /**
-     * Calculate the direction to the center of the sun.
+     * Determine the direction to the center of the sun. TODO storeResult
      *
-     * @return a new unit vector in world (horizontal) coordinates
+     * @return a new unit vector in world coordinates
      */
     public Vector3f sunDirection() {
-        Vector3f result = convertToWorld(0f, solarLongitude);
+        float latitude = 0f;
+        Vector3f result = convertToWorld(latitude, solarLongitude);
 
         assert result.isUnitVector();
         return result;
