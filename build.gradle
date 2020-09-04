@@ -5,3 +5,9 @@ plugins {
 subprojects {
     apply from: rootProject.file('common.gradle')
 }
+
+// publishing tasks
+
+task('publishToMavenLocal') {
+    dependsOn ':SkyLibrary:publishToMavenLocal'
+}
