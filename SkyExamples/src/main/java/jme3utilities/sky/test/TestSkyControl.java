@@ -72,7 +72,7 @@ public class TestSkyControl extends GuiApplication {
     /**
      * Nifty screen for editing hotkey bindings
      */
-    static BindScreen bindScreen = new BindScreen();
+    final private static BindScreen bindScreen = new BindScreen();
     /**
      * anti-aliasing factor in effect (samples per pixel, &ge;0, &le;16)
      */
