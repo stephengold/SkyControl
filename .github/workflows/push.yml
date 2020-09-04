@@ -16,17 +16,6 @@ jobs:
       - uses: gradle/wrapper-validation-action@v1
       - run: ./gradlew build --console=plain --no-daemon --stacktrace
 
-  Java8-MacOS:
-    if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: macOS-10.15
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: 8
-      - uses: gradle/wrapper-validation-action@v1
-      - run: ./gradlew build --console=plain --no-daemon --stacktrace
-
   Java8-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-2016
@@ -42,17 +31,6 @@ jobs:
   Java11-Linux:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      - uses: gradle/wrapper-validation-action@v1
-      - run: ./gradlew build --console=plain --no-daemon --stacktrace
-
-  Java11-MacOS:
-    if: contains(toJson(github.event.commits), '[ci skip] ') == false
-    runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
