@@ -197,7 +197,7 @@ public class SunAndStars implements Cloneable, Savable {
     }
 
     /**
-     * Convert horizonal coordinates to world coordinates.
+     * Convert horizontal coordinates to world coordinates.
      *
      * @param northing the northward component
      * @param height the upward component
