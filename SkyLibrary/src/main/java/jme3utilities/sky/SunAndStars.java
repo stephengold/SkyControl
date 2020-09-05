@@ -42,13 +42,14 @@ import java.util.logging.Logger;
 import jme3utilities.MySpatial;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.MyVector3f;
 
 /**
- * Component of SkyControl to model the orientations of the sun, moon, and stars
- * relative to an observer on Earth.
+ * Component of SkyControl to model the positions of the sun and stars relative
+ * to an observer on Earth.
  * <p>
- * Three right-handed Cartesian coordinate systems are used: ecliptical,
- * equatorial, and world.
+ * Four right-handed Cartesian coordinate systems are used: ecliptical,
+ * equatorial, horizontal, and world.
  * <p>
  * In ecliptical coordinates:<ul>
  * <li>+X points to the March equinox (in Pisces)
@@ -62,11 +63,13 @@ import jme3utilities.math.MyMath;
  * (in Orion)
  * <li>+Z points to the north celestial pole (in Ursa Minor)
  * </ul>
- * In world coordinates:<ul>
+ * In horizontal coordinates:<ul>
  * <li>+X points to the north horizon
  * <li>+Y points to the zenith
  * <li>+Z points to the east horizon
  * </ul>
+ * Unless customized using the setAxes() method, world coordinates are identical
+ * to horizontal coordinates.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -109,6 +112,14 @@ public class SunAndStars implements Cloneable, Savable {
      * &ge;0)
      */
     private float solarRaHours = 0f;
+    /**
+     * north direction (unit vector in world coordinates)
+     */
+    private Vector3f northDirection = new Vector3f(1f, 0f, 0f);
+    /**
+     * up direction (unit vector in world coordinates)
+     */
+    private Vector3f upDirection = new Vector3f(0f, 1f, 0f);
     // *************************************************************************
     // new methods exposed
 
@@ -186,6 +197,41 @@ public class SunAndStars implements Cloneable, Savable {
     }
 
     /**
+     * Convert horizonal coordinates to world coordinates.
+     *
+     * @param northing the northward component
+     * @param height the upward component
+     * @param easting the eastward component
+     * @param storeResult storage for the result (modified if not null)
+     * @return a vector in world coordinates (either storeResult or a new
+     * vector)
+     */
+    public Vector3f convertToWorld(float northing, float height, float easting,
+            Vector3f storeResult) {
+        Vector3f result = eastDirection(storeResult);
+        result.multLocal(easting);
+        MyVector3f.accumulateScaled(result, northDirection, northing);
+        MyVector3f.accumulateScaled(result, upDirection, height);
+
+        return result;
+    }
+
+    /**
+     * Convert the specified rotation from horizontal coordinates to world
+     * coordinates.
+     *
+     * @param rotation (not null, modified)
+     */
+    public void convertToWorld(Quaternion rotation) {
+        Validate.nonNull(rotation, "rotation");
+
+        Quaternion horizon2World = new Quaternion();
+        Vector3f east = eastDirection(null);
+        horizon2World.fromAxes(northDirection, upDirection, east);
+        horizon2World.mult(rotation, rotation);  // TODO invert?
+    }
+
+    /**
      * Convert equatorial coordinates to world coordinates. TODO storeResult
      *
      * @param equatorial coordinates (not null, unaffected)
@@ -215,20 +261,33 @@ public class SunAndStars implements Cloneable, Savable {
         /*
          * Convert to world coordinates.
          */
-        Vector3f result = new Vector3f(northing, height, easting);
+        Vector3f result = convertToWorld(northing, height, easting, null);
 
         return result;
     }
 
     /**
-     * Determine the time of day.
+     * Determine the direction to the east horizon.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a unit vector in world coordinates (either storeResult or a new
+     * vector)
+     */
+    public Vector3f eastDirection(Vector3f storeResult) {
+        Vector3f result = northDirection.cross(upDirection, storeResult);
+
+        assert result.isUnitVector();
+        return result;
+    }
+
+    /**
+     * Read the time of day.
      *
      * @return hours since midnight, solar time (&le;24, &ge;0)
      */
     public float getHour() {
         assert hour <= Constants.hoursPerDay : hour;
         assert hour >= 0f : hour;
-
         return hour;
     }
 
@@ -240,7 +299,6 @@ public class SunAndStars implements Cloneable, Savable {
     public float getObserverLatitude() {
         assert observerLatitude <= FastMath.HALF_PI : observerLatitude;
         assert observerLatitude >= -FastMath.HALF_PI : observerLatitude;
-
         return observerLatitude;
     }
 
@@ -252,8 +310,26 @@ public class SunAndStars implements Cloneable, Savable {
     public float getSolarLongitude() {
         assert solarLongitude <= FastMath.TWO_PI : solarLongitude;
         assert solarLongitude >= 0f : solarLongitude;
-
         return solarLongitude;
+    }
+
+    /**
+     * Determine the direction to the north horizon.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a direction vector in world coordinates (either storeResult or a
+     * new vector)
+     */
+    public Vector3f northDirection(Vector3f storeResult) {
+        Vector3f result;
+        if (storeResult == null) {
+            result = northDirection.clone();
+        } else {
+            result = storeResult.set(northDirection);
+        }
+
+        assert result.isUnitVector();
+        return result;
     }
 
     /**
@@ -273,6 +349,8 @@ public class SunAndStars implements Cloneable, Savable {
         Quaternion zRotation = new Quaternion();
         zRotation.fromAngles(0f, 0f, observerLatitude);
         Quaternion orientation = zRotation.mult(xRotation);
+
+        convertToWorld(orientation);
         if (invertRotation) {
             orientation.inverseLocal();
         }
@@ -297,6 +375,7 @@ public class SunAndStars implements Cloneable, Savable {
             float coLatitude = FastMath.HALF_PI - observerLatitude;
             zRotation.fromAngles(0f, 0f, -coLatitude);
             Quaternion orientation = zRotation.mult(yRotation);
+            convertToWorld(orientation);
             MySpatial.setWorldOrientation(northDome, orientation);
         }
         if (southDome != null) {
@@ -307,8 +386,31 @@ public class SunAndStars implements Cloneable, Savable {
             float angle = FastMath.HALF_PI + observerLatitude;
             zRotation.fromAngles(0f, 0f, angle);
             Quaternion orientation = zRotation.mult(yRotation);
+            convertToWorld(orientation);
             MySpatial.setWorldOrientation(southDome, orientation);
         }
+    }
+
+    /**
+     * Redefine the world coordinate system relative to the horizon.
+     *
+     * @param north the desired north direction (in world coordinates, not null,
+     * length&gt;0, unaffected, default=(1,0,0))
+     * @param up the desired up direction (in world coordinates, not null,
+     * length&gt;0, orthogonal to north, unaffected, default=(0,1,0))
+     */
+    public void setAxes(Vector3f north, Vector3f up) {
+        Validate.nonZero(north, "north");
+        Validate.nonZero(up, "up");
+
+        northDirection.set(north);
+        northDirection.normalizeLocal();
+
+        upDirection.set(up);
+        upDirection.normalizeLocal();
+
+        float dot = north.dot(up);
+        Validate.require(FastMath.abs(dot) < 0.0001f, "up orthogonal to north");
     }
 
     /**
@@ -428,6 +530,25 @@ public class SunAndStars implements Cloneable, Savable {
         assert result.isUnitVector();
         return result;
     }
+
+    /**
+     * Determine the direction to the zenith.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a unit vector in world coordinates (either storeResult or a new
+     * vector)
+     */
+    public Vector3f upDirection(Vector3f storeResult) {
+        Vector3f result;
+        if (storeResult == null) {
+            result = upDirection.clone();
+        } else {
+            result = storeResult.set(upDirection);
+        }
+
+        assert result.isUnitVector();
+        return result;
+    }
     // *************************************************************************
     // Object methods
 
@@ -440,6 +561,9 @@ public class SunAndStars implements Cloneable, Savable {
     @Override
     public SunAndStars clone() throws CloneNotSupportedException {
         SunAndStars clone = (SunAndStars) super.clone();
+        northDirection = northDirection.clone();
+        upDirection = upDirection.clone();
+
         return clone;
     }
 
@@ -480,6 +604,12 @@ public class SunAndStars implements Cloneable, Savable {
 
         value = capsule.readFloat("solarLongitude", 0f);
         setSolarLongitude(value);
+
+        Vector3f north = (Vector3f) capsule.readSavable("north",
+                new Vector3f(1f, 0f, 0f));
+        Vector3f up = (Vector3f) capsule.readSavable("up",
+                new Vector3f(0f, 1f, 0f));
+        setAxes(north, up);
     }
 
     /**
@@ -496,5 +626,7 @@ public class SunAndStars implements Cloneable, Savable {
         capsule.write(observerLatitude, "observerLatitude",
                 Constants.defaultLatitude);
         capsule.write(solarLongitude, "solarLongitude", 0f);
+        capsule.write(northDirection, "north", null);
+        capsule.write(upDirection, "up", null);
     }
 }
