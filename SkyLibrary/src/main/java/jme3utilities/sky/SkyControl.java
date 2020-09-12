@@ -805,7 +805,7 @@ public class SkyControl extends SkyControlCore {
             moonRenderer.setPhase(longitudeDifference, lunarLatitude);
         }
         /*
-         * Compute the UV coordinates of the center of the moon. TODO use moonDirection()
+         * Compute the UV coordinates of the center of the moon.
          */
         float solarLongitude = sunAndStars.getSolarLongitude();
         float celestialLongitude = solarLongitude + longitudeDifference;
