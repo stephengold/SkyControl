@@ -236,7 +236,9 @@ public class TestSkyControlRun
          */
         updater.setFRV(oldUpdater);
         GlobeRenderer moonRenderer = stateManager.getState(GlobeRenderer.class);
-        skyControl.setMoonRenderer(moonRenderer);
+        if (moonRenderer != null) {
+            skyControl.setMoonRenderer(moonRenderer);
+        }
         /*
          * Replace the old scene node.
          */
