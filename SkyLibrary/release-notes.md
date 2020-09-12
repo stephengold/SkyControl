@@ -1,5 +1,13 @@
 # release log for the SkyControl library and related software
 
+## Version 0.9.28 released on TBD
+
+Notable changes:
+ + add caller-provided storage to 4 methods. (API change)
+ + specify GLSL100 in material definitions, to support Android
+ + add the capability to customize the world coordinate system
+ + convert `TestSunAndStars` from a sample app to an automated test
+
 ## Version 0.9.27 released on 17 August 2020
 
 Notable changes:
