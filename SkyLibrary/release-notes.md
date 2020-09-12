@@ -1,6 +1,6 @@
 # release log for the SkyControl library and related software
 
-## Version 0.9.28 released on TBD
+## Version 0.9.28 released on 12 September 2020
 
 Notable changes:
  + add caller-provided storage to 4 methods. (API change)
@@ -13,7 +13,7 @@ Notable changes:
 Notable changes:
  + use JCommander version 1.80 in tests
  + base on version 6.0.0 of the Heart Library and target JME 3.3.2-stable
- + SkyControl became a project separate from jme3-utilities.
+ + SkyControl became a project separate from jme3-utilities
 
 ## Version 0.9.26 released on 1 April 2020
 

@@ -164,7 +164,7 @@ Clone the SkyControl repository using Git:
  2. Download and extract the source code from GitHub:
      + `git clone https://github.com/stephengold/SkyControl.git`
      + `cd SkyControl`
-     + `git checkout -b latest 0.9.27`
+     + `git checkout -b latest 0.9.28`
    + using a web browser:
      + browse to [https://github.com/stephengold/SkyControl/releases/latest][latest]
      + follow the "Source code (zip)" link
@@ -215,7 +215,7 @@ resolve the remaining dependencies automatically.
         jcenter()
     }
     dependencies {
-        compile 'com.github.stephengold:SkyControl:0.9.27'
+        compile 'com.github.stephengold:SkyControl:0.9.28'
     }
 
 #### For Ant projects
@@ -223,7 +223,7 @@ resolve the remaining dependencies automatically.
 For project built using [Ant], download the SkyControl and Heart
 libraries from GitHub:
 
- + https://github.com/stephengold/SkyControl/releases/tag/0.9.27
+ + https://github.com/stephengold/SkyControl/releases/tag/0.9.28
  + https://github.com/stephengold/Heart/releases/tag/6.0.0
 
 You'll want both class jars
