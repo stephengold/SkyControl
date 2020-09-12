@@ -176,24 +176,28 @@ public class SunAndStars implements Cloneable, Savable {
     }
 
     /**
-     * Convert ecliptical angles into a world direction vector. TODO storeResult
+     * Convert ecliptical angles into a world direction vector
      *
      * @param latitude celestial latitude (radians north of the ecliptic,
      * &le;Pi/2, &ge;-Pi/2)
      * @param longitude celestial longitude (radians east of the March equinox,
      * &le;2*Pi, &ge;0)
-     * @return a new unit vector in world coordinates
+     * @param storeResult storage for the result (modified if not null)
+     * @return a unit vector in world coordinates (either storeResult or a new
+     * vector)
      */
-    public Vector3f convertToWorld(float latitude, float longitude) {
+    public Vector3f convertToWorld(float latitude, float longitude,
+            Vector3f storeResult) {
         Validate.inRange(latitude, "latitude",
                 -FastMath.HALF_PI, FastMath.HALF_PI);
         Validate.inRange(longitude, "longitude", 0f, FastMath.TWO_PI);
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         Vector3f equatorial = convertToEquatorial(latitude, longitude);
-        Vector3f world = convertToWorld(equatorial);
+        convertToWorld(equatorial, result);
 
-        assert world.isUnitVector();
-        return world;
+        assert result.isUnitVector();
+        return result;
     }
 
     /**
@@ -232,13 +236,16 @@ public class SunAndStars implements Cloneable, Savable {
     }
 
     /**
-     * Convert equatorial coordinates to world coordinates. TODO storeResult
+     * Convert equatorial coordinates to world coordinates.
      *
      * @param equatorial coordinates (not null, unaffected)
-     * @return a new vector in a world coordinates
+     * @param storeResult storage for the result (modified if not null)
+     * @return a vector in a world coordinates (either storeResult or a new
+     * vector)
      */
-    public Vector3f convertToWorld(Vector3f equatorial) {
+    public Vector3f convertToWorld(Vector3f equatorial, Vector3f storeResult) {
         Validate.nonNull(equatorial, "equatorial coordinates");
+        Vector3f result = (storeResult == null) ? new Vector3f() : storeResult;
 
         float siderealAngle = siderealAngle();
         /*
@@ -261,7 +268,7 @@ public class SunAndStars implements Cloneable, Savable {
         /*
          * Convert to world coordinates.
          */
-        Vector3f result = convertToWorld(northing, height, easting, null);
+        convertToWorld(northing, height, easting, result);
 
         return result;
     }
@@ -519,13 +526,15 @@ public class SunAndStars implements Cloneable, Savable {
     }
 
     /**
-     * Determine the direction to the center of the sun. TODO storeResult
+     * Determine the direction to the center of the sun.
      *
-     * @return a new unit vector in world coordinates
+     * @param storeResult storage for the result (modified if not null)
+     * @return a unit vector in world coordinates (either storeResult or a new
+     * vector)
      */
-    public Vector3f sunDirection() {
+    public Vector3f sunDirection(Vector3f storeResult) {
         float latitude = 0f;
-        Vector3f result = convertToWorld(latitude, solarLongitude);
+        Vector3f result = convertToWorld(latitude, solarLongitude, storeResult);
 
         assert result.isUnitVector();
         return result;

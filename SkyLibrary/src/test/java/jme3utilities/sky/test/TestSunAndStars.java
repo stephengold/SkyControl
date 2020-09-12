@@ -66,16 +66,16 @@ public class TestSunAndStars {
         assertEquals(1f, 0f, 0f, sas.northDirection(null), 0f);
         Assert.assertEquals(FastMath.PI, sas.siderealAngle(), 0f);
         Assert.assertEquals(12f, sas.siderealHour(), 0f);
-        assertEquals(0.7791f, -0.6269f, 0f, sas.sunDirection(), 0.0001f);
+        assertEquals(0.7791f, -0.6269f, 0f, sas.sunDirection(null), 0.0001f);
         assertEquals(0f, 1f, 0f, sas.upDirection(null), 0f);
         /*
          * Convert some interesting coordinates.
          */
         assertEquals(1f, 2f, 3f, sas.convertToWorld(1f, 2f, 3f, null), 0f);
         assertEquals(0.7791f, -0.6269f, 0f,
-                sas.convertToWorld(0f, 0f), 0.0001f); // Pisces
-        assertEquals(0.6269f, 0.7791f, 0f,
-                sas.convertToWorld(new Vector3f(0f, 0f, 1f)), 0.0001f); // NCP
+                sas.convertToWorld(0f, 0f, null), 0.0001f); // Pisces
+        Vector3f ncpDir = sas.convertToWorld(new Vector3f(0f, 0f, 1f), null);
+        assertEquals(0.6269f, 0.7791f, 0f, ncpDir, 0.0001f);
         /*
          * Apply various orientations to the test node.
          */
@@ -108,32 +108,32 @@ public class TestSunAndStars {
         assertEquals(1f, 0f, 0f, sas.northDirection(null), 0f);
         Assert.assertEquals(1.7855f, sas.siderealAngle(), 0.0005f);
         Assert.assertEquals(6.82f, sas.siderealHour(), 0.001f);
-        assertEquals(0.4729f, -0.8811f, 0f, sas.sunDirection(), 0.0001f);
+        assertEquals(0.4729f, -0.8811f, 0f, sas.sunDirection(null), 0.0001f);
         assertEquals(0f, 1f, 0f, sas.upDirection(null), 0f);
 
         sas.setSolarLongitude(Calendar.JANUARY, 1);
         Assert.assertEquals(4.927f, sas.getSolarLongitude(), 0.0005f);
         Assert.assertEquals(1.804f, sas.siderealAngle(), 0.0005f);
         Assert.assertEquals(6.89f, sas.siderealHour(), 0.001f);
-        assertEquals(0.4742f, -0.8804f, 0f, sas.sunDirection(), 0.0001f);
+        assertEquals(0.4742f, -0.8804f, 0f, sas.sunDirection(null), 0.0001f);
 
         sas.setSolarLongitude(Calendar.FEBRUARY, 29); // leap day
         Assert.assertEquals(5.94f, sas.getSolarLongitude(), 0.0005f);
         Assert.assertEquals(2.825f, sas.siderealAngle(), 0.0005f);
         Assert.assertEquals(10.79f, sas.siderealHour(), 0.001f);
-        assertEquals(0.6881f, -0.7256f, 0f, sas.sunDirection(), 0.0001f);
+        assertEquals(0.6881f, -0.7256f, 0f, sas.sunDirection(null), 0.0001f);
 
         sas.setSolarLongitude(Calendar.MARCH, 1);
         Assert.assertEquals(5.957f, sas.getSolarLongitude(), 0.0005f);
         Assert.assertEquals(2.8407f, sas.siderealAngle(), 0.0005f);
         Assert.assertEquals(10.851f, sas.siderealHour(), 0.001f);
-        assertEquals(0.6928f, -0.7211f, 0f, sas.sunDirection(), 0.0001f);
+        assertEquals(0.6928f, -0.7211f, 0f, sas.sunDirection(null), 0.0001f);
 
         sas.setSolarLongitude(Calendar.MARCH, 20); // equinox
         Assert.assertEquals(0f, sas.getSolarLongitude(), 0.0005f);
         Assert.assertEquals(FastMath.PI, sas.siderealAngle(), 0.0005f);
         Assert.assertEquals(12f, sas.siderealHour(), 0.001f);
-        assertEquals(0.7791f, -0.6269f, 0f, sas.sunDirection(), 0.0001f);
+        assertEquals(0.7791f, -0.6269f, 0f, sas.sunDirection(null), 0.0001f);
         /*
          * Test solar midnight at some interesting latitudes.
          */
@@ -146,17 +146,17 @@ public class TestSunAndStars {
         assertEquals(1f, 0f, 0f, sas.northDirection(null), 0f);
         Assert.assertEquals(FastMath.PI, sas.siderealAngle(), 0f);
         Assert.assertEquals(12f, sas.siderealHour(), 0f);
-        assertEquals(1f, 0f, 0f, sas.sunDirection(), 0.0001f);
+        assertEquals(1f, 0f, 0f, sas.sunDirection(null), 0.0001f);
         assertEquals(0f, 1f, 0f, sas.upDirection(null), 0f);
 
         sas.setObserverLatitude(0f); // equator
         Assert.assertEquals(0f, sas.getObserverLatitude(), 0.0001f);
-        assertEquals(0f, -1f, 0f, sas.sunDirection(), 0.0001f);
+        assertEquals(0f, -1f, 0f, sas.sunDirection(null), 0.0001f);
 
         sas.setObserverLatitude(-FastMath.HALF_PI); // south pole
         Assert.assertEquals(-FastMath.HALF_PI, sas.getObserverLatitude(),
                 0.0001f);
-        assertEquals(-1f, 0f, 0f, sas.sunDirection(), 0.0001f);
+        assertEquals(-1f, 0f, 0f, sas.sunDirection(null), 0.0001f);
         /*
          * Test some interesting times of day.
          */
@@ -169,14 +169,14 @@ public class TestSunAndStars {
         assertEquals(1f, 0f, 0f, sas.northDirection(null), 0f);
         Assert.assertEquals(3.14152f, sas.siderealAngle(), 0.00001f);
         Assert.assertEquals(11.9997f, sas.siderealHour(), 0.0001f);
-        assertEquals(-1f, 0f, 0f, sas.sunDirection(), 0.0001f);
+        assertEquals(-1f, 0f, 0f, sas.sunDirection(null), 0.0001f);
         assertEquals(0f, 1f, 0f, sas.upDirection(null), 0f);
 
         sas.setHour(6f); // 6 a.m.
         Assert.assertEquals(6f, sas.getHour(), 0.0001f);
         Assert.assertEquals(1.5f * FastMath.PI, sas.siderealAngle(), 0.00001f);
         Assert.assertEquals(18f, sas.siderealHour(), 0.0001f);
-        assertEquals(0f, 0f, 1f, sas.sunDirection(), 0.0001f);
+        assertEquals(0f, 0f, 1f, sas.sunDirection(null), 0.0001f);
         /*
          * Test some interesting world coordinate systems.
          */
@@ -189,14 +189,14 @@ public class TestSunAndStars {
         assertEquals(0f, 1f, 0f, sas.northDirection(null), 0f);
         Assert.assertEquals(1.5f * FastMath.PI, sas.siderealAngle(), 0.00001f);
         Assert.assertEquals(18f, sas.siderealHour(), 0.0001f);
-        assertEquals(1f, 0f, 0f, sas.sunDirection(), 0.0001f);
+        assertEquals(1f, 0f, 0f, sas.sunDirection(null), 0.0001f);
         assertEquals(0f, 0f, 1f, sas.upDirection(null), 0f);
 
         sas.setAxes(new Vector3f(-1f, 0f, 0f),
                 new Vector3f(0f, -1f, 0f)); // (south, down, east)
         assertEquals(0f, 0f, 1f, sas.eastDirection(null), 0f);
         assertEquals(-1f, 0f, 0f, sas.northDirection(null), 0f);
-        assertEquals(0f, 0f, 1f, sas.sunDirection(), 0.0001f);
+        assertEquals(0f, 0f, 1f, sas.sunDirection(null), 0.0001f);
         assertEquals(0f, -1f, 0f, sas.upDirection(null), 0f);
         /*
          * Test cloning.

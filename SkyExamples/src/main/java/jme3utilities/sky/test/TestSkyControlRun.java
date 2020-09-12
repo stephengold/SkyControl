@@ -255,7 +255,7 @@ public class TestSkyControlRun
      * the horizon.
      */
     void lookAtTheMoon() {
-        Vector3f moonDirection = skyControl.moonDirection();
+        Vector3f moonDirection = skyControl.moonDirection(null);
         MyCamera.look(cam, moonDirection);
     }
 
@@ -265,7 +265,7 @@ public class TestSkyControlRun
      */
     void lookAtTheSun() {
         SunAndStars sunAndStars = skyControl.getSunAndStars();
-        Vector3f sunDirection = sunAndStars.sunDirection();
+        Vector3f sunDirection = sunAndStars.sunDirection(null);
         MyCamera.look(cam, sunDirection);
     }
 

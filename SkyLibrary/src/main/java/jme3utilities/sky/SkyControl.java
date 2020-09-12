@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2019, Stephen Gold
+ Copyright (c) 2013-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -265,16 +265,18 @@ public class SkyControl extends SkyControlCore {
     /**
      * Calculate the direction to the center of the moon.
      *
-     * @return a new unit vector in world (horizontal) coordinates
+     * @param storeResult storage for the result (modified if not null)
+     * @return a unit vector in world (horizontal) coordinates (either
+     * storeResult or a new vector)
      */
-    public Vector3f moonDirection() {
+    public Vector3f moonDirection(Vector3f storeResult) {
         float solarLongitude = sunAndStars.getSolarLongitude();
         float celestialLongitude = solarLongitude + longitudeDifference;
         celestialLongitude = MyMath.modulo(celestialLongitude, FastMath.TWO_PI);
-        Vector3f worldDirection = sunAndStars.convertToWorld(
-                lunarLatitude, celestialLongitude);
+        Vector3f result = sunAndStars.convertToWorld(lunarLatitude,
+                celestialLongitude, storeResult);
 
-        return worldDirection;
+        return result;
     }
 
     /**
@@ -593,7 +595,8 @@ public class SkyControl extends SkyControlCore {
         DomeMesh topMesh = getTopMesh();
         float latitude = lunarLatitude + 0.01f;
         if (latitude <= FastMath.HALF_PI) {
-            Vector3f north = sunAndStars.convertToWorld(latitude, longitude);
+            Vector3f north
+                    = sunAndStars.convertToWorld(latitude, longitude, null);
             Vector2f uvNorth = topMesh.directionUV(north);
             if (uvNorth != null) {
                 Vector2f offset = uvNorth.subtract(uvCenter);
@@ -608,7 +611,7 @@ public class SkyControl extends SkyControlCore {
          */
         latitude = lunarLatitude - 0.01f;
         assert latitude >= -FastMath.HALF_PI : lunarLatitude;
-        Vector3f south = sunAndStars.convertToWorld(latitude, longitude);
+        Vector3f south = sunAndStars.convertToWorld(latitude, longitude, null);
         Vector2f uvSouth = topMesh.directionUV(south);
         if (uvSouth != null) {
             Vector2f offset = uvCenter.subtract(uvSouth);
@@ -802,13 +805,13 @@ public class SkyControl extends SkyControlCore {
             moonRenderer.setPhase(longitudeDifference, lunarLatitude);
         }
         /*
-         * Compute the UV coordinates of the center of the moon.
+         * Compute the UV coordinates of the center of the moon. TODO use moonDirection()
          */
         float solarLongitude = sunAndStars.getSolarLongitude();
         float celestialLongitude = solarLongitude + longitudeDifference;
         celestialLongitude = MyMath.modulo(celestialLongitude, FastMath.TWO_PI);
-        Vector3f worldDirection = sunAndStars.convertToWorld(
-                lunarLatitude, celestialLongitude);
+        Vector3f worldDirection = sunAndStars.convertToWorld(lunarLatitude,
+                celestialLongitude, null);
         DomeMesh topMesh = getTopMesh();
         Vector2f uvCenter = topMesh.directionUV(worldDirection);
 
@@ -867,7 +870,7 @@ public class SkyControl extends SkyControlCore {
         /*
          * Calculate the UV coordinates of the center of the sun.
          */
-        Vector3f worldDirection = sunAndStars.sunDirection();
+        Vector3f worldDirection = sunAndStars.sunDirection(null);
         DomeMesh topMesh = getTopMesh();
         Vector2f uv = topMesh.directionUV(worldDirection);
         SkyMaterial topMaterial = getTopMaterial();
