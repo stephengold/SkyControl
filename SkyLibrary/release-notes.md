@@ -1,6 +1,6 @@
 # release log for the SkyControl library and related software
 
-## Version 0.9.29 released on TBD
+## Version 0.9.29 released on 7 October 2020
 
 Notable changes:
  + resolve issue #1 (`IllegalArgumentException` for certain locales)
