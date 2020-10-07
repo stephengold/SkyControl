@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2019, Stephen Gold
+ Copyright (c) 2014-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -41,6 +41,7 @@ import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
 import com.jme3.texture.image.ImageRaster;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.logging.Logger;
 import jme3utilities.MyAsset;
 import jme3utilities.Validate;
@@ -187,7 +188,8 @@ public class SkyMaterialCore extends Material {
         Texture alphaMap
                 = MyAsset.loadTexture(assetManager, assetPath, mipmaps);
         alphaMap.setWrap(Texture.WrapMode.Repeat);
-        String parameterName = String.format("Clouds%dAlphaMap", layerIndex);
+        String parameterName
+                = String.format(Locale.ROOT, "Clouds%dAlphaMap", layerIndex);
         setTexture(parameterName, alphaMap);
 
         Image image = alphaMap.getImage();
@@ -213,7 +215,8 @@ public class SkyMaterialCore extends Material {
         validateObjectIndex(objectIndex);
         Validate.nonNull(colorMap, "texture");
 
-        String parameterName = String.format("Object%dColorMap", objectIndex);
+        String parameterName
+                = String.format(Locale.ROOT, "Object%dColorMap", objectIndex);
         setTexture(parameterName, colorMap);
 
         if (objectCenters[objectIndex] == null) {
@@ -238,7 +241,8 @@ public class SkyMaterialCore extends Material {
             throw new IllegalStateException("layer not yet added");
         }
 
-        String parameterName = String.format("Clouds%dColor", layerIndex);
+        String parameterName
+                = String.format(Locale.ROOT, "Clouds%dColor", layerIndex);
         ColorRGBA color = copyColor(parameterName);
         color.a = cloudAlphas[layerIndex];
 
@@ -258,7 +262,8 @@ public class SkyMaterialCore extends Material {
             throw new IllegalStateException("layer not yet added");
         }
 
-        String parameterName = String.format("Clouds%dGlow", layerIndex);
+        String parameterName
+                = String.format(Locale.ROOT, "Clouds%dGlow", layerIndex);
         ColorRGBA color = copyColor(parameterName);
 
         return color;
@@ -309,7 +314,8 @@ public class SkyMaterialCore extends Material {
             throw new IllegalStateException("object not yet added");
         }
 
-        String parameterName = String.format("Object%dColor", objectIndex);
+        String parameterName
+                = String.format(Locale.ROOT, "Object%dColor", objectIndex);
         ColorRGBA color = copyColor(parameterName);
 
         return color;
@@ -328,7 +334,8 @@ public class SkyMaterialCore extends Material {
             throw new IllegalStateException("object not yet added");
         }
 
-        String parameterName = String.format("Object%dGlow", objectIndex);
+        String parameterName
+                = String.format(Locale.ROOT, "Object%dGlow", objectIndex);
         ColorRGBA color = copyColor(parameterName);
 
         return color;
@@ -401,7 +408,8 @@ public class SkyMaterialCore extends Material {
             throw new IllegalStateException("layer not yet added");
         }
 
-        String parameterName = String.format("Clouds%dScale", layerIndex);
+        String parameterName
+                = String.format(Locale.ROOT, "Clouds%dScale", layerIndex);
         float result = getFloat(parameterName);
 
         assert result > 0f : result;
@@ -499,7 +507,7 @@ public class SkyMaterialCore extends Material {
         }
 
         String objectParameterName
-                = String.format("Object%dCenter", objectIndex);
+                = String.format(Locale.ROOT, "Object%dCenter", objectIndex);
         setVector2(objectParameterName, hidden);
         objectCenters[objectIndex].set(hidden);
 
@@ -508,10 +516,10 @@ public class SkyMaterialCore extends Material {
          */
         float scale = 1000f;
         String transformUParameterName
-                = String.format("Object%dTransformU", objectIndex);
+                = String.format(Locale.ROOT, "Object%dTransformU", objectIndex);
         setVector2(transformUParameterName, new Vector2f(scale, scale));
         String transformVParameterName
-                = String.format("Object%dTransformV", objectIndex);
+                = String.format(Locale.ROOT, "Object%dTransformV", objectIndex);
         setVector2(transformVParameterName, new Vector2f(scale, scale));
     }
 
@@ -528,7 +536,8 @@ public class SkyMaterialCore extends Material {
             throw new IllegalStateException("layer not yet added");
         }
 
-        String parameterName = String.format("Clouds%dColor", layerIndex);
+        String parameterName
+                = String.format(Locale.ROOT, "Clouds%dColor", layerIndex);
         setColor(parameterName, newColor.clone());
         cloudAlphas[layerIndex] = newColor.a;
     }
@@ -546,7 +555,8 @@ public class SkyMaterialCore extends Material {
             throw new IllegalStateException("layer not yet added");
         }
 
-        String parameterName = String.format("Clouds%dGlow", layerIndex);
+        String parameterName
+                = String.format(Locale.ROOT, "Clouds%dGlow", layerIndex);
         setColor(parameterName, newColor.clone());
     }
 
@@ -567,7 +577,8 @@ public class SkyMaterialCore extends Material {
         float vOffset = MyMath.modulo(newV, 1f);
         Vector2f offset = new Vector2f(uOffset, vOffset);
 
-        String parameterName = String.format("Clouds%dOffset", layerIndex);
+        String parameterName
+                = String.format(Locale.ROOT, "Clouds%dOffset", layerIndex);
         setVector2(parameterName, offset);
         cloudOffsets[layerIndex].set(offset);
     }
@@ -585,7 +596,8 @@ public class SkyMaterialCore extends Material {
             throw new IllegalStateException("layer not yet added");
         }
 
-        String parameterName = String.format("Clouds%dScale", layerIndex);
+        String parameterName
+                = String.format(Locale.ROOT, "Clouds%dScale", layerIndex);
         setFloat(parameterName, newScale);
         cloudScales[layerIndex] = newScale;
     }
@@ -603,7 +615,8 @@ public class SkyMaterialCore extends Material {
             throw new IllegalStateException("object not yet added");
         }
 
-        String parameterName = String.format("Object%dColor", objectIndex);
+        String parameterName
+                = String.format(Locale.ROOT, "Object%dColor", objectIndex);
         setColor(parameterName, newColor.clone());
     }
 
@@ -620,7 +633,8 @@ public class SkyMaterialCore extends Material {
             throw new IllegalStateException("object not yet added");
         }
 
-        String parameterName = String.format("Object%dGlow", objectIndex);
+        String parameterName
+                = String.format(Locale.ROOT, "Object%dGlow", objectIndex);
         setColor(parameterName, newColor.clone());
     }
 
@@ -658,7 +672,7 @@ public class SkyMaterialCore extends Material {
         objectScales[objectIndex] = newScale;
 
         String objectParameterName
-                = String.format("Object%dCenter", objectIndex);
+                = String.format(Locale.ROOT, "Object%dCenter", objectIndex);
         setVector2(objectParameterName, centerUV);
 
         Vector2f offset = centerUV.subtract(Constants.topUV);
@@ -724,11 +738,11 @@ public class SkyMaterialCore extends Material {
         transformV.divideLocal(newScale);
 
         String transformUParameterName
-                = String.format("Object%dTransformU", objectIndex);
+                = String.format(Locale.ROOT, "Object%dTransformU", objectIndex);
         setVector2(transformUParameterName, transformU);
 
         String transformVParameterName
-                = String.format("Object%dTransformV", objectIndex);
+                = String.format(Locale.ROOT, "Object%dTransformV", objectIndex);
         setVector2(transformVParameterName, transformV);
     }
     // *************************************************************************
