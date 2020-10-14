@@ -345,6 +345,7 @@ artists and software developers:
     + "Fissll"
     + Davis Rollman
 + users who found and reported bugs in later versions:
+    + Rami Manaf
     + Anton Starastsin (aka "Antonystar")
 + the creators of (and contributors to) the following software:
     + Adobe Photoshop Elements
