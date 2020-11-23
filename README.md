@@ -61,15 +61,17 @@ Older Maven artifacts (v0.9.0 through v0.9.24) are available from
 
 ## Conventions
 
-Package names begin with `jme3utilities.`
+Package names begin with `jme3utilities.sky`
 
 Both the source code and the pre-built libraries are compatible with JDK 7.
 
-World coordinate system:
+In the default world coordinate system:
 
  + the `+X` axis points toward the northern horizon
  + the `+Y` axis points up (toward the zenith)
  + the `+Z` axis points toward the eastern horizon
+
+However these axis assignments can be overridden using `SunAndStars.setAxes()`.
 
 [Jump to table of contents](#toc)
 
