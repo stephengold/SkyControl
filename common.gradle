@@ -31,9 +31,9 @@ gradle.projectsEvaluated {
 ext {
     // current versions of various libraries
     jcommanderVersion = '1.80'
-    heartVersion = '6.1.0'
+    heartVersion = '6.2.0'
     jme3utilitiesniftyVersion = '0.9.16'
-    jme3utilitiesuiVersion = '0.9.0'
+    jme3utilitiesuiVersion = '0.9.1'
     jmonkeyengineVersion = '3.3.2-stable'
     skycontrolVersion = '0.9.29-SNAPSHOT'
 }
