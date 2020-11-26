@@ -160,9 +160,8 @@ Clone the SkyControl repository using Git:
 
 ### How to build SkyControl without an IDE
 
- 1. Install build software:
-   + a Java Development Kit and
-   + [Gradle]
+ 1. Install a [Java Development Kit (JDK)][openJDK],
+    if you don't already have one.
  2. Download and extract the source code from GitHub:
      + `git clone https://github.com/stephengold/SkyControl.git`
      + `cd SkyControl`
@@ -287,6 +286,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 [netbeans]: https://netbeans.org "NetBeans Project"
 [nifty]: http://nifty-gui.github.io/nifty-gui "Nifty GUI Project"
 [obs]: https://obsproject.com "Open Broadcaster Software Project"
+[openJDK]: https://openjdk.java.net "OpenJDK Project"
 [skycontrol]: https://github.com/stephengold/SkyControl "SkyControl Project"
 [utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
 [winmerge]: http://winmerge.org "WinMerge Project"
