@@ -1,7 +1,7 @@
 <img height="150" src="https://i.imgur.com/HfTbw30.png">
 
-The [SkyControl Project][skycontrol] provides a sky-simulation library for the
-[jMonkeyEngine game engine][jme].
+The [SkyControl Project][skycontrol] provides a sky-simulation library for
+[the jMonkeyEngine (JME) game engine][jme].
 
 It contains 3 sub-projects:
 
@@ -31,13 +31,80 @@ Summary of features:
 
 ## Contents of this document
 
+ + [How to add SkyControl to an existing project](#add)
  + [Downloads](#downloads)
  + [Conventions](#conventions)
  + [How to build SkyControl from source](#build)
- + [How to add SkyControl to an existing project](#add)
  + [External links](#links)
  + [History](#history)
  + [Acknowledgments](#acks)
+
+<a name="add"/>
+
+## How to add SkyControl to an existing project
+
+Adding SkyControl to an existing jMonkeyEngine][jme] project should be
+a simple 6-step process:
+
+ 1. Add SkyControl and its dependencies to the classpath.
+ 2. Disable any existing sky which might interfere with SkyControl.
+ 3. Add a `SkyControl` instance to some node in the scene graph.
+ 4. Configure the `SkyControl` instance.
+ 5. Enable the `SkyControl` instance.
+ 6. Test and tune as necessary.
+
+The SkyControl Library depends on [the Heart Library][heart],
+which in turn depends on
+the standard jme3-core library from jMonkeyEngine.
+
+#### For Gradle projects
+
+For projects built using Maven or Gradle, it is sufficient to specify the
+dependency on the SkyControl Library.  The build tools should automatically
+resolve the remaining dependencies automatically.
+
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        compile 'com.github.stephengold:SkyControl:0.9.29'
+    }
+
+#### For Ant projects
+
+For project built using [Ant], download the SkyControl and Heart
+libraries from GitHub:
+
+ + https://github.com/stephengold/SkyControl/releases/tag/0.9.29
+ + https://github.com/stephengold/Heart/releases/tag/6.0.0
+
+You'll want both class jars
+and probably the `-sources` and `-javadoc` jars as well.
+
+Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
+
+ 1. Right-click on the project (not its assets) in the "Projects" window.
+ 2. Select "Properties to open the "Project Properties" dialog.
+ 3. Under "Categories:" select "Libraries".
+ 4. Click on the "Compile" tab.
+ 5. Add the `Heart` class jar:
+    + Click on the "Add JAR/Folder" button.
+    + Navigate to the download folder.
+    + Select the "Heart-6.0.0.jar" file.
+    + Click on the "Open" button.
+ 6. (optional) Add jars for javadoc and sources:
+    + Click on the "Edit" button.
+    + Click on the "Browse..." button to the right of "Javadoc:"
+    + Select the "Heart-6.0.0-javadoc.jar" file.
+    + Click on the "Open" button.
+    + Click on the "Browse..." button to the right of "Sources:"
+    + Select the "Heart-6.0.0-sources.jar" file.
+    + Click on the "Open" button again.
+    + Click on the "OK" button to close the "Edit Jar Reference" dialog.
+ 7. Similarly, add the `SkyControl` jar(s).
+ 8. Click on the "OK" button to exit the "Project Properties" dialog.
+
+[Jump to table of contents](#toc)
 
 <a name="downloads"/>
 
@@ -162,20 +229,21 @@ Clone the SkyControl repository using Git:
 
  1. Install a [Java Development Kit (JDK)][openJDK],
     if you don't already have one.
- 2. Download and extract the source code from GitHub:
+ 2. Download and extract the SkyControl source code from GitHub:
+   + using Git:
      + `git clone https://github.com/stephengold/SkyControl.git`
      + `cd SkyControl`
      + `git checkout -b latest 0.9.29`
    + using a web browser:
-     + browse to [https://github.com/stephengold/SkyControl/releases/latest][latest]
+     + browse to https://github.com/stephengold/SkyControl/releases/latest
      + follow the "Source code (zip)" link
      + save the ZIP file
-     + unzip the saved ZIP file
+     + extract the contents of the saved ZIP file
      + `cd` to the extracted directory/folder
  3. Set the `JAVA_HOME` environment variable:
    + using Bash:  `export JAVA_HOME="` *path to your JDK* `"`
    + using Windows Command Prompt:  `set JAVA_HOME="` *path to your JDK* `"`
- 4. Run the Gradle wrapper:
+ 4. Run the [Gradle] wrapper:
    + using Bash:  `./gradlew build`
    + using Windows Command Prompt:  `.\gradlew build`
 
@@ -185,73 +253,6 @@ Maven artifacts will be found in `SkyLibrary/build/libs`.
 You can install the Maven artifacts to your local cache:
  + using Bash:  `./gradlew publishToMavenLocal`
  + using Windows Command Prompt:  `.\gradlew publishToMavenLocal`
-
-[Jump to table of contents](#toc)
-
-<a name="add"/>
-
-## How to add SkyControl to an existing project
-
-Adding SkyControl to an existing jMonkeyEngine][jme] project should be
-a simple 6-step process:
-
- 1. Add SkyControl and its dependencies to the classpath.
- 2. Disable any existing sky which might interfere with SkyControl.
- 3. Add a `SkyControl` instance to some node in the scene graph.
- 4. Configure the `SkyControl` instance.
- 5. Enable the `SkyControl` instance.
- 6. Test and tune as necessary.
-
-The SkyControl Library depends on [the Heart Library][heart],
-which in turn depends on
-the standard jme3-core library from jMonkeyEngine.
-
-#### For Gradle projects
-
-For projects built using Maven or Gradle, it is sufficient to specify the
-dependency on the SkyControl Library.  The build tools should automatically
-resolve the remaining dependencies automatically.
-
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        compile 'com.github.stephengold:SkyControl:0.9.29'
-    }
-
-#### For Ant projects
-
-For project built using [Ant], download the SkyControl and Heart
-libraries from GitHub:
-
- + https://github.com/stephengold/SkyControl/releases/tag/0.9.29
- + https://github.com/stephengold/Heart/releases/tag/6.0.0
-
-You'll want both class jars
-and probably the `-sources` and `-javadoc` jars as well.
-
-Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
-
- 1. Right-click on the project (not its assets) in the "Projects" window.
- 2. Select "Properties to open the "Project Properties" dialog.
- 3. Under "Categories:" select "Libraries".
- 4. Click on the "Compile" tab.
- 5. Add the `Heart` class jar:
-    + Click on the "Add JAR/Folder" button.
-    + Navigate to the download folder.
-    + Select the "Heart-6.0.0.jar" file.
-    + Click on the "Open" button.
- 6. (optional) Add jars for javadoc and sources:
-    + Click on the "Edit" button.
-    + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "Heart-6.0.0-javadoc.jar" file.
-    + Click on the "Open" button.
-    + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "Heart-6.0.0-sources.jar" file.
-    + Click on the "Open" button again.
-    + Click on the "OK" button to close the "Edit Jar Reference" dialog.
- 7. Similarly, add the `SkyControl` jar(s).
- 8. Click on the "OK" button to exit the "Project Properties" dialog.
 
 [Jump to table of contents](#toc)
 
@@ -277,7 +278,6 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 [imgur]: https://imgur.com/ "Imgur"
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
-[latest]: https://github.com/stephengold/SkyControl/releases/latest "latest release"
 [license]: https://github.com/stephengold/SkyControl/blob/master/LICENSE "SkyControl license"
 [log]: https://github.com/stephengold/SkyControl/blob/master/SkyLibrary/release-notes.md "release log"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
