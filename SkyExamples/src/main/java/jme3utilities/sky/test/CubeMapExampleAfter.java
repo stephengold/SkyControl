@@ -109,7 +109,7 @@ public class CubeMapExampleAfter extends SimpleApplication {
     /**
      * Callback invoked once per frame.
      *
-     * @param tpf time interval between frames (in seconds, &ge;0)
+     * @param unused time interval between frames (in seconds, &ge;0)
      */
     @Override
     public void simpleUpdate(float unused) {
