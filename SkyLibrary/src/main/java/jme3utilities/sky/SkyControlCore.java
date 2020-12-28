@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2019, Stephen Gold
+ Copyright (c) 2014-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -432,7 +432,7 @@ public class SkyControlCore extends SubtreeControl {
     /**
      * Alter the speed and/or direction of cloud motion (all layers).
      *
-     * @param newRate multiple of the default rate (may be negative)
+     * @param newRate multiple of the default rate (may be negative, default=1)
      */
     public void setCloudsRate(float newRate) {
         cloudsRate = newRate;

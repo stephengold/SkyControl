@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2019, Stephen Gold
+ Copyright (c) 2014-2020, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -190,7 +190,7 @@ public class CloudLayer
     /**
      * Alter the opacity of this layer.
      *
-     * @param newAlpha desired opacity of the layer (&le;1, &ge;0)
+     * @param newAlpha desired opacity of the layer (&le;1, &ge;0, default=0)
      */
     public void setOpacity(float newAlpha) {
         Validate.fraction(newAlpha, "alpha");
