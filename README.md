@@ -262,7 +262,10 @@ You can install the Maven artifacts to your local cache:
 
   + November 2013 [SkyControl demo video](https://www.youtube.com/watch?v=FsJRM6tr3oQ)
   + January 2014 [SkyControl update video](https://www.youtube.com/watch?v=gE4wxgBIkaw)
-  + A [flight simulation game](https://github.com/ZoltanTheHun/SkyHussars) that uses SkyControl.
+  + A [driving simulator](https://github.com/stephengold/jme-vehicles)
+    that uses SkyControl.
+  + A [flight simulation game](https://github.com/ZoltanTheHun/SkyHussars)
+    that uses SkyControl.
 
 [ant]: https://ant.apache.org "Apache Ant Project"
 [blender]: https://docs.blender.org "Blender Project"
