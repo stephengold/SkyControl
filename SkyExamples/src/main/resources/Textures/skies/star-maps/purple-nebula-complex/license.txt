@@ -1,0 +1,21 @@
+Licensing history for files in "src/main/resources/Textures/skies/star-maps/purple-nebula-complex"
+
+* title of work:     "Purple Nebula Complex"
+* download URL:      https://github.com/stephengold/SkyControl/tree/master/SkyExamples/src/main/resources/Textures/skies/star-maps/purple-nebula-complex
+* author:            Stephen Gold
+* author URL:        https://github.com/stephengold
+* copyright:         none (dedicated to the public domain)
+* license type:      CC0 1.0 Universal
+* license URL:       https://creativecommons.org/publicdomain/zero/1.0/
+
+Files:
+* license.txt
+* purple-nebula-complex_back6.png
+* purple-nebula-complex_bottom4.png
+* purple-nebula-complex_front5.png
+* purple-nebula-complex_left2.png
+* purple-nebula-complex_right1.png
+* purple-nebula-complex_top3.png
+
+Created using Alex C. Peterson's Spacescape tool:
+  http://alexcpeterson.com/spacescape
