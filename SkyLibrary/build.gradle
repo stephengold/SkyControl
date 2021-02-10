@@ -8,7 +8,7 @@ plugins {
     id 'signing'
 }
 
-description = 'a sky simulation library for jMonkeyEngine'
+description = 'a sky-simulation library for jMonkeyEngine'
 ext {
     artifact = 'SkyControl'
     version = skycontrolVersion
@@ -52,6 +52,13 @@ publishing {
             artifactId artifact
             from components.java
             pom {
+                description = project.description
+                developers {
+                    developer {
+                        email = 'sgold@sonic.net'
+                        name = 'Stephen Gold'
+                    }
+                }
                 licenses {
                     license {
                         distribution = 'repo'
@@ -59,6 +66,13 @@ publishing {
                         url = 'https://opensource.org/licenses/BSD-3-Clause'
                     }
                 }
+                name = 'com.github.stephengold:' + artifact
+                scm {
+                    connection = 'scm:git:git://github.com/stephengold/SkyControl.git'
+                    developerConnection = 'scm:git:ssh://github.com:stephengold/SkyControl.git'
+                    url = 'https://github.com/stephengold/SkyControl/tree/master'
+                }
+                url = 'https://github.com/stephengold/SkyControl'
             }
             version project.ext.version
         }
