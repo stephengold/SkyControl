@@ -1,6 +1,6 @@
 <img height="150" src="https://i.imgur.com/HfTbw30.png">
 
-The [SkyControl Project][skycontrol] provides a sky-simulation library for
+[The SkyControl Project][skycontrol] provides a sky-simulation library for
 [the jMonkeyEngine (JME) game engine][jme].
 
 It contains 3 sub-projects:
@@ -64,10 +64,11 @@ dependency on the SkyControl Library.  The build tools should automatically
 resolve the remaining dependencies automatically.
 
     repositories {
+        mavenCentral()
         jcenter()
     }
     dependencies {
-        compile 'com.github.stephengold:SkyControl:0.9.29'
+        compile 'com.github.stephengold:SkyControl:0.9.30'
     }
 
 #### For Ant projects
@@ -75,8 +76,8 @@ resolve the remaining dependencies automatically.
 For project built using [Ant], download the SkyControl and Heart
 libraries from GitHub:
 
- + https://github.com/stephengold/SkyControl/releases/tag/0.9.29
- + https://github.com/stephengold/Heart/releases/tag/6.0.0
+ + https://github.com/stephengold/SkyControl/releases/tag/latest
+ + https://github.com/stephengold/Heart/releases/tag/6.4.2
 
 You'll want both class jars
 and probably the `-sources` and `-javadoc` jars as well.
@@ -90,15 +91,15 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
  5. Add the `Heart` class jar:
     + Click on the "Add JAR/Folder" button.
     + Navigate to the download folder.
-    + Select the "Heart-6.0.0.jar" file.
+    + Select the "Heart-6.4.2.jar" file.
     + Click on the "Open" button.
  6. (optional) Add jars for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "Heart-6.0.0-javadoc.jar" file.
+    + Select the "Heart-6.4.2-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "Heart-6.0.0-sources.jar" file.
+    + Select the "Heart-6.4.2-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
  7. Similarly, add the `SkyControl` jar(s).
@@ -116,10 +117,13 @@ Newer releases (since v0.9.27) can be downloaded from
 Older releases (v0.9.0 through v0.9.26) can be downloaded from
 [the Jme3-utilities Project](https://github.com/stephengold/jme3-utilities/releases).
 
-Newer Maven artifacts (since v0.9.25) are available from
+Newer Maven artifacts (since v0.9.30) are available from
+[MavenCentral](https://search.maven.org/artifact/com.github.stephengold/SkyControl).
+
+Old Maven artifacts (v0.9.25 through v0.9.29) are available from
 [JCenter](https://bintray.com/stephengold/com.github.stephengold/SkyControl).
 
-Older Maven artifacts (v0.9.0 through v0.9.24) are available from
+The oldest Maven artifacts (v0.9.0 through v0.9.24) are available from
 [JFrog Bintray](https://bintray.com/stephengold/jme3utilities/SkyControl).
 
 [Jump to table of contents](#toc)
@@ -233,7 +237,7 @@ Clone the SkyControl repository using Git:
    + using Git:
      + `git clone https://github.com/stephengold/SkyControl.git`
      + `cd SkyControl`
-     + `git checkout -b latest 0.9.29`
+     + `git checkout -b latest 0.9.30`
    + using a web browser:
      + browse to https://github.com/stephengold/SkyControl/releases/latest
      + follow the "Source code (zip)" link
@@ -291,6 +295,7 @@ You can install the Maven artifacts to your local cache:
 [obs]: https://obsproject.com "Open Broadcaster Software Project"
 [openJDK]: https://openjdk.java.net "OpenJDK Project"
 [skycontrol]: https://github.com/stephengold/SkyControl "SkyControl Project"
+[sonatype]: https://www.sonatype.com "Sonatype"
 [utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
 [winmerge]: http://winmerge.org "WinMerge Project"
 [youtube]: https://www.youtube.com/ "YouTube"
@@ -386,7 +391,7 @@ For this I thank:
 + Jacques Descloitres, MODIS Rapid Response Team, NASA/GSFC
 + Tom Ruen
 
-I am grateful to [Github], [JFrog], [YouTube], and [Imgur]
+I am grateful to [Github], [Sonatype], [JFrog], [YouTube], and [Imgur]
 for providing free hosting for this project
 and many other open-source projects.
 

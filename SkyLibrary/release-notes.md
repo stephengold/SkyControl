@@ -1,6 +1,6 @@
 # release log for the SkyControl library and related software
 
-## Version 0.9.30 released on TBD
+## Version 0.9.30 released on 9 February 2021
 
 Notable changes:
  + publish to MavenLocal instead of JCenter
