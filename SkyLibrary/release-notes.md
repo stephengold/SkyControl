@@ -1,5 +1,12 @@
 # release log for the SkyControl library and related software
 
+## Version 0.9.30 released on TBD
+
+Notable changes:
+ + publish to MavenLocal instead of JCenter
+ + add the `CubeMapExampleAfter` application
+ + base on version 6.4.2 of the Heart Library
+
 ## Version 0.9.29 released on 7 October 2020
 
 Notable changes:
