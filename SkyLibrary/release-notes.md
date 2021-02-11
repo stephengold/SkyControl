@@ -3,7 +3,7 @@
 ## Version 0.9.30 released on 9 February 2021
 
 Notable changes:
- + publish to MavenLocal instead of JCenter
+ + publish to MavenCentral instead of JCenter
  + add the `CubeMapExampleAfter` application
  + base on version 6.4.2 of the Heart Library
 
