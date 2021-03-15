@@ -43,7 +43,7 @@ Summary of features:
 
 ## How to add SkyControl to an existing project
 
-Adding SkyControl to an existing jMonkeyEngine][jme] project should be
+Adding SkyControl to an existing [jMonkeyEngine][jme] project should be
 a simple 6-step process:
 
  1. Add SkyControl and its dependencies to the classpath.
