@@ -5,7 +5,7 @@ apply plugin: 'java'
 group = 'com.github.stephengold'
 
 sourceCompatibility = '1.7'
-targetCompatibility = '1.7'
+targetCompatibility = '1.8'
 
 gradle.projectsEvaluated {
     tasks.withType(JavaCompile) { // Java compile-time options:
@@ -30,7 +30,7 @@ gradle.projectsEvaluated {
 
 ext {
     // current versions of various libraries
-    jcommanderVersion = '1.80'
+    jcommanderVersion = '1.81'
     heartVersion = '6.4.2'
     jme3utilitiesniftyVersion = '0.9.18'
     jme3utilitiesuiVersion = '0.9.2'
@@ -42,7 +42,6 @@ repositories {
     //mavenLocal()
     maven { url 'https://dl.bintray.com/stephengold/org.jmonkeyengine' } // for jme3-testdata
     mavenCentral()
-    jcenter()
 }
 
 // custom tasks for creating source/javadoc JARs

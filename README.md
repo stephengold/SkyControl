@@ -65,7 +65,6 @@ resolve the remaining dependencies automatically.
 
     repositories {
         mavenCentral()
-        jcenter()
     }
     dependencies {
         compile 'com.github.stephengold:SkyControl:0.9.30'
