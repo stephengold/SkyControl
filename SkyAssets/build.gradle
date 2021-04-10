@@ -42,6 +42,7 @@ task cleanCatalog(type: Delete) {
 
 // download gzipped Yale Bright Star Catalog
 
+processResources.dependsOn('download')
 task download(type: MyDownload) {
     sourceUrl = 'http://tdc-www.harvard.edu/catalogs/bsc5.dat.gz'
     target = file("${bsc}.gz")
