@@ -1,6 +1,6 @@
 # release log for the SkyControl library and related software
 
-## Version 0.9.31+for33 released on TBD
+## Version 0.9.31+for33 released on 24 April 2021
 
 Notable changes:
  + target Java 8
