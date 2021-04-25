@@ -107,6 +107,6 @@ final public class Constants {
      * @return branch and revision (not null, not empty)
      */
     public static String versionShort() {
-        return "for_jME3.3 0.9.31+for33-SNAPSHOT";
+        return "for_jME3.3 0.9.31+for33";
     }
 }
