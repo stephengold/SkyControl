@@ -35,7 +35,7 @@ ext {
     jme3utilitiesniftyVersion = '0.9.18'
     jme3utilitiesuiVersion = '0.9.2'
     jmonkeyengineVersion = '3.3.2-stable'
-    skycontrolVersion = '0.9.31-SNAPSHOT'
+    skycontrolVersion = '0.9.31+for33-SNAPSHOT'
 }
 
 repositories {

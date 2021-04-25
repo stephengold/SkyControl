@@ -211,9 +211,9 @@ Clone the SkyControl repository using Git:
  4. For "Clone into:" specify a writable folder (on a local filesystem)
     that doesn't already contain "SkyControl".
  5. Click on the "Next >" button.
- 6. Make sure the "master" remote branch is checked.
+ 6. Make sure the "for_jME3.3" remote branch is checked.
  7. Click on the "Next >" button again.
- 8. Make sure the Checkout Branch is set to "master".
+ 8. Make sure the Checkout Branch is set to "for_jME3.3".
  9. Make sure the "Scan for NetBeans Projects after Clone" box is checked.
 10. Click on the "Finish" button.
 11. When the "Clone Completed" dialog appears, click on the "Open Project..."
@@ -284,8 +284,8 @@ You can install the Maven artifacts to your local cache:
 [imgur]: https://imgur.com/ "Imgur"
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
-[license]: https://github.com/stephengold/SkyControl/blob/master/LICENSE "SkyControl license"
-[log]: https://github.com/stephengold/SkyControl/blob/master/SkyLibrary/release-notes.md "release log"
+[license]: https://github.com/stephengold/SkyControl/blob/for_jME3.3/LICENSE "SkyControl license"
+[log]: https://github.com/stephengold/SkyControl/blob/for_jME3.3/SkyLibrary/release-notes.md "release log"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
 [meld]: http://meldmerge.org/ "Meld Tool"
 [mint]: https://linuxmint.com "Linux Mint Project"

@@ -72,7 +72,7 @@ publishing {
                 scm {
                     connection = 'scm:git:git://github.com/stephengold/SkyControl.git'
                     developerConnection = 'scm:git:ssh://github.com:stephengold/SkyControl.git'
-                    url = 'https://github.com/stephengold/SkyControl/tree/master'
+                    url = 'https://github.com/stephengold/SkyControl/tree/for_jME3.3'
                 }
                 suppressPomMetadataWarningsFor('apiElements') // Gradle issue #16555
                 url = 'https://github.com/stephengold/SkyControl'
