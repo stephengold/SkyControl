@@ -1,5 +1,11 @@
 # release log for the SkyControl library and related software
 
+## Version 0.9.31+for34 released on TBD
+
+Notable changes:
+ + target Java 8
+ + base on version 6.4.3+for34 of the Heart Library and target JME 3.4.0-beta1
+
 ## Version 0.9.30 released on 9 February 2021
 
 Notable changes:
