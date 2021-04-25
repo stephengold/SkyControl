@@ -7,13 +7,12 @@ description = 'demos, examples, and tests that do not generate reports'
 dependencies {
     implementation "com.beust:jcommander:$jcommanderVersion"
     runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
-    runtimeOnly "org.jmonkeyengine:jme3-blender:$jmonkeyengineVersion"
     implementation "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
     runtimeOnly "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
     runtimeOnly "org.jmonkeyengine:jme3-lwjgl3:$jmonkeyengineVersion"
     implementation "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
     implementation "org.jmonkeyengine:jme3-terrain:$jmonkeyengineVersion"
-    runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
+    runtimeOnly 'org.jmonkeyengine:jme3-testdata:' + jmonkeyengineVersion
 
     implementation 'com.github.stephengold:Heart:' + heartVersion
 

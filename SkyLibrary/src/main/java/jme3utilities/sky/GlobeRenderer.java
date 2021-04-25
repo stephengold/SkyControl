@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2020, Stephen Gold
+ Copyright (c) 2014-2021, Stephen Gold
  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -42,6 +42,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
 import com.jme3.texture.FrameBuffer;
+import com.jme3.texture.FrameBuffer.FrameBufferTarget;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture2D;
@@ -184,7 +185,7 @@ public class GlobeRenderer extends SimpleAppState {
 
         int numSamples = 1;
         frameBuffer = new FrameBuffer(resolution, resolution, numSamples);
-        frameBuffer.setColorTexture(outputTexture);
+        frameBuffer.addColorTarget(FrameBufferTarget.newTarget(outputTexture));
 
         assert isEnabled();
     }
