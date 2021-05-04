@@ -119,11 +119,7 @@ Older releases (v0.9.0 through v0.9.26) can be downloaded from
 Newer Maven artifacts (since v0.9.30) are available from
 [MavenCentral](https://search.maven.org/artifact/com.github.stephengold/SkyControl).
 
-Old Maven artifacts (v0.9.25 through v0.9.29) are available from
-[JCenter](https://bintray.com/stephengold/com.github.stephengold/SkyControl).
-
-The oldest Maven artifacts (v0.9.0 through v0.9.24) are available from
-[JFrog Bintray](https://bintray.com/stephengold/jme3utilities/SkyControl).
+Old Maven artifacts (v0.9.25 through v0.9.29) are available from JCenter.
 
 [Jump to table of contents](#toc)
 
