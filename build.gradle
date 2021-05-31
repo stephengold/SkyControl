@@ -11,3 +11,6 @@ subprojects {
 task('publishToMavenLocal') {
     dependsOn ':SkyLibrary:publishToMavenLocal'
 }
+task('release') {
+    dependsOn ':SkyLibrary:publishMavenPublicationToOSSRHRepository'
+}
