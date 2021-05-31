@@ -2,6 +2,7 @@
 *.dylib
 *.so
 /.gradle/
+/.idea/
 /.nb-gradle/
 /SkyAssets/build/
 /SkyAssets/src/main/resources/bsc5.dat
