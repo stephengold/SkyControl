@@ -45,47 +45,47 @@ task cleanWrittenAssets(type: Delete) {
 }
 
 task runCubeMapExample(type: JavaExec) {
-    main 'jme3utilities.sky.test.CubeMapExample'
+    mainClass = 'jme3utilities.sky.test.CubeMapExample'
 }
 task runTestGlobeRenderer(type: JavaExec) {
-    main 'jme3utilities.sky.test.TestGlobeRenderer'
+    mainClass = 'jme3utilities.sky.test.TestGlobeRenderer'
 }
 
 task debugTestSkyControl(type: JavaExec) {
     debug true
-    main 'jme3utilities.sky.test.TestSkyControl'
+    mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
 task runTestSkyControl(type: JavaExec) {
-    main 'jme3utilities.sky.test.TestSkyControl'
+    mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
 task runTestSkyControlCyclone(type: JavaExec) {
     args = ['-c']
-    main 'jme3utilities.sky.test.TestSkyControl'
+    mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
 task runTestSkyControlShadowFilter(type: JavaExec) {
     args = ['-f']
-    main 'jme3utilities.sky.test.TestSkyControl'
+    mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
 task runTestSkyControlNoCubes(type: JavaExec) {
     args = ['-n']
-    main 'jme3utilities.sky.test.TestSkyControl'
+    mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
 task runTestSkyControlSingleDome(type: JavaExec) {
     args = ['-s']
-    main 'jme3utilities.sky.test.TestSkyControl'
+    mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
 task runTestSkyControlUsage(type: JavaExec) {
     args = ['-u']
-    main 'jme3utilities.sky.test.TestSkyControl'
+    mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
 task runTestSkyControlWater(type: JavaExec) {
     args = ['-w']
-    main 'jme3utilities.sky.test.TestSkyControl'
+    mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
 
 task runTestSkyMaterial(type: JavaExec) {
-    main 'jme3utilities.sky.test.TestSkyMaterial'
+    mainClass = 'jme3utilities.sky.test.TestSkyMaterial'
 }
 task TestSunAndStars(type: JavaExec) {
-    main 'jme3utilities.sky.test.TestSunAndStars'
+    mainClass = 'jme3utilities.sky.test.TestSunAndStars'
 }
