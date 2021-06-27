@@ -163,7 +163,7 @@ Notable changes:
 
 ## Version 0.9.5 released on 20 May 2017
 
-Moved 2 general-purpose packages to new "jme3-utilites-heart" library, which
+Moved 2 general-purpose packages to new "jme3-utilities-heart" library, which
   this library now depends upon.
 
 ## Version 0.9.4 released on 14 May 2017
