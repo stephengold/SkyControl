@@ -32,8 +32,8 @@ ext {
     // current versions of various libraries
     jcommanderVersion = '1.81'
     heartVersion = '7.0.0'
-    jme3utilitiesniftyVersion = '0.9.20'
-    jme3utilitiesuiVersion = '0.9.4'
+    jme3utilitiesniftyVersion = '0.9.22'
+    jme3utilitiesuiVersion = '0.9.5'
     jmonkeyengineVersion = '3.4.0-stable'
     skycontrolVersion = '0.9.33-SNAPSHOT'
 }
