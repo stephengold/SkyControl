@@ -258,7 +258,7 @@ Clone the SkyControl repository using Git:
      + `cd SkyControl`
      + `git checkout -b latest 1.0.0`
    + using a web browser:
-     + browse to https://github.com/stephengold/SkyControl/releases/1.0.0
+     + browse to https://github.com/stephengold/SkyControl/releases/latest
      + follow the "Source code (zip)" link
      + save the ZIP file
      + extract the contents of the saved ZIP file
@@ -266,15 +266,16 @@ Clone the SkyControl repository using Git:
  3. Set the `JAVA_HOME` environment variable:
    + using Bash:  `export JAVA_HOME="` *path to your JDK* `"`
    + using Windows Command Prompt:  `set JAVA_HOME="` *path to your JDK* `"`
+   + using PowerShell: `$env:JAVA_HOME = '` *path to your JDK* `'`
  4. Run the [Gradle] wrapper:
-   + using Bash:  `./gradlew build`
+   + using Bash or PowerShell:  `./gradlew build`
    + using Windows Command Prompt:  `.\gradlew build`
 
 After a successful build,
 Maven artifacts will be found in `SkyLibrary/build/libs`.
 
 You can install the Maven artifacts to your local cache:
- + using Bash:  `./gradlew publishToMavenLocal`
+ + using Bash or PowerShell:  `./gradlew publishToMavenLocal`
  + using Windows Command Prompt:  `.\gradlew publishToMavenLocal`
 
 [Jump to table of contents](#toc)
@@ -289,6 +290,8 @@ You can install the Maven artifacts to your local cache:
     that uses SkyControl.
   + A [flight simulation game](https://github.com/ZoltanTheHun/SkyHussars)
     that uses SkyControl.
+
+[Jump to table of contents](#toc)
 
 [ant]: https://ant.apache.org "Apache Ant Project"
 [blender]: https://docs.blender.org "Blender Project"
@@ -319,13 +322,13 @@ You can install the Maven artifacts to your local cache:
 [winmerge]: http://winmerge.org "WinMerge Project"
 [youtube]: https://www.youtube.com/ "YouTube"
 
-[Jump to table of contents](#toc)
 
 <a name="history"/>
 
 ## History
 
-The evolution of the project is chronicled in [its release log][log].
+The evolution of the project is chronicled in
+[its release log][log].
 
 SkyControl has its roots in SkyDome by Cris (aka "t0neg0d").
 
