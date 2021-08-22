@@ -67,7 +67,7 @@ resolve the remaining dependencies automatically.
         mavenCentral()
     }
     dependencies {
-        compile 'com.github.stephengold:SkyControl:0.9.32'
+        compile 'com.github.stephengold:SkyControl:1.0.0'
     }
 
 #### For Ant projects
@@ -75,8 +75,8 @@ resolve the remaining dependencies automatically.
 For project built using [Ant], download the SkyControl and Heart
 libraries from GitHub:
 
- + https://github.com/stephengold/SkyControl/releases/tag/0.9.32
- + https://github.com/stephengold/Heart/releases/tag/6.4.4
+ + https://github.com/stephengold/SkyControl/releases/tag/1.0.0
+ + https://github.com/stephengold/Heart/releases/tag/7.0.0
 
 You'll want both class jars
 and probably the `-sources` and `-javadoc` jars as well.
@@ -90,15 +90,15 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
  5. Add the `Heart` class jar:
     + Click on the "Add JAR/Folder" button.
     + Navigate to the download folder.
-    + Select the "Heart-6.4.4.jar" file.
+    + Select the "Heart-7.0.0.jar" file.
     + Click on the "Open" button.
  6. (optional) Add jars for javadoc and sources:
     + Click on the "Edit" button.
     + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "Heart-6.4.4-javadoc.jar" file.
+    + Select the "Heart-7.0.0-javadoc.jar" file.
     + Click on the "Open" button.
     + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "Heart-6.4.4-sources.jar" file.
+    + Select the "Heart-7.0.0-sources.jar" file.
     + Click on the "Open" button again.
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
  7. Similarly, add the `SkyControl` jar(s).
@@ -232,9 +232,9 @@ Clone the SkyControl repository using Git:
    + using Git:
      + `git clone https://github.com/stephengold/SkyControl.git`
      + `cd SkyControl`
-     + `git checkout -b latest 0.9.32`
+     + `git checkout -b latest 1.0.0`
    + using a web browser:
-     + browse to https://github.com/stephengold/SkyControl/releases/0.9.32
+     + browse to https://github.com/stephengold/SkyControl/releases/1.0.0
      + follow the "Source code (zip)" link
      + save the ZIP file
      + extract the contents of the saved ZIP file

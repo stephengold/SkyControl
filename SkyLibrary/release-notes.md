@@ -1,6 +1,6 @@
 # release log for the SkyControl library and related software
 
-## Version 1.0.0 released on TBD
+## Version 1.0.0 released on 22 August 2021
 
 Notable changes:
  + base on version 7.0.0 of the Heart Library
