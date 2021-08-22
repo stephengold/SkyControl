@@ -12,32 +12,37 @@ It contains 3 sub-projects:
 Complete source code (in Java) is provided under
 [a 3-clause BSD license][license].
 
-Summary of features:
-
- + sun, moon, stars, horizon haze, and up to 6 cloud layers
- + compatible with static backgrounds such as cube maps
- + high resolution textures are provided -- or customize with your own textures
- + compatible with effects such as `SimpleWater`, shadows, bloom, and cartoon edges
- + continuous and reversible motion and blending of cloud layers
- + option to foreshorten clouds near the horizon
- + continuous and reversible motion of sun, moon, and stars based on time of day
- + updater to synchronize lighting and shadows with sun, moon, and clouds
- + continuous scaling of sun, moon, and clouds
- + option for continuously variable phase of the moon
- + demonstration apps and online tutorial provided
- + complete source code provided under FreeBSD license
-
 <a name="toc"/>
 
 ## Contents of this document
 
- + [How to add SkyControl to an existing project](#add)
- + [Downloads](#downloads)
- + [Conventions](#conventions)
- + [How to build SkyControl from source](#build)
- + [External links](#links)
- + [History](#history)
- + [Acknowledgments](#acks)
++ [Important features](#features)
++ [How to add SkyControl to an existing project](#add)
++ [Downloads](#downloads)
++ [Conventions](#conventions)
++ [How to build SkyControl from source](#build)
++ [External links](#links)
++ [History](#history)
++ [Acknowledgments](#acks)
+
+<a name="features"/>
+
+## Important features
+
++ sun, moon, stars, horizon haze, and up to 6 cloud layers
++ compatible with static backgrounds such as cube maps
++ high resolution textures are provided -- or customize with your own textures
++ compatible with effects such as `SimpleWater`, shadows, bloom, and cartoon edges
++ continuous and reversible motion and blending of cloud layers
++ option to foreshorten clouds near the horizon
++ continuous and reversible motion of sun, moon, and stars based on time of day
++ updater to synchronize lighting and shadows with sun, moon, and clouds
++ continuous scaling of sun, moon, and clouds
++ option for continuously variable phase of the moon
++ demonstration apps and online tutorial provided
++ complete source code provided under FreeBSD license
+
+[Jump to table of contents](#toc)
 
 <a name="add"/>
 
@@ -57,11 +62,13 @@ The SkyControl Library depends on [the Heart Library][heart],
 which in turn depends on
 the standard jme3-core library from jMonkeyEngine.
 
-#### For Gradle projects
-
-For projects built using Maven or Gradle, it is sufficient to specify the
+For projects built using Maven or [Gradle], it is sufficient to specify the
 dependency on the SkyControl Library.  The build tools should automatically
 resolve the remaining dependencies automatically.
+
+#### Gradle-built projects
+
+Add to the project’s "build.gradle" file:
 
     repositories {
         mavenCentral()
@@ -70,7 +77,24 @@ resolve the remaining dependencies automatically.
         compile 'com.github.stephengold:SkyControl:1.0.0'
     }
 
-#### For Ant projects
+#### Maven-built projects
+
+Add to the project’s "pom.xml" file:
+
+    <repositories>
+      <repository>
+        <id>mvnrepository</id>
+        <url>https://repo1.maven.org/maven2/</url>
+      </repository>
+    </repositories>
+
+    <dependency>
+      <groupId>com.github.stephengold</groupId>
+      <artifactId>SkyControl</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
+#### Ant-built projects
 
 For project built using [Ant], download the SkyControl and Heart
 libraries from GitHub:
@@ -84,7 +108,7 @@ and probably the `-sources` and `-javadoc` jars as well.
 Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 
  1. Right-click on the project (not its assets) in the "Projects" window.
- 2. Select "Properties to open the "Project Properties" dialog.
+ 2. Select "Properties" to open the "Project Properties" dialog.
  3. Under "Categories:" select "Libraries".
  4. Click on the "Compile" tab.
  5. Add the `Heart` class jar:
