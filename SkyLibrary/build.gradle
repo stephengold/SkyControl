@@ -28,6 +28,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
 }
 
+// publishing tasks
+
 build.dependsOn('pom', 'pomAsc')
 task('pom', type: Copy) {
     dependsOn 'generatePomFileForMavenPublication'
@@ -92,9 +94,11 @@ publishing {
 }
 generateMetadataFileForMavenPublication.dependsOn('pom')
 
+// signing tasks
+
 signing {
     sign publishing.publications.maven
 }
 tasks.withType(Sign) {
-    onlyIf { gradle.rootProject.hasProperty('signing.keyId') }
+    onlyIf { rootProject.hasProperty('signing.keyId') }
 }
