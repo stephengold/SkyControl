@@ -8,7 +8,7 @@ subprojects {
 
 // publishing tasks
 
-task('publishToMavenLocal') {
+task('install') {
     dependsOn ':SkyLibrary:publishToMavenLocal'
 }
 task('release') {
