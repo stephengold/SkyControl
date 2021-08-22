@@ -1,5 +1,11 @@
 # release log for the SkyControl library and related software
 
+## Version 1.0.0 released on TBD
+
+Notable changes:
+ + base on version 7.0.0 of the Heart Library
+ + bind the Z key in `TestSkyControl`
+
 ## Version 0.9.32 released on 31 May 2021
 
 Notable changes:
