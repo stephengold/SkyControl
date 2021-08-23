@@ -18,9 +18,9 @@ Complete source code (in Java) is provided under
 
 + [Important features](#features)
 + [How to add SkyControl to an existing project](#add)
++ [How to build SkyControl from source](#build)
 + [Downloads](#downloads)
 + [Conventions](#conventions)
-+ [How to build SkyControl from source](#build)
 + [External links](#links)
 + [History](#history)
 + [Acknowledgments](#acks)
@@ -127,41 +127,6 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
     + Click on the "OK" button to close the "Edit Jar Reference" dialog.
  7. Similarly, add the `SkyControl` jar(s).
  8. Click on the "OK" button to exit the "Project Properties" dialog.
-
-[Jump to table of contents](#toc)
-
-<a name="downloads"/>
-
-## Downloads
-
-Newer releases (since v0.9.27) can be downloaded from
-[GitHub](https://github.com/stephengold/SkyControl/releases).
-
-Older releases (v0.9.0 through v0.9.26) can be downloaded from
-[the Jme3-utilities Project](https://github.com/stephengold/jme3-utilities/releases).
-
-Newer Maven artifacts (since v0.9.30) are available from
-[MavenCentral](https://search.maven.org/artifact/com.github.stephengold/SkyControl).
-
-Old Maven artifacts (v0.9.25 through v0.9.29) are available from JCenter.
-
-[Jump to table of contents](#toc)
-
-<a name="conventions"/>
-
-## Conventions
-
-Package names begin with `jme3utilities.sky`
-
-Both the source code and the pre-built libraries are compatible with JDK 7.
-
-In the default world coordinate system:
-
- + the `+X` axis points toward the northern horizon
- + the `+Y` axis points up (toward the zenith)
- + the `+Z` axis points toward the eastern horizon
-
-However these axis assignments can be overridden using `SunAndStars.setAxes()`.
 
 [Jump to table of contents](#toc)
 
@@ -277,6 +242,41 @@ Maven artifacts will be found in `SkyLibrary/build/libs`.
 You can install the Maven artifacts to your local cache:
  + using Bash or PowerShell:  `./gradlew publishToMavenLocal`
  + using Windows Command Prompt:  `.\gradlew publishToMavenLocal`
+
+[Jump to table of contents](#toc)
+
+<a name="downloads"/>
+
+## Downloads
+
+Newer releases (since v0.9.27) can be downloaded from
+[GitHub](https://github.com/stephengold/SkyControl/releases).
+
+Older releases (v0.9.0 through v0.9.26) can be downloaded from
+[the Jme3-utilities Project](https://github.com/stephengold/jme3-utilities/releases).
+
+Newer Maven artifacts (since v0.9.30) are available from
+[MavenCentral](https://search.maven.org/artifact/com.github.stephengold/SkyControl).
+
+Old Maven artifacts (v0.9.25 through v0.9.29) are available from JCenter.
+
+[Jump to table of contents](#toc)
+
+<a name="conventions"/>
+
+## Conventions
+
+Package names begin with `jme3utilities.sky`
+
+Both the source code and the pre-built libraries are compatible with JDK 7.
+
+In the default world coordinate system:
+
+ + the `+X` axis points toward the northern horizon
+ + the `+Y` axis points up (toward the zenith)
+ + the `+Z` axis points toward the eastern horizon
+
+However these axis assignments can be overridden using `SunAndStars.setAxes()`.
 
 [Jump to table of contents](#toc)
 
