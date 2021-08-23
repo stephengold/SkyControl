@@ -99,7 +99,7 @@ Add to the project’s "pom.xml" file:
 For project built using [Ant], download the SkyControl and Heart
 libraries from GitHub:
 
- + https://github.com/stephengold/SkyControl/releases/tag/1.0.0
+ + https://github.com/stephengold/SkyControl/releases/tag/latest
  + https://github.com/stephengold/Heart/releases/tag/7.0.0
 
 You'll want both class jars
@@ -239,9 +239,13 @@ Clone the SkyControl repository using Git:
 After a successful build,
 Maven artifacts will be found in `SkyLibrary/build/libs`.
 
-You can install the Maven artifacts to your local cache:
+You can install the Maven artifacts to your local repository:
  + using Bash or PowerShell:  `./gradlew publishToMavenLocal`
  + using Windows Command Prompt:  `.\gradlew publishToMavenLocal`
+
+You can restore the project to a pristine state:
+ + using Bash or PowerShell: `./gradlew clean`
+ + using Windows Command Prompt: `.\gradlew clean`
 
 [Jump to table of contents](#toc)
 
@@ -327,7 +331,7 @@ However these axis assignments can be overridden using `SunAndStars.setAxes()`.
 
 ## History
 
-The evolution of the project is chronicled in
+The evolution of this project is chronicled in
 [its release log][log].
 
 SkyControl has its roots in SkyDome by Cris (aka "t0neg0d").
