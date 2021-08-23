@@ -9,8 +9,10 @@ subprojects {
 // publishing tasks
 
 task('install') {
-    dependsOn ':SkyLibrary:publishToMavenLocal'
+    dependsOn ':SkyLibrary:install'
+    description 'Installs Maven artifacts to the local repository.'
 }
 task('release') {
-    dependsOn ':SkyLibrary:publishMavenPublicationToOSSRHRepository'
+    dependsOn ':SkyLibrary:release'
+    description 'Installs Maven artifacts to the local repository.'
 }
