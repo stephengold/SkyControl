@@ -1,4 +1,4 @@
-<img height="150" src="https://i.imgur.com/HfTbw30.png">
+<img height="150" src="https://i.imgur.com/HfTbw30.png" alt="SkyControl logo">
 
 [The SkyControl Project][skycontrol] provides a sky-simulation library for
 [the jMonkeyEngine (JME) game engine][jme].
