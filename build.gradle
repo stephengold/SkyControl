@@ -14,5 +14,5 @@ task('install') {
 }
 task('release') {
     dependsOn ':SkyLibrary:release'
-    description 'Installs Maven artifacts to the local repository.'
+    description 'Stages Maven artifacts to Sonatype OSSRH.'
 }
