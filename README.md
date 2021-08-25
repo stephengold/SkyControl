@@ -216,36 +216,6 @@ However these axis assignments can be overridden using `SunAndStars.setAxes()`.
 
 [Jump to table of contents](#toc)
 
-[ant]: https://ant.apache.org "Apache Ant Project"
-[blender]: https://docs.blender.org "Blender Project"
-[bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
-[chrome]: https://www.google.com/chrome "Chrome"
-[elements]: http://www.adobe.com/products/photoshop-elements.html "Photoshop Elements"
-[findbugs]: http://findbugs.sourceforge.net "FindBugs Project"
-[firefox]: https://www.mozilla.org/en-US/firefox "Firefox"
-[git]: https://git-scm.com "Git"
-[github]: https://github.com "GitHub"
-[gradle]: https://gradle.org "Gradle Project"
-[heart]: https://github.com/stephengold/Heart "Heart Project"
-[imgur]: https://imgur.com/ "Imgur"
-[jfrog]: https://www.jfrog.com "JFrog"
-[jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
-[license]: https://github.com/stephengold/SkyControl/blob/master/LICENSE "SkyControl license"
-[log]: https://github.com/stephengold/SkyControl/blob/master/SkyLibrary/release-notes.md "release log"
-[markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
-[meld]: http://meldmerge.org/ "Meld Tool"
-[mint]: https://linuxmint.com "Linux Mint Project"
-[netbeans]: https://netbeans.org "NetBeans Project"
-[nifty]: http://nifty-gui.github.io/nifty-gui "Nifty GUI Project"
-[obs]: https://obsproject.com "Open Broadcaster Software Project"
-[openJDK]: https://openjdk.java.net "OpenJDK Project"
-[skycontrol]: https://github.com/stephengold/SkyControl "SkyControl Project"
-[sonatype]: https://www.sonatype.com "Sonatype"
-[utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
-[winmerge]: http://winmerge.org "WinMerge Project"
-[youtube]: https://www.youtube.com/ "YouTube"
-
-
 <a name="history"/>
 
 ## History
@@ -336,7 +306,7 @@ For this I thank:
 + Jacques Descloitres, MODIS Rapid Response Team, NASA/GSFC
 + Tom Ruen
 
-I am grateful to [Github], [Sonatype], [JFrog], [YouTube], and [Imgur]
+I am grateful to [GitHub], [Sonatype], [JFrog], [YouTube], and [Imgur]
 for providing free hosting for this project
 and many other open-source projects.
 
@@ -347,3 +317,34 @@ If I've misattributed anything or left anyone out, please let me know, so I can
 correct the situation: sgold@sonic.net
 
 [Jump to table of contents](#toc)
+
+
+[ant]: https://ant.apache.org "Apache Ant Project"
+[blender]: https://docs.blender.org "Blender Project"
+[bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
+[chrome]: https://www.google.com/chrome "Chrome"
+[elements]: http://www.adobe.com/products/photoshop-elements.html "Photoshop Elements"
+[findbugs]: http://findbugs.sourceforge.net "FindBugs Project"
+[firefox]: https://www.mozilla.org/en-US/firefox "Firefox"
+[git]: https://git-scm.com "Git"
+[github]: https://github.com "GitHub"
+[gradle]: https://gradle.org "Gradle Project"
+[heart]: https://github.com/stephengold/Heart "Heart Project"
+[imgur]: https://imgur.com/ "Imgur"
+[jfrog]: https://www.jfrog.com "JFrog"
+[jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
+[latest]: https://github.com/stephengold/SkyControl/releases/latest "latest release"
+[license]: https://github.com/stephengold/SkyControl/blob/master/LICENSE "SkyControl license"
+[log]: https://github.com/stephengold/SkyControl/blob/master/SkyLibrary/release-notes.md "release log"
+[markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
+[meld]: http://meldmerge.org/ "Meld Tool"
+[mint]: https://linuxmint.com "Linux Mint Project"
+[netbeans]: https://netbeans.org "NetBeans Project"
+[nifty]: http://nifty-gui.github.io/nifty-gui "Nifty GUI Project"
+[obs]: https://obsproject.com "Open Broadcaster Software Project"
+[openJDK]: https://openjdk.java.net "OpenJDK Project"
+[skycontrol]: https://github.com/stephengold/SkyControl "SkyControl Project"
+[sonatype]: https://www.sonatype.com "Sonatype"
+[utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
+[winmerge]: http://winmerge.org "WinMerge Project"
+[youtube]: https://www.youtube.com/ "YouTube"
