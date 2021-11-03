@@ -13,6 +13,7 @@ ext {
     artifact = 'SkyControl'
     version = skycontrolVersion
     baseName = "${artifact}-${version}"
+    websiteUrl = 'https://github.com/stephengold/SkyControl'
 }
 
 processResources.dependsOn(':SkyAssets:skyTextures')
@@ -81,9 +82,9 @@ publishing {
                 scm {
                     connection = 'scm:git:git://github.com/stephengold/SkyControl.git'
                     developerConnection = 'scm:git:ssh://github.com:stephengold/SkyControl.git'
-                    url = 'https://github.com/stephengold/SkyControl/tree/master'
+                    url = project.ext.websiteUrl + '/tree/master'
                 }
-                url = 'https://github.com/stephengold/SkyControl'
+                url = project.ext.websiteUrl
             }
             version project.ext.version
         }
