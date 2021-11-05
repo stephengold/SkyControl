@@ -5,14 +5,17 @@
 description = 'demos, examples, and tests that do not generate reports'
 
 dependencies {
-    implementation "com.beust:jcommander:$jcommanderVersion"
+    implementation 'com.beust:jcommander:' + jcommanderVersion
     runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
-    implementation "org.jmonkeyengine:jme3-desktop:$jmonkeyengineVersion"
-    runtimeOnly "org.jmonkeyengine:jme3-jogg:$jmonkeyengineVersion"
-    runtimeOnly "org.jmonkeyengine:jme3-lwjgl3:$jmonkeyengineVersion"
-    implementation "org.jmonkeyengine:jme3-plugins:$jmonkeyengineVersion"
-    implementation "org.jmonkeyengine:jme3-terrain:$jmonkeyengineVersion"
-    runtimeOnly 'org.jmonkeyengine:jme3-testdata:' + jmonkeyengineVersion
+    implementation 'org.jmonkeyengine:jme3-desktop:' + jme3Version
+    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version
+    implementation 'org.jmonkeyengine:jme3-terrain:' + jme3Version
+    runtimeOnly 'org.jmonkeyengine:jme3-testdata:' + jme3Version
+
+    // SkyExamples doesn't use jme3-jogg nor jme3-plugins
+    //  -- they are included solely to avoid warnings from AssetConfig
+    runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
+    runtimeOnly 'org.jmonkeyengine:jme3-plugins:' + jme3Version
 
     implementation 'com.github.stephengold:Heart:' + heartVersion
 
@@ -21,11 +24,10 @@ dependencies {
 
     implementation "com.github.stephengold:jme3-utilities-nifty:$jme3utilitiesniftyVersion"
     implementation "com.github.stephengold:jme3-utilities-ui:$jme3utilitiesuiVersion"
-
-    //runtimeOnly project(':moon-ccbysa')
 }
 
 // cleanup tasks
+
 clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs', 'cleanWrittenAssets')
 
 task cleanDLLs(type: Delete) {
@@ -43,6 +45,8 @@ task cleanSOs(type: Delete) {
 task cleanWrittenAssets(type: Delete) {
     delete 'Written Assets'
 }
+
+// tasks to run the apps
 
 task runCubeMapExample(type: JavaExec) {
     mainClass = 'jme3utilities.sky.test.CubeMapExample'

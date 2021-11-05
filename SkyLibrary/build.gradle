@@ -20,7 +20,7 @@ ext {
 processResources.dependsOn(':SkyAssets:skyTextures')
 
 dependencies {
-    api 'org.jmonkeyengine:jme3-effects:' + jmonkeyengineVersion
+    api 'org.jmonkeyengine:jme3-effects:' + jme3Version
     api 'com.github.stephengold:Heart:' + heartVersion
 
     testImplementation 'junit:junit:4.13.2'

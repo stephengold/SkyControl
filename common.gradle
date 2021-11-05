@@ -32,7 +32,7 @@ ext {
     heartVersion = '7.1.0'
     jme3utilitiesniftyVersion = '0.9.23'
     jme3utilitiesuiVersion = '0.9.5'
-    jmonkeyengineVersion = '3.4.0-stable'
+    jme3Version = '3.4.0-stable'
     skycontrolVersion = '1.0.1-SNAPSHOT'
 }
 
