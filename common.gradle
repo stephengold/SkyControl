@@ -2,6 +2,16 @@
 
 apply plugin: 'java'
 
+ext {
+    // current versions of various libraries
+    jcommanderVersion = '1.81'
+    heartVersion = '7.1.0'
+    jme3utilitiesniftyVersion = '0.9.23'
+    jme3utilitiesuiVersion = '0.9.5'
+    jme3Version = '3.4.0-stable'
+    skycontrolVersion = '1.0.1-SNAPSHOT'
+}
+
 sourceCompatibility = '1.7'
 targetCompatibility = '1.8'
 
@@ -26,31 +36,22 @@ gradle.projectsEvaluated {
     }
 }
 
-ext {
-    // current versions of various libraries
-    jcommanderVersion = '1.81'
-    heartVersion = '7.1.0'
-    jme3utilitiesniftyVersion = '0.9.23'
-    jme3utilitiesuiVersion = '0.9.5'
-    jme3Version = '3.4.0-stable'
-    skycontrolVersion = '1.0.1-SNAPSHOT'
-}
-
 repositories {
     //mavenLocal()
     mavenCentral()
 }
 
 // custom tasks for creating source/javadoc JARs
-task sourcesJar(type: Jar) {
-    archiveClassifier = 'sources'
-    description 'Creates a JAR of sourcecode.'
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from sourceSets.main.allJava
-}
 task javadocJar(type: Jar) {
     archiveClassifier = 'javadoc'
     dependsOn 'javadoc'
     description 'Creates a JAR of javadoc.'
     from javadoc.destinationDir
+}
+
+task sourcesJar(type: Jar) {
+    archiveClassifier = 'sources'
+    description 'Creates a JAR of sourcecode.'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from sourceSets.main.allJava
 }
