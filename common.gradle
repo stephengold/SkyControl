@@ -1,9 +1,8 @@
-// Gradle settings and tasks common to all subprojects
+// Gradle settings and tasks common to all SkyControl subprojects
 
 apply plugin: 'java'
 
-ext {
-    // current versions of various libraries
+ext { // current versions of various libraries:
     jcommanderVersion = '1.81'
     heartVersion = '7.1.0'
     jme3utilitiesniftyVersion = '0.9.23'
@@ -42,6 +41,7 @@ repositories {
 }
 
 // custom tasks for creating source/javadoc JARs
+
 task javadocJar(type: Jar) {
     archiveClassifier = 'javadoc'
     dependsOn 'javadoc'
