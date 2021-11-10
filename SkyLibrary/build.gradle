@@ -38,8 +38,20 @@ task('release') {
 }
 
 jar { archiveBaseName = project.ext.baseName }
-javadocJar { archiveBaseName = project.ext.baseName }
-sourcesJar { archiveBaseName = project.ext.baseName }
+task javadocJar(type: Jar) {
+    archiveBaseName = project.ext.baseName
+    archiveClassifier = 'javadoc'
+    dependsOn 'javadoc'
+    description 'Creates a JAR of javadoc.'
+    from javadoc.destinationDir
+}
+task sourcesJar(type: Jar) {
+    archiveBaseName = project.ext.baseName
+    archiveClassifier = 'sources'
+    description 'Creates a JAR of sourcecode.'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from sourceSets.main.allJava
+}
 
 build.dependsOn('pom', 'pomAsc')
 task('pom', type: Copy) {

@@ -24,7 +24,6 @@ gradle.projectsEvaluated {
     tasks.withType(JavaExec) { // Java runtime options:
         classpath sourceSets.main.runtimeClasspath
         //debug true
-        //doFirst { println commandLine }
         enableAssertions true
         //jvmArgs '-verbose:gc'
         //jvmArgs '-Xbatch'
@@ -38,20 +37,4 @@ gradle.projectsEvaluated {
 repositories {
     //mavenLocal()
     mavenCentral()
-}
-
-// custom tasks for creating source/javadoc JARs
-
-task javadocJar(type: Jar) {
-    archiveClassifier = 'javadoc'
-    dependsOn 'javadoc'
-    description 'Creates a JAR of javadoc.'
-    from javadoc.destinationDir
-}
-
-task sourcesJar(type: Jar) {
-    archiveClassifier = 'sources'
-    description 'Creates a JAR of sourcecode.'
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from sourceSets.main.allJava
 }
