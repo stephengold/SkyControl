@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2017, Stephen Gold
+ Copyright (c) 2013-2021, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -67,8 +67,7 @@ class Star implements Comparable<Star> {
     /**
      * Instantiate a star.
      *
-     * @param rightAscension radians east of the March equinox (&le;2*Pi,
-     * &ge;0)
+     * @param rightAscension radians east of the March equinox (&le;2*Pi, &ge;0)
      * @param declination radians north of the celestial equator (&le;Pi/2,
      * &ge;-Pi/2)
      *
