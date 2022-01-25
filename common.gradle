@@ -4,10 +4,10 @@ apply plugin: 'java'
 
 ext { // current versions of various libraries:
     jcommanderVersion = '1.81'
-    heartVersion = '7.1.0'
-    jme3utilitiesniftyVersion = '0.9.23'
-    jme3utilitiesuiVersion = '0.9.5'
-    jme3Version = '3.5.0-beta5'
+    heartVersion = '7.2.0'
+    jme3utilitiesniftyVersion = '0.9.24'
+    jme3utilitiesuiVersion = '0.9.6'
+    jme3Version = '3.5.0-stable'
     skycontrolVersion = '1.0.1-SNAPSHOT'
 }
 
