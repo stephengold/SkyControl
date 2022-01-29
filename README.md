@@ -12,7 +12,7 @@ It contains 3 sub-projects:
 Complete source code (in Java) is provided under
 [a 3-clause BSD license][license].
 
-<a name="toc"/>
+<a name="toc"></a>
 
 ## Contents of this document
 
@@ -25,7 +25,7 @@ Complete source code (in Java) is provided under
 + [History](#history)
 + [Acknowledgments](#acks)
 
-<a name="features"/>
+<a name="features"></a>
 
 ## Important features
 
@@ -44,7 +44,7 @@ Complete source code (in Java) is provided under
 
 [Jump to table of contents](#toc)
 
-<a name="add"/>
+<a name="add"></a>
 
 ## How to add SkyControl to an existing project
 
@@ -133,7 +133,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 
 [Jump to table of contents](#toc)
 
-<a name="build"/>
+<a name="build"></a>
 
 ## How to build SkyControl from source
 
@@ -171,7 +171,7 @@ You can restore the project to a pristine state:
 
 [Jump to table of contents](#toc)
 
-<a name="downloads"/>
+<a name="downloads"></a>
 
 ## Downloads
 
@@ -188,7 +188,7 @@ Old Maven artifacts (v0.9.25 through v0.9.29) are available from JCenter.
 
 [Jump to table of contents](#toc)
 
-<a name="conventions"/>
+<a name="conventions"></a>
 
 ## Conventions
 
@@ -206,7 +206,7 @@ However these axis assignments can be overridden using `SunAndStars.setAxes()`.
 
 [Jump to table of contents](#toc)
 
-<a name="links"/>
+<a name="links"></a>
 
 ## External links
 
@@ -219,7 +219,7 @@ However these axis assignments can be overridden using `SunAndStars.setAxes()`.
 
 [Jump to table of contents](#toc)
 
-<a name="history"/>
+<a name="history"></a>
 
 ## History
 
@@ -244,7 +244,7 @@ Old (2014) versions of SkyControl can still be found in
 
 [Jump to table of contents](#toc)
 
-<a name="acks"/>
+<a name="acks"></a>
 
 ## Acknowledgments
 
