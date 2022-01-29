@@ -64,7 +64,7 @@ the standard jme3-core library from jMonkeyEngine.
 
 For projects built using Maven or [Gradle], it is sufficient to specify the
 dependency on the SkyControl Library.  The build tools should automatically
-resolve the remaining dependencies automatically.
+resolve the remaining dependencies.
 
 #### Gradle-built projects
 
