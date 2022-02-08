@@ -24,7 +24,7 @@ dependencies {
     implementation project(':SkyLibrary')
 
     implementation "com.github.stephengold:jme3-utilities-nifty:$jme3utilitiesniftyVersion"
-    implementation "com.github.stephengold:jme3-utilities-ui:$jme3utilitiesuiVersion"
+    implementation "com.github.stephengold:Acorus:$acorusVersion"
 }
 
 // cleanup tasks
