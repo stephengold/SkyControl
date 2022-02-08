@@ -169,7 +169,7 @@ public class TestSkyControlRun
      * Instantiate an uninitialized, disabled state.
      */
     TestSkyControlRun() {
-        super(false);
+        super(false); // TODO use InitialState
     }
     // *************************************************************************
     // new methods exposed
