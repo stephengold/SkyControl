@@ -6,7 +6,11 @@ description = 'demos, examples, and tests that do not generate reports'
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-    implementation 'com.beust:jcommander:' + jcommanderVersion
+    implementation acorusCoordinates
+    implementation heartCoordinates
+    implementation jcommanderCoordinates
+    implementation jme3utilitiesniftyCoordinates
+
     runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
     implementation 'org.jmonkeyengine:jme3-desktop:' + jme3Version
     runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version
@@ -18,13 +22,8 @@ dependencies {
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
     runtimeOnly 'org.jmonkeyengine:jme3-plugins:' + jme3Version
 
-    implementation 'com.github.stephengold:Heart:' + heartVersion
-
     //implementation "com.github.stephengold:SkyControl:$skycontrolVersion"
     implementation project(':SkyLibrary')
-
-    implementation "com.github.stephengold:jme3-utilities-nifty:$jme3utilitiesniftyVersion"
-    implementation "com.github.stephengold:Acorus:$acorusVersion"
 }
 
 // cleanup tasks

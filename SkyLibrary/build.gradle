@@ -21,7 +21,7 @@ processResources.dependsOn(':SkyAssets:skyTextures')
 
 dependencies {
     api 'org.jmonkeyengine:jme3-effects:' + jme3Version
-    api 'com.github.stephengold:Heart:' + heartVersion
+    api heartCoordinates
 
     testImplementation 'junit:junit:4.13.2'
 }
