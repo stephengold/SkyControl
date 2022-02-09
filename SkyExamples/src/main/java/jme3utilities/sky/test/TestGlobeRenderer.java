@@ -226,7 +226,7 @@ public class TestGlobeRenderer
 
         flyCam.setEnabled(false);
         initializeUserInterface();
-        /**
+        /*
          * A background is needed to test transparency.
          */
         viewPort.setBackgroundColor(new ColorRGBA(0.1f, 0f, 0f, 1f));
