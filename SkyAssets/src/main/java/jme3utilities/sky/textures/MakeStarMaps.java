@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2020, Stephen Gold
+ Copyright (c) 2013-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -454,7 +454,7 @@ public class MakeStarMaps {
             /*
             * Generate 6 texture maps for a cube.
              */
-            RenderedImage images[] = generateCubeMap(latitude, siderealTime,
+            RenderedImage[] images = generateCubeMap(latitude, siderealTime,
                     textureSize);
             assert images.length == 6 : images.length;
             for (int faceIndex = 0; faceIndex < 6; faceIndex++) {
