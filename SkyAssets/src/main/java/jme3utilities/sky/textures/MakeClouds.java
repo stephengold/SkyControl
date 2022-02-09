@@ -197,7 +197,7 @@ public class MakeClouds {
      * (&le;1, &gt;blackCutoff)
      * @return new instance
      */
-    private RenderedImage makeFbmClouds(int textureSize, float blackCutoff,
+    private static RenderedImage makeFbmClouds(int textureSize, float blackCutoff,
             float whiteCutoff) {
         assert textureSize >= 1 : textureSize;
         assert blackCutoff >= 0f : blackCutoff;
@@ -231,7 +231,7 @@ public class MakeClouds {
      * @param alpha opacity (&le;1, &ge;0)
      * @return new instance
      */
-    private RenderedImage makeFillClouds(int textureSize, float alpha) {
+    private static RenderedImage makeFillClouds(int textureSize, float alpha) {
         assert textureSize >= 1 : textureSize;
         assert alpha >= 0f : alpha;
         assert alpha <= 1f : alpha;

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2021, Stephen Gold
+ Copyright (c) 2013-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -212,7 +212,7 @@ public class TestSunAndStars {
     // *************************************************************************
     // private methods
 
-    private void assertEquals(float x, float y, float z, float w,
+    private static void assertEquals(float x, float y, float z, float w,
             Quaternion quaternion, float tolerance) {
         Assert.assertEquals(x, quaternion.getX(), tolerance);
         Assert.assertEquals(y, quaternion.getY(), tolerance);
@@ -220,7 +220,7 @@ public class TestSunAndStars {
         Assert.assertEquals(w, quaternion.getW(), tolerance);
     }
 
-    private void assertEquals(float x, float y, float z, Vector3f vector,
+    private static void assertEquals(float x, float y, float z, Vector3f vector,
             float tolerance) {
         Assert.assertEquals(x, vector.x, tolerance);
         Assert.assertEquals(y, vector.y, tolerance);

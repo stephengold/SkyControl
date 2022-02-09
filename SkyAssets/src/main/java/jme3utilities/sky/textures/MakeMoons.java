@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2017-2020, Stephen Gold
+ Copyright (c) 2017-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -150,7 +150,7 @@ public class MakeMoons {
      *
      * @param phase (not null, not CUSTOM)
      */
-    private void makeMoon(LunarPhase phase) {
+    private static void makeMoon(LunarPhase phase) {
         assert phase != null;
         assert phase != LunarPhase.CUSTOM;
         /*

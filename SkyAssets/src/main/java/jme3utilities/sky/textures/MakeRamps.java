@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2020, Stephen Gold
+ Copyright (c) 2013-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -139,7 +139,7 @@ public class MakeRamps {
      * @param elevationAngle in radians above the horizon
      * @return opacity (&le;1, &gt;0)
      */
-    private float hazeAlpha(float elevationAngle) {
+    private static float hazeAlpha(float elevationAngle) {
         if (elevationAngle < 0f) {
             return 1f;
         }

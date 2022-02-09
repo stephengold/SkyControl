@@ -154,7 +154,7 @@ public class MakeSun {
      * haze, or -1 for an irregular surround)
      * @return fraction (&le;1, &ge;0)
      */
-    private float indent(float theta, int numRays) {
+    private static float indent(float theta, int numRays) {
         assert theta <= FastMath.PI : theta;
         assert theta >= -FastMath.PI : theta;
         assert numRays >= -1 : numRays;

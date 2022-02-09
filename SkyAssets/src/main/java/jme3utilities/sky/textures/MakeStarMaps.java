@@ -271,7 +271,7 @@ public class MakeStarMaps {
      * @param faceIndex (&ge;0, &lt;6) which face of the cube
      * @return a new vector, or null if direction is too far outside the face
      */
-    private Vector2f cubeUV(Vector3f direction, int faceIndex) {
+    private static Vector2f cubeUV(Vector3f direction, int faceIndex) {
         assert direction != null;
         assert !MyVector3f.isZero(direction);
         assert faceIndex >= 0 : faceIndex;
@@ -309,7 +309,7 @@ public class MakeStarMaps {
      * @return angle north of the celestial equator (in degrees, &le;90,
      * &ge;-90)
      */
-    private float declination(String line)
+    private static float declination(String line)
             throws InvalidEntryException {
         assert line != null;
         /*
@@ -495,7 +495,7 @@ public class MakeStarMaps {
      * @param uv star's texture coordinates (not null)
      * @return true if the star was successfully plotted, otherwise false
      */
-    private boolean plot4PointStar(BufferedImage map, float luminosity,
+    private static boolean plot4PointStar(BufferedImage map, float luminosity,
             int textureSize, Vector2f uv) {
         assert luminosity > 0f : luminosity;
         assert luminosity <= 37f : luminosity;
@@ -608,7 +608,7 @@ public class MakeStarMaps {
      * @param uv star's texture coordinates (not null)
      * @return true if the star was successfully plotted, otherwise false
      */
-    private void plotEllipseForDome(BufferedImage map, float luminosity,
+    private static void plotEllipseForDome(BufferedImage map, float luminosity,
             int textureSize, Vector2f uv) {
         assert map != null;
         assert luminosity > 0f : luminosity;
@@ -1086,7 +1086,7 @@ public class MakeStarMaps {
      * @param line of text read from the catalog (not null)
      * @return angle east of the March equinox (in hours, &lt;24, &ge;0)
      */
-    private float rightAscensionHours(String line)
+    private static float rightAscensionHours(String line)
             throws InvalidEntryException {
         assert line != null;
         /*

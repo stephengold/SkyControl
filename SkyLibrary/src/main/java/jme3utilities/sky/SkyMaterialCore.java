@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2020, Stephen Gold
+ Copyright (c) 2014-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -886,7 +886,7 @@ public class SkyMaterialCore extends Material {
      * and &ge;0, unaffected)
      * @return red intensity (&le;1, &ge;0)
      */
-    private float sampleRed(ImageRaster colorImage, Vector2f uv) {
+    private static float sampleRed(ImageRaster colorImage, Vector2f uv) {
         assert colorImage != null;
         assert uv != null;
         float u = uv.x;
