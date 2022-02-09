@@ -202,7 +202,8 @@ Old Maven artifacts (v0.9.25 through v0.9.29) are available from JCenter.
 
 Package names begin with `jme3utilities.sky`
 
-Both the source code and the pre-built libraries are compatible with JDK 7.
+The source code is compatible with JDK 7.
+The pre-built libraries are compatible with JDK 8.
 
 In the default world coordinate system:
 
@@ -296,6 +297,7 @@ artists and software developers:
     + the [Git] revision-control system and GitK commit viewer
     + the [Gradle] build tool
     + Guava core libraries for Java
+    + the [IntelliJ IDEA][idea] and [NetBeans] integrated development environments
     + the [Java] compiler, standard doclet, and runtime environment
     + the JCommander Java framework
     + [jMonkeyEngine][jme] and the jME3 Software Development Kit
@@ -304,7 +306,6 @@ artists and software developers:
     + the [Markdown] document-conversion tool
     + the [Meld] visual merge tool
     + Microsoft Windows
-    + the [NetBeans] integrated development environment
     + the [Nifty] graphical user-interface library
     + [Open Broadcaster Software Studio][obs]
     + the PMD source-code analyzer
@@ -344,6 +345,7 @@ correct the situation: sgold@sonic.net
 [github]: https://github.com "GitHub"
 [gradle]: https://gradle.org "Gradle Project"
 [heart]: https://github.com/stephengold/Heart "Heart Project"
+[idea]: https://www.jetbrains.com/idea/ "IntelliJ IDEA"
 [imgur]: https://imgur.com/ "Imgur"
 [java]: https://java.com "Java"
 [jfrog]: https://www.jfrog.com "JFrog"
