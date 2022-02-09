@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2018, Stephen Gold
+ Copyright (c) 2014-2022, Stephen Gold
  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -150,6 +150,6 @@ public enum LunarPhase {
             case WAXING_GIBBOUS:
                 return 0.75f * FastMath.PI;
         }
-        throw new IllegalStateException(this.describe());
+        throw new IllegalStateException(describe());
     }
 }

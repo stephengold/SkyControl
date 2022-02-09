@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2020, Stephen Gold
+ Copyright (c) 2014-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -188,7 +188,7 @@ public class MakeSun {
      */
     private void makeSun(String styleName) {
         assert styleName != null;
-        assert styleName.length() > 0;
+        assert !styleName.isEmpty();
 
         try {
             switch (styleName) {
@@ -225,7 +225,7 @@ public class MakeSun {
             float surroundAlpha, int numRays)
             throws IOException {
         assert styleName != null;
-        assert styleName.length() > 0;
+        assert !styleName.isEmpty();
         assert discSharpness > 0f : discSharpness;
         assert surroundAlpha >= 0f : surroundAlpha;
         assert numRays >= -1 : numRays;

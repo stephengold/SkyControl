@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2020, Stephen Gold
+ Copyright (c) 2014-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -263,7 +263,7 @@ public class MakeClouds {
     private static void writeClouds(String fileName, RenderedImage image)
             throws IOException {
         assert fileName != null;
-        assert fileName.length() > 0;
+        assert !fileName.isEmpty();
         assert image != null;
 
         String filePath = String.format("%s/%s.png", outputDirPath, fileName);
