@@ -782,9 +782,9 @@ public class MakeStarMaps {
                 BufferedImage map = maps[faceIndex];
 
                 if (luminosity <= 37f) {
-                    boolean succ = plot4PointStar(map, luminosity,
+                    boolean success2 = plot4PointStar(map, luminosity,
                             textureSize, uv);
-                    if (succ) {
+                    if (success2) {
                         success = true;
                     }
                 } else {
