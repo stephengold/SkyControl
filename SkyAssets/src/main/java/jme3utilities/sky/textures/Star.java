@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2021, Stephen Gold
+ Copyright (c) 2013-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -180,9 +180,12 @@ class Star implements Comparable<Star> {
      */
     @Override
     public int hashCode() {
-        float sum = apparentMagnitude + rightAscension + declination;
-        int code = Float.valueOf(sum).hashCode();
-        return code;
+        int result = 137;
+        result = 37 * result + Float.floatToIntBits(apparentMagnitude);
+        result = 37 * result + Float.floatToIntBits(rightAscension);
+        result = 37 * result + Float.floatToIntBits(declination);
+
+        return result;
     }
     // *************************************************************************
     // private methods
