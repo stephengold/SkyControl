@@ -1051,7 +1051,7 @@ public class MakeStarMaps {
         }
         float apparentMagnitude;
         try {
-            apparentMagnitude = Float.valueOf(magnitudeText);
+            apparentMagnitude = Float.parseFloat(magnitudeText);
         } catch (NumberFormatException exception) {
             logger.log(Level.WARNING, "entry #{0} has invalid magnitude {1}",
                     new Object[]{entryId, MyString.quote(magnitudeText)});
