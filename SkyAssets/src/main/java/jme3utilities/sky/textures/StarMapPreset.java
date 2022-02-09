@@ -101,7 +101,8 @@ enum StarMapPreset {
     /**
      * Find a preset value based on its textual description.
      *
-     * @param description
+     * @param description textual description of the desired preset
+     * @return the preset value, or null if not found
      */
     static StarMapPreset fromDescription(String description) {
         for (StarMapPreset preset : StarMapPreset.values()) {

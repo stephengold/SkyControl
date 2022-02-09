@@ -193,7 +193,7 @@ class Star implements Comparable<Star> {
     /**
      * Read the declination of the star.
      *
-     * @return
+     * @return the declination angle (in radians)
      */
     private float getDeclination() {
         return declination;
@@ -202,7 +202,7 @@ class Star implements Comparable<Star> {
     /**
      * Read the right ascension of the star.
      *
-     * @return
+     * @return the right-ascension angle (in radians)
      */
     private float getRightAscension() {
         return rightAscension;

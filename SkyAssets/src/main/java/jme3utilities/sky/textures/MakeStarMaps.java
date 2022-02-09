@@ -153,7 +153,7 @@ public class MakeStarMaps {
     final private static String catalogFilePath = "src/main/resources/bsc5.dat";
     /**
      * English names for the faces of a cube, in the order expected by
-     * {@link jme3utilities.MyAsset#createStarMap(com.jme3.asset.AssetManager, java.lang.String)}
+     * jme3utilities.MyAsset#createStarMap()
      */
     final private static String[] faceName = {
         "right", "left", "top", "bottom", "front", "back"
@@ -606,7 +606,6 @@ public class MakeStarMaps {
      * pixels, &gt;0)
      * @param textureSize size of the texture map (pixels per side, &gt;2)
      * @param uv star's texture coordinates (not null)
-     * @return true if the star was successfully plotted, otherwise false
      */
     private static void plotEllipseForDome(BufferedImage map, float luminosity,
             int textureSize, Vector2f uv) {
@@ -661,7 +660,6 @@ public class MakeStarMaps {
      * @param textureSize size of the texture map (pixels per side, &gt;2)
      * @param worldDirection the star's world coordinates (length=1)
      * @param faceIndex which face of the cube (&ge;0, &lt;6)
-     * @return true if the star was successfully plotted, otherwise false
      */
     private void plotEllipseForQuad(BufferedImage map, float luminosity,
             int textureSize, Vector3f worldDirection, int faceIndex) {
