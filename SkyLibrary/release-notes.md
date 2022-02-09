@@ -1,6 +1,6 @@
 # release log for the SkyControl library and related software
 
-## Version 1.0.1 released on TBD
+## Version 1.0.1 released on 9 February 2022
 
 Notable changes:
  + add messages to exceptions
