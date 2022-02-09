@@ -1,5 +1,12 @@
 # release log for the SkyControl library and related software
 
+## Version 1.0.1 released on TBD
+
+Notable changes:
+ + add messages to exceptions
+ + base on version 7.3.0 of the Heart Library and target JME 3.5.0-stable
+   and Java v8+
+
 ## Version 1.0.0 released on 22 August 2021
 
 Notable changes:
