@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2017, Stephen Gold
+ Copyright (c) 2013-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -134,7 +134,7 @@ enum StarMapPreset {
                  */
                 return 10.55f;
         }
-        throw new IllegalStateException();
+        throw new IllegalStateException("preset = " + this);
     }
 
     /**
@@ -160,7 +160,7 @@ enum StarMapPreset {
                  */
                 return MyMath.toRadians(51.1788f);
         }
-        throw new IllegalStateException();
+        throw new IllegalStateException("preset = " + this);
     }
 
     /**
@@ -185,7 +185,7 @@ enum StarMapPreset {
             case WILTSHIRE_16M:
                 return "16m/wiltshire";
         }
-        throw new IllegalStateException();
+        throw new IllegalStateException("preset = " + this);
     }
 
     /**
@@ -206,6 +206,6 @@ enum StarMapPreset {
             case WILTSHIRE_16M:
                 return 4_096;
         }
-        throw new IllegalStateException();
+        throw new IllegalStateException("preset = " + this);
     }
 }

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2020, Stephen Gold
+ Copyright (c) 2013-2022 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -654,7 +654,7 @@ public class TestSkyMaterialHud
         } else if (logBase == 2f) {
             scaledValue = readSlider(namePrefix, SliderTransform.Log2);
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("logBase = " + this);
         }
         updateSliderStatus(namePrefix, scaledValue, statusSuffix);
 

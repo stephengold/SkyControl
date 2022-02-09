@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2020, Stephen Gold
+ Copyright (c) 2014-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -306,7 +306,7 @@ public class SkyControlCore extends SubtreeControl {
                 break;
 
             default:
-                throw new IllegalStateException();
+                throw new IllegalStateException("option = " + starsOption);
         }
     }
 
@@ -522,7 +522,7 @@ public class SkyControlCore extends SubtreeControl {
                 break;
 
             default:
-                throw new IllegalStateException();
+                throw new IllegalStateException("option = " + starsOption);
         }
     }
 
