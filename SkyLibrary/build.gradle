@@ -10,11 +10,9 @@ plugins {
 
 description = 'a sky-simulation library for jMonkeyEngine'
 ext {
-    group = 'com.github.stephengold'
     artifact = 'SkyControl'
     version = skycontrolVersion
     baseName = "${artifact}-${version}"
-    websiteUrl = 'https://github.com/stephengold/SkyControl'
 }
 
 processResources.dependsOn(':SkyAssets:skyTextures')

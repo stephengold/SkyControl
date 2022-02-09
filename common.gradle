@@ -3,6 +3,9 @@
 apply plugin: 'java'
 
 ext {
+    group = 'com.github.stephengold'
+    websiteUrl = 'https://github.com/stephengold/SkyControl'
+
     // module coordinates of dependencies:
     acorusCoordinates = 'com.github.stephengold:Acorus:0.9.9'
     heartCoordinates = 'com.github.stephengold:Heart:7.3.0'
@@ -26,7 +29,6 @@ tasks.withType(JavaCompile) { // Java compile-time options:
 
 tasks.withType(JavaExec) { // Java runtime options:
     classpath sourceSets.main.runtimeClasspath
-    //debug true
     enableAssertions true
     //jvmArgs '-verbose:gc'
     //jvmArgs '-Xbatch'
