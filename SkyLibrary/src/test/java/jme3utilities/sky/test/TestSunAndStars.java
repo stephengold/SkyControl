@@ -137,7 +137,7 @@ public class TestSunAndStars {
         /*
          * Test solar midnight at some interesting latitudes.
          */
-        sas.setObserverLatitude(FastMath.HALF_PI); // north pole
+        sas.setObserverLatitude(FastMath.HALF_PI); // North Pole
         assertEquals(0f, 0f, 1f, sas.eastDirection(null), 0f);
         Assert.assertEquals(0f, sas.getHour(), 0f);
         Assert.assertEquals(FastMath.HALF_PI, sas.getObserverLatitude(),
@@ -153,7 +153,7 @@ public class TestSunAndStars {
         Assert.assertEquals(0f, sas.getObserverLatitude(), 0.0001f);
         assertEquals(0f, -1f, 0f, sas.sunDirection(null), 0.0001f);
 
-        sas.setObserverLatitude(-FastMath.HALF_PI); // south pole
+        sas.setObserverLatitude(-FastMath.HALF_PI); // South Pole
         Assert.assertEquals(-FastMath.HALF_PI, sas.getObserverLatitude(),
                 0.0001f);
         assertEquals(-1f, 0f, 0f, sas.sunDirection(null), 0.0001f);

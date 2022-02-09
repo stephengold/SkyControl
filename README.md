@@ -210,7 +210,7 @@ In the default world coordinate system:
 + the `+Y` axis points up (toward the zenith)
 + the `+Z` axis points toward the eastern horizon
 
-However these axis assignments can be overridden using `SunAndStars.setAxes()`.
+However, these axis assignments can be overridden using `SunAndStars.setAxes()`.
 
 [Jump to table of contents](#toc)
 

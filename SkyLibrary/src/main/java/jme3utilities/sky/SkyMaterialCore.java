@@ -143,7 +143,7 @@ public class SkyMaterialCore extends Material {
      *
      * @param assetManager asset manager for loading textures and material
      * definitions (not null)
-     * @param assetPath pathname to the material definitions asset (not null)
+     * @param assetPath pathname to the material-definitions asset (not null)
      * @param maxObjects number of astronomical objects allowed (&ge;0)
      * @param maxCloudLayers number of cloud layers allowed (&ge;0)
      */

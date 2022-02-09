@@ -93,7 +93,7 @@ public class TestSkyControlHud
      */
     private float cloudsYOffset = 0f;
     /**
-     * observer's latitude (radians north of equator, &le;Pi/2, &ge;-Pi/2)
+     * observer's latitude (radians north of the Equator, &le;Pi/2, &ge;-Pi/2)
      */
     private float latitude = 0f;
     /**
@@ -282,7 +282,7 @@ public class TestSkyControlHud
     /**
      * Read the observer's latitude.
      *
-     * @return angle (radians north of equator, &le;Pi/2, &ge;-Pi/2)
+     * @return angle (radians north of the Equator, &le;Pi/2, &ge;-Pi/2)
      */
     float getLatitude() {
         assert latitude >= -FastMath.HALF_PI : latitude;

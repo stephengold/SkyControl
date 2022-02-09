@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2019, Stephen Gold
+ Copyright (c) 2013-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -116,7 +116,7 @@ public class SkyMaterial extends SkyMaterialCore {
      *
      * @param assetManager for loading textures and material definitions (not
      * null)
-     * @param assetPath pathname to the material definitions asset (not null)
+     * @param assetPath pathname to the material-definitions asset (not null)
      */
     public SkyMaterial(AssetManager assetManager, String assetPath) {
         super(assetManager, assetPath, numObjects(assetPath),
@@ -145,7 +145,7 @@ public class SkyMaterial extends SkyMaterialCore {
      *
      * @param assetManager for loading textures and material definitions (not
      * null)
-     * @param assetPath pathname to the material definitions asset (not null)
+     * @param assetPath pathname to the material-definitions asset (not null)
      * @param maxObjects number of astronomical objects allowed (&ge;0)
      * @param maxCloudLayers number of cloud layers allowed (&ge;0)
      */
@@ -387,7 +387,7 @@ public class SkyMaterial extends SkyMaterialCore {
     }
 
     /**
-     * Select a material definitions asset with at least the specified numbers
+     * Select a material-definitions asset with at least the specified numbers
      * of objects and cloud layers.
      *
      * @param numObjects (&le;6, &ge;0)

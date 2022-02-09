@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2020, Stephen Gold
+ Copyright (c) 2014-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -119,7 +119,7 @@ public class CloudLayer
         /*
          * Default initial offset and standard movement rates.
          * Since the Earth turns westward on its axis, clouds tend to
-         * move in a easterly direction, so the V-component of the
+         * move in an easterly direction, so the V component of the
          * texture offset should increase with time.
          */
         if (MyMath.isOdd(layerIndex)) {
