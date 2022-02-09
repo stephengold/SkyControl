@@ -5,12 +5,13 @@
 
 It contains 3 sub-projects:
 
- 1. SkyLibrary: the SkyControl runtime library
- 2. SkyExamples: example applications
- 3. SkyAssets: generate textures included in the library
+1. SkyLibrary: the SkyControl runtime library
+2. SkyExamples: example applications
+3. SkyAssets: generate textures included in the library
 
 Complete source code (in Java) is provided under
 [a 3-clause BSD license][license].
+
 
 <a name="toc"></a>
 
@@ -24,6 +25,7 @@ Complete source code (in Java) is provided under
 + [External links](#links)
 + [History](#history)
 + [Acknowledgments](#acks)
+
 
 <a name="features"></a>
 
@@ -43,6 +45,7 @@ Complete source code (in Java) is provided under
 + complete source code provided under FreeBSD license
 
 [Jump to table of contents](#toc)
+
 
 <a name="add"></a>
 
@@ -102,74 +105,76 @@ Add to the project’s "pom.xml" file:
 For project built using [Ant], download the SkyControl and Heart
 libraries from GitHub:
 
- + https://github.com/stephengold/SkyControl/releases/tag/latest
- + https://github.com/stephengold/Heart/releases/tag/7.0.0
++ https://github.com/stephengold/SkyControl/releases/tag/latest
++ https://github.com/stephengold/Heart/releases/tag/7.0.0
 
 You'll want both class jars
 and probably the `-sources` and `-javadoc` jars as well.
 
 Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 
- 1. Right-click on the project (not its assets) in the "Projects" window.
- 2. Select "Properties" to open the "Project Properties" dialog.
- 3. Under "Categories:" select "Libraries".
- 4. Click on the "Compile" tab.
- 5. Add the `Heart` class jar:
-    + Click on the "Add JAR/Folder" button.
-    + Navigate to the download folder.
-    + Select the "Heart-7.0.0.jar" file.
-    + Click on the "Open" button.
- 6. (optional) Add jars for javadoc and sources:
-    + Click on the "Edit" button.
-    + Click on the "Browse..." button to the right of "Javadoc:"
-    + Select the "Heart-7.0.0-javadoc.jar" file.
-    + Click on the "Open" button.
-    + Click on the "Browse..." button to the right of "Sources:"
-    + Select the "Heart-7.0.0-sources.jar" file.
-    + Click on the "Open" button again.
-    + Click on the "OK" button to close the "Edit Jar Reference" dialog.
- 7. Similarly, add the `SkyControl` jar(s).
- 8. Click on the "OK" button to exit the "Project Properties" dialog.
+1. Right-click on the project (not its assets) in the "Projects" window.
+2. Select "Properties" to open the "Project Properties" dialog.
+3. Under "Categories:" select "Libraries".
+4. Click on the "Compile" tab.
+5. Add the `Heart` class jar:
+  + Click on the "Add JAR/Folder" button.
+  + Navigate to the download folder.
+  + Select the "Heart-7.0.0.jar" file.
+  + Click on the "Open" button.
+6. (optional) Add jars for javadoc and sources:
+  + Click on the "Edit" button.
+  + Click on the "Browse..." button to the right of "Javadoc:"
+  + Select the "Heart-7.0.0-javadoc.jar" file.
+  + Click on the "Open" button.
+  + Click on the "Browse..." button to the right of "Sources:"
+  + Select the "Heart-7.0.0-sources.jar" file.
+  + Click on the "Open" button again.
+  + Click on the "OK" button to close the "Edit Jar Reference" dialog.
+7. Similarly, add the `SkyControl` jar(s).
+8. Click on the "OK" button to exit the "Project Properties" dialog.
 
 [Jump to table of contents](#toc)
+
 
 <a name="build"></a>
 
 ## How to build SkyControl from source
 
- 1. Install a [Java Development Kit (JDK)][openJDK],
-    if you don't already have one.
- 2. Download and extract the SkyControl source code from GitHub:
-   + using Git:
-     + `git clone https://github.com/stephengold/SkyControl.git`
-     + `cd SkyControl`
-     + `git checkout -b latest 1.0.0`
-   + using a web browser:
-     + browse to [the latest release][latest]
-     + follow the "Source code (zip)" link
-     + save the ZIP file
-     + extract the contents of the saved ZIP file
-     + `cd` to the extracted directory/folder
- 3. Set the `JAVA_HOME` environment variable:
-   + using Bash:  `export JAVA_HOME="` *path to your JDK* `"`
-   + using Windows Command Prompt:  `set JAVA_HOME="` *path to your JDK* `"`
-   + using PowerShell: `$env:JAVA_HOME = '` *path to your JDK* `'`
- 4. Run the [Gradle] wrapper:
-   + using Bash or PowerShell:  `./gradlew build`
-   + using Windows Command Prompt:  `.\gradlew build`
+1. Install a [Java Development Kit (JDK)][openJDK],
+   if you don't already have one.
+2. Download and extract the SkyControl source code from GitHub:
+  + using Git:
+    + `git clone https://github.com/stephengold/SkyControl.git`
+    + `cd SkyControl`
+    + `git checkout -b latest 1.0.0`
+  + using a web browser:
+    + browse to [the latest release][latest]
+    + follow the "Source code (zip)" link
+    + save the ZIP file
+    + extract the contents of the saved ZIP file
+    + `cd` to the extracted directory/folder
+3. Set the `JAVA_HOME` environment variable:
+  + using Bash:  `export JAVA_HOME="` *path to your JDK* `"`
+  + using Windows Command Prompt:  `set JAVA_HOME="` *path to your JDK* `"`
+  + using PowerShell: `$env:JAVA_HOME = '` *path to your JDK* `'`
+4. Run the [Gradle] wrapper:
+  + using Bash or PowerShell: `./gradlew build`
+  + using Windows Command Prompt: `.\gradlew build`
 
 After a successful build,
 Maven artifacts will be found in `SkyLibrary/build/libs`.
 
 You can install the Maven artifacts to your local Maven repository:
- + using Bash or PowerShell:  `./gradlew publishToMavenLocal`
- + using Windows Command Prompt:  `.\gradlew publishToMavenLocal`
++ using Bash or PowerShell: `./gradlew publishToMavenLocal`
++ using Windows Command Prompt: `.\gradlew publishToMavenLocal`
 
 You can restore the project to a pristine state:
- + using Bash or PowerShell: `./gradlew clean`
- + using Windows Command Prompt: `.\gradlew clean`
++ using Bash or PowerShell: `./gradlew clean`
++ using Windows Command Prompt: `.\gradlew clean`
 
 [Jump to table of contents](#toc)
+
 
 <a name="downloads"></a>
 
@@ -188,6 +193,7 @@ Old Maven artifacts (v0.9.25 through v0.9.29) are available from JCenter.
 
 [Jump to table of contents](#toc)
 
+
 <a name="conventions"></a>
 
 ## Conventions
@@ -198,26 +204,28 @@ Both the source code and the pre-built libraries are compatible with JDK 7.
 
 In the default world coordinate system:
 
- + the `+X` axis points toward the northern horizon
- + the `+Y` axis points up (toward the zenith)
- + the `+Z` axis points toward the eastern horizon
++ the `+X` axis points toward the northern horizon
++ the `+Y` axis points up (toward the zenith)
++ the `+Z` axis points toward the eastern horizon
 
 However these axis assignments can be overridden using `SunAndStars.setAxes()`.
 
 [Jump to table of contents](#toc)
 
+
 <a name="links"></a>
 
 ## External links
 
-  + November 2013 [SkyControl demo video](https://www.youtube.com/watch?v=FsJRM6tr3oQ)
-  + January 2014 [SkyControl update video](https://www.youtube.com/watch?v=gE4wxgBIkaw)
-  + A [driving simulator](https://github.com/stephengold/jme-vehicles)
-    that uses SkyControl.
-  + A [flight simulation game](https://github.com/ZoltanTheHun/SkyHussars)
-    that uses SkyControl.
++ November 2013 [SkyControl demo video](https://www.youtube.com/watch?v=FsJRM6tr3oQ)
++ January 2014 [SkyControl update video](https://www.youtube.com/watch?v=gE4wxgBIkaw)
++ A [driving simulator](https://github.com/stephengold/jme-vehicles)
+  that uses SkyControl.
++ A [flight simulation game](https://github.com/ZoltanTheHun/SkyHussars)
+  that uses SkyControl.
 
 [Jump to table of contents](#toc)
+
 
 <a name="history"></a>
 
@@ -243,6 +251,7 @@ Old (2014) versions of SkyControl can still be found in
 [the jMonkeyEngine-Contributions Project](https://github.com/jMonkeyEngine-Contributions/SkyControl).
 
 [Jump to table of contents](#toc)
+
 
 <a name="acks"></a>
 
