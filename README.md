@@ -5,7 +5,7 @@
 
 It contains 3 sub-projects:
 
-1. SkyLibrary: the SkyControl runtime library
+1. SkyLibrary: the SkyControl runtime library and its automated tests
 2. SkyExamples: example applications
 3. SkyAssets: generate textures included in the library
 
@@ -61,15 +61,17 @@ a simple 6-step process:
  5. Enable the `SkyControl` instance.
  6. Test and tune as necessary.
 
-The SkyControl Library depends on [the Heart Library][heart],
+The SkyControl Library depends on
+the standard "jme3-effects" library from jMonkeyEngine and
+[the Heart Library][heart],
 which in turn depends on
-the standard jme3-core library from jMonkeyEngine.
+the standard "jme3-core" library.
 
 For projects built using Maven or [Gradle], it is sufficient to specify the
 dependency on the SkyControl Library.  The build tools should automatically
 resolve the remaining dependencies.
 
-#### Gradle-built projects
+### Gradle-built projects
 
 Add to the project’s "build.gradle" file:
 
@@ -83,7 +85,7 @@ Add to the project’s "build.gradle" file:
 For some older versions of Gradle,
 it's necessary to replace `implementation` with `compile`.
 
-#### Maven-built projects
+### Maven-built projects
 
 Add to the project’s "pom.xml" file:
 
@@ -102,7 +104,7 @@ Add to the project’s "pom.xml" file:
 
 #### Ant-built projects
 
-For project built using [Ant], download the SkyControl and Heart
+For project built using [Ant], download the SkyControl and [Heart]
 libraries from GitHub:
 
 + https://github.com/stephengold/SkyControl/releases/tag/latest
@@ -131,7 +133,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
   + Select the "Heart-7.0.0-sources.jar" file.
   + Click on the "Open" button again.
   + Click on the "OK" button to close the "Edit Jar Reference" dialog.
-7. Similarly, add the `SkyControl` jar(s).
+7. Similarly, add the SkyControl jar(s).
 8. Click on the "OK" button to exit the "Project Properties" dialog.
 
 [Jump to table of contents](#toc)
@@ -165,7 +167,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 After a successful build,
 Maven artifacts will be found in `SkyLibrary/build/libs`.
 
-You can install the Maven artifacts to your local Maven repository:
+You can install the artifacts to your local Maven repository:
 + using Bash or PowerShell: `./gradlew publishToMavenLocal`
 + using Windows Command Prompt: `.\gradlew publishToMavenLocal`
 
@@ -294,7 +296,7 @@ artists and software developers:
     + the [Git] revision-control system and GitK commit viewer
     + the [Gradle] build tool
     + Guava core libraries for Java
-    + the Java compiler, standard doclet, and virtual machine
+    + the [Java] compiler, standard doclet, and runtime environment
     + the JCommander Java framework
     + [jMonkeyEngine][jme] and the jME3 Software Development Kit
     + the [Linux Mint][mint] operating system
@@ -335,7 +337,7 @@ correct the situation: sgold@sonic.net
 [blender]: https://docs.blender.org "Blender Project"
 [bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
 [chrome]: https://www.google.com/chrome "Chrome"
-[elements]: http://www.adobe.com/products/photoshop-elements.html "Photoshop Elements"
+[elements]: https://www.adobe.com/products/photoshop-elements.html "Photoshop Elements"
 [findbugs]: http://findbugs.sourceforge.net "FindBugs Project"
 [firefox]: https://www.mozilla.org/en-US/firefox "Firefox"
 [git]: https://git-scm.com "Git"
@@ -343,13 +345,14 @@ correct the situation: sgold@sonic.net
 [gradle]: https://gradle.org "Gradle Project"
 [heart]: https://github.com/stephengold/Heart "Heart Project"
 [imgur]: https://imgur.com/ "Imgur"
+[java]: https://java.com "Java"
 [jfrog]: https://www.jfrog.com "JFrog"
 [jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
 [latest]: https://github.com/stephengold/SkyControl/releases/latest "latest release"
 [license]: https://github.com/stephengold/SkyControl/blob/master/LICENSE "SkyControl license"
 [log]: https://github.com/stephengold/SkyControl/blob/master/SkyLibrary/release-notes.md "release log"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
-[meld]: http://meldmerge.org/ "Meld Tool"
+[meld]: https://meldmerge.org "Meld Project"
 [mint]: https://linuxmint.com "Linux Mint Project"
 [netbeans]: https://netbeans.org "NetBeans Project"
 [nifty]: http://nifty-gui.github.io/nifty-gui "Nifty GUI Project"
@@ -358,5 +361,5 @@ correct the situation: sgold@sonic.net
 [skycontrol]: https://github.com/stephengold/SkyControl "SkyControl Project"
 [sonatype]: https://www.sonatype.com "Sonatype"
 [utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
-[winmerge]: http://winmerge.org "WinMerge Project"
+[winmerge]: https://winmerge.org "WinMerge Project"
 [youtube]: https://www.youtube.com/ "YouTube"
