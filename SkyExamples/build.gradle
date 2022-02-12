@@ -2,7 +2,6 @@
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
 
-description = 'demos, examples, and tests that do not generate reports'
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {

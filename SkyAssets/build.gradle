@@ -2,7 +2,6 @@
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
 
-description = 'generate texture assets used by SkyControl'
 targetCompatibility = JavaVersion.VERSION_1_8
 
 ext {
