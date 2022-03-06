@@ -146,6 +146,9 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 1. Install a [Java Development Kit (JDK)][openJDK],
    if you don't already have one.
 2. Point the `JAVA_HOME` environment variable to your JDK installation:
+   (The path might be something like "C:\Program Files\Java\jre1.8.0_301"
+   or "/usr/lib/jvm/java-8-openjdk-amd64/" or
+   "/Library/Java/JavaVirtualMachines/liberica-jdk-17-full.jdk/Contents/Home" .)
   + using Bash: `export JAVA_HOME="` *path to installation* `"`
   + using Windows Command Prompt: `set JAVA_HOME="` *path to installation* `"`
   + using PowerShell: `$env:JAVA_HOME = '` *path to installation* `'`
