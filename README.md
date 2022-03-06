@@ -149,7 +149,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
    (The path might be something like "C:\Program Files\Java\jre1.8.0_301"
    or "/usr/lib/jvm/java-8-openjdk-amd64/" or
    "/Library/Java/JavaVirtualMachines/liberica-jdk-17-full.jdk/Contents/Home" .)
-  + using Bash: `export JAVA_HOME="` *path to installation* `"`
+  + using Bash or Zsh: `export JAVA_HOME="` *path to installation* `"`
   + using Windows Command Prompt: `set JAVA_HOME="` *path to installation* `"`
   + using PowerShell: `$env:JAVA_HOME = '` *path to installation* `'`
 3. Download and extract the Wes source code from GitHub:
@@ -164,18 +164,18 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
     + extract the contents of the saved ZIP file
     + `cd` to the extracted directory/folder
 4. Run the [Gradle] wrapper:
-  + using Bash or PowerShell: `./gradlew build`
+  + using Bash or PowerShell or Zsh: `./gradlew build`
   + using Windows Command Prompt: `.\gradlew build`
 
 After a successful build,
 Maven artifacts will be found in `SkyLibrary/build/libs`.
 
 You can install the artifacts to your local Maven repository:
-+ using Bash or PowerShell: `./gradlew publishToMavenLocal`
++ using Bash or PowerShell or Zsh: `./gradlew publishToMavenLocal`
 + using Windows Command Prompt: `.\gradlew publishToMavenLocal`
 
 You can restore the project to a pristine state:
-+ using Bash or PowerShell: `./gradlew clean`
++ using Bash or PowerShell or Zsh: `./gradlew clean`
 + using Windows Command Prompt: `.\gradlew clean`
 
 [Jump to table of contents](#toc)
