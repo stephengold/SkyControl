@@ -2,8 +2,6 @@
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
 
-targetCompatibility = JavaVersion.VERSION_1_8
-
 dependencies {
     implementation acorusCoordinates
     implementation heartCoordinates

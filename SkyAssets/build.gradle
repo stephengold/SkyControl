@@ -2,8 +2,6 @@
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
 
-targetCompatibility = JavaVersion.VERSION_1_8
-
 ext {
     bsc = 'src/main/resources/bsc5.dat'
     skies = '../SkyLibrary/src/main/resources/Textures/skies'
