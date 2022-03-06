@@ -168,11 +168,11 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
   + using Windows Command Prompt: `.\gradlew build`
 
 After a successful build,
-Maven artifacts will be found in `SkyLibrary/build/libs`.
+Maven artifacts will be found in "SkyLibrary/build/libs".
 
 You can install the artifacts to your local Maven repository:
-+ using Bash or PowerShell or Zsh: `./gradlew publishToMavenLocal`
-+ using Windows Command Prompt: `.\gradlew publishToMavenLocal`
++ using Bash or PowerShell or Zsh: `./gradlew install`
++ using Windows Command Prompt: `.\gradlew install`
 
 You can restore the project to a pristine state:
 + using Bash or PowerShell or Zsh: `./gradlew clean`
