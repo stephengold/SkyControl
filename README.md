@@ -65,7 +65,7 @@ The SkyControl Library depends on
 the standard "jme3-effects" library from jMonkeyEngine and
 [the Heart Library][heart],
 which in turn depends on
-the standard "jme3-core" library.
+the standard "jme3-core" library from jMonkeyEngine.
 
 For projects built using Maven or [Gradle], it is sufficient to specify the
 dependency on the SkyControl Library.  The build tools should automatically
@@ -102,7 +102,7 @@ Add to the project’s "pom.xml" file:
       <version>1.0.1</version>
     </dependency>
 
-#### Ant-built projects
+### Ant-built projects
 
 For project built using [Ant], download the SkyControl and [Heart]
 libraries from GitHub:
@@ -143,7 +143,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 
 ## How to build SkyControl from source
 
-1. Install a [Java Development Kit (JDK)][openJDK],
+1. Install a [Java Development Kit (JDK)][adoptium],
    if you don't already have one.
 2. Point the `JAVA_HOME` environment variable to your JDK installation:
    (The path might be something like "C:\Program Files\Java\jre1.8.0_301"
@@ -337,6 +337,7 @@ correct the situation: sgold@sonic.net
 [Jump to table of contents](#toc)
 
 
+[adoptium]: https://adoptium.net/releases.html "Adoptium Project"
 [ant]: https://ant.apache.org "Apache Ant Project"
 [blender]: https://docs.blender.org "Blender Project"
 [bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
@@ -362,7 +363,6 @@ correct the situation: sgold@sonic.net
 [netbeans]: https://netbeans.org "NetBeans Project"
 [nifty]: http://nifty-gui.github.io/nifty-gui "Nifty GUI Project"
 [obs]: https://obsproject.com "Open Broadcaster Software Project"
-[openJDK]: https://openjdk.java.net "OpenJDK Project"
 [skycontrol]: https://github.com/stephengold/SkyControl "SkyControl Project"
 [sonatype]: https://www.sonatype.com "Sonatype"
 [utilities]: https://github.com/stephengold/jme3-utilities "Jme3-utilities Project"
