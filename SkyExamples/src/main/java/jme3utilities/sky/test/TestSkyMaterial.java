@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2020, Stephen Gold
+ Copyright (c) 2013-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,6 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.jme3.asset.AssetNotFoundException;
 import com.jme3.asset.ModelKey;
-import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.input.KeyInput;
 import com.jme3.math.Vector3f;
@@ -59,8 +58,8 @@ import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.InputMode;
 
 /**
- * GUI application for testing the SkyMaterial class using a heads-up display
- * (HUD). The application's main entry point is here.
+ * Test the SkyMaterial class using a heads-up display (HUD). The application's
+ * main entry point is here.
  * <p>
  * Use the 'H' key to toggle HUD visibility, the 'S' key to save the current sky
  * geometry, and the 'L' key to load a saved geometry.
@@ -108,7 +107,8 @@ public class TestSkyMaterial extends GuiApplication {
     /**
      * application name for the usage message and the window's title bar
      */
-    final private static String applicationName = "TestSkyMaterial";
+    final private static String applicationName
+            = TestSkyMaterial.class.getSimpleName();
     /**
      * name for the dome geometry
      */
@@ -140,25 +140,14 @@ public class TestSkyMaterial extends GuiApplication {
     // new methods exposed
 
     /**
-     * Main entry point for the test harness.
+     * Main entry point for the TestSkyMaterial application.
      *
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
-        Heart.setLoggingLevels(Level.WARNING);
-        Logger.getLogger(ALAudioRenderer.class.getName())
-                .setLevel(Level.SEVERE);
-        /*
-         * Set the logging level for this class.
-         */
-        logger.setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
         TestSkyMaterial application = new TestSkyMaterial();
+        Heart.setLoggingLevels(Level.WARNING);
+        logger.setLevel(Level.INFO);
         /*
          * Parse the command-line arguments.
          */
@@ -178,10 +167,11 @@ public class TestSkyMaterial extends GuiApplication {
          * Initialize viewport settings.
          */
         application.setShowSettings(false);
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
         /*
          * This test wants a square viewport.
          */
-        AppSettings settings = new AppSettings(true);
         settings.setResolution(viewportSize, viewportSize);
         /*
          * Customize the window's title bar.
@@ -191,9 +181,6 @@ public class TestSkyMaterial extends GuiApplication {
         application.setSettings(settings);
 
         application.start();
-        /*
-         * ... and onward to TestSkyMaterial.guiInitializeApplication()!
-         */
     }
     // *************************************************************************
     // GuiApplication methods

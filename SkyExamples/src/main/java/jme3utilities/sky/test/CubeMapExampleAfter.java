@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2020, Stephen Gold
+ Copyright (c) 2014-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -26,9 +26,9 @@
  */
 package jme3utilities.sky.test;
 
+import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.StatsAppState;
-import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.light.Light;
@@ -36,6 +36,7 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+import com.jme3.system.AppSettings;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
@@ -70,27 +71,24 @@ public class CubeMapExampleAfter extends SimpleApplication {
     /**
      * Main entry point for the application.
      *
-     * @param unused array of command-line arguments
+     * @param arguments array of command-line arguments (not null)
      */
-    public static void main(String[] unused) {
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+    public static void main(String[] arguments) {
+        Application application = new CubeMapExampleAfter();
         Heart.setLoggingLevels(Level.WARNING);
-        Logger.getLogger(ALAudioRenderer.class.getName())
-                .setLevel(Level.SEVERE);
 
-        CubeMapExampleAfter app = new CubeMapExampleAfter();
-        app.start();
-        /*
-         * ... and onward to CubeMapExample.simpleInitApp()!
-         */
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
+        settings.setTitle("CubeMapExample"); // Customize the window's title bar.
+        application.setSettings(settings);
+
+        application.start();
     }
     // *************************************************************************
     // SimpleApplication methods
 
     /**
-     * Initialize the application.
+     * Initialize this application.
      */
     @Override
     public void simpleInitApp() {

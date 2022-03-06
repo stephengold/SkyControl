@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2020, Stephen Gold
+ Copyright (c) 2013-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -27,7 +27,6 @@
 package jme3utilities.sky.test;
 
 import com.beust.jcommander.JCommander;
-import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeVersion;
 import java.util.logging.Level;
@@ -40,8 +39,8 @@ import jme3utilities.sky.Constants;
 import jme3utilities.ui.InputMode;
 
 /**
- * GUI application for testing/demonstrating the SkyControl class using a
- * heads-up display (HUD). The application's main entry point is here.
+ * Test/demonstrate the SkyControl class using a heads-up display (HUD). The
+ * application's main entry point is here.
  * <p>
  * Use the 'H' key to toggle HUD visibility. Use the 'F1' key to edit hotkey
  * bindings.
@@ -60,7 +59,8 @@ public class TestSkyControl extends GuiApplication {
     /**
      * application name for its window's title bar and its usage message
      */
-    final private static String applicationName = "TestSkyControl";
+    final private static String applicationName
+            = TestSkyControl.class.getSimpleName();
     /**
      * path to hotkey bindings configuration asset
      */
@@ -94,27 +94,18 @@ public class TestSkyControl extends GuiApplication {
     // new methods exposed
 
     /**
-     * Main entry point for the test harness.
+     * Main entry point for the TestSkyControl application.
      *
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+        TestSkyControl application = new TestSkyControl();
         Heart.setLoggingLevels(Level.WARNING);
-        Logger.getLogger(ALAudioRenderer.class.getName())
-                .setLevel(Level.SEVERE);
-        /*
-         * Lower the logging level for this class.
-         */
         logger.setLevel(Level.INFO);
         Logger.getLogger(TestSkyControlRun.class.getName())
                 .setLevel(Level.INFO);
-
-        TestSkyControl application = new TestSkyControl();
         /*
-         * Parse the command-line arguments into parameters.
+         * Parse the command-line arguments into {@code parameters}.
          */
         JCommander jCommander = new JCommander(parameters);
         jCommander.parse(arguments);
@@ -128,24 +119,23 @@ public class TestSkyControl extends GuiApplication {
          * permits the application to keep running while minimized.
          */
         application.setPauseOnLostFocus(false);
+
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
         /*
          * Customize the window's title bar.
          */
-        AppSettings settings = new AppSettings(true);
         String title = applicationName + " " + MyString.join(arguments);
         settings.setTitle(title);
         application.setSettings(settings);
 
         application.start();
-        /*
-         * ... and onward to TestSkyControl.guiInitializeApplication()!
-         */
     }
     // *************************************************************************
     // GuiApplication methods
 
     /**
-     * Initialize this GUI application.
+     * Initialize this application.
      */
     @Override
     public void guiInitializeApplication() {

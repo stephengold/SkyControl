@@ -57,14 +57,13 @@ import jme3utilities.sky.GlobeRenderer;
 import jme3utilities.sky.LunarPhase;
 
 /**
- * Simple application to test the GlobeRenderer class. It displays 2 comparable
- * images of Earth's moon on side-by-side quads. The left quad has the texture
- * generated dynamically by GlobeRenderer. The right quad has the corresponding
- * static texture.
- *
+ * Test the GlobeRenderer class.
+ * <p>
+ * It displays 2 comparable images of Earth's moon on side-by-side quads. The
+ * left quad has the texture generated dynamically by GlobeRenderer. The right
+ * quad has the corresponding static texture.
+ * <b>
  * To advance to the next phase, press the spacebar or left mouse button.
- *
- * The application's main entry point is here.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -94,7 +93,8 @@ public class TestGlobeRenderer
     /**
      * application name for the title bar and usage message
      */
-    final private static String applicationName = "TestGlobeRenderer";
+    final private static String applicationName
+            = TestGlobeRenderer.class.getSimpleName();
     // *************************************************************************
     // fields
 
@@ -135,9 +135,7 @@ public class TestGlobeRenderer
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+        TestGlobeRenderer application = new TestGlobeRenderer();
         Heart.setLoggingLevels(Level.WARNING);
         /*
          * Set the logging level for this class.
@@ -145,10 +143,7 @@ public class TestGlobeRenderer
         logger.setLevel(Level.INFO);
         Logger.getLogger(ALAudioRenderer.class.getName())
                 .setLevel(Level.SEVERE);
-        /*
-         * Instantiate the application.
-         */
-        TestGlobeRenderer application = new TestGlobeRenderer();
+
         /*
          * Parse the command-line arguments.
          */
@@ -167,7 +162,8 @@ public class TestGlobeRenderer
         /*
          * Customize the window's resolution and title bar.
          */
-        AppSettings settings = new AppSettings(true);
+        boolean loadDefaults = true;
+        AppSettings settings = new AppSettings(loadDefaults);
         settings.setResolution(640, 480);
         settings.setTitle(applicationName);
         application.setSettings(settings);
@@ -177,19 +173,16 @@ public class TestGlobeRenderer
         application.setShowSettings(false);
 
         application.start();
-        /*
-         * ... and onward to TestGlobeRenderer.simpleInitApp()!
-         */
     }
     // *************************************************************************
     // ActionListener methods
 
     /**
-     * Process a keystroke or mouse click.
+     * Process an action from the InputManager.
      *
      * @param actionString textual description of the action (not null)
      * @param ongoing true if the action is ongoing, otherwise false
-     * @param ignored time per frame (in seconds)
+     * @param ignored time per frame (in seconds, &ge;0)
      */
     @Override
     public void onAction(String actionString, boolean ongoing, float ignored) {
