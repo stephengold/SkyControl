@@ -7,29 +7,22 @@ ext {
     skies = '../SkyLibrary/src/main/resources/Textures/skies'
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir 'src/main/java'
-            srcDir '../SkyLibrary/src/main/java'
-        }
-    }
+sourceSets.main.java {
+    srcDir 'src/main/java'
+    srcDir '../SkyLibrary/src/main/java'
 }
 
 dependencies {
-    implementation jcommanderCoordinates
     implementation heartCoordinates
+    implementation jcommanderCoordinates
+
     implementation 'org.jmonkeyengine:jme3-core:' + jme3Version
     implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
 }
 
 // cleanup tasks
 
-clean {
-    dependsOn 'cleanCatalog'
-    dependsOn 'cleanDownload'
-    dependsOn 'cleanSkyTextures'
-}
+clean.dependsOn('cleanCatalog', 'cleanDownload', 'cleanSkyTextures')
 
 // decompress the Yale Bright Star Catalog
 
