@@ -21,7 +21,7 @@ dependencies {
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jme3Version
     runtimeOnly 'org.jmonkeyengine:jme3-plugins:' + jme3Version
 
-    //implementation "com.github.stephengold:SkyControl:$skycontrolVersion"
+    //implementation 'com.github.stephengold:SkyControl:' + skycontrolVersion
     implementation project(':SkyLibrary')
 }
 
@@ -29,28 +29,31 @@ dependencies {
 
 clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs', 'cleanWrittenAssets')
 
-task cleanDLLs(type: Delete) {
+task cleanDLLs(type: Delete) { // Windows native libraries
     delete fileTree(dir: '.', include: '*.dll')
 }
-task cleanDyLibs(type: Delete) {
+task cleanDyLibs(type: Delete) { // macOSX native libraries
     delete fileTree(dir: '.', include: '*.dylib')
 }
-task cleanLogs(type: Delete) {
+task cleanLogs(type: Delete) { // JVM crash logs
     delete fileTree(dir: '.', include: 'hs_err_pid*.log')
 }
-task cleanSOs(type: Delete) {
+task cleanSOs(type: Delete) { // Linux and Android native libraries
     delete fileTree(dir: '.', include: '*.so')
 }
-task cleanWrittenAssets(type: Delete) {
+task cleanWrittenAssets(type: Delete) { // Acorus output directory
     delete 'Written Assets'
 }
 
-// tasks to run the apps
+// tasks to run the example apps
 
-task runCubeMapExample(type: JavaExec) {
+task CubeMapExample(type: JavaExec) {
     mainClass = 'jme3utilities.sky.test.CubeMapExample'
 }
-task runTestGlobeRenderer(type: JavaExec) {
+task CubeMapExampleAfter(type: JavaExec) {
+    mainClass = 'jme3utilities.sky.test.CubeMapExampleAfter'
+}
+task TestGlobeRenderer(type: JavaExec) {
     mainClass = 'jme3utilities.sky.test.TestGlobeRenderer'
 }
 
@@ -58,37 +61,34 @@ task debugTestSkyControl(type: JavaExec) {
     debug true
     mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
-task runTestSkyControl(type: JavaExec) {
+task TestSkyControl(type: JavaExec) {
     mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
-task runTestSkyControlCyclone(type: JavaExec) {
-    args = ['-c']
+task TestSkyControlCyclone(type: JavaExec) {
+    args '-c'
     mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
-task runTestSkyControlShadowFilter(type: JavaExec) {
-    args = ['-f']
+task TestSkyControlShadowFilter(type: JavaExec) {
+    args '-f'
     mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
-task runTestSkyControlNoCubes(type: JavaExec) {
-    args = ['-n']
+task TestSkyControlNoCubes(type: JavaExec) {
+    args '-n'
     mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
-task runTestSkyControlSingleDome(type: JavaExec) {
-    args = ['-s']
+task TestSkyControlSingleDome(type: JavaExec) {
+    args '-s'
     mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
-task runTestSkyControlUsage(type: JavaExec) {
-    args = ['-u']
+task TestSkyControlUsage(type: JavaExec) {
+    args '-u'
     mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
-task runTestSkyControlWater(type: JavaExec) {
-    args = ['-w']
+task TestSkyControlWater(type: JavaExec) {
+    args '-w'
     mainClass = 'jme3utilities.sky.test.TestSkyControl'
 }
 
-task runTestSkyMaterial(type: JavaExec) {
+task TestSkyMaterial(type: JavaExec) {
     mainClass = 'jme3utilities.sky.test.TestSkyMaterial'
-}
-task TestSunAndStars(type: JavaExec) {
-    mainClass = 'jme3utilities.sky.test.TestSunAndStars'
 }
