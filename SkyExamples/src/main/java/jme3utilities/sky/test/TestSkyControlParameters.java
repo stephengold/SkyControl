@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2018, Stephen Gold
+ Copyright (c) 2013-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -67,6 +67,12 @@ class TestSkyControlParameters {
             description = "use a shadow filter")
     private boolean shadowFilter = false;
     /**
+     * true means show the setting dialog; false means don't show it
+     */
+    @Parameter(names = {"--showSettingsDialog"},
+            description = "show the setting dialog")
+    private boolean showSettingsDialog = false;
+    /**
      * true means use just a single dome; false means use multiple domes
      */
     @Parameter(names = {"-s", "--single"},
@@ -79,6 +85,12 @@ class TestSkyControlParameters {
     @Parameter(names = {"-h", "-u", "--help", "--usage"}, help = true,
             description = "display this usage message")
     private boolean usageOnly = false;
+    /**
+     * true means more log output; false means less output
+     */
+    @Parameter(names = {"-v", "--verbose"},
+            description = "additional log output")
+    private boolean verboseLogging = false;
     /**
      * true means scene with water; false means no water
      */
@@ -109,6 +121,13 @@ class TestSkyControlParameters {
     }
 
     /**
+     * Test whether the settings-dialog option was specified.
+     */
+    boolean showSettingsDialog() {
+        return showSettingsDialog;
+    }
+
+    /**
      * Test whether the single-dome option was specified.
      */
     boolean singleDome() {
@@ -120,6 +139,13 @@ class TestSkyControlParameters {
      */
     boolean usageOnly() {
         return usageOnly;
+    }
+
+    /**
+     * Test whether the verbose-logging option was specified.
+     */
+    boolean verboseLogging() {
+        return verboseLogging;
     }
 
     /**
