@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2014, Stephen Gold
+ Copyright (c) 2013-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -28,6 +28,7 @@
 /*
  * fragment shader used by dome22.j3md in its "Glow" technique
  */
+#import "Common/ShaderLib/GLSLCompat.glsllib"
 uniform vec4 m_ClearGlow;
 varying vec2 skyTexCoord;
 

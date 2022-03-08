@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, Stephen Gold
+ Copyright (c) 2014-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -28,6 +28,7 @@
 /*
  * fragment shader used by dome20.j3md
  */
+#import "Common/ShaderLib/GLSLCompat.glsllib"
 uniform vec4 m_ClearColor;
 varying vec2 skyTexCoord;
 
