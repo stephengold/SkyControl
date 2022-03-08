@@ -99,11 +99,6 @@ public class TestSkyControl extends GuiApplication {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        TestSkyControl application = new TestSkyControl();
-        Heart.setLoggingLevels(Level.WARNING);
-        logger.setLevel(Level.INFO);
-        Logger.getLogger(TestSkyControlRun.class.getName())
-                .setLevel(Level.INFO);
         /*
          * Parse the command-line arguments into {@code parameters}.
          */
@@ -114,10 +109,18 @@ public class TestSkyControl extends GuiApplication {
             jCommander.usage();
             return;
         }
+
+        Level generalLoggingLevel = parameters.verboseLogging()
+                ? Level.INFO : Level.WARNING;
+        Heart.setLoggingLevels(generalLoggingLevel);
+        logger.setLevel(Level.INFO);
+        Logger.getLogger(TestSkyControlRun.class.getName())
+                .setLevel(Level.INFO);
         /*
          * Don't pause on lost focus.  This simplifies debugging and
          * permits the application to keep running while minimized.
          */
+        TestSkyControl application = new TestSkyControl();
         application.setPauseOnLostFocus(false);
 
         boolean loadDefaults = true;
@@ -129,6 +132,8 @@ public class TestSkyControl extends GuiApplication {
         settings.setTitle(title);
         application.setSettings(settings);
 
+        boolean showSettingsDialog = parameters.showSettingsDialog();
+        application.setShowSettings(showSettingsDialog);
         application.start();
     }
     // *************************************************************************
