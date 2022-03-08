@@ -16,7 +16,7 @@ ext {
     // current versions of libraries:
     jme3Version = '3.5.0-stable'
     lwjgl3Version = '3.3.0'
-    skycontrolVersion = '1.0.2-SNAPSHOT'
+    skycontrolVersion = '1.0.2'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_7

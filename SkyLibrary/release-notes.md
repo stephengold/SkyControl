@@ -1,5 +1,15 @@
 # release log for the SkyControl library and related software
 
+## Version 1.0.2 released on TBD
+
+Notable changes:
+ + add Core profile support to J3MDs and shaders
+ + improve the examples:
+   + add command-line arguments to adjust the logging level
+     and bypass the Settings Dialog (for portability)
+   + add LWJGL natives for MacOSX_ARM64 (for portability)
+ + base on version 7.4.1 of the Heart Library
+
 ## Version 1.0.1 released on 9 February 2022
 
 Notable changes:
