@@ -181,6 +181,7 @@ public class TestSkyMaterial extends GuiApplication {
          */
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
+        settings.setRenderer(AppSettings.LWJGL_OPENGL32);
         /*
          * This test wants a square viewport.
          */

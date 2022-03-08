@@ -78,6 +78,7 @@ public class CubeMapExample extends SimpleApplication {
 
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
+        settings.setRenderer(AppSettings.LWJGL_OPENGL32);
         settings.setTitle("CubeMapExample"); // Customize the window's title bar.
         application.setSettings(settings);
 
