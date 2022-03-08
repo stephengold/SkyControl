@@ -58,8 +58,7 @@ import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.InputMode;
 
 /**
- * Test the SkyMaterial class using a heads-up display (HUD). The application's
- * main entry point is here.
+ * Test the SkyMaterial class using a heads-up display (HUD).
  * <p>
  * Use the 'H' key to toggle HUD visibility, the 'S' key to save the current sky
  * geometry, and the 'L' key to load a saved geometry.
@@ -121,12 +120,24 @@ public class TestSkyMaterial extends GuiApplication {
     // fields
 
     /**
+     * parameter ignored
+     */
+    @Parameter(names = {"--showSettingsDialog"},
+            description = "ignored")
+    private boolean ignoreMe = false;
+    /**
      * true means just display the usage message; false means run the
      * application
      */
     @Parameter(names = {"-h", "-u", "--help", "--usage"}, help = true,
             description = "display this usage message")
     private static boolean usageOnly = false;
+    /**
+     * true means more log output; false means less output
+     */
+    @Parameter(names = {"-v", "--verbose"},
+            description = "additional log output")
+    private static boolean verboseLogging = false;
     /**
      * name of material to test, or null to auto-select
      */
@@ -146,8 +157,6 @@ public class TestSkyMaterial extends GuiApplication {
      */
     public static void main(String[] arguments) {
         TestSkyMaterial application = new TestSkyMaterial();
-        Heart.setLoggingLevels(Level.WARNING);
-        logger.setLevel(Level.INFO);
         /*
          * Parse the command-line arguments.
          */
@@ -158,6 +167,10 @@ public class TestSkyMaterial extends GuiApplication {
             jCommander.usage();
             return;
         }
+
+        Level generalLoggingLevel = verboseLogging ? Level.INFO : Level.WARNING;
+        Heart.setLoggingLevels(generalLoggingLevel);
+        logger.setLevel(Level.INFO);
         /*
          * Don't pause on lost focus.  This simplifies debugging and
          * permits the application to keep running while minimized.
@@ -166,7 +179,6 @@ public class TestSkyMaterial extends GuiApplication {
         /*
          * Initialize viewport settings.
          */
-        application.setShowSettings(false);
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         /*
@@ -179,6 +191,10 @@ public class TestSkyMaterial extends GuiApplication {
         String title = applicationName + " " + MyString.join(arguments);
         settings.setTitle(title);
         application.setSettings(settings);
+        /*
+         * Skip the "Display Settings" dialog during startup.
+         */
+        application.setShowSettings(false);
 
         application.start();
     }

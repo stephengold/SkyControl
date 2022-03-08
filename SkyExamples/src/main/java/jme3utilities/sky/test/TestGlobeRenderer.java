@@ -31,7 +31,6 @@ import com.beust.jcommander.Parameter;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.ScreenshotAppState;
 import com.jme3.asset.AssetNotFoundException;
-import com.jme3.audio.openal.ALAudioRenderer;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -99,12 +98,24 @@ public class TestGlobeRenderer
     // fields
 
     /**
+     * parameter ignored
+     */
+    @Parameter(names = {"--showSettingsDialog"},
+            description = "ignored")
+    private boolean ignoreMe = false;
+    /**
      * true means just display the usage message; false means run the
      * application
      */
     @Parameter(names = {"-h", "-u", "--help", "--usage"}, help = true,
             description = "display this usage message")
     private static boolean usageOnly = false;
+    /**
+     * true means more log output; false means less output
+     */
+    @Parameter(names = {"-v", "--verbose"},
+            description = "additional log output")
+    private static boolean verboseLogging = false;
     /**
      * globe renderer for the moon: set in simpleInitApp()
      */
@@ -136,14 +147,6 @@ public class TestGlobeRenderer
      */
     public static void main(String[] arguments) {
         TestGlobeRenderer application = new TestGlobeRenderer();
-        Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class.
-         */
-        logger.setLevel(Level.INFO);
-        Logger.getLogger(ALAudioRenderer.class.getName())
-                .setLevel(Level.SEVERE);
-
         /*
          * Parse the command-line arguments.
          */
@@ -154,18 +157,26 @@ public class TestGlobeRenderer
             jCommander.usage();
             return;
         }
+
+        Level generalLoggingLevel = verboseLogging ? Level.INFO : Level.WARNING;
+        Heart.setLoggingLevels(generalLoggingLevel);
+        logger.setLevel(Level.INFO);
         /*
          * Don't pause on lost focus.  This simplifies debugging and
          * permits the application to keep running while minimized.
          */
         application.setPauseOnLostFocus(false);
         /*
-         * Customize the window's resolution and title bar.
+         * Customize the window's resolution.
          */
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setResolution(640, 480);
-        settings.setTitle(applicationName);
+        /*
+         * Customize the window's title bar.
+         */
+        String title = applicationName + " " + MyString.join(arguments);
+        settings.setTitle(title);
         application.setSettings(settings);
         /*
          * Skip the "Display Settings" dialog during startup.
