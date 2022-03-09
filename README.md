@@ -79,7 +79,7 @@ Add to the project’s "build.gradle" file:
         mavenCentral()
     }
     dependencies {
-        implementation 'com.github.stephengold:SkyControl:1.0.1'
+        implementation 'com.github.stephengold:SkyControl:1.0.2'
     }
 
 For some older versions of Gradle,
@@ -99,7 +99,7 @@ Add to the project’s "pom.xml" file:
     <dependency>
       <groupId>com.github.stephengold</groupId>
       <artifactId>SkyControl</artifactId>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
     </dependency>
 
 ### Ant-built projects
@@ -108,7 +108,7 @@ For project built using [Ant], download the SkyControl and [Heart]
 libraries from GitHub:
 
 + https://github.com/stephengold/SkyControl/releases/tag/latest
-+ https://github.com/stephengold/Heart/releases/tag/7.3.0
++ https://github.com/stephengold/Heart/releases/tag/7.4.1
 
 You'll want both class jars
 and probably the `-sources` and `-javadoc` jars as well.
@@ -122,15 +122,15 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 5. Add the [Heart] class jar:
   + Click on the "Add JAR/Folder" button.
   + Navigate to the download folder.
-  + Select the "Heart-7.3.0.jar" file.
+  + Select the "Heart-7.4.1.jar" file.
   + Click on the "Open" button.
 6. (optional) Add jars for javadoc and sources:
   + Click on the "Edit" button.
   + Click on the "Browse..." button to the right of "Javadoc:"
-  + Select the "Heart-7.3.0-javadoc.jar" file.
+  + Select the "Heart-7.4.1-javadoc.jar" file.
   + Click on the "Open" button.
   + Click on the "Browse..." button to the right of "Sources:"
-  + Select the "Heart-7.3.0-sources.jar" file.
+  + Select the "Heart-7.4.1-sources.jar" file.
   + Click on the "Open" button again.
   + Click on the "OK" button to close the "Edit Jar Reference" dialog.
 7. Similarly, add the SkyControl jar(s).
@@ -156,7 +156,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
   + using Git:
     + `git clone https://github.com/stephengold/SkyControl.git`
     + `cd SkyControl`
-    + `git checkout -b latest 1.0.1`
+    + `git checkout -b latest 1.0.2`
   + using a web browser:
     + browse to [the latest release][latest]
     + follow the "Source code (zip)" link
@@ -250,7 +250,7 @@ From September 2015 to August 2020,
 SkyControl was part of the Jme3-utilities Project at
 [GitHub](https://github.com/stephengold/jme3-utilities).
 
-Since August 2020, SkyControl has been a separate project at
+Since August 2020, SkyControl has been a separate project, hosted at
 [GitHub][skycontrol].
 
 Old (2014) versions of SkyControl can still be found in
@@ -295,7 +295,7 @@ artists and software developers:
     + the Ant build tool
     + the [Blender] 3-D animation suite
     + the [FindBugs] source-code analyzer
-    + the [Firefox] and [Google Chrome][chrome] web browsers
+    + the [Firefox] and [Chrome] web browsers
     + Gimp, the GNU Image Manipulation Program
     + the [Git] revision-control system and GitK commit viewer
     + the [Gradle] build tool

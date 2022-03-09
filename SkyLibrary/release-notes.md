@@ -1,6 +1,6 @@
 # release log for the SkyControl library and related software
 
-## Version 1.0.2 released on TBD
+## Version 1.0.2 released on 8 March 2022
 
 Notable changes:
  + add Core profile support to J3MDs and shaders
