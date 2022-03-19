@@ -10,11 +10,11 @@ subprojects {
 
 // publishing tasks
 
-task('install') {
+tasks.register('install') {
     dependsOn ':SkyLibrary:install'
     description 'Installs Maven artifacts to the local repository.'
 }
-task('release') {
+tasks.register('release') {
     dependsOn ':SkyLibrary:release'
     description 'Stages Maven artifacts to Sonatype OSSRH.'
 }

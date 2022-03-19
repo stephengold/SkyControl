@@ -26,112 +26,112 @@ clean.dependsOn('cleanCatalog', 'cleanDownload', 'cleanSkyTextures')
 
 // decompress the Yale Bright Star Catalog
 
-task catalog {
+tasks.register('catalog') {
     dependsOn 'download'
     doLast { file(bsc).text = resources.gzip("${bsc}.gz").read().text }
 }
-task cleanCatalog(type: Delete) {
+tasks.register('cleanCatalog', Delete) {
     delete file(bsc)
 }
 
 // download gzipped Yale Bright Star Catalog
 
 processResources.dependsOn('download')
-task download(type: MyDownload) {
+tasks.register('download', MyDownload) {
     sourceUrl = 'http://tdc-www.harvard.edu/catalogs/bsc5.dat.gz'
     target = file("${bsc}.gz")
 }
-task cleanDownload(type: Delete) {
+tasks.register('cleanDownload', Delete) {
     delete file("${bsc}.gz")
 }
 
 // generate sky textures
 
-task skyTextures {
+tasks.register('skyTextures') {
     dependsOn = ['clouds', 'equator', 'equator16m', 'moons', 'north', \
         'north16m',  'ramps', 'south', 'south16m', 'suns', 'wiltshire', \
         'wiltshire16m']
     description 'generate texture assets distributed with SkyControl'
 }
-task cleanSkyTextures(type:Delete) {
+tasks.register('cleanSkyTextures', Delete) {
     delete fileTree(dir: skies)
 }
 
-task clouds(type: JavaExec) {
+tasks.register('clouds', JavaExec) {
     mainClass = 'jme3utilities.sky.textures.MakeClouds'
     outputs.files(["$skies/clouds/clear.png", \
                    "$skies/clouds/fbm.png", \
                    "$skies/clouds/overcast.png"])
 }
-task debugEquator(type: JavaExec) {
+tasks.register('debugEquator', JavaExec) {
     args = ['-c', '-p', 'equator']
     debug true
     dependsOn catalog
     inputs.files(bsc)
     mainClass = 'jme3utilities.sky.textures.MakeStarMaps'
 }
-task equator(type: JavaExec) {
+tasks.register('equator', JavaExec) {
     args = ['-c', '-p', 'equator']
     dependsOn catalog
     inputs.files(bsc)
     mainClass = 'jme3utilities.sky.textures.MakeStarMaps'
     outputs.files(fileTree("$skies/star-maps/equator"))
 }
-task equator16m(type: JavaExec) {
+tasks.register('equator16m', JavaExec) {
     args = ['-c', '-p', 'equator_16m']
     dependsOn catalog
     inputs.files(bsc)
     mainClass = 'jme3utilities.sky.textures.MakeStarMaps'
     outputs.files(fileTree("$skies/star-maps/equator16m"))
 }
-task moons(type: JavaExec) {
+tasks.register('moons', JavaExec) {
     mainClass = 'jme3utilities.sky.textures.MakeMoons'
     outputs.files(fileTree("$skies/moon-nonviral"))
 }
-task north(type: JavaExec) {
+tasks.register('north', JavaExec) {
     args = ['-p', 'north']
     dependsOn catalog
     inputs.files(bsc)
     mainClass = 'jme3utilities.sky.textures.MakeStarMaps'
     outputs.files("$skies/star-maps/northern.png")
 }
-task north16m(type: JavaExec) {
+tasks.register('north16m', JavaExec) {
     args = ['-p', 'north_16m']
     dependsOn catalog
     inputs.files(bsc)
     mainClass = 'jme3utilities.sky.textures.MakeStarMaps'
     outputs.files("$skies/star-maps/16m/northern.png")
 }
-task ramps(type: JavaExec) {
+tasks.register('ramps', JavaExec) {
     mainClass = 'jme3utilities.sky.textures.MakeRamps'
     outputs.files("$skies/ramps/haze.png")
 }
-task south(type: JavaExec) {
+tasks.register('south', JavaExec) {
     args = ['-p', 'south']
     dependsOn catalog
     inputs.files(bsc)
     mainClass = 'jme3utilities.sky.textures.MakeStarMaps'
     outputs.files("$skies/star-maps/southern.png")
 }
-task south16m(type: JavaExec) {
+tasks.register('south16m', JavaExec) {
     args = ['-p', 'south_16m']
     dependsOn catalog
     inputs.files(bsc)
     mainClass = 'jme3utilities.sky.textures.MakeStarMaps'
     outputs.files("$skies/star-maps/16m/southern.png")
 }
-task suns(type: JavaExec) {
+tasks.register('suns', JavaExec) {
     mainClass = 'jme3utilities.sky.textures.MakeSun'
     outputs.files(fileTree("$skies/suns"))
 }
-task wiltshire(type: JavaExec) {
+tasks.register('wiltshire', JavaExec) {
     args = ['-p', 'wiltshire']
     dependsOn catalog
     inputs.files(bsc)
     mainClass = 'jme3utilities.sky.textures.MakeStarMaps'
     outputs.files("$skies/star-maps/wiltshire.png")
 }
-task wiltshire16m(type: JavaExec) {
+tasks.register('wiltshire16m', JavaExec) {
     args = ['-p', 'wiltshire_16m']
     dependsOn catalog
     inputs.files(bsc)
