@@ -20,7 +20,7 @@ dependencies {
     implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
 }
 
-// cleanup tasks
+// cleanup tasks:
 
 clean.dependsOn('cleanCatalog', 'cleanDownload', 'cleanSkyTextures')
 
