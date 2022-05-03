@@ -29,6 +29,7 @@ package jme3utilities.sky.test;
 import com.beust.jcommander.JCommander;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeVersion;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
@@ -36,6 +37,7 @@ import jme3utilities.MyString;
 import jme3utilities.nifty.GuiApplication;
 import jme3utilities.nifty.bind.BindScreen;
 import jme3utilities.sky.Constants;
+import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.InputMode;
 
 /**
@@ -135,6 +137,15 @@ public class TestSkyControl extends GuiApplication {
 
         boolean showSettingsDialog = parameters.showSettingsDialog();
         application.setShowSettings(showSettingsDialog);
+        /*
+         * Designate a sandbox directory.
+         * This has to be done *prior to* initialization.
+         */
+        try {
+            ActionApplication.designateSandbox("Written Assets");
+        } catch (IOException exception) {
+        }
+
         application.start();
     }
     // *************************************************************************

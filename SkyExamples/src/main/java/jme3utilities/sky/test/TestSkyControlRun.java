@@ -73,7 +73,7 @@ import jme3utilities.sky.StarsOption;
 import jme3utilities.sky.SunAndStars;
 import jme3utilities.sky.Updater;
 import jme3utilities.sky.WaterProcessor;
-import jme3utilities.ui.ActionAppState;
+import jme3utilities.ui.AcorusAppState;
 import jme3utilities.ui.ActionApplication;
 
 /**
@@ -82,7 +82,7 @@ import jme3utilities.ui.ActionApplication;
  * @author Stephen Gold sgold@sonic.net
  */
 public class TestSkyControlRun
-        extends ActionAppState
+        extends AcorusAppState
         implements ViewPortListener {
     // *************************************************************************
     // constants and loggers
