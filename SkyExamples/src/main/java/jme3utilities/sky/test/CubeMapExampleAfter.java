@@ -36,6 +36,8 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
+import com.jme3.system.JmeSystem;
+import com.jme3.system.Platform;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Image;
@@ -48,6 +50,7 @@ import jme3utilities.debug.PerformanceAppState;
 import jme3utilities.sky.SkyControl;
 import jme3utilities.sky.StarsOption;
 import jme3utilities.sky.Updater;
+import org.lwjgl.system.Configuration;
 
 /**
  * The CubeMapExample application after adding a SkyControl.
@@ -72,6 +75,11 @@ public class CubeMapExampleAfter extends SimpleApplication {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
+        Platform platform = JmeSystem.getPlatform();
+        if (platform.getOs() == Platform.Os.MacOS) {
+            Configuration.GLFW_LIBRARY_NAME.set("glfw_async");
+        }
+
         SimpleApplication application = new CubeMapExampleAfter();
         Heart.parseAppArgs(application, arguments);
 

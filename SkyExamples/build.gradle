@@ -14,7 +14,7 @@ dependencies {
 
     runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
     runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jme3Version
-    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version
+    implementation 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version
     implementation 'org.jmonkeyengine:jme3-terrain:' + jme3Version
     runtimeOnly 'org.jmonkeyengine:jme3-testdata:' + jme3Version
 
@@ -27,13 +27,7 @@ dependencies {
     implementation project(':SkyLibrary') // for latest sourcecode
 }
 
-import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
-Boolean isMacOS = DefaultNativePlatform.currentOperatingSystem.isMacOsX()
-
 tasks.withType(JavaExec) { // Java runtime options:
-    if (isMacOS) {
-        jvmArgs '-XstartOnFirstThread'
-    }
     //args '--verbose' // to enable additional log output
 }
 
