@@ -134,7 +134,7 @@ public class TestSkyControl extends GuiApplication {
         settings.setTitle(title);
         application.setSettings(settings);
 
-        boolean showSettingsDialog = parameters.showSettingsDialog();
+        boolean showSettingsDialog = false; // parameters.showSettingsDialog();
         application.setShowSettings(showSettingsDialog);
         /*
          * Designate a sandbox directory.

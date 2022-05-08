@@ -79,7 +79,7 @@ public class CubeMapExampleAfter extends SimpleApplication {
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setTitle("CubeMapExample"); // Customize the window's title bar.
         application.setSettings(settings);
-
+        application.setShowSettings(false);
         application.start();
     }
     // *************************************************************************

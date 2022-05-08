@@ -33,8 +33,6 @@ Boolean isMacOS = DefaultNativePlatform.currentOperatingSystem.isMacOsX()
 tasks.withType(JavaExec) { // Java runtime options:
     if (isMacOS) {
         jvmArgs '-XstartOnFirstThread'
-    } else {
-        args '--showSettingsDialog'
     }
     //args '--verbose' // to enable additional log output
 }
