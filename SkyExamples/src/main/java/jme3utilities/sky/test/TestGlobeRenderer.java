@@ -171,7 +171,6 @@ public class TestGlobeRenderer
          */
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
-        settings.setRenderer(AppSettings.LWJGL_OPENGL32);
         settings.setResolution(640, 480);
         /*
          * Customize the window's title bar.
