@@ -64,7 +64,7 @@ import org.lwjgl.system.Configuration;
  * It displays 2 comparable images of Earth's moon on side-by-side quads. The
  * left quad has the texture generated dynamically by GlobeRenderer. The right
  * quad has the corresponding static texture.
- * <b>
+ * <p>
  * To advance to the next phase, press the spacebar or left mouse button.
  *
  * @author Stephen Gold sgold@sonic.net

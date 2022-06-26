@@ -131,7 +131,7 @@ public class SkyControlCore extends SubtreeControl {
      */
     final private static Vector3f unitX = new Vector3f(1f, 0f, 0f);
     /**
-     * local copy of {@link com.jme3.math.Vector3f#UNIT_Z)
+     * local copy of {@link com.jme3.math.Vector3f#UNIT_Z}
      */
     final private static Vector3f unitZ = new Vector3f(0f, 0f, 1f);
     /**
