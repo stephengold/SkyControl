@@ -1,5 +1,12 @@
 # release log for the SkyControl library and related software
 
+## Version 1.0.3 released on TBD
+
+Notable changes:
++ base on version 8.0.0 of the Heart Library and target JME 3.5.2-stable
++ add the `AppChooser` and `WaterExample` apps
++ add the "checkstyle" plugin to the build
+
 ## Version 1.0.2 released on 8 March 2022
 
 Notable changes:
