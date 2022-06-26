@@ -392,7 +392,7 @@ public class TestSkyMaterial extends GuiApplication {
         Geometry loadedDome;
         try {
             loadedDome = (Geometry) assetManager.loadAsset(key);
-        } catch (AssetNotFoundException e) {
+        } catch (AssetNotFoundException exception) {
             logger.log(Level.SEVERE, "Didn''t find asset {0}",
                     MyString.quote(saveAssetPath));
             return;

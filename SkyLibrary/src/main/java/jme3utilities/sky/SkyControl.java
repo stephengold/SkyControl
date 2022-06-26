@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2020, Stephen Gold
+ Copyright (c) 2013-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -347,7 +347,7 @@ public class SkyControl extends SkyControlCore {
             String assetPath = newPreset.imagePath("");
             try {
                 topMaterial.addObject(moonIndex, assetPath);
-            } catch (AssetNotFoundException e) {
+            } catch (AssetNotFoundException exception) {
                 assetPath = newPreset.imagePath("-nonviral");
                 topMaterial.addObject(moonIndex, assetPath);
             }
