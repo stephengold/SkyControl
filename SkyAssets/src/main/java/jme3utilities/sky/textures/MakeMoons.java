@@ -181,7 +181,8 @@ public class MakeMoons {
                  */
                 double uvRadiusSquared = MyMath.sumOfSquares(dv, du);
 
-                float opacity, brightness;
+                float opacity;
+                float brightness;
                 if (uvRadiusSquared > 1.0) {
                     opacity = 0f;
                     brightness = 0f;

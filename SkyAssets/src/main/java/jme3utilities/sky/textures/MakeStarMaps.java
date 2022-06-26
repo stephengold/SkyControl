@@ -516,7 +516,8 @@ public class MakeStarMaps {
          * they add either 1 or 3 pixels to each side of the square.
          * In other words, they add either 4 or 12 pixels.
          */
-        int raySize, squareSize;
+        int raySize;
+        int squareSize;
         if (minPixels == 1) {
             raySize = 0;
             squareSize = 1;
@@ -622,7 +623,8 @@ public class MakeStarMaps {
 
         Vector2f offset = uv.subtract(Constants.topUV);
         float topDist = offset.length();
-        float xDir, yDir;
+        float xDir;
+        float yDir;
         if (topDist > 0f) {
             xDir = offset.x / topDist;
             yDir = offset.y / topDist;
