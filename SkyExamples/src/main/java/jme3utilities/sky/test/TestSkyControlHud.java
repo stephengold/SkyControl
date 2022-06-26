@@ -520,9 +520,11 @@ public class TestSkyControlHud
             case "reverseRadioButton":
                 clockDirection = -1;
                 return;
+
+            default:
+                logger.log(Level.WARNING, "unknown radio button: id={0}",
+                        MyString.quote(buttonId));
         }
-        logger.log(Level.WARNING, "unknown radio button: id={0}",
-                MyString.quote(buttonId));
     }
     // *************************************************************************
     // ActionListener methods
@@ -595,6 +597,8 @@ public class TestSkyControlHud
                     name = actionString.substring(6);
                     setStyle(name);
                     return;
+
+                default:
             }
         }
         /*

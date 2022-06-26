@@ -94,8 +94,9 @@ enum StarMapPreset {
                 return "wiltshire";
             case WILTSHIRE_16M:
                 return "wiltshire_16m";
+            default:
+                return "?";
         }
-        return "?";
     }
 
     /**
@@ -134,8 +135,9 @@ enum StarMapPreset {
                  * Pointers of the Big Dipper are near the meridian.
                  */
                 return 10.55f;
+            default:
+                throw new IllegalStateException("preset = " + this);
         }
-        throw new IllegalStateException("preset = " + this);
     }
 
     /**
@@ -160,8 +162,9 @@ enum StarMapPreset {
                  * Stonehenge
                  */
                 return MyMath.toRadians(51.1788f);
+            default:
+                throw new IllegalStateException("preset = " + this);
         }
-        throw new IllegalStateException("preset = " + this);
     }
 
     /**
@@ -185,8 +188,9 @@ enum StarMapPreset {
                 return "wiltshire";
             case WILTSHIRE_16M:
                 return "16m/wiltshire";
+            default:
+                throw new IllegalStateException("preset = " + this);
         }
-        throw new IllegalStateException("preset = " + this);
     }
 
     /**
@@ -206,7 +210,8 @@ enum StarMapPreset {
             case SOUTH_16M:
             case WILTSHIRE_16M:
                 return 4_096;
+            default:
+                throw new IllegalStateException("preset = " + this);
         }
-        throw new IllegalStateException("preset = " + this);
     }
 }

@@ -227,6 +227,7 @@ public class TestSkyControl extends GuiApplication {
                 case "toggle hud":
                     run.toggleHud();
                     return;
+                default:
             }
         }
         /*

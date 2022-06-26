@@ -893,6 +893,8 @@ public class SkyControlCore extends SubtreeControl {
             case TwoDomes:
                 setStarMaps("Textures/skies/star-maps");
                 break;
+
+            default:
         }
         Geometry topDome = new Geometry(topName, hemisphereMesh.clone());
         subtreeNode.attachChild(topDome);

@@ -149,7 +149,8 @@ public enum LunarPhase {
                 return 0.35f * FastMath.PI;
             case WAXING_GIBBOUS:
                 return 0.75f * FastMath.PI;
+            default:
+                throw new IllegalStateException(describe());
         }
-        throw new IllegalStateException(describe());
     }
 }

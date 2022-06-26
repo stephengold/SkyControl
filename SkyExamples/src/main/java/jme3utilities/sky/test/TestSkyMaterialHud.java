@@ -139,9 +139,11 @@ public class TestSkyMaterialHud
                  */
                 MyCamera.look(cam, Vector3f.UNIT_Y);
                 return;
+
+            default:
+                logger.log(Level.WARNING, "unknown radio button: id={0}",
+                        MyString.quote(buttonId));
         }
-        logger.log(Level.WARNING, "unknown radio button: id={0}",
-                MyString.quote(buttonId));
     }
 
     /**
@@ -311,6 +313,8 @@ public class TestSkyMaterialHud
                     name = actionString.substring(6);
                     setStyle(name);
                     return;
+
+                default:
             }
         }
         /*
@@ -463,8 +467,9 @@ public class TestSkyMaterialHud
                     material.addClouds(1, assetPath);
                 }
                 return;
+            default:
+                assert false : indexString;
         }
-        assert false : indexString;
     }
 
     /**

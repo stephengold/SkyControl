@@ -330,6 +330,8 @@ public class TestSkyMaterial extends GuiApplication {
                     boolean newState = !hud.isEnabled();
                     hud.setEnabled(newState);
                     return;
+
+                default:
             }
         }
         /*
