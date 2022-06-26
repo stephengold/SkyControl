@@ -494,9 +494,9 @@ public class SkyMaterialCore extends Material {
     /**
      * Hide an astronomical object temporarily.
      * <p>
-     * Use
-     * {@link #setObjectTransform(int, com.jme3.math.Vector2f, float, com.jme3.math.Vector2f)}
-     * to reveal an object that has been hidden.
+     * Use {@link
+     * #setObjectTransform(int, com.jme3.math.Vector2f, float,
+     * com.jme3.math.Vector2f)} to reveal an object that has been hidden.
      *
      * @param objectIndex (&lt;maxObjects, &ge;0)
      */

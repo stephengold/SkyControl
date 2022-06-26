@@ -160,8 +160,8 @@ public class SkyControlCore extends SubtreeControl {
     private boolean stabilizeFlag = false;
     /**
      * which camera to track: set by constructor or
-     * {@link #setCamera(com.jme3.renderer.Camera)} or
-     * {@link #render(com.jme3.renderer.RenderManager, com.jme3.renderer.ViewPort)}
+     * {@link #setCamera(com.jme3.renderer.Camera)} or {@link
+     * #render(com.jme3.renderer.RenderManager, com.jme3.renderer.ViewPort)}
      */
     private Camera camera;
     /**

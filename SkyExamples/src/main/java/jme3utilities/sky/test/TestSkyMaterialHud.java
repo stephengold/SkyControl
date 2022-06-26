@@ -518,8 +518,8 @@ public class TestSkyMaterialHud
                 break;
 
             default:
-                String assetPath
-                        = String.format("Textures/skies/star-maps/%s.png", name);
+                String assetPath = String.format(
+                        "Textures/skies/star-maps/%s.png", name);
                 material.addStars(assetPath);
         }
     }

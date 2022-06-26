@@ -724,8 +724,8 @@ public class TestSkyControlRun
             int meridianSamples = 24;
             int resolution = 512;
             GlobeRenderer moonRenderer = new GlobeRenderer(moonMaterial,
-                    Image.Format.Luminance8Alpha8, equatorSamples, meridianSamples,
-                    resolution);
+                    Image.Format.Luminance8Alpha8, equatorSamples,
+                    meridianSamples, resolution);
             stateManager.attach(moonRenderer);
             skyControl.setMoonRenderer(moonRenderer);
         } catch (AssetNotFoundException exception) {
