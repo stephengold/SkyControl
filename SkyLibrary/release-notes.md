@@ -1,6 +1,6 @@
 # release log for the SkyControl library and related software
 
-## Version 1.0.3 released on TBD
+## Version 1.0.3 released on 26 June 2022
 
 Notable changes:
 + base on version 8.0.0 of the Heart Library and target JME 3.5.2-stable
@@ -10,43 +10,43 @@ Notable changes:
 ## Version 1.0.2 released on 8 March 2022
 
 Notable changes:
- + add Core profile support to J3MDs and shaders
- + improve the examples:
-   + add command-line arguments to adjust the logging level
-     and bypass the Settings Dialog (for portability)
-   + add LWJGL natives for MacOSX_ARM64 (for portability)
- + base on version 7.4.1 of the Heart Library
++ add Core profile support to J3MDs and shaders
++ improve the examples:
+  + add command-line arguments to adjust the logging level
+    and bypass the Settings Dialog (for portability)
+  + add LWJGL natives for MacOSX_ARM64 (for portability)
++ base on version 7.4.1 of the Heart Library
 
 ## Version 1.0.1 released on 9 February 2022
 
 Notable changes:
- + add messages to exceptions
- + base on version 7.3.0 of the Heart Library and target JME 3.5.0-stable
-   and Java v8+
++ add messages to exceptions
++ base on version 7.3.0 of the Heart Library and target JME 3.5.0-stable
+  and Java v8+
 
 ## Version 1.0.0 released on 22 August 2021
 
 Notable changes:
- + base on version 7.0.0 of the Heart Library
- + bind the Z key in `TestSkyControl`
++ base on version 7.0.0 of the Heart Library
++ bind the Z key in `TestSkyControl`
 
 ## Version 0.9.32 released on 31 May 2021
 
 Notable changes:
- + base on version 6.4.4 of the Heart Library and target JME 3.4.0-stable
++ base on version 6.4.4 of the Heart Library and target JME 3.4.0-stable
 
 ## Version 0.9.31+for34 released on 24 April 2021
 
 Notable changes:
- + target Java 8
- + base on version 6.4.3+for34 of the Heart Library and target JME 3.4.0-beta1
++ target Java 8
++ base on version 6.4.3+for34 of the Heart Library and target JME 3.4.0-beta1
 
 ## Version 0.9.30 released on 9 February 2021
 
 Notable changes:
- + publish to MavenCentral instead of JCenter
- + add the `CubeMapExampleAfter` application
- + base on version 6.4.2 of the Heart Library
++ publish to MavenCentral instead of JCenter
++ add the `CubeMapExampleAfter` application
++ base on version 6.4.2 of the Heart Library
 
 ## Version 0.9.29 released on 7 October 2020
 
