@@ -65,7 +65,8 @@ public class AppChooser extends GuiApplication {
         CubeMapExampleAfter.class,
         TestGlobeRenderer.class,
         TestSkyControl.class,
-        TestSkyMaterial.class
+        TestSkyMaterial.class,
+        WaterExample.class
     };
     /**
      * message logger for this class

@@ -69,6 +69,9 @@ tasks.register('CubeMapExampleAfter', JavaExec) {
 tasks.register('TestGlobeRenderer', JavaExec) {
     mainClass = 'jme3utilities.sky.test.TestGlobeRenderer'
 }
+tasks.register('WaterExample', JavaExec) {
+    mainClass = 'jme3utilities.sky.test.WaterExample'
+}
 
 tasks.register('debugTestSkyControl', JavaExec) {
     debug true
