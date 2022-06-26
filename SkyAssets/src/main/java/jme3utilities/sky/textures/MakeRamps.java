@@ -128,6 +128,7 @@ public class MakeRamps {
         try {
             application.makeRamp("haze", 0f);
         } catch (IOException exception) {
+            System.exit(1);
         }
     }
     // *************************************************************************

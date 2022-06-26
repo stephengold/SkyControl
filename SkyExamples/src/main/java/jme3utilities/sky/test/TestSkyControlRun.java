@@ -729,7 +729,7 @@ public class TestSkyControlRun
             stateManager.attach(moonRenderer);
             skyControl.setMoonRenderer(moonRenderer);
         } catch (AssetNotFoundException exception) {
-
+            // do nothing
         }
         /*
          * Put SkyControl in charge of updating both lights plus the

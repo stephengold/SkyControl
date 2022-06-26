@@ -209,6 +209,7 @@ public class MakeSun {
                     throw new IllegalArgumentException("unknown style");
             }
         } catch (IOException exception) {
+            System.exit(1);
         }
     }
 

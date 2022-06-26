@@ -129,6 +129,7 @@ public class MakeClouds {
             writeClouds("fbm", fbm);
             writeClouds("overcast", overcast);
         } catch (IOException exception) {
+            System.exit(1);
         }
     }
     // *************************************************************************
