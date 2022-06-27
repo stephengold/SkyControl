@@ -67,7 +67,7 @@ the standard "jme3-effects" library from jMonkeyEngine and
 which in turn depends on
 the standard "jme3-core" library from jMonkeyEngine.
 
-For projects built using Maven or [Gradle], it is sufficient to specify the
+For projects built using Maven or [Gradle], it is sufficient to add a
 dependency on the SkyControl Library.  The build tools should automatically
 resolve the remaining dependencies.
 
@@ -104,7 +104,7 @@ Add to the project’s "pom.xml" file:
 
 ### Ant-built projects
 
-For project built using [Ant], download the SkyControl and [Heart]
+For projects built using [Ant], download the SkyControl and [Heart]
 libraries from GitHub:
 
 + https://github.com/stephengold/SkyControl/releases/tag/latest
@@ -152,7 +152,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
   + using Bash or Zsh: `export JAVA_HOME="` *path to installation* `"`
   + using Windows Command Prompt: `set JAVA_HOME="` *path to installation* `"`
   + using PowerShell: `$env:JAVA_HOME = '` *path to installation* `'`
-3. Download and extract the Wes source code from GitHub:
+3. Download and extract the SkyControl source code from GitHub:
   + using Git:
     + `git clone https://github.com/stephengold/SkyControl.git`
     + `cd SkyControl`
@@ -294,10 +294,12 @@ artists and software developers:
     + Adobe Photoshop Elements
     + the Ant build tool
     + the [Blender] 3-D animation suite
+    + the [Checkstyle] tool
     + the [FindBugs] source-code analyzer
     + the [Firefox] and [Chrome] web browsers
     + Gimp, the GNU Image Manipulation Program
     + the [Git] revision-control system and GitK commit viewer
+    + the [GitKraken] client
     + the [Gradle] build tool
     + Guava core libraries for Java
     + the [IntelliJ IDEA][idea] and [NetBeans] integrated development environments
@@ -341,12 +343,14 @@ correct the situation: sgold@sonic.net
 [ant]: https://ant.apache.org "Apache Ant Project"
 [blender]: https://docs.blender.org "Blender Project"
 [bsd3]: https://opensource.org/licenses/BSD-3-Clause "3-Clause BSD License"
+[checkstyle]: https://checkstyle.org "Checkstyle"
 [chrome]: https://www.google.com/chrome "Chrome"
 [elements]: https://www.adobe.com/products/photoshop-elements.html "Photoshop Elements"
 [findbugs]: http://findbugs.sourceforge.net "FindBugs Project"
 [firefox]: https://www.mozilla.org/en-US/firefox "Firefox"
 [git]: https://git-scm.com "Git"
 [github]: https://github.com "GitHub"
+[gitkraken]: https://www.gitkraken.com "GitKraken client"
 [gradle]: https://gradle.org "Gradle Project"
 [heart]: https://github.com/stephengold/Heart "Heart Project"
 [idea]: https://www.jetbrains.com/idea/ "IntelliJ IDEA"
