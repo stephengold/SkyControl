@@ -30,7 +30,7 @@
     <module name="TreeWalker">
         <module name="OuterTypeFilename"/>
         <module name="IllegalToken">
-            <property name="tokens" value="LITERAL_NATIVE, POST_DEC, STATIC_IMPORT"/>
+            <property name="tokens" value="LITERAL_NATIVE, POST_DEC, POST_INC, STATIC_IMPORT"/>
         </module>
         <module name="IllegalTokenText">
             <property name="tokens" value="STRING_LITERAL, CHAR_LITERAL"/>
@@ -153,7 +153,7 @@
             <property name="option" value="nl"/>
         </module>
         <module name="PackageName">
-            <property name="format" value="^[a-z][a-z0-9.]*[a-z0-9]$"/>
+            <property name="format" value="^[a-z][a-z3.]*[a-z]$"/>
             <message key="name.invalidPattern"
                      value="Package name ''{0}'' must match pattern ''{1}''."/>
         </module>
@@ -194,7 +194,7 @@
                      value="Pattern variable name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="ClassTypeParameterName">
-            <property name="format" value="^[A-Z][a-z]*$"/>
+            <property name="format" value="^[A-Z]$"/>
             <message key="name.invalidPattern"
                      value="Class type name ''{0}'' must match pattern ''{1}''."/>
         </module>
