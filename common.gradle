@@ -10,7 +10,7 @@ ext {
 
     // module coordinates of dependencies:
     acorusCoordinates = 'com.github.stephengold:Acorus:0.9.16' + jmeTarget
-    heartCoordinates = 'com.github.stephengold:Heart:8.0.0' + jmeTarget
+    heartCoordinates = 'com.github.stephengold:Heart:8.1.0' + jmeTarget
     jcommanderCoordinates = 'com.beust:jcommander:1.82'
     jme3utilitiesniftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.30' + jmeTarget
 
