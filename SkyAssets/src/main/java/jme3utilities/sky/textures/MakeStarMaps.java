@@ -372,7 +372,7 @@ public class MakeStarMaps {
          * Create a blank, grayscale buffered image for each texture map.
          */
         BufferedImage[] maps = new BufferedImage[6];
-        for (int faceIndex = 0; faceIndex < 6; faceIndex++) {
+        for (int faceIndex = 0; faceIndex < 6; ++faceIndex) {
             maps[faceIndex] = new BufferedImage(textureSize, textureSize,
                     BufferedImage.TYPE_BYTE_GRAY);
         }
@@ -384,7 +384,7 @@ public class MakeStarMaps {
             boolean success = plotStarOnCube(maps, star, latitude,
                     siderealTime, textureSize);
             if (success) {
-                plotCount++;
+                ++plotCount;
             }
         }
         logger.log(Level.FINE, "plotted {0} stars", plotCount);
@@ -420,7 +420,7 @@ public class MakeStarMaps {
             boolean success = plotStarOnDome(map, star, latitude, siderealTime,
                     textureSize);
             if (success) {
-                plotCount++;
+                ++plotCount;
             }
         }
         logger.log(Level.FINE, "plotted {0} stars", plotCount);
@@ -457,7 +457,7 @@ public class MakeStarMaps {
             RenderedImage[] images = generateCubeMap(latitude, siderealTime,
                     textureSize);
             assert images.length == 6 : images.length;
-            for (int faceIndex = 0; faceIndex < 6; faceIndex++) {
+            for (int faceIndex = 0; faceIndex < 6; ++faceIndex) {
                 String filePath = String.format("%s/%s/%s_%s%d.png",
                         outputDirPath, preset.textureFileName(),
                         preset.textureFileName(), faceName[faceIndex],
@@ -637,7 +637,7 @@ public class MakeStarMaps {
         float a = FastMath.sqrt(luminosity * stretchFactor / FastMath.PI);
         float b = a / stretchFactor;
 
-        for (int i = 0; i < ellipseNumPoints; i++) {
+        for (int i = 0; i < ellipseNumPoints; ++i) {
             float theta = FastMath.TWO_PI * i / ellipseNumPoints;
             float da = a * FastMath.cos(theta);
             float db = b * FastMath.sin(theta);
@@ -681,7 +681,7 @@ public class MakeStarMaps {
         float r = 1.2f * FastMath.sqrt(area);
 
         Vector3f p = new Vector3f();
-        for (int i = 0; i < ellipseNumPoints; i++) {
+        for (int i = 0; i < ellipseNumPoints; ++i) {
             float theta = FastMath.TWO_PI * i / ellipseNumPoints;
             float rCos = r * FastMath.cos(theta);
             float rSin = r * FastMath.sin(theta);
@@ -774,7 +774,7 @@ public class MakeStarMaps {
         }
 
         boolean success = false;
-        for (int faceIndex = 0; faceIndex < 6; faceIndex++) {
+        for (int faceIndex = 0; faceIndex < 6; ++faceIndex) {
             /*
              * Convert world direction to texture coordinates on this
              * face of the cube.
@@ -957,7 +957,7 @@ public class MakeStarMaps {
             if (!actualPrefix.matches("[ ]*[0-9]+")) {
                 continue;
             }
-            readEntries++;
+            ++readEntries;
             /*
              * Cope with missing/duplicate entry ids.
              */
@@ -972,7 +972,7 @@ public class MakeStarMaps {
                 logger.log(Level.WARNING,
                         "skipped entry due to duplicate id #{0}",
                         actualEntry);
-                skippedEntries++;
+                ++skippedEntries;
                 continue;
             }
 
@@ -985,19 +985,19 @@ public class MakeStarMaps {
                 logger.log(Level.FINE,
                         "skipped entry #{0} due to invalid magnitude",
                         nextEntry);
-                skippedEntries++;
+                ++skippedEntries;
             }
             if (star != null) {
                 if (stars.contains(star)) {
                     logger.log(Level.FINE, "entry #{0} is a duplicate",
                             nextEntry);
-                    duplicateEntries++;
+                    ++duplicateEntries;
                 } else {
                     boolean success = stars.add(star);
                     assert success : nextEntry;
                 }
             }
-            nextEntry++;
+            ++nextEntry;
         }
         /*
          * Verify that the entire catalog was read.

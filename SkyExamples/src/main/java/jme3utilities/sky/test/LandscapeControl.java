@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2019, Stephen Gold
+ Copyright (c) 2013-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -319,7 +319,7 @@ public class LandscapeControl extends SubtreeControl {
         float ringRadius = ringDiameter / 2f;
         Box uprightMesh
                 = new Box(uprightWidth / 2f, uprightHeight / 2f, ringDepth / 2);
-        for (int index = 0; index < numUprights; index++) {
+        for (int index = 0; index < numUprights; ++index) {
             String name = "upright" + index;
             Geometry upright = new Geometry(name, uprightMesh);
             node.attachChild(upright);
@@ -338,7 +338,7 @@ public class LandscapeControl extends SubtreeControl {
 
         Box lintelMesh = new Box(lintelLength / 2f, lintelThickness / 2f,
                 ringDepth / 2);
-        for (int index = 0; index < numUprights; index++) {
+        for (int index = 0; index < numUprights; ++index) {
             String name = "lintel" + index;
             Geometry lintel = new Geometry(name, lintelMesh);
             node.attachChild(lintel);

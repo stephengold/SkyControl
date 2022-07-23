@@ -479,7 +479,7 @@ public class SkyMaterialCore extends Material {
         Validate.nonNull(skyCoordinates, "coordinates");
 
         float result = 1f;
-        for (int layerIndex = 0; layerIndex < maxCloudLayers; layerIndex++) {
+        for (int layerIndex = 0; layerIndex < maxCloudLayers; ++layerIndex) {
             if (cloudsRaster[layerIndex] != null) {
                 float transparency = transparency(layerIndex, skyCoordinates);
                 result *= transparency;
@@ -816,7 +816,7 @@ public class SkyMaterialCore extends Material {
         maxObjects = objectCenters.length;
 
         cloudsRaster = new ImageRaster[maxCloudLayers];
-        for (int layerIndex = 0; layerIndex < maxCloudLayers; layerIndex++) {
+        for (int layerIndex = 0; layerIndex < maxCloudLayers; ++layerIndex) {
             Image image = cloudImages[layerIndex];
             if (image == null) {
                 cloudsRaster[layerIndex] = null;

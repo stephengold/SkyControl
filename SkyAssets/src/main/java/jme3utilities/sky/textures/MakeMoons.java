@@ -170,10 +170,10 @@ public class MakeMoons {
          * Compute the opacity and luminance of each pixel.
          */
         Vector3f normal = new Vector3f();
-        for (int x = 0; x < textureSize; x++) {
+        for (int x = 0; x < textureSize; ++x) {
             float u = ((float) x) / textureSize;
             float du = (u - 0.5f) / discRadius;
-            for (int y = 0; y < textureSize; y++) {
+            for (int y = 0; y < textureSize; ++y) {
                 float v = ((float) y) / textureSize;
                 float dv = (v - 0.5f) / discRadius;
                 /*

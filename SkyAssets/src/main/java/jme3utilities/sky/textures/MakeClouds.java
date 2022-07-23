@@ -157,10 +157,10 @@ public class MakeClouds {
          * Generate FBM noise and store it in a 2-D array.
          */
         samples = new float[numRows][];
-        for (int x = 0; x < numRows; x++) {
+        for (int x = 0; x < numRows; ++x) {
             float u = ((float) x) / numRows;
             samples[x] = new float[numRows];
-            for (int y = 0; y < numRows; y++) {
+            for (int y = 0; y < numRows; ++y) {
                 float v = ((float) y) / numRows;
                 float n = Noise.fbmNoise(generator, u, v, numOctaves,
                         fundamental, gain, lacunarity);
@@ -172,8 +172,8 @@ public class MakeClouds {
          */
         float max = Float.MIN_VALUE;
         float min = Float.MAX_VALUE;
-        for (int x = 0; x < numRows; x++) {
-            for (int y = 0; y < numRows; y++) {
+        for (int x = 0; x < numRows; ++x) {
+            for (int y = 0; y < numRows; ++y) {
                 float n = samples[x][y];
                 max = Math.max(n, max);
                 min = Math.min(n, min);
@@ -181,8 +181,8 @@ public class MakeClouds {
         }
         assert max > min;
         float range = max - min;
-        for (int x = 0; x < numRows; x++) {
-            for (int y = 0; y < numRows; y++) {
+        for (int x = 0; x < numRows; ++x) {
+            for (int y = 0; y < numRows; ++y) {
                 samples[x][y] = (samples[x][y] - min) / range;
             }
         }
@@ -213,8 +213,8 @@ public class MakeClouds {
         /*
          * Set brightness of each pixel based on the noise array.
          */
-        for (int x = 0; x < textureSize; x++) {
-            for (int y = 0; y < textureSize; y++) {
+        for (int x = 0; x < textureSize; ++x) {
+            for (int y = 0; y < textureSize; ++y) {
                 float alpha = samples[x][y];
                 alpha = (alpha - blackCutoff) / (whiteCutoff - blackCutoff);
                 alpha = FastMath.saturate(alpha);
@@ -245,8 +245,8 @@ public class MakeClouds {
         /*
          * Set brightness of each pixel.
          */
-        for (int x = 0; x < textureSize; x++) {
-            for (int y = 0; y < textureSize; y++) {
+        for (int x = 0; x < textureSize; ++x) {
+            for (int y = 0; y < textureSize; ++y) {
                 Heart.setGrayPixel(graphics, x, y, alpha, 1f);
             }
         }

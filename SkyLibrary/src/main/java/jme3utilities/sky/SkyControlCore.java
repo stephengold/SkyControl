@@ -270,7 +270,7 @@ public class SkyControlCore extends SubtreeControl {
          * Initialize the cloud layers.
          */
         cloudLayers = new CloudLayer[numCloudLayers];
-        for (int layerIndex = 0; layerIndex < numCloudLayers; layerIndex++) {
+        for (int layerIndex = 0; layerIndex < numCloudLayers; ++layerIndex) {
             cloudLayers[layerIndex] = new CloudLayer(
                     cloudsMaterial, layerIndex);
         }
@@ -424,7 +424,7 @@ public class SkyControlCore extends SubtreeControl {
     public void setCloudiness(float newAlpha) {
         Validate.fraction(newAlpha, "alpha");
 
-        for (int layer = 0; layer < numCloudLayers; layer++) {
+        for (int layer = 0; layer < numCloudLayers; ++layer) {
             cloudLayers[layer].setOpacity(newAlpha);
         }
     }
@@ -721,7 +721,7 @@ public class SkyControlCore extends SubtreeControl {
             }
             cloudsColor.multLocal(cloudBrightness);
         }
-        for (int layer = 0; layer < numCloudLayers; layer++) {
+        for (int layer = 0; layer < numCloudLayers; ++layer) {
             cloudLayers[layer].setColor(cloudsColor);
         }
 
@@ -987,7 +987,7 @@ public class SkyControlCore extends SubtreeControl {
         assert updateInterval >= 0f : updateInterval;
 
         cloudsAnimationTime += updateInterval * cloudsRate;
-        for (int layer = 0; layer < numCloudLayers; layer++) {
+        for (int layer = 0; layer < numCloudLayers; ++layer) {
             cloudLayers[layer].updateOffset(cloudsAnimationTime);
         }
     }

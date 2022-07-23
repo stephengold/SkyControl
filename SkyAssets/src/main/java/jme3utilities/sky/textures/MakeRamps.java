@@ -208,9 +208,9 @@ public class MakeRamps {
         /*
          * Compute the alpha of each pixel.
          */
-        for (int x = 0; x < textureSize; x++) {
+        for (int x = 0; x < textureSize; ++x) {
             float u = ((float) x) / textureSize;
-            for (int y = 0; y < textureSize; y++) {
+            for (int y = 0; y < textureSize; ++y) {
                 float v = ((float) y) / textureSize;
                 float elevationAngle = mesh.elevationAngle(u, v);
                 if (elevationAngle != FastMath.HALF_PI) {

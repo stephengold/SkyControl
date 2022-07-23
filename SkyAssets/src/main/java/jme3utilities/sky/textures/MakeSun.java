@@ -259,10 +259,10 @@ public class MakeSun {
         /*
          * Compute the opacity of each pixel.
          */
-        for (int x = 0; x < textureSize; x++) {
+        for (int x = 0; x < textureSize; ++x) {
             float u = ((float) x) / textureSize;
             float du = u - 0.5f;
-            for (int y = 0; y < textureSize; y++) {
+            for (int y = 0; y < textureSize; ++y) {
                 float v = ((float) y) / textureSize;
                 float dv = v - 0.5f;
                 /*
