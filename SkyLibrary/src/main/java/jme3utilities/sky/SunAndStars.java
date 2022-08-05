@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2020, Stephen Gold
+ Copyright (c) 2013-2022, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -120,6 +120,15 @@ public class SunAndStars implements Cloneable, Savable {
      * up direction (unit vector in world coordinates)
      */
     private Vector3f upDirection = new Vector3f(0f, 1f, 0f);
+    // *************************************************************************
+    // constructors
+
+    /**
+     * A no-arg constructor to avoid javadoc warnings from JDK 18.
+     */
+    public SunAndStars() {
+        // do nothing
+    }
     // *************************************************************************
     // new methods exposed
 
