@@ -15,6 +15,7 @@ dependencies {
     implementation jme3utilitiesniftyCoordinates
 
     runtimeOnly 'com.github.nifty-gui:nifty-style-black:1.4.3'
+    runtimeOnly 'org.jmonkeyengine:jme3-awt-dialogs:' + jme3Version
     runtimeOnly 'org.jmonkeyengine:jme3-desktop:' + jme3Version
     implementation 'org.jmonkeyengine:jme3-lwjgl3:' + jme3Version
     implementation 'org.jmonkeyengine:jme3-terrain:' + jme3Version
