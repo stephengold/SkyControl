@@ -12,7 +12,7 @@ ext {
     acorusCoordinates = 'com.github.stephengold:Acorus:0.9.17' + jmeTarget
     heartCoordinates = 'com.github.stephengold:Heart:8.2.0' + jmeTarget
     jcommanderCoordinates = 'com.beust:jcommander:1.82'
-    jme3utilitiesniftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.32' + jmeTarget
+    jme3utilitiesniftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.33' + jmeTarget
 
     // current versions of libraries:
     jme3Version = '3.5.2-stable'
