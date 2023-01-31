@@ -5,17 +5,17 @@ apply plugin: 'java'
 
 ext {
     group = 'com.github.stephengold'
-    jmeTarget = '' // distinguish libraries built for different JME releases
+    jmeTarget = '+for36' // distinguish non-JME libraries built for specific JME releases
     websiteUrl = 'https://github.com/stephengold/SkyControl'
 
     // module coordinates of dependencies:
-    acorusCoordinates = 'com.github.stephengold:Acorus:0.9.17' + jmeTarget
-    heartCoordinates = 'com.github.stephengold:Heart:8.2.0' + jmeTarget
+    acorusCoordinates = 'com.github.stephengold:Acorus:0.9.17'
+    heartCoordinates = 'com.github.stephengold:Heart:8.3.0' + jmeTarget
     jcommanderCoordinates = 'com.beust:jcommander:1.82'
-    jme3utilitiesniftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.33' + jmeTarget
+    jme3utilitiesniftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.33'
 
     // current versions of libraries:
-    jme3Version = '3.6.0-alpha3'
+    jme3Version = '3.6.0-beta1'
     skycontrolVersion = '1.0.4-SNAPSHOT'
 }
 
