@@ -8,6 +8,10 @@ subprojects {
     apply from: rootProject.file('common.gradle')
 }
 
+task run(dependsOn: ':SkyExamples:AppChooser') {
+    description = 'Runs the examples.'
+}
+
 // publishing tasks
 
 tasks.register('install') {
