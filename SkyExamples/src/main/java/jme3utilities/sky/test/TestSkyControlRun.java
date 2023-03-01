@@ -206,8 +206,8 @@ public class TestSkyControlRun
         /*
          * Update cached references to refer to the newly loaded scene.
          */
-        cubeMap = MySpatial.findChild(loadedNode, cubeName);
-        floorControl = loadedNode.getControl(FloorControl.class);
+        this.cubeMap = MySpatial.findChild(loadedNode, cubeName);
+        this.floorControl = loadedNode.getControl(FloorControl.class);
         assert floorControl != null;
         this.landscapeControl = loadedNode.getControl(LandscapeControl.class);
         assert landscapeControl != null;
@@ -665,8 +665,8 @@ public class TestSkyControlRun
             /*
              * Load and attach the external star map.
              */
-            cubeMap = MyAsset.createStarMapQuads(assetManager,
-                    "purple-nebula-complex");
+            this.cubeMap = MyAsset.createStarMapQuads(
+                    assetManager, "purple-nebula-complex");
             cubeMap.setName(cubeName);
             sceneNode.attachChild(cubeMap);
         }

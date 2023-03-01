@@ -661,7 +661,7 @@ public class SkyMaterialCore extends Material {
         /*
          * Record transform parameters for save().
          */
-        objectCenters[objectIndex] = centerUV.clone();
+        this.objectCenters[objectIndex] = centerUV.clone();
         if (newRotate == null) {
             this.objectRotations[objectIndex] = null;
         } else {
@@ -777,7 +777,7 @@ public class SkyMaterialCore extends Material {
         /*
          * cloud layers
          */
-        cloudAlphas = capsule.readFloatArray("cloudAlphas", null);
+        this.cloudAlphas = capsule.readFloatArray("cloudAlphas", null);
 
         Savable[] sav = capsule.readSavableArray("cloudImages", null);
         this.cloudImages = new Image[sav.length];
@@ -802,9 +802,9 @@ public class SkyMaterialCore extends Material {
         /*
          * cached values
          */
-        assetManager = importer.getAssetManager();
-        maxCloudLayers = cloudImages.length;
-        maxObjects = objectCenters.length;
+        this.assetManager = importer.getAssetManager();
+        this.maxCloudLayers = cloudImages.length;
+        this.maxObjects = objectCenters.length;
 
         this.cloudsRaster = new ImageRaster[maxCloudLayers];
         for (int layerIndex = 0; layerIndex < maxCloudLayers; ++layerIndex) {
