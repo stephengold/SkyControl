@@ -100,15 +100,15 @@ public class AppChooser extends GuiApplication {
     /**
      * script to execute
      */
-    private File script;
+    private static File script;
     /**
      * controller for the main screen
      */
-    private GuiScreenController mainScreen;
+    private static GuiScreenController mainScreen;
     /**
      * index of the chosen app in the {@code mainClasses} array
      */
-    private int chosenAppIndex = 0;
+    private static int chosenAppIndex = 0;
     // *************************************************************************
     // constructors
 
@@ -178,7 +178,7 @@ public class AppChooser extends GuiApplication {
         boolean success = stateManager.attach(mainScreen);
         assert success;
 
-        this.script = findScriptToExecute();
+        script = findScriptToExecute();
     }
 
     /**
