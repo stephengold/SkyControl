@@ -142,9 +142,8 @@ public class CubeMapExample extends SimpleApplication {
                 "Textures/Terrain/splat/mountains512.png");
         Texture road = loadSplatTexture("road.jpg");
         Texture roadNormal = loadSplatTexture("road_normal.png");
-        /*
-         * material
-         */
+
+        // material
         Material terrainMaterial = new Material(assetManager,
                 "Common/MatDefs/Terrain/TerrainLighting.j3md");
         terrainMaterial.setBoolean("useTriPlanarMapping", false);

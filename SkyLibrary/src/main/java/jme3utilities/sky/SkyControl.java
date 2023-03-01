@@ -808,9 +808,7 @@ public class SkyControl extends SkyControlCore {
         SkyMaterial topMaterial = getTopMaterial();
         if (uvCenter != null) {
             Vector2f rotation = lunarRotation(celestialLongitude, uvCenter);
-            /*
-             * Reveal the object and update its texture transform.
-             */
+            // Reveal the object and update its texture transform.
             topMaterial.setObjectTransform(moonIndex, uvCenter, moonScale,
                     rotation);
         } else {

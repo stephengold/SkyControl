@@ -79,7 +79,7 @@ public class MakeClouds {
      */
     private static float[][] samples = null;
     // *************************************************************************
-    // new methods exposed
+    // new methods exposed - TODO add a private constructor
 
     /**
      * Main entry point for the MakeClouds application.
@@ -191,9 +191,8 @@ public class MakeClouds {
         assert blackCutoff >= 0f : blackCutoff;
         assert blackCutoff < whiteCutoff;
         assert whiteCutoff <= 1f : whiteCutoff;
-        /*
-         * Create a blank, grayscale buffered image for the texture map.
-         */
+
+        // Create a blank, grayscale buffered image for the texture map.
         BufferedImage map = new BufferedImage(textureSize, textureSize,
                 BufferedImage.TYPE_BYTE_GRAY);
         Graphics2D graphics = map.createGraphics();
@@ -222,9 +221,8 @@ public class MakeClouds {
         assert textureSize >= 1 : textureSize;
         assert alpha >= 0f : alpha;
         assert alpha <= 1f : alpha;
-        /*
-         * Create a blank, grayscale buffered image for the texture map.
-         */
+
+        // Create a blank, grayscale buffered image for the texture map.
         BufferedImage map = new BufferedImage(textureSize, textureSize,
                 BufferedImage.TYPE_BYTE_GRAY);
         Graphics2D graphics = map.createGraphics();

@@ -381,14 +381,12 @@ public class MakeStarMaps {
         assert siderealTime >= 0f : siderealTime;
         assert siderealTime < FastMath.TWO_PI : siderealTime;
         assert textureSize > 2 : textureSize;
-        /*
-         * Create a blank, grayscale buffered image for the texture map.
-         */
+
+        // Create a blank, grayscale buffered image for the texture map.
         BufferedImage map = new BufferedImage(textureSize, textureSize,
                 BufferedImage.TYPE_BYTE_GRAY);
-        /*
-         * Plot individual stars on the image, starting with the faintest.
-         */
+
+        // Plot individual stars on the image, starting with the faintest.
         int plotCount = 0;
         for (Star star : stars) {
             boolean success = plotStarOnDome(
@@ -423,10 +421,7 @@ public class MakeStarMaps {
         // Convert the sidereal time from hours to radians.
         float siderealTime = siderealHour * radiansPerHour;
 
-        if (forCube) {
-            /*
-            * Generate 6 texture maps for a cube.
-             */
+        if (forCube) { // Generate 6 texture maps for a cube.
             RenderedImage[] images = generateCubeMap(latitude, siderealTime,
                     textureSize);
             assert images.length == 6 : images.length;
@@ -442,10 +437,7 @@ public class MakeStarMaps {
                 }
             }
 
-        } else {
-            /*
-             * Generate a texture map for a dome.
-             */
+        } else { // Generate a texture map for a dome.
             RenderedImage image = generateDomeMap(latitude, siderealTime,
                     textureSize);
             String filePath = String.format("%s/%s.png", outputDirPath,
