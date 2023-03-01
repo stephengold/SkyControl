@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2022, Stephen Gold
+ Copyright (c) 2014-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -238,9 +238,8 @@ public class SkyControlCore extends SubtreeControl {
         this.camera = camera;
         this.starsOption = starsOption;
         this.bottomDomeFlag = bottomDomeFlag;
-        /*
-         * Create and initialize the sky material for sun, moon, and haze.
-         */
+
+        // Create and initialize the sky material for sun, moon, and haze.
         int topObjects = 2; // a sun and a moon
         boolean cloudDomeFlag = cloudFlattening != 0f;
         int topCloudLayers = cloudDomeFlag ? 0 : numCloudLayers;
@@ -254,9 +253,7 @@ public class SkyControlCore extends SubtreeControl {
 
         SkyMaterial cloudsMaterial;
         if (cloudDomeFlag) {
-            /*
-             * Create and initialize a separate sky material for clouds only.
-             */
+            // Create and initialize a separate sky material for clouds only.
             int numObjects = 0;
             cloudsMaterial = new SkyMaterial(assetManager, numObjects,
                     numCloudLayers);
@@ -712,9 +709,7 @@ public class SkyControlCore extends SubtreeControl {
 
         ColorRGBA cloudsColor = MyColor.saturate(baseColor);
         if (!sunUp) {
-            /*
-             * At night, darken the clouds by 15%-75%.
-             */
+            // At night, darken the clouds by 15%-75%.
             float cloudBrightness = 0.25f;
             if (moonUp) {
                 cloudBrightness += 0.6f * getMoonIllumination();
@@ -789,9 +784,7 @@ public class SkyControlCore extends SubtreeControl {
         MySpatial.setWorldScale(subtree, radius);
 
         if (stabilizeFlag) {
-            /*
-             * Counteract rotation of the controlled node.
-             */
+            // Counteract rotation of the controlled node.
             MySpatial.setWorldOrientation(subtree, rotationIdentity);
         }
     }
@@ -874,9 +867,7 @@ public class SkyControlCore extends SubtreeControl {
      */
     private void createSpatials(float cloudFlattening, Material topMaterial,
             Material bottomMaterial, Material cloudsMaterial) {
-        /*
-         * Create a Node to parent the dome geometries.
-         */
+        // Create a Node to parent the dome geometries.
         Node subtreeNode = new Node("sky node");
         subtreeNode.setQueueBucket(Bucket.Sky);
         subtreeNode.setShadowMode(ShadowMode.Off);

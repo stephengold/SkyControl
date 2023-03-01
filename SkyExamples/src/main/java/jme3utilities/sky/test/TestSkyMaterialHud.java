@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022 Stephen Gold
+ Copyright (c) 2013-2023 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -127,16 +127,12 @@ public class TestSkyMaterialHud
 
         switch (buttonId) {
             case "northRadioButton":
-                /*
-                 * Re-orient the camera toward the north horizon.
-                 */
+                // Re-orient the camera toward the north horizon.
                 MyCamera.look(cam, Vector3f.UNIT_X);
                 return;
 
             case "zenithRadioButton":
-                /*
-                 * Re-orient the camera toward the zenith.
-                 */
+                // Re-orient the camera toward the zenith.
                 MyCamera.look(cam, Vector3f.UNIT_Y);
                 return;
 
@@ -158,9 +154,8 @@ public class TestSkyMaterialHud
         if (!isInitialized()) {
             return;
         }
-        /*
-         * Adjust HUD controls to reflect the test material.
-         */
+
+        // Adjust HUD controls to reflect the test material.
         ColorRGBA clearColor = material.copyClearColor();
         setColorBank("clear", clearColor);
         ColorRGBA clearGlow = material.copyClearColor();
@@ -317,9 +312,8 @@ public class TestSkyMaterialHud
                 default:
             }
         }
-        /*
-         * The action is not handled: forward it to the application class.
-         */
+
+        // The action is not handled: forward it to the application class.
         getApplication().onAction(actionString, ongoing, tpf);
     }
     // *************************************************************************

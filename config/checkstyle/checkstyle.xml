@@ -21,6 +21,8 @@
         <property name="eachLine" value="true"/>
     </module>
 
+    <!-- Checks for size violations.                  -->
+    <!-- See https://checkstyle.org/config_sizes.html -->
     <module name="LineLength">
         <property name="fileExtensions" value="java"/>
         <property name="max" value="80"/>
@@ -44,11 +46,15 @@
             <property name="allowByTailComment" value="true"/>
             <property name="allowNonPrintableEscapes" value="true"/>
         </module>
+        <!-- Checks for imports                             -->
+        <!-- See https://checkstyle.org/config_imports.html -->
         <module name="AvoidStarImport"/>
         <module name="OneTopLevelClass"/>
         <module name="NoLineWrap">
             <property name="tokens" value="PACKAGE_DEF, IMPORT, STATIC_IMPORT"/>
         </module>
+        <!-- Checks for blocks. You know, those {}'s       -->
+        <!-- See https://checkstyle.org/config_blocks.html -->
         <module name="EmptyBlock">
             <property name="option" value="TEXT"/>
             <property name="tokens"
@@ -81,7 +87,7 @@
                     COMPACT_CTOR_DEF"/>
         </module>
         <module name="SuppressionXpathSingleFilter">
-            <!-- suppresion is required till https://github.com/checkstyle/checkstyle/issues/7541 -->
+            <!-- suppression is required till https://github.com/checkstyle/checkstyle/issues/7541 -->
             <property name="id" value="RightCurlyAlone"/>
             <property name="query" value="//RCURLY[parent::SLIST[count(./*)=1]
                                      or preceding-sibling::*[last()][self::LCURLY]]"/>
@@ -152,6 +158,8 @@
             <property name="tokens" value="METHOD_REF"/>
             <property name="option" value="nl"/>
         </module>
+        <!-- Checks for naming conventions.                -->
+        <!-- See https://checkstyle.org/config_naming.html -->
         <module name="PackageName">
             <property name="format" value="^[a-z][a-z3.]*[a-z]$"/>
             <message key="name.invalidPattern"
@@ -290,6 +298,8 @@
             <property name="allowSamelineMultipleAnnotations" value="true"/>
         </module>
         <module name="NonEmptyAtclauseDescription"/>
+        <!-- Checks for Javadoc comments.                   -->
+        <!-- See https://checkstyle.org/config_javadoc.html -->
         <module name="InvalidJavadocPosition"/>
         <module name="JavadocTagContinuationIndentation">
             <property name="offset" value="0"/>

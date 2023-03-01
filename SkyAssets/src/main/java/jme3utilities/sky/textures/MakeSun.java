@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2022, Stephen Gold
+ Copyright (c) 2014-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -99,23 +99,13 @@ public class MakeSun {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class and also for writeMap().
-         */
-        //logger.setLevel(Level.INFO);
-        //Logger.getLogger(jme3utilities.Heart.class.getName())
-        //        .setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
+
+        // Instantiate the application.
         MakeSun application = new MakeSun();
-        /*
-         * Parse the command-line arguments.
-         */
+
+        // Parse the command-line arguments.
         JCommander jCommander = new JCommander(application);
         jCommander.parse(arguments);
         jCommander.setProgramName(applicationName);
@@ -123,15 +113,13 @@ public class MakeSun {
             jCommander.usage();
             return;
         }
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Generate color image maps.
-         */
+
+        // Generate color image maps.
         if ("all".equals(styleName)) {
             application.makeSun("chaotic");
             application.makeSun("disc");
@@ -160,18 +148,13 @@ public class MakeSun {
         assert numRays >= -1 : numRays;
 
         float result;
-        if (numRays == -1) {
-            /*
-             * chaotic surround
-             */
+        if (numRays == -1) { // chaotic surround
             float phaseShift = 2.5f * FastMath.sin(7f * theta);
             result = FastMath.sin(theta + phaseShift);
             result = (1f + result) / 2f;
             result = 0.4f * FastMath.sqrt(result);
-        } else {
-            /*
-             * straight rays or circular haze
-             */
+
+        } else { // straight rays or circular haze
             result = FastMath.sin(theta * numRays / 2f);
             result = FastMath.abs(result);
         }
@@ -256,23 +239,20 @@ public class MakeSun {
         BufferedImage map = new BufferedImage(textureSize, textureSize,
                 BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D graphics = map.createGraphics();
-        /*
-         * Compute the opacity of each pixel.
-         */
+
+        // Compute the opacity of each pixel.
         for (int x = 0; x < textureSize; ++x) {
             float u = ((float) x) / textureSize;
             float du = u - 0.5f;
             for (int y = 0; y < textureSize; ++y) {
                 float v = ((float) y) / textureSize;
                 float dv = v - 0.5f;
-                /*
-                 * Convert Cartesian texture coordinates to polar coordinates.
-                 */
+
+                // Convert Cartesian texture coordinates to polar coordinates.
                 float r = MyMath.hypotenuse(dv, du);
                 float theta = FastMath.atan2(dv, du);
-                /*
-                 * Compute the surround radius as a function of theta.
-                 */
+
+                // Compute the surround radius as a function of theta.
                 float indent = indent(theta, numRays);
                 float surroundRadius = FastMath.interpolateLinear(indent,
                         maxSurroundRadius, discRadius);

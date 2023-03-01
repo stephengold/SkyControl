@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022, Stephen Gold
+ Copyright (c) 2022-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -113,7 +113,7 @@ public class AppChooser extends GuiApplication {
     // constructors
 
     /**
-     * Instantiate a GuiApplication without the usual initial appstates.
+     * Instantiate a GuiApplication without any initial appstates.
      */
     private AppChooser() {
         super((AppState[]) null);
@@ -158,9 +158,7 @@ public class AppChooser extends GuiApplication {
      */
     @Override
     public void guiInitializeApplication() {
-        /*
-         * Log library versions.
-         */
+        // Log library versions.
         logger.log(Level.INFO, "jme3-core version is {0}",
                 MyString.quote(JmeVersion.FULL_NAME));
         logger.log(Level.INFO, "Heart version is {0}",
@@ -170,9 +168,8 @@ public class AppChooser extends GuiApplication {
         logger.log(Level.INFO, "jme3-utilities-nifty version is {0}",
                 MyString.quote(LibraryVersion.versionShort()));
         InputMode inputMode = getDefaultInputMode();
-        /*
-         * Create and attach a controller for the main (and only) screen.
-         */
+
+        // Create and attach a controller for the main (and only) screen.
         mainScreen = new GuiScreenController(
                 "AppChooser/mainScreen",
                 "Interface/Nifty/screens/AppChooser/mainScreen.xml",
@@ -234,9 +231,8 @@ public class AppChooser extends GuiApplication {
                 return;
             }
         }
-        /*
-         * The action has not been handled: forward it to the superclass.
-         */
+
+        // The action has not been handled: forward it to the superclass.
         super.onAction(actionString, ongoing, tpf);
     }
 
@@ -248,9 +244,8 @@ public class AppChooser extends GuiApplication {
     @Override
     public void simpleUpdate(float tpf) {
         super.simpleUpdate(tpf);
-        /*
-         * Update the status overlay.
-         */
+
+        // Update the status overlay.
         Button appNameButton = mainScreen.getButton("appName");
         Class<?> mainClass = mainClasses[chosenAppIndex];
         String appName = mainClass.getSimpleName();

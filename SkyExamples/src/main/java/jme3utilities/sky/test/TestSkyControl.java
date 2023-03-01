@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -109,9 +109,7 @@ public class TestSkyControl extends GuiApplication {
             Configuration.GLFW_LIBRARY_NAME.set("glfw_async");
         }
 
-        /*
-         * Parse the command-line arguments into {@code parameters}.
-         */
+        // Parse the command-line arguments into {@code parameters}.
         JCommander jCommander = new JCommander(parameters);
         jCommander.parse(arguments);
         jCommander.setProgramName(applicationName);
@@ -135,9 +133,8 @@ public class TestSkyControl extends GuiApplication {
 
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
-        /*
-         * Customize the window's title bar.
-         */
+
+        // Customize the window's title bar.
         String title = applicationName + " " + MyString.join(arguments);
         settings.setTitle(title);
         application.setSettings(settings);
@@ -165,9 +162,8 @@ public class TestSkyControl extends GuiApplication {
     @Override
     public void guiInitializeApplication() {
         numSamples = settings.getSamples();
-        /*
-         * Log library versions.
-         */
+
+        // Log library versions.
         logger.log(Level.INFO, "jme3-core version is {0}",
                 MyString.quote(JmeVersion.FULL_NAME));
         logger.log(Level.INFO, "SkyControl version is {0}",
@@ -230,9 +226,8 @@ public class TestSkyControl extends GuiApplication {
                 default:
             }
         }
-        /*
-         * The action is not handled: forward it to the superclass.
-         */
+
+        // The action is not handled: forward it to the superclass.
         super.onAction(actionString, ongoing, tpf);
     }
 }

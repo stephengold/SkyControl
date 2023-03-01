@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2017-2022, Stephen Gold
+ Copyright (c) 2017-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -99,22 +99,13 @@ public class MakeMoons {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class and also for writeMap().
-         */
-        //logger.setLevel(Level.INFO);
-        //Logger.getLogger(Heart.class.getName()).setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
+
+        // Instantiate the application.
         MakeMoons application = new MakeMoons();
-        /*
-         * Parse the command-line arguments.
-         */
+
+        // Parse the command-line arguments, if any.
         JCommander jCommander = new JCommander(application);
         jCommander.parse(arguments);
         jCommander.setProgramName(applicationName);
@@ -122,15 +113,13 @@ public class MakeMoons {
             jCommander.usage();
             return;
         }
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Generate color image maps.
-         */
+
+        // Generate color image maps.
         if ("all".equals(phaseName)) {
             for (LunarPhase phase : LunarPhase.values()) {
                 if (phase != LunarPhase.CUSTOM) {
@@ -159,16 +148,14 @@ public class MakeMoons {
         BufferedImage image = new BufferedImage(textureSize, textureSize,
                 BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D graphics = image.createGraphics();
-        /*
-         * Calculate the direction to the light source.
-         */
+
+        // Calculate the direction to the light source.
         float angle = phase.longitudeDifference();
         float cos = FastMath.cos(angle);
         float sin = FastMath.sin(angle);
         Vector3f lightDirection = new Vector3f(sin, 0f, -cos);
-        /*
-         * Compute the opacity and luminance of each pixel.
-         */
+
+        // Compute the opacity and luminance of each pixel.
         Vector3f normal = new Vector3f();
         for (int x = 0; x < textureSize; ++x) {
             float u = ((float) x) / textureSize;
@@ -176,9 +163,8 @@ public class MakeMoons {
             for (int y = 0; y < textureSize; ++y) {
                 float v = ((float) y) / textureSize;
                 float dv = (v - 0.5f) / discRadius;
-                /*
-                 * Convert Cartesian texture coordinates to polar coordinates.
-                 */
+
+                // Convert Cartesian texture coordinates to polar coordinates.
                 double uvRadiusSquared = MyMath.sumOfSquares(dv, du);
 
                 float opacity;
@@ -198,9 +184,8 @@ public class MakeMoons {
                 Heart.setGrayPixel(graphics, x, y, brightness, opacity);
             }
         }
-        /*
-         * Write the image to the asset file.
-         */
+
+        // Write the image to the asset file.
         String assetPath = phase.imagePath("-nonviral");
         String filePath = String.format("%s/%s", assetDirPath, assetPath);
         try {

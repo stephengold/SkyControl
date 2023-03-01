@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -601,9 +601,8 @@ public class TestSkyControlHud
                 default:
             }
         }
-        /*
-         * The action is not handled: forward it to the application class.
-         */
+
+        // The action is not handled: forward it to the application class.
         getApplication().onAction(actionString, ongoing, tpf);
     }
     // *************************************************************************

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -94,23 +94,13 @@ public class MakeRamps {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class and also for writeMap().
-         */
-        //logger.setLevel(Level.INFO);
-        //Logger.getLogger(jme3utilities.Heart.class.getName())
-        //        .setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
+
+        // Instantiate the application.
         MakeRamps application = new MakeRamps();
-        /*
-         * Parse the command-line arguments.
-         */
+
+        // Parse the command-line arguments, if any.
         JCommander jCommander = new JCommander(application);
         jCommander.parse(arguments);
         jCommander.setProgramName(applicationName);
@@ -118,9 +108,8 @@ public class MakeRamps {
             jCommander.usage();
             return;
         }
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
@@ -205,9 +194,8 @@ public class MakeRamps {
         BufferedImage map = new BufferedImage(textureSize, textureSize,
                 BufferedImage.TYPE_BYTE_GRAY);
         Graphics2D graphics = map.createGraphics();
-        /*
-         * Compute the alpha of each pixel.
-         */
+
+        // Compute the alpha of each pixel.
         for (int x = 0; x < textureSize; ++x) {
             float u = ((float) x) / textureSize;
             for (int y = 0; y < textureSize; ++y) {

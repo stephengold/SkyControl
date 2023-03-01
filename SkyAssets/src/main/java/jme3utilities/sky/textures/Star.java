@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -109,13 +109,11 @@ class Star implements Comparable<Star> {
     Vector3f getEquatorialLocation(float siderealTime) {
         assert siderealTime >= 0f : siderealTime;
         assert siderealTime < FastMath.TWO_PI : siderealTime;
-        /*
-         * Compute the hour angle.
-         */
+
+        // Compute the hour angle.
         float hourAngle = siderealTime - rightAscension;
-        /*
-         * Convert hour angle and declination to Cartesian coordinates.
-         */
+
+        // Convert hour angle and declination to Cartesian coordinates.
         float cosDec = FastMath.cos(declination);
         float cosHA = FastMath.cos(hourAngle);
         float sinDec = FastMath.sin(declination);

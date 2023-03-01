@@ -12,7 +12,7 @@ task run(dependsOn: ':SkyExamples:AppChooser') {
     description = 'Runs the examples.'
 }
 
-// publishing tasks
+// publishing tasks:
 
 tasks.register('install') {
     dependsOn ':SkyLibrary:install'

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -54,9 +54,7 @@ public class TestSunAndStars {
      */
     @Test
     public void testSunAndStars() {
-        /*
-         * Verify the defaults.
-         */
+        // Verify the defaults.
         SunAndStars sas = new SunAndStars();
         assertEquals(0f, 0f, 1f, sas.eastDirection(null), 0f);
         Assert.assertEquals(0f, sas.getHour(), 0f);
@@ -68,17 +66,15 @@ public class TestSunAndStars {
         Assert.assertEquals(12f, sas.siderealHour(), 0f);
         assertEquals(0.7791f, -0.6269f, 0f, sas.sunDirection(null), 0.0001f);
         assertEquals(0f, 1f, 0f, sas.upDirection(null), 0f);
-        /*
-         * Convert some interesting coordinates.
-         */
+
+        // Convert some interesting coordinates.
         assertEquals(1f, 2f, 3f, sas.convertToWorld(1f, 2f, 3f, null), 0f);
         assertEquals(0.7791f, -0.6269f, 0f,
                 sas.convertToWorld(0f, 0f, null), 0.0001f); // Pisces
         Vector3f ncpDir = sas.convertToWorld(new Vector3f(0f, 0f, 1f), null);
         assertEquals(0.6269f, 0.7791f, 0f, ncpDir, 0.0001f);
-        /*
-         * Apply various orientations to the test node.
-         */
+
+        // Apply various orientations to the test node.
         final boolean invert = true;
         sas.orientEquatorialSky(node, invert);
         assertEquals(0.9019f, 0.4319f, 0f, 0f, node.getWorldRotation(),
@@ -96,9 +92,8 @@ public class TestSunAndStars {
         sas.orientStarDomes(null, node);
         assertEquals(-0.9432f, 0.3323f, 0f, 0f, node.getWorldRotation(),
                 0.0001f);
-        /*
-         * Test solar midnight on some interesting dates.
-         */
+
+        // Test solar midnight on some interesting dates.
         sas.setSolarLongitude(Calendar.DECEMBER, 31);
         assertEquals(0f, 0f, 1f, sas.eastDirection(null), 0f);
         Assert.assertEquals(0f, sas.getHour(), 0f);
@@ -134,9 +129,8 @@ public class TestSunAndStars {
         Assert.assertEquals(FastMath.PI, sas.siderealAngle(), 0.0005f);
         Assert.assertEquals(12f, sas.siderealHour(), 0.001f);
         assertEquals(0.7791f, -0.6269f, 0f, sas.sunDirection(null), 0.0001f);
-        /*
-         * Test solar midnight at some interesting latitudes.
-         */
+
+        // Test solar midnight at some interesting latitudes.
         sas.setObserverLatitude(FastMath.HALF_PI); // North Pole
         assertEquals(0f, 0f, 1f, sas.eastDirection(null), 0f);
         Assert.assertEquals(0f, sas.getHour(), 0f);
@@ -157,9 +151,8 @@ public class TestSunAndStars {
         Assert.assertEquals(-FastMath.HALF_PI, sas.getObserverLatitude(),
                 0.0001f);
         assertEquals(-1f, 0f, 0f, sas.sunDirection(null), 0.0001f);
-        /*
-         * Test some interesting times of day.
-         */
+
+        // Test some interesting times of day.
         sas.setHour(23f + (59f + 59f / 60f) / 60f); // one second to midnight
         assertEquals(0f, 0f, 1f, sas.eastDirection(null), 0f);
         Assert.assertEquals(23.9997f, sas.getHour(), 0.0001f);
@@ -177,9 +170,8 @@ public class TestSunAndStars {
         Assert.assertEquals(1.5f * FastMath.PI, sas.siderealAngle(), 0.00001f);
         Assert.assertEquals(18f, sas.siderealHour(), 0.0001f);
         assertEquals(0f, 0f, 1f, sas.sunDirection(null), 0.0001f);
-        /*
-         * Test some interesting world coordinate systems.
-         */
+
+        // Test some interesting world coordinate systems.
         sas.setAxes(new Vector3f(0f, 1f, 0f), new Vector3f(0f, 0f, 1f)); // Zup
         assertEquals(1f, 0f, 0f, sas.eastDirection(null), 0f);
         Assert.assertEquals(6f, sas.getHour(), 0.0001f);
@@ -198,9 +190,8 @@ public class TestSunAndStars {
         assertEquals(-1f, 0f, 0f, sas.northDirection(null), 0f);
         assertEquals(0f, 0f, 1f, sas.sunDirection(null), 0.0001f);
         assertEquals(0f, -1f, 0f, sas.upDirection(null), 0f);
-        /*
-         * Test cloning.
-         */
+
+        // Test cloning.
         SunAndStars copy;
         try {
             copy = sas.clone();

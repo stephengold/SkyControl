@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2022, Stephen Gold
+ Copyright (c) 2014-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -155,9 +155,8 @@ public class TestGlobeRenderer
         }
 
         TestGlobeRenderer application = new TestGlobeRenderer();
-        /*
-         * Parse the command-line arguments.
-         */
+
+        // Parse the command-line arguments.
         JCommander jCommander = new JCommander(application);
         jCommander.parse(arguments);
         jCommander.setProgramName(applicationName);
@@ -174,21 +173,18 @@ public class TestGlobeRenderer
          * permits the application to keep running while minimized.
          */
         application.setPauseOnLostFocus(false);
-        /*
-         * Customize the window's resolution.
-         */
+
+        // Customize the window's resolution.
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
         settings.setResolution(640, 480);
-        /*
-         * Customize the window's title bar.
-         */
+
+        // Customize the window's title bar.
         String title = applicationName + " " + MyString.join(arguments);
         settings.setTitle(title);
         application.setSettings(settings);
-        /*
-         * Skip the "Display Settings" dialog during startup.
-         */
+
+        // Skip the "Display Settings" dialog during startup.
         application.setShowSettings(false);
 
         application.start();
@@ -206,9 +202,7 @@ public class TestGlobeRenderer
     @Override
     public void onAction(String actionString, boolean ongoing, float ignored) {
         if (ongoing && "next".equals(actionString)) {
-            /*
-             * switch to the next phase
-             */
+            // switch to the next phase
             int ordinal = phase.ordinal() + 1;
             if (ordinal == LunarPhase.CUSTOM.ordinal()) {
                 ++ordinal;
@@ -228,9 +222,7 @@ public class TestGlobeRenderer
      */
     @Override
     public void simpleInitApp() {
-        /*
-         * Log library versions.
-         */
+        // Log library versions.
         logger.log(Level.INFO, "jme3-core version is {0}",
                 MyString.quote(JmeVersion.FULL_NAME));
         logger.log(Level.INFO, "SkyControl version is {0}",
@@ -238,13 +230,11 @@ public class TestGlobeRenderer
 
         flyCam.setEnabled(false);
         initializeUserInterface();
-        /*
-         * A background is needed to test transparency.
-         */
+
+        // A background is needed to test transparency.
         viewPort.setBackgroundColor(new ColorRGBA(0.1f, 0f, 0f, 1f));
-        /*
-         * Add a globe renderer for the moon.
-         */
+
+        // Add a globe renderer for the moon.
         boolean mipmaps = false;
         Texture moonTexture;
         try {
@@ -264,9 +254,8 @@ public class TestGlobeRenderer
                 Image.Format.Luminance8Alpha8, equatorSamples, meridianSamples,
                 moonRendererResolution);
         stateManager.attach(moonRenderer);
-        /*
-         * Create an unshaded material for each texture.
-         */
+
+        // Create an unshaded material for each texture.
         Texture dynamicTexture = moonRenderer.getTexture();
         dynamicMaterial
                 = MyAsset.createUnshadedMaterial(assetManager, dynamicTexture);
@@ -278,9 +267,8 @@ public class TestGlobeRenderer
         additional = loadedMaterial.getAdditionalRenderState();
         additional.setBlendMode(RenderState.BlendMode.Alpha);
         additional.setDepthWrite(false);
-        /*
-         * Add twin quads to the scene and apply a different material to each.
-         */
+
+        // Add twin quads to the scene and apply a different material to each.
         float quadSize = 3f; // world units
         boolean flip = true;
         Quad quad = new Quad(quadSize, quadSize, flip);
@@ -306,19 +294,15 @@ public class TestGlobeRenderer
      * Initialize the user interface.
      */
     private void initializeUserInterface() {
-        /*
-         * Capture a screenshot each time the KEY_SYSRQ hotkey is pressed.
-         */
+        // Capture a screenshot each time the KEY_SYSRQ hotkey is pressed.
         ScreenshotAppState screenShotState = new ScreenshotAppState();
         boolean success = stateManager.attach(screenShotState);
         assert success;
-        /*
-         * Disable jME3 stat view.
-         */
+
+        // Disable jME3 stat view.
         setDisplayStatView(false);
-        /*
-         * Press spacebar or left-click to advance to the next phase.
-         */
+
+        // Press spacebar or left-click to advance to the next phase.
         inputManager.addMapping("next", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("next",
                 new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
@@ -329,16 +313,13 @@ public class TestGlobeRenderer
      * Update the scene after changing the phase.
      */
     private void updateScene() {
-        /*
-         * Reconfigure the globe renderer.
-         */
+        // Reconfigure the globe renderer.
         float theta = phase.longitudeDifference();
         float intensity = 2f + FastMath.abs(theta - FastMath.PI);
         moonRenderer.setLightIntensity(intensity);
         moonRenderer.setPhase(theta, 0f);
-        /*
-         * Load the corresponding static texture asset.
-         */
+
+        // Load the corresponding static texture asset.
         String loadAssetPath = phase.imagePath("");
         boolean mipmaps = false;
         Texture loadedTexture;

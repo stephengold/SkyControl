@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -146,9 +146,8 @@ public class SunAndStars implements Cloneable, Savable {
         Validate.inRange(latitude, "latitude",
                 -FastMath.HALF_PI, FastMath.HALF_PI);
         Validate.inRange(longitude, "longitude", 0f, FastMath.TWO_PI);
-        /*
-         * Convert angles to Cartesian ecliptical coordinates.
-         */
+
+        // Convert angles to Cartesian ecliptical coordinates.
         float cosLat = FastMath.cos(latitude);
         float sinLat = FastMath.sin(latitude);
         float cosLon = FastMath.cos(longitude);
@@ -156,9 +155,8 @@ public class SunAndStars implements Cloneable, Savable {
         Vector3f ecliptical = new Vector3f(
                 cosLat * cosLon, cosLat * sinLon, sinLat);
         assert ecliptical.isUnitVector() : ecliptical;
-        /*
-         * Convert to equatorial coordinates.
-         */
+
+        // Convert to equatorial coordinates.
         Vector3f equatorial = convertToEquatorial(ecliptical);
 
         assert equatorial.isUnitVector() : equatorial;
@@ -274,9 +272,8 @@ public class SunAndStars implements Cloneable, Savable {
         float northing = -rotated.x;
         float height = rotated.z;
         float easting = rotated.y;
-        /*
-         * Convert to world coordinates.
-         */
+
+        // Convert to world coordinates.
         convertToWorld(northing, height, easting, result);
 
         return result;
@@ -383,10 +380,7 @@ public class SunAndStars implements Cloneable, Savable {
         float siderealAngle = siderealAngle();
         Quaternion yRotation = new Quaternion();
         Quaternion zRotation = new Quaternion();
-        if (northDome != null) {
-            /*
-             * Orient the north dome.
-             */
+        if (northDome != null) { // Orient the north dome.
             yRotation.fromAngles(0f, -siderealAngle, 0f);
             float coLatitude = FastMath.HALF_PI - observerLatitude;
             zRotation.fromAngles(0f, 0f, -coLatitude);
@@ -394,10 +388,7 @@ public class SunAndStars implements Cloneable, Savable {
             convertToWorld(orientation);
             MySpatial.setWorldOrientation(northDome, orientation);
         }
-        if (southDome != null) {
-            /*
-             * Orient the south dome.
-             */
+        if (southDome != null) { // Orient the south dome.
             yRotation.fromAngles(0f, siderealAngle, 0f);
             float angle = FastMath.HALF_PI + observerLatitude;
             zRotation.fromAngles(0f, 0f, angle);
@@ -462,9 +453,8 @@ public class SunAndStars implements Cloneable, Savable {
         Validate.inRange(longitude, "longitude", 0f, FastMath.TWO_PI);
 
         solarLongitude = longitude;
-        /*
-         * Update the cached solar right ascension.
-         */
+
+        // Update the cached solar right ascension.
         Vector3f equatorial = convertToEquatorial(0f, longitude);
         float ra = -FastMath.atan2(equatorial.y, equatorial.x);
         solarRaHours
@@ -490,16 +480,14 @@ public class SunAndStars implements Cloneable, Savable {
     public void setSolarLongitude(int month, int day) {
         Validate.inRange(month, "month", 0, 11);
         Validate.inRange(day, "day", 1, 31);
-        /*
-         * Convert month and day to day-of-the-year.
-         */
+
+        // Convert month and day to day-of-the-year.
         int year = 2_000; // a recent leap year
         Calendar calendar = new GregorianCalendar();
         calendar.set(year, month, day, 12, 0, 0); // noon, standard time
         int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
-        /*
-         * Compute the approximate solar longitude (in radians).
-         */
+
+        // Compute the approximate solar longitude (in radians).
         float daysSinceEquinox = dayOfYear - 80;
         float longitude = FastMath.TWO_PI * daysSinceEquinox / 366f;
 

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -167,9 +167,8 @@ public class LandscapeControl extends SubtreeControl {
         Validate.nonNull(assetManager, "asset manager");
 
         this.assetManager = assetManager;
-        /*
-         * Generate monument and terrain and attach them to the subtree.
-         */
+
+        // Generate monument and terrain and attach them to the subtree.
         Spatial monument = createMonument();
         TerrainQuad terrain = createTerrain();
 
@@ -363,9 +362,7 @@ public class LandscapeControl extends SubtreeControl {
      * Load terrain from assets.
      */
     private TerrainQuad createTerrain() {
-        /*
-         * Create the terrain quad.
-         */
+        // Create the terrain quad.
         AbstractHeightMap heightMap = loadHeightMap();
         terrainDiameter = heightMap.getSize();
 

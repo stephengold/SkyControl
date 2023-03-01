@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2022, Stephen Gold
+ Copyright (c) 2014-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -87,23 +87,13 @@ public class MakeClouds {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class and also for writeMap().
-         */
-        //logger.setLevel(Level.INFO);
-        //Logger.getLogger(jme3utilities.Heart.class.getName())
-        //        .setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
+
+        // Instantiate the application.
         MakeClouds application = new MakeClouds();
-        /*
-         * Parse the command-line arguments.
-         */
+
+        // Parse the command-line arguments, if any.
         JCommander jCommander = new JCommander(application);
         jCommander.parse(arguments);
         jCommander.setProgramName(applicationName);
@@ -111,9 +101,8 @@ public class MakeClouds {
             jCommander.usage();
             return;
         }
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
@@ -153,9 +142,8 @@ public class MakeClouds {
         int numOctaves = 12;
         float gain = 0.45f;
         float lacunarity = 2f;
-        /*
-         * Generate FBM noise and store it in a 2-D array.
-         */
+
+        // Generate FBM noise and store it in a 2-D array.
         samples = new float[numRows][];
         for (int x = 0; x < numRows; ++x) {
             float u = ((float) x) / numRows;
@@ -167,9 +155,8 @@ public class MakeClouds {
                 samples[x][y] = n;
             }
         }
-        /*
-         * Normalize the noise to fill the range [0, 1].
-         */
+
+        // Normalize the noise to fill the range [0, 1].
         float max = Float.MIN_VALUE;
         float min = Float.MAX_VALUE;
         for (int x = 0; x < numRows; ++x) {
@@ -210,9 +197,8 @@ public class MakeClouds {
         BufferedImage map = new BufferedImage(textureSize, textureSize,
                 BufferedImage.TYPE_BYTE_GRAY);
         Graphics2D graphics = map.createGraphics();
-        /*
-         * Set brightness of each pixel based on the noise array.
-         */
+
+        // Set brightness of each pixel based on the noise array.
         for (int x = 0; x < textureSize; ++x) {
             for (int y = 0; y < textureSize; ++y) {
                 float alpha = samples[x][y];
@@ -242,9 +228,8 @@ public class MakeClouds {
         BufferedImage map = new BufferedImage(textureSize, textureSize,
                 BufferedImage.TYPE_BYTE_GRAY);
         Graphics2D graphics = map.createGraphics();
-        /*
-         * Set brightness of each pixel.
-         */
+
+        // Set brightness of each pixel.
         for (int x = 0; x < textureSize; ++x) {
             for (int y = 0; y < textureSize; ++y) {
                 Heart.setGrayPixel(graphics, x, y, alpha, 1f);

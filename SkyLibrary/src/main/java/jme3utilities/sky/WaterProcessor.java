@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2019, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -79,9 +79,7 @@ public class WaterProcessor extends SimpleWaterProcessor {
         Validate.nonNull(listener, "listener");
 
         if (isInitialized()) {
-            /*
-             * Inform the listener about the already-created viewports.
-             */
+            // Inform the listener about the already-created viewports.
             listener.addViewPort(reflectionView);
             listener.addViewPort(refractionView);
         } else {
@@ -104,9 +102,8 @@ public class WaterProcessor extends SimpleWaterProcessor {
     @Override
     public void initialize(RenderManager renderManager, ViewPort viewPort) {
         super.initialize(renderManager, viewPort);
-        /*
-         * Inform registered listeners about two new viewports.
-         */
+
+        // Inform registered listeners about two new viewports.
         for (ViewPortListener listener : listeners) {
             listener.addViewPort(reflectionView);
             listener.addViewPort(refractionView);

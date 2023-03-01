@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -431,9 +431,8 @@ public class Updater
         assert shadowIntensity <= 1f : shadowIntensity;
         assert direction != null;
         assert direction.isUnitVector() : direction;
-        /*
-         * Copy new values to the corresponding "most recent" fields.
-         */
+
+        // Copy new values to the corresponding "most recent" fields.
         if (this.ambientColor == null) {
             this.ambientColor = ambientColor.clone();
         } else {

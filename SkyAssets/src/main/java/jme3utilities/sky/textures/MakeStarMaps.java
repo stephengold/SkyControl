@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -200,23 +200,13 @@ public class MakeStarMaps {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        /*
-         * Mute the chatty loggers found in some imported packages.
-         */
+        // Mute the chatty loggers found in some imported packages.
         Heart.setLoggingLevels(Level.WARNING);
-        /*
-         * Set the logging level for this class and also for writeMap().
-         */
-        //logger.setLevel(Level.INFO);
-        //Logger.getLogger(jme3utilities.Heart.class.getName())
-        //        .setLevel(Level.INFO);
-        /*
-         * Instantiate the application.
-         */
+
+        // Instantiate the application.
         MakeStarMaps application = new MakeStarMaps();
-        /*
-         * Parse the command-line arguments.
-         */
+
+        // Parse the command-line arguments.
         JCommander jCommander = new JCommander(application);
         jCommander.parse(arguments);
         jCommander.setProgramName(applicationName);
@@ -226,30 +216,24 @@ public class MakeStarMaps {
         }
         if (!"all".equals(presetName)) {
             StarMapPreset preset = StarMapPreset.fromDescription(presetName);
-            if (preset == null) {
-                /*
-                 * invalid preset name
-                 */
+            if (preset == null) { // invalid preset name
                 jCommander.usage();
                 return;
             }
         }
-        /*
-         * Log the working directory.
-         */
+
+        // Log the working directory.
         String userDir = System.getProperty("user.dir");
         logger.log(Level.INFO, "working directory is {0}",
                 MyString.quote(userDir));
-        /*
-         * Read the star catalog.
-         */
+
+        // Read the star catalog.
         application.readCatalog();
         if (application.stars.isEmpty()) {
             return;
         }
-        /*
-         * Generate texture maps.
-         */
+
+        // Generate texture maps.
         if ("all".equals(presetName)) {
             for (StarMapPreset preset : StarMapPreset.values()) {
                 application.generateMap(preset);
@@ -280,19 +264,14 @@ public class MakeStarMaps {
         Vector3f faceDir = MyAsset.copyFaceDirection(faceIndex);
         Vector3f norm = direction.normalize();
         float dot = faceDir.dot(norm);
-        if (dot < 0.5f) {
-            /*
-             * way outside the face
-             */
+        if (dot < 0.5f) { // way outside the face
             return null;
         }
-        /*
-         * project outward to the plane of the face
-         */
+
+        // project outward to the plane of the face
         norm.divideLocal(dot);
-        /*
-         * convert to texture coordinates
-         */
+
+        // convert to texture coordinates
         Vector3f uDir = MyAsset.copyUDirection(faceIndex);
         Vector3f vDir = MyAsset.copyVDirection(faceIndex);
         float u = 0.5f * (1f + uDir.dot(norm));
@@ -312,16 +291,14 @@ public class MakeStarMaps {
     private static float declination(String line)
             throws InvalidEntryException {
         assert line != null;
-        /*
-         * Extract declination components from the line of text.
-         */
+
+        // Extract declination components from the line of text.
         String dd = line.substring(83, 86);
         String mm = line.substring(86, 88);
         String ss = line.substring(88, 90);
         logger.log(Level.FINE, "{0}d {1}m {2}s", new Object[]{dd, mm, ss});
-        /*
-         * sanity checks
-         */
+
+        // sanity checks
         int degrees = Integer.parseInt(dd);
         if (degrees < -maxDeclination || degrees > maxDeclination) {
             throw new InvalidEntryException(
@@ -337,9 +314,8 @@ public class MakeStarMaps {
             throw new InvalidEntryException(
                     "dec seconds should be between 0 and 59, inclusive");
         }
-        /*
-         * Convert to an angle.
-         */
+
+        // Convert to an angle.
         float result; // in degrees
         if (degrees > 0) {
             result = degrees + minutes / 60f + seconds / 3600f;
@@ -368,17 +344,15 @@ public class MakeStarMaps {
         assert siderealTime >= 0f : siderealTime;
         assert siderealTime < FastMath.TWO_PI : siderealTime;
         assert textureSize > 2 : textureSize;
-        /*
-         * Create a blank, grayscale buffered image for each texture map.
-         */
+
+        // Create a blank, grayscale buffered image for each texture map.
         BufferedImage[] maps = new BufferedImage[6];
         for (int faceIndex = 0; faceIndex < 6; ++faceIndex) {
             maps[faceIndex] = new BufferedImage(textureSize, textureSize,
                     BufferedImage.TYPE_BYTE_GRAY);
         }
-        /*
-         * Plot individual stars on the images, starting with the faintest.
-         */
+
+        // Plot individual stars on the images, starting with the faintest.
         int plotCount = 0;
         for (Star star : stars) {
             boolean success = plotStarOnCube(maps, star, latitude,
@@ -445,9 +419,8 @@ public class MakeStarMaps {
 
         int textureSize = preset.textureSize();
         logger.log(Level.FINE, "resolution is {0} pixels", textureSize);
-        /*
-         * Convert the sidereal time from hours to radians.
-         */
+
+        // Convert the sidereal time from hours to radians.
         float siderealTime = siderealHour * radiansPerHour;
 
         if (forCube) {
@@ -565,9 +538,8 @@ public class MakeStarMaps {
         float cornerOffset = 0.5f * (squareSize - 1);
         int x = Math.round(u * textureSize - cornerOffset);
         int y = Math.round(v * textureSize - cornerOffset);
-        /*
-         * Plot the star onto the texture map.
-         */
+
+        // Plot the star onto the texture map.
         Graphics2D graphics = map.createGraphics();
         graphics.setColor(color);
         graphics.fillRect(x, y, squareSize, squareSize);
@@ -762,9 +734,8 @@ public class MakeStarMaps {
         assert worldDirection != null;
         assert worldDirection.isUnitVector() : worldDirection;
         assert textureSize > 2 : textureSize;
-        /*
-         * Convert apparent magnitude to relative luminosity.
-         */
+
+        // Convert apparent magnitude to relative luminosity.
         float resolution = textureSize / 2_048f;
         float luminosity0 = 100f * resolution * resolution;
         float luminosity = luminosity0 * 1.5f
@@ -835,10 +806,7 @@ public class MakeStarMaps {
         rotation.fromAngleNormalAxis(-coLatitude, Vector3f.UNIT_Y);
         Vector3f rotated = rotation.mult(equatorial);
         assert rotated.isUnitVector() : rotated;
-        if (rotated.z < 0f) {
-            /*
-             * The star lies below the horizon, so skip it.
-             */
+        if (rotated.z < 0f) { // The star lies below the horizon, so skip it.
             return false;
         }
         Vector3f world = new Vector3f(-rotated.x, rotated.z, rotated.y);
@@ -865,9 +833,8 @@ public class MakeStarMaps {
         assert worldDirection != null;
         assert worldDirection.isUnitVector() : worldDirection;
         assert textureSize > 2 : textureSize;
-        /*
-         * Convert apparent magnitude to relative luminosity.
-         */
+
+        // Convert apparent magnitude to relative luminosity.
         float resolution = textureSize / 2_048f;
         float luminosity0 = 37f * resolution * resolution;
         float luminosity = luminosity0
@@ -875,9 +842,8 @@ public class MakeStarMaps {
         if (luminosity < luminosityCutoff) {
             return false;
         }
-        /*
-         * Convert world direction to texture coordinates on a dome.
-         */
+
+        // Convert world direction to texture coordinates on a dome.
         Vector2f uv = domeMesh.directionUV(worldDirection);
 
         if (luminosity <= 37f) {
@@ -940,9 +906,7 @@ public class MakeStarMaps {
             String textLine;
             textLine = bufferedReader.readLine();
             if (textLine == null) {
-                /*
-                 * Might have reached the end of the catalog file.
-                 */
+                // Might have reached the end of the catalog file.
                 break;
             }
             logger.log(Level.FINE, "{0}", textLine);
@@ -958,9 +922,8 @@ public class MakeStarMaps {
                 continue;
             }
             ++readEntries;
-            /*
-             * Cope with missing/duplicate entry ids.
-             */
+
+            // Cope with missing/duplicate entry ids.
             int actualEntry = Integer.parseInt(actualPrefix.trim());
             if (actualEntry > nextEntry) {
                 logger.log(Level.FINE, "missed entries #{0} through #{1}",
@@ -999,18 +962,16 @@ public class MakeStarMaps {
             }
             ++nextEntry;
         }
-        /*
-         * Verify that the entire catalog was read.
-         */
+
+        // Verify that the entire catalog was read.
         int lastEntryRead = nextEntry - 1;
         if (lastEntryRead != lastEntryExpected) {
             logger.log(Level.WARNING,
                     "expected last entry to be #{0} but it was actually #{1}",
                     new Object[]{lastEntryExpected, lastEntryRead});
         }
-        /*
-         * Log statistics.
-         */
+
+        // Log statistics.
         if (missedEntries > 0) {
             logger.log(Level.WARNING, "missed {0} entries", missedEntries);
         }
@@ -1037,17 +998,15 @@ public class MakeStarMaps {
             throws InvalidEntryException, InvalidMagnitudeException {
         assert textLine != null;
         assert entryId >= 1 : entryId;
-        /*
-         * Extract the apparent magnitude field from the line of text.
-         */
+
+        // Extract the apparent magnitude field from the line of text.
         if (textLine.length() < 107) {
             throw new InvalidEntryException("catalog entry is too short");
         }
         String magnitudeText = textLine.substring(102, 107);
         logger.log(Level.FINE, "mag={0}", magnitudeText);
-        /*
-         * sanity checks on the magnitude
-         */
+
+        // sanity checks on the magnitude
         if (magnitudeText.equals("     ")) {
             throw new InvalidMagnitudeException();
         }
@@ -1072,9 +1031,8 @@ public class MakeStarMaps {
         float declinationDegrees = declination(textLine);
         float declination = MyMath.toRadians(declinationDegrees);
         float rightAscension = rightAscensionHours(textLine) * radiansPerHour;
-        /*
-         * Instantiate the star.
-         */
+
+        // Instantiate the star.
         Star result = new Star(rightAscension, declination, apparentMagnitude);
 
         return result;
@@ -1089,16 +1047,14 @@ public class MakeStarMaps {
     private static float rightAscensionHours(String line)
             throws InvalidEntryException {
         assert line != null;
-        /*
-         * Extract right ascension components from the line of text.
-         */
+
+        // Extract right ascension components from the line of text.
         String hh = line.substring(75, 77);
         String mm = line.substring(77, 79);
         String ss = line.substring(79, 83);
         logger.log(Level.FINE, "{0}:{1}:{2}", new Object[]{hh, mm, ss});
-        /*
-         * sanity checks
-         */
+
+        // sanity checks
         int hours = Integer.parseInt(hh);
         if (hours < 0 || hours >= Constants.hoursPerDay) {
             throw new InvalidEntryException(
@@ -1114,9 +1070,8 @@ public class MakeStarMaps {
             throw new InvalidEntryException(
                     "RA seconds should be between 0 and 59, inclusive");
         }
-        /*
-         * Convert to an angle.
-         */
+
+        // Convert to an angle.
         float result = hours + minutes / 60f + seconds / 3600f; // in hours
 
         assert result >= 0f : result;

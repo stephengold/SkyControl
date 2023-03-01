@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -158,10 +158,9 @@ enum StarMapPreset {
                 return -FastMath.HALF_PI;
             case WILTSHIRE_4M:
             case WILTSHIRE_16M:
-                /*
-                 * Stonehenge
-                 */
+                // Stonehenge
                 return MyMath.toRadians(51.1788f);
+
             default:
                 throw new IllegalStateException("preset = " + this);
         }

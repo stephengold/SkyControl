@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2022, Stephen Gold
+ Copyright (c) 2014-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -511,9 +511,7 @@ public class SkyMaterialCore extends Material {
         setVector2(objectParameterName, hidden);
         objectCenters[objectIndex].set(hidden);
 
-        /*
-         * Scale down the object to occupy only a few pixels in texture space.
-         */
+        // Scale down the object to occupy only a few pixels in texture space.
         float scale = 1000f;
         String transformUParameterName
                 = String.format(Locale.ROOT, "Object%dTransformU", objectIndex);
@@ -709,31 +707,25 @@ public class SkyMaterialCore extends Material {
             }
 
         } else {
-            /*
-             * No UV distortion at the top of the dome.
-             */
+            // No UV distortion at the top of the dome.
             transformU.set(1f, 0f);
             transformV.set(0f, 1f);
         }
 
         if (newRotate != null) {
-            /*
-             * Rotate so top is toward the north horizon.
-             */
+            // Rotate so top is toward the north horizon.
             tU.set(transformV);
             tV.set(-transformU.x, -transformU.y);
-            /*
-             * Rotate by newRotate.
-             */
+
+            // Rotate by newRotate.
             Vector2f norm = newRotate.normalize();
             transformU.set(tU.x * norm.x + tV.x * norm.y,
                     tU.y * norm.x + tV.y * norm.y);
             transformV.set(tV.x * norm.x - tU.x * norm.y,
                     tV.y * norm.x - tU.y * norm.y);
         }
-        /*
-         * Scale by newScale.
-         */
+
+        // Scale by newScale.
         transformU.divideLocal(newScale);
         transformV.divideLocal(newScale);
 
@@ -796,9 +788,8 @@ public class SkyMaterialCore extends Material {
         System.arraycopy(sav, 0, cloudOffsets, 0, sav.length);
 
         cloudScales = capsule.readFloatArray("cloudScales", null);
-        /*
-         * astronomical objects
-         */
+
+        // astronomical objects
         sav = capsule.readSavableArray("objectCenters", null);
         objectCenters = new Vector2f[sav.length];
         System.arraycopy(sav, 0, objectCenters, 0, sav.length);
@@ -909,16 +900,14 @@ public class SkyMaterialCore extends Material {
         float yFraction1 = y - y0;
         float yFraction0 = 1 - yFraction1;
         int y1 = (y0 + 1) % height;
-        /*
-         * Access the red values of the four nearest pixels.
-         */
+
+        // Access the red values of the four nearest pixels.
         float r00 = colorImage.getPixel(x0, y0).r;
         float r01 = colorImage.getPixel(x1, y0).r;
         float r10 = colorImage.getPixel(x0, y1).r;
         float r11 = colorImage.getPixel(x1, y1).r;
-        /*
-         * Sample using bidirectional linear interpolation.
-         */
+
+        // Sample using bidirectional linear interpolation.
         float result = r00 * xFraction0 * yFraction0
                 + r01 * xFraction0 * yFraction1
                 + r10 * xFraction1 * yFraction0

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2022, Stephen Gold
+ Copyright (c) 2014-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -105,9 +105,8 @@ public class CubeMapExample extends SimpleApplication {
         initializeSky();
 
         stateManager.attach(new PerformanceAppState());
-        /*
-         * Detach any JME stats app state(s).
-         */
+
+        // Detach any JME stats app state(s).
         Heart.detachAll(stateManager, StatsAppState.class);
     }
     // *************************************************************************
@@ -132,9 +131,7 @@ public class CubeMapExample extends SimpleApplication {
      * Create, configure, add, and enable the landscape.
      */
     private void initializeLandscape() {
-        /*
-         * textures
-         */
+        // textures
         Texture alphaMap = assetManager.loadTexture(
                 "Textures/Terrain/splat/alphamap.png");
         Texture dirt = loadSplatTexture("dirt.jpg");
@@ -162,9 +159,8 @@ public class CubeMapExample extends SimpleApplication {
         terrainMaterial.setTexture("NormalMap", grassNormal);
         terrainMaterial.setTexture("NormalMap_1", dirtNormal);
         terrainMaterial.setTexture("NormalMap_2", roadNormal);
-        /*
-         * spatials
-         */
+
+        // spatials
         Image image = heights.getImage();
         ImageBasedHeightMap heightMap = new ImageBasedHeightMap(image);
         heightMap.load();

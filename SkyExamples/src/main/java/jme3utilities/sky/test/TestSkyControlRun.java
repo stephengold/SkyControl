@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -186,9 +186,7 @@ public class TestSkyControlRun
      * Load the scene from an asset.
      */
     void load() {
-        /*
-         * Remove any copy from the asset manager's cache.
-         */
+        // Remove any copy from the asset manager's cache.
         ModelKey key = new ModelKey(saveAssetPath);
         assetManager.deleteFromCache(key);
 
@@ -240,16 +238,14 @@ public class TestSkyControlRun
         if (moonRenderer != null) {
             skyControl.setMoonRenderer(moonRenderer);
         }
-        /*
-         * Replace the old scene node.
-         */
+
+        // Replace the old scene node.
         Node parent = sceneNode.getParent();
         parent.detachChild(sceneNode);
         parent.attachChild(loadedNode);
         sceneNode = loadedNode;
-        /*
-         * Set GUI controls in the HUD to match the scene.
-         */
+
+        // Set GUI controls in the HUD to match the scene.
         hud.matchScene(skyControl, landscapeControl);
     }
 
@@ -355,9 +351,8 @@ public class TestSkyControlRun
     public void setEnabled(boolean newSetting) {
         boolean oldSetting = isEnabled();
         super.setEnabled(newSetting);
-        /*
-         * Show HUD only when this state is enabled.
-         */
+
+        // Show HUD only when this state is enabled.
         if (!oldSetting && newSetting) {
             TestSkyControl.hud.setEnabled(showHud);
         } else if (oldSetting && !newSetting) {
@@ -373,9 +368,8 @@ public class TestSkyControlRun
     @Override
     public void update(float tpf) {
         super.update(tpf);
-        /*
-         * Adjust SkyControl parameters based on GUI controls in the HUD.
-         */
+
+        // Adjust SkyControl parameters based on GUI controls in the HUD.
         LunarPhase lunarPhase = hud.getLunarPhase();
         skyControl.setPhase(lunarPhase);
         if (lunarPhase == LunarPhase.CUSTOM) {
@@ -422,16 +416,14 @@ public class TestSkyControlRun
 
         float topVerticalAngle = hud.getTopVerticalAngle();
         skyControl.setTopVerticalAngle(topVerticalAngle);
-        /*
-         * Adjust vertical scale of the terrain based on a slider in the HUD.
-         */
+
+        // Adjust vertical scale of the terrain based on a slider in the HUD.
         float radius = 0.5f * cam.getFrustumFar();
         float baseY = 0f;
         float topY = hud.getRelief();
         landscapeControl.setTerrainScale(radius, baseY, topY);
-        /*
-         * Enable or disable lights based on check boxes in the HUD.
-         */
+
+        // Enable or disable lights based on check boxes in the HUD.
         boolean added = MySpatial.hasLight(sceneNode, ambientLight);
         boolean ambientLightOn = hud.getAmbientFlag();
         if (ambientLightOn && !added) {
@@ -446,9 +438,8 @@ public class TestSkyControlRun
         } else if (!mainLightOn && added) {
             sceneNode.removeLight(mainLight);
         }
-        /*
-         * Enable or disable controls based on check boxes in the HUD.
-         */
+
+        // Enable or disable controls based on check boxes in the HUD.
         boolean floorFlag = hud.getFloorFlag();
         floorControl.setEnabled(floorFlag);
         boolean landscapeFlag = hud.getLandscapeFlag();
@@ -473,9 +464,7 @@ public class TestSkyControlRun
         }
 
         if (cubeMap != null) {
-            /*
-             * Translate the external star map to center it on the camera.
-             */
+            // Translate the external star map to center it on the camera.
             Vector3f cameraLocation = cam.getLocation();
             MySpatial.setWorldLocation(cubeMap, cameraLocation);
             /*
@@ -487,9 +476,8 @@ public class TestSkyControlRun
             float cubeRadius = (near + far) / 2f;
             assert cubeRadius > near : cubeRadius;
             MySpatial.setWorldScale(cubeMap, cubeRadius);
-            /*
-             * Re-orient the external star map.
-             */
+
+            // Re-orient the external star map.
             skyControl.getSunAndStars().orientEquatorialSky(cubeMap, false);
         }
     }
@@ -514,7 +502,7 @@ public class TestSkyControlRun
      */
     @Override
     public void removeViewPort(ViewPort unused) {
-        /* no action taken */
+        // no action taken
     }
     // *************************************************************************
     // private methods
@@ -682,9 +670,8 @@ public class TestSkyControlRun
             cubeMap.setName(cubeName);
             sceneNode.attachChild(cubeMap);
         }
-        /*
-         * Create a SkyControl to animate the sky.
-         */
+
+        // Create a SkyControl to animate the sky.
         boolean bottomDome;
         float cloudFlattening;
         StarsOption starsOption;
@@ -712,9 +699,7 @@ public class TestSkyControlRun
             skyControl.getCloudLayer(1).clearTexture();
         }
         try {
-            /*
-             * Set up a globe renderer for the Moon.
-             */
+            // Set up a globe renderer for the Moon.
             boolean mipmaps = false;
             Texture moonTexture = MyAsset.loadTexture(assetManager,
                     "Textures/skies/moon/clementine.png", mipmaps);

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -519,9 +519,7 @@ public class SkyControl extends SkyControlCore {
         double cosSquared = MyMath.sumOfSquares(mainDirection.x,
                 mainDirection.z);
         if (cosSquared == 0.0) {
-            /*
-             * Special case when the main light is directly overhead.
-             */
+            // Special case when the main light is directly overhead.
             return new Vector3f(0f, 1f, 0f);
         }
 
@@ -560,10 +558,7 @@ public class SkyControl extends SkyControlCore {
         double w = (-b + Math.sqrt(discriminant)) / (2.0 * a);
 
         double distance = w / cosAltitude;
-        if (distance > 1.0) {
-            /*
-             * Squash rounding errors.
-             */
+        if (distance > 1.0) { // Squash rounding errors.
             distance = 1.0;
         }
         float x = (float) (mainDirection.x * distance);
@@ -718,14 +713,11 @@ public class SkyControl extends SkyControlCore {
         }
 
         ColorRGBA cloudsColor = updateCloudsColor(baseColor, sunUp, moonUp);
-        /*
-         * Determine what fraction of the main light passes through the clouds.
-         */
+
+        // Determine what fraction of the main light passes through the clouds.
         float transmit;
         if (cloudModulationFlag && (sunUp || moonUp && moonWeight > 0f)) {
-            /*
-             * Modulate light intensity as clouds pass in front.
-             */
+            // Modulate light intensity as clouds pass in front.
             Vector3f intersection = intersectCloudDome(mainDirection);
             DomeMesh cloudsMesh = getCloudsMesh();
             Vector2f texCoord = cloudsMesh.directionUV(intersection);
@@ -735,9 +727,8 @@ public class SkyControl extends SkyControlCore {
         } else {
             transmit = 1f;
         }
-        /*
-         * Determine the color and intensity of the main light.
-         */
+
+        // Determine the color and intensity of the main light.
         ColorRGBA main;
         if (sunUp) {
             /*
@@ -775,9 +766,8 @@ public class SkyControl extends SkyControlCore {
         float totalAmount = mainAmount + ambientAmount;
         assert totalAmount > 0f : totalAmount;
         float shadowIntensity = FastMath.saturate(mainAmount / totalAmount);
-        /*
-         * Determine the recommended bloom intensity using the sun's altitude.
-         */
+
+        // Determine the recommended bloom intensity using the sun's altitude.
         float bloomIntensity = 6f * sineSolarAltitude;
         bloomIntensity = FastMath.clamp(bloomIntensity, 0f, 1.7f);
 
@@ -842,18 +832,16 @@ public class SkyControl extends SkyControlCore {
         assert sineSolarAltitude >= -1f : sineSolarAltitude;
         assert sineLunarAltitude <= 1f : sineLunarAltitude;
         assert sineLunarAltitude >= -1f : sineLunarAltitude;
-        /*
-         * Update the sun's color.
-         */
+
+        // Update the sun's color.
         float green = FastMath.saturate(3f * sineSolarAltitude);
         float blue = FastMath.saturate(sineSolarAltitude - 0.1f);
         ColorRGBA sunColor = new ColorRGBA(1f, green, blue, Constants.alphaMax);
         SkyMaterial topMaterial = getTopMaterial();
         topMaterial.setObjectColor(sunIndex, sunColor);
         topMaterial.setObjectGlow(sunIndex, sunColor);
-        /*
-         * Update the moon's color.
-         */
+
+        // Update the moon's color.
         green = FastMath.saturate(2f * sineLunarAltitude + 0.6f);
         blue = FastMath.saturate(5f * sineLunarAltitude + 0.1f);
         ColorRGBA moonColor = new ColorRGBA(
@@ -867,17 +855,12 @@ public class SkyControl extends SkyControlCore {
      * @return world direction to the sun (new unit vector)
      */
     private Vector3f updateSun() {
-        /*
-         * Calculate the UV coordinates of the center of the sun.
-         */
+        // Calculate the UV coordinates of the center of the sun.
         Vector3f worldDirection = sunAndStars.sunDirection(null);
         DomeMesh topMesh = getTopMesh();
         Vector2f uv = topMesh.directionUV(worldDirection);
         SkyMaterial topMaterial = getTopMaterial();
-        if (uv == null) {
-            /*
-             * The sun is below the horizon, so hide it.
-             */
+        if (uv == null) { // The sun is below the horizon, so hide it.
             topMaterial.hideObject(sunIndex);
         } else {
             topMaterial.setObjectTransform(sunIndex, uv, sunScale, null);
