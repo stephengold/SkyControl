@@ -29,7 +29,7 @@
     <!-- See https://checkstyle.org/config_sizes.html -->
     <module name="FileLength">
         <property name="max" value="1200"/>
-    </module>    
+    </module>
     <module name="LineLength">
         <property name="fileExtensions" value="java"/>
         <property name="max" value="80"/>
@@ -326,6 +326,7 @@
             <property name="allowSamelineMultipleAnnotations" value="true"/>
         </module>
         <module name="NonEmptyAtclauseDescription"/>
+
         <!-- Checks for Javadoc comments.                   -->
         <!-- See https://checkstyle.org/config_javadoc.html -->
         <module name="InvalidJavadocPosition"/>
@@ -380,7 +381,7 @@
         <!-- See https://checkstyle.org/config_sizes.html -->
         <module name="MethodLength">
             <property name="max" value="160"/>
-        </module>        
+        </module>
         <module name="ParameterNumber">
             <property name="max" value="6"/>
         </module>
