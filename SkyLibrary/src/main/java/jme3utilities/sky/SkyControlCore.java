@@ -268,7 +268,7 @@ public class SkyControlCore extends SubtreeControl {
          */
         cloudLayers = new CloudLayer[numCloudLayers];
         for (int layerIndex = 0; layerIndex < numCloudLayers; ++layerIndex) {
-            cloudLayers[layerIndex] = new CloudLayer(
+            this.cloudLayers[layerIndex] = new CloudLayer(
                     cloudsMaterial, layerIndex);
         }
 
@@ -432,7 +432,7 @@ public class SkyControlCore extends SubtreeControl {
      * @param newRate multiple of the default rate (may be negative, default=1)
      */
     public void setCloudsRate(float newRate) {
-        cloudsRate = newRate;
+        this.cloudsRate = newRate;
     }
 
     /**
@@ -483,7 +483,7 @@ public class SkyControlCore extends SubtreeControl {
      * to allow rotation
      */
     public void setStabilizeFlag(boolean newState) {
-        stabilizeFlag = newState;
+        this.stabilizeFlag = newState;
     }
 
     /**
@@ -748,8 +748,8 @@ public class SkyControlCore extends SubtreeControl {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        camera = cloner.clone(camera);
-        cloudLayers = cloner.clone(cloudLayers);
+        this.camera = cloner.clone(camera);
+        this.cloudLayers = cloner.clone(cloudLayers);
     }
 
     /**
@@ -800,22 +800,23 @@ public class SkyControlCore extends SubtreeControl {
         super.read(importer);
         InputCapsule ic = importer.getCapsule(this);
 
-        assetManager = importer.getAssetManager();
-        stabilizeFlag = ic.readBoolean("stabilizeFlag", false);
+        this.assetManager = importer.getAssetManager();
+        this.stabilizeFlag = ic.readBoolean("stabilizeFlag", false);
         /* for backward compatibility with version 0.9.11 and earlier: */
         boolean starMotionFlag = ic.readBoolean("starMotionFlag", false);
-        starsOption = starMotionFlag ? StarsOption.Cube : StarsOption.TopDome;
-        starsOption = ic.readEnum("starsOption", StarsOption.class,
+        this.starsOption
+                = starMotionFlag ? StarsOption.Cube : StarsOption.TopDome;
+        this.starsOption = ic.readEnum("starsOption", StarsOption.class,
                 starsOption);
         /* camera not serialized */
         Savable[] sav = ic.readSavableArray("cloudLayers", null);
-        cloudLayers = new CloudLayer[sav.length];
+        this.cloudLayers = new CloudLayer[sav.length];
         System.arraycopy(sav, 0, cloudLayers, 0, sav.length);
 
-        cloudsAnimationTime = ic.readFloat("cloudsAnimationTime", 0f);
-        cloudsRate = ic.readFloat("cloudsRelativeSpeed", 1f);
-        lunarLatitude = ic.readFloat("lunarLatitude", 0f);
-        longitudeDifference = ic.readFloat("phaseAngle", FastMath.PI);
+        this.cloudsAnimationTime = ic.readFloat("cloudsAnimationTime", 0f);
+        this.cloudsRate = ic.readFloat("cloudsRelativeSpeed", 1f);
+        this.lunarLatitude = ic.readFloat("lunarLatitude", 0f);
+        this.longitudeDifference = ic.readFloat("phaseAngle", FastMath.PI);
     }
 
     /**
@@ -829,7 +830,7 @@ public class SkyControlCore extends SubtreeControl {
     public void render(final RenderManager renderManager,
             final ViewPort viewPort) {
         super.render(renderManager, viewPort);
-        camera = viewPort.getCamera();
+        this.camera = viewPort.getCamera();
     }
 
     /**
@@ -977,7 +978,7 @@ public class SkyControlCore extends SubtreeControl {
     private void updateClouds(float updateInterval) {
         assert updateInterval >= 0f : updateInterval;
 
-        cloudsAnimationTime += updateInterval * cloudsRate;
+        this.cloudsAnimationTime += updateInterval * cloudsRate;
         for (int layer = 0; layer < numCloudLayers; ++layer) {
             cloudLayers[layer].updateOffset(cloudsAnimationTime);
         }

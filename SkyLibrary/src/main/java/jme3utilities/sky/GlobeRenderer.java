@@ -179,12 +179,13 @@ public class GlobeRenderer extends SimpleAppState {
         /*
          * Create a texture, frame buffer, and viewport for output.
          */
-        outputTexture = new Texture2D(resolution, resolution, outputFormat);
+        this.outputTexture
+                = new Texture2D(resolution, resolution, outputFormat);
         outputTexture.setMagFilter(Texture.MagFilter.Bilinear);
         outputTexture.setMinFilter(Texture.MinFilter.Trilinear);
 
         int numSamples = 1;
-        frameBuffer = new FrameBuffer(resolution, resolution, numSamples);
+        this.frameBuffer = new FrameBuffer(resolution, resolution, numSamples);
         frameBuffer.addColorTarget(FrameBufferTarget.newTarget(outputTexture));
 
         assert isEnabled();
@@ -254,7 +255,7 @@ public class GlobeRenderer extends SimpleAppState {
             filter.setExponent(newGamma);
         } else {
             assert filter == null : filter;
-            initialExponent = newGamma;
+            this.initialExponent = newGamma;
         }
     }
 
@@ -319,7 +320,7 @@ public class GlobeRenderer extends SimpleAppState {
      * @param newRate (in radians per second)
      */
     public void setSpinRate(float newRate) {
-        spinRate = newRate;
+        this.spinRate = newRate;
     }
     // *************************************************************************
     // SimpleAppState methods
@@ -364,7 +365,7 @@ public class GlobeRenderer extends SimpleAppState {
         FilterPostProcessor fpp
                 = Heart.getFpp(offscreenViewPort, assetManager, 1);
         fpp.setFrameBufferFormat(outputFormat);
-        filter = new ContrastAdjustmentFilter(initialExponent);
+        this.filter = new ContrastAdjustmentFilter(initialExponent);
         fpp.addFilter(filter);
     }
 
@@ -397,7 +398,7 @@ public class GlobeRenderer extends SimpleAppState {
     private void initializeCamera(int resolution) {
         assert resolution > 0 : resolution;
 
-        camera = new Camera(resolution, resolution);
+        this.camera = new Camera(resolution, resolution);
         Vector3f location = new Vector3f(0f, 0f, initialCameraDistance);
         Vector3f upDirection = unitX;
         moveCamera(location, upDirection);
@@ -415,7 +416,7 @@ public class GlobeRenderer extends SimpleAppState {
 
         Sphere mesh = new Sphere(meridianSamples, equatorSamples, 1f);
         mesh.setTextureMode(TextureMode.Projected);
-        globe = new Geometry("off-screen globe", mesh);
+        this.globe = new Geometry("off-screen globe", mesh);
         offscreenRootNode.attachChild(globe);
         Quaternion orientation = new Quaternion();
         orientation.fromAngles(0f, FastMath.HALF_PI, 0f);
@@ -429,7 +430,7 @@ public class GlobeRenderer extends SimpleAppState {
      * Add a directional light to the scene.
      */
     private void initializeLights() {
-        light = new DirectionalLight();
+        this.light = new DirectionalLight();
         offscreenRootNode.addLight(light);
         setLightIntensity(2f);
         setPhase(FastMath.PI, 0f); // full phase

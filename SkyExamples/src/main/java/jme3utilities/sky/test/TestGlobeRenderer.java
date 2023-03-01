@@ -210,7 +210,7 @@ public class TestGlobeRenderer
             if (ordinal >= LunarPhase.values().length) {
                 ordinal = 0;
             }
-            phase = LunarPhase.values()[ordinal];
+            this.phase = LunarPhase.values()[ordinal];
             updateScene();
         }
     }
@@ -250,7 +250,7 @@ public class TestGlobeRenderer
         }
         Material moonMaterial = MyAsset.createShadedMaterial(assetManager,
                 moonTexture);
-        moonRenderer = new GlobeRenderer(moonMaterial,
+        this.moonRenderer = new GlobeRenderer(moonMaterial,
                 Image.Format.Luminance8Alpha8, equatorSamples, meridianSamples,
                 moonRendererResolution);
         stateManager.attach(moonRenderer);
@@ -263,7 +263,7 @@ public class TestGlobeRenderer
         additional.setBlendMode(RenderState.BlendMode.Alpha);
         additional.setDepthWrite(false);
 
-        loadedMaterial = MyAsset.createUnshadedMaterial(assetManager);
+        this.loadedMaterial = MyAsset.createUnshadedMaterial(assetManager);
         additional = loadedMaterial.getAdditionalRenderState();
         additional.setBlendMode(RenderState.BlendMode.Alpha);
         additional.setDepthWrite(false);

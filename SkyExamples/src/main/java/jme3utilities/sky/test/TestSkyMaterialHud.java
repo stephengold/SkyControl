@@ -150,7 +150,7 @@ public class TestSkyMaterialHud
     final void setMaterial(SkyMaterial newMaterial) {
         assert newMaterial != null;
 
-        material = newMaterial;
+        this.material = newMaterial;
         if (!isInitialized()) {
             return;
         }
@@ -493,7 +493,7 @@ public class TestSkyMaterialHud
             return;
         }
 
-        phase = LunarPhase.fromDescription(name);
+        this.phase = LunarPhase.fromDescription(name);
         String imageAssetPath = phase.imagePath("");
         try {
             material.addObject(moonIndex, imageAssetPath);

@@ -537,7 +537,7 @@ public class SkyMaterialCore extends Material {
         String parameterName
                 = String.format(Locale.ROOT, "Clouds%dColor", layerIndex);
         setColor(parameterName, newColor.clone());
-        cloudAlphas[layerIndex] = newColor.a;
+        this.cloudAlphas[layerIndex] = newColor.a;
     }
 
     /**
@@ -597,7 +597,7 @@ public class SkyMaterialCore extends Material {
         String parameterName
                 = String.format(Locale.ROOT, "Clouds%dScale", layerIndex);
         setFloat(parameterName, newScale);
-        cloudScales[layerIndex] = newScale;
+        this.cloudScales[layerIndex] = newScale;
     }
 
     /**
@@ -663,11 +663,11 @@ public class SkyMaterialCore extends Material {
          */
         objectCenters[objectIndex] = centerUV.clone();
         if (newRotate == null) {
-            objectRotations[objectIndex] = null;
+            this.objectRotations[objectIndex] = null;
         } else {
-            objectRotations[objectIndex] = newRotate.clone();
+            this.objectRotations[objectIndex] = newRotate.clone();
         }
-        objectScales[objectIndex] = newScale;
+        this.objectScales[objectIndex] = newScale;
 
         String objectParameterName
                 = String.format(Locale.ROOT, "Object%dCenter", objectIndex);
@@ -780,25 +780,25 @@ public class SkyMaterialCore extends Material {
         cloudAlphas = capsule.readFloatArray("cloudAlphas", null);
 
         Savable[] sav = capsule.readSavableArray("cloudImages", null);
-        cloudImages = new Image[sav.length];
+        this.cloudImages = new Image[sav.length];
         System.arraycopy(sav, 0, cloudImages, 0, sav.length);
 
         sav = capsule.readSavableArray("cloudOffsets", null);
-        cloudOffsets = new Vector2f[sav.length];
+        this.cloudOffsets = new Vector2f[sav.length];
         System.arraycopy(sav, 0, cloudOffsets, 0, sav.length);
 
-        cloudScales = capsule.readFloatArray("cloudScales", null);
+        this.cloudScales = capsule.readFloatArray("cloudScales", null);
 
         // astronomical objects
         sav = capsule.readSavableArray("objectCenters", null);
-        objectCenters = new Vector2f[sav.length];
+        this.objectCenters = new Vector2f[sav.length];
         System.arraycopy(sav, 0, objectCenters, 0, sav.length);
 
         sav = capsule.readSavableArray("objectRotations", null);
-        objectRotations = new Vector2f[sav.length];
+        this.objectRotations = new Vector2f[sav.length];
         System.arraycopy(sav, 0, objectRotations, 0, sav.length);
 
-        objectScales = capsule.readFloatArray("objectScales", null);
+        this.objectScales = capsule.readFloatArray("objectScales", null);
         /*
          * cached values
          */
@@ -806,13 +806,13 @@ public class SkyMaterialCore extends Material {
         maxCloudLayers = cloudImages.length;
         maxObjects = objectCenters.length;
 
-        cloudsRaster = new ImageRaster[maxCloudLayers];
+        this.cloudsRaster = new ImageRaster[maxCloudLayers];
         for (int layerIndex = 0; layerIndex < maxCloudLayers; ++layerIndex) {
             Image image = cloudImages[layerIndex];
             if (image == null) {
-                cloudsRaster[layerIndex] = null;
+                this.cloudsRaster[layerIndex] = null;
             } else {
-                cloudsRaster[layerIndex] = ImageRaster.create(image);
+                this.cloudsRaster[layerIndex] = ImageRaster.create(image);
             }
         }
     }

@@ -624,7 +624,7 @@ public class TestSkyControlHud
         setListener(this);
         super.initialize(stateManager, application);
 
-        run = TestSkyControl.run;
+        this.run = TestSkyControl.run;
         assert run != null;
         /*
          * Initialize radio buttons.
@@ -658,37 +658,37 @@ public class TestSkyControlHud
             return;
         }
 
-        cloudiness = updateSlider("cloudiness", "");
-        cloudModulation = isChecked("modulation");
-        mainMultiplier = updateSlider("main", "x");
-        ambientMultiplier = updateSlider("ambient", "x");
-        cloudsRate = updateSlider("cloudsRate", "x");
-        cloudsYOffset = updateSlider("cloudsYOffset", "");
+        this.cloudiness = updateSlider("cloudiness", "");
+        this.cloudModulation = isChecked("modulation");
+        this.mainMultiplier = updateSlider("main", "x");
+        this.ambientMultiplier = updateSlider("ambient", "x");
+        this.cloudsRate = updateSlider("cloudsRate", "x");
+        this.cloudsYOffset = updateSlider("cloudsYOffset", "");
 
         float lunarDiameterDegrees
                 = updateLogSlider("lunarDiameter", 10f, " deg");
-        lunarDiameter = MyMath.toRadians(lunarDiameterDegrees);
+        this.lunarDiameter = MyMath.toRadians(lunarDiameterDegrees);
 
         float solarDiameterDegrees
                 = updateLogSlider("solarDiameter", 10f, " deg");
-        solarDiameter = MyMath.toRadians(solarDiameterDegrees);
+        this.solarDiameter = MyMath.toRadians(solarDiameterDegrees);
 
         float longitudeDifferenceDegrees
                 = updateSlider("longitudeDifference", " deg");
-        longitudeDifference = MyMath.toRadians(longitudeDifferenceDegrees);
+        this.longitudeDifference = MyMath.toRadians(longitudeDifferenceDegrees);
         float lunarLatitudeDegrees = updateSlider("lunarLatitude", " deg");
-        lunarLatitude = MyMath.toRadians(lunarLatitudeDegrees);
+        this.lunarLatitude = MyMath.toRadians(lunarLatitudeDegrees);
 
         float solarLongitudeDegrees = updateSlider("solarLongitude", " deg");
-        solarLongitude = MyMath.toRadians(solarLongitudeDegrees);
+        this.solarLongitude = MyMath.toRadians(solarLongitudeDegrees);
 
         float latitudeDegrees = updateSlider("latitude", " deg");
-        latitude = MyMath.toRadians(latitudeDegrees);
+        this.latitude = MyMath.toRadians(latitudeDegrees);
 
         float tvaDegrees = updateSlider("topVerticalAngle", " deg");
-        topVerticalAngle = MyMath.toRadians(tvaDegrees);
+        this.topVerticalAngle = MyMath.toRadians(tvaDegrees);
 
-        relief = updateSlider("relief", " wu");
+        this.relief = updateSlider("relief", " wu");
 
         float speed = updateLogSlider("speed", 10f, "x");
         timeOfDay.setRate(clockDirection * speed);
@@ -727,7 +727,7 @@ public class TestSkyControlHud
      */
     private void setStarMapName(String name) {
         assert name != null;
-        starMapName = name;
+        this.starMapName = name;
     }
 
     /**
@@ -740,11 +740,11 @@ public class TestSkyControlHud
 
         switch (name) {
             case "t0neg0d":
-                sunAssetPath = "Textures/skies/t0neg0d/Sun_L.png";
+                this.sunAssetPath = "Textures/skies/t0neg0d/Sun_L.png";
                 break;
 
             default:
-                sunAssetPath = String.format(
+                this.sunAssetPath = String.format(
                         "Textures/skies/suns/%s.png", name);
         }
     }

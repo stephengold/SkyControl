@@ -201,8 +201,8 @@ public class SkyControl extends SkyControlCore {
             boolean bottomDome) {
         super(assetManager, camera, cloudFlattening, starsOption, bottomDome);
 
-        sunAndStars = new SunAndStars();
-        updater = new Updater();
+        this.sunAndStars = new SunAndStars();
+        this.updater = new Updater();
         setPhase(phase);
         setSunStyle("Textures/skies/suns/hazy-disc.png");
 
@@ -286,7 +286,7 @@ public class SkyControl extends SkyControlCore {
      * steady main light
      */
     public void setCloudModulation(boolean newValue) {
-        cloudModulationFlag = newValue;
+        this.cloudModulationFlag = newValue;
     }
 
     /**
@@ -316,7 +316,7 @@ public class SkyControl extends SkyControlCore {
             boolean enabledFlag = moonRenderer.isEnabled();
             newRenderer.setEnabled(enabledFlag);
         }
-        moonRenderer = newRenderer;
+        this.moonRenderer = newRenderer;
 
         if (moonRenderer.isEnabled()) {
             Texture dynamicTexture = moonRenderer.getTexture();
@@ -339,9 +339,9 @@ public class SkyControl extends SkyControlCore {
         if (moonRenderer != null) {
             moonRenderer.setEnabled(false);
         }
-        phase = newPreset;
+        this.phase = newPreset;
         if (newPreset != null) {
-            longitudeDifference = newPreset.longitudeDifference();
+            this.longitudeDifference = newPreset.longitudeDifference();
             SkyMaterial topMaterial = getTopMaterial();
 
             String assetPath = newPreset.imagePath("");
@@ -370,7 +370,7 @@ public class SkyControl extends SkyControlCore {
         }
 
         moonRenderer.setEnabled(true);
-        phase = LunarPhase.CUSTOM;
+        this.phase = LunarPhase.CUSTOM;
         this.longitudeDifference = longitudeDifference;
         this.lunarLatitude = lunarLatitude;
 
@@ -391,7 +391,7 @@ public class SkyControl extends SkyControlCore {
                     "diameter should be between 0 and Pi");
         }
 
-        sunScale = newDiameter * Constants.uvScale
+        this.sunScale = newDiameter * Constants.uvScale
                 / (Constants.discDiameter * FastMath.HALF_PI);
     }
 
@@ -446,9 +446,9 @@ public class SkyControl extends SkyControlCore {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
-        moonRenderer = cloner.clone(moonRenderer);
-        sunAndStars = cloner.clone(sunAndStars);
-        updater = cloner.clone(updater);
+        this.moonRenderer = cloner.clone(moonRenderer);
+        this.sunAndStars = cloner.clone(sunAndStars);
+        this.updater = cloner.clone(updater);
     }
 
     /**
@@ -473,13 +473,13 @@ public class SkyControl extends SkyControlCore {
         super.read(importer);
         InputCapsule ic = importer.getCapsule(this);
 
-        cloudModulationFlag = ic.readBoolean("cloudModulationFlag", false);
-        moonScale = ic.readFloat("moonScale", 0.02f);
-        sunScale = ic.readFloat("sunScale", 0.08f);
+        this.cloudModulationFlag = ic.readBoolean("cloudModulationFlag", false);
+        this.moonScale = ic.readFloat("moonScale", 0.02f);
+        this.sunScale = ic.readFloat("sunScale", 0.08f);
         /* moon renderer not serialized */
-        phase = ic.readEnum("phase", LunarPhase.class, LunarPhase.FULL);
-        sunAndStars = (SunAndStars) ic.readSavable("sunAndStars", null);
-        updater = (Updater) ic.readSavable("updater", null);
+        this.phase = ic.readEnum("phase", LunarPhase.class, LunarPhase.FULL);
+        this.sunAndStars = (SunAndStars) ic.readSavable("sunAndStars", null);
+        this.updater = (Updater) ic.readSavable("updater", null);
     }
 
     /**

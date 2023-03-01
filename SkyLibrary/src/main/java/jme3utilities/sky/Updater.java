@@ -346,7 +346,7 @@ public class Updater
      */
     public void setAmbientMultiplier(float factor) {
         Validate.nonNegative(factor, "factor");
-        ambientMultiplier = factor;
+        this.ambientMultiplier = factor;
     }
 
     /**
@@ -366,10 +366,10 @@ public class Updater
      * @param otherUpdater updater to copy from (not null)
      */
     public void setFRV(Updater otherUpdater) {
-        bloomFilters = otherUpdater.bloomFilters;
-        shadowFilters = otherUpdater.shadowFilters;
-        shadowRenderers = otherUpdater.shadowRenderers;
-        viewPorts = otherUpdater.viewPorts;
+        this.bloomFilters = otherUpdater.bloomFilters;
+        this.shadowFilters = otherUpdater.shadowFilters;
+        this.shadowRenderers = otherUpdater.shadowRenderers;
+        this.viewPorts = otherUpdater.viewPorts;
     }
 
     /**
@@ -391,7 +391,7 @@ public class Updater
      */
     public void setMainMultiplier(float factor) {
         Validate.nonNegative(factor, "factor");
-        mainMultiplier = factor;
+        this.mainMultiplier = factor;
     }
 
     /**

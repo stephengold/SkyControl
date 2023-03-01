@@ -428,7 +428,7 @@ public class SunAndStars implements Cloneable, Savable {
      */
     public void setHour(float newHour) {
         Validate.inRange(newHour, "new hour", 0f, Constants.hoursPerDay);
-        hour = newHour;
+        this.hour = newHour;
     }
 
     /**
@@ -440,7 +440,7 @@ public class SunAndStars implements Cloneable, Savable {
     public void setObserverLatitude(float latitude) {
         Validate.inRange(latitude, "latitude",
                 -FastMath.HALF_PI, FastMath.HALF_PI);
-        observerLatitude = latitude;
+        this.observerLatitude = latitude;
     }
 
     /**
@@ -452,12 +452,12 @@ public class SunAndStars implements Cloneable, Savable {
     public void setSolarLongitude(float longitude) {
         Validate.inRange(longitude, "longitude", 0f, FastMath.TWO_PI);
 
-        solarLongitude = longitude;
+        this.solarLongitude = longitude;
 
         // Update the cached solar right ascension.
         Vector3f equatorial = convertToEquatorial(0f, longitude);
         float ra = -FastMath.atan2(equatorial.y, equatorial.x);
-        solarRaHours
+        this.solarRaHours
                 = MyMath.modulo(ra / radiansPerHour, Constants.hoursPerDay);
         assert solarRaHours >= 0f : solarRaHours;
         assert solarRaHours < Constants.hoursPerDay : solarRaHours;
@@ -567,8 +567,8 @@ public class SunAndStars implements Cloneable, Savable {
     @Override
     public SunAndStars clone() throws CloneNotSupportedException {
         SunAndStars clone = (SunAndStars) super.clone();
-        northDirection = northDirection.clone();
-        upDirection = upDirection.clone();
+        this.northDirection = northDirection.clone();
+        this.upDirection = upDirection.clone();
 
         return clone;
     }

@@ -187,8 +187,8 @@ public class LandscapeControl extends SubtreeControl {
      */
     final public Material getGrass() {
         if (terrainMaterial == null) {
-            terrainMaterial = MyAsset.createShadedMaterial(assetManager,
-                    defaultGrassColor);
+            this.terrainMaterial = MyAsset.createShadedMaterial(
+                    assetManager, defaultGrassColor);
         }
 
         return terrainMaterial;
@@ -217,7 +217,7 @@ public class LandscapeControl extends SubtreeControl {
     final public void setGrass(Material material) {
         Validate.nonNull(material, "material");
 
-        terrainMaterial = material;
+        this.terrainMaterial = material;
         Spatial terrain = MySpatial.findChild((Node) getSubtree(), "terrain");
         terrain.setMaterial(material);
     }
@@ -286,9 +286,9 @@ public class LandscapeControl extends SubtreeControl {
         super.read(importer);
         InputCapsule ic = importer.getCapsule(this);
 
-        assetManager = importer.getAssetManager();
-        terrainHeight = ic.readFloat("terrainHeight", 0f);
-        terrainDiameter = ic.readInt("terrainDiameter", 0);
+        this.assetManager = importer.getAssetManager();
+        this.terrainHeight = ic.readFloat("terrainHeight", 0f);
+        this.terrainDiameter = ic.readInt("terrainDiameter", 0);
     }
 
     /**
@@ -364,7 +364,7 @@ public class LandscapeControl extends SubtreeControl {
     private TerrainQuad createTerrain() {
         // Create the terrain quad.
         AbstractHeightMap heightMap = loadHeightMap();
-        terrainDiameter = heightMap.getSize();
+        this.terrainDiameter = heightMap.getSize();
 
         int mapSize = terrainDiameter + 1; // number of samples on a side
         float[] heightArray = heightMap.getHeightMap();
@@ -375,7 +375,7 @@ public class LandscapeControl extends SubtreeControl {
         quad.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
         float[] minMaxHeights = heightMap.findMinMaxHeights();
-        terrainHeight = minMaxHeights[1];
+        this.terrainHeight = minMaxHeights[1];
         assert terrainHeight >= 0f : terrainHeight;
 
         return quad;

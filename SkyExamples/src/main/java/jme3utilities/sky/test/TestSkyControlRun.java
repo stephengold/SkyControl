@@ -209,21 +209,21 @@ public class TestSkyControlRun
         cubeMap = MySpatial.findChild(loadedNode, cubeName);
         floorControl = loadedNode.getControl(FloorControl.class);
         assert floorControl != null;
-        landscapeControl = loadedNode.getControl(LandscapeControl.class);
+        this.landscapeControl = loadedNode.getControl(LandscapeControl.class);
         assert landscapeControl != null;
 
         Updater oldUpdater = skyControl.getUpdater();
-        skyControl = loadedNode.getControl(SkyControl.class);
+        this.skyControl = loadedNode.getControl(SkyControl.class);
         Updater updater = skyControl.getUpdater();
 
-        ambientLight = updater.getAmbientLight();
+        this.ambientLight = updater.getAmbientLight();
         assert ambientLight != null;
         Light sceneLight = MySpatial.findLight(loadedNode, AmbientLight.class);
         if (sceneLight != null) {
             loadedNode.removeLight(sceneLight);
         }
 
-        mainLight = updater.getMainLight();
+        this.mainLight = updater.getMainLight();
         assert mainLight != null;
         sceneLight = MySpatial.findLight(loadedNode, DirectionalLight.class);
         if (sceneLight != null) {
@@ -243,7 +243,7 @@ public class TestSkyControlRun
         Node parent = sceneNode.getParent();
         parent.detachChild(sceneNode);
         parent.attachChild(loadedNode);
-        sceneNode = loadedNode;
+        this.sceneNode = loadedNode;
 
         // Set GUI controls in the HUD to match the scene.
         hud.matchScene(skyControl, landscapeControl);
@@ -297,7 +297,7 @@ public class TestSkyControlRun
      * Toggle the visibility of the HUD.
      */
     void toggleHud() {
-        showHud = !showHud;
+        this.showHud = !showHud;
         if (isEnabled()) {
             hud.setEnabled(showHud);
         }
@@ -315,10 +315,10 @@ public class TestSkyControlRun
     public void initialize(AppStateManager sm, Application app) {
         super.initialize(sm, app);
 
-        hud = TestSkyControl.hud;
+        this.hud = TestSkyControl.hud;
         assert hud != null;
-        showHud = hud.isEnabled();
-        parameters = TestSkyControl.parameters;
+        this.showHud = hud.isEnabled();
+        this.parameters = TestSkyControl.parameters;
         assert parameters != null;
 
         initializeCamera();
@@ -532,7 +532,7 @@ public class TestSkyControlRun
     private void addCartoonEdges(ViewPort viewPort) {
         assert viewPort != null;
 
-        cartoonEdgeFilter = new CartoonEdgeFilter();
+        this.cartoonEdgeFilter = new CartoonEdgeFilter();
         int numSamples = TestSkyControl.numSamples;
         Heart.getFpp(viewPort, assetManager, numSamples)
                 .addFilter(cartoonEdgeFilter);
@@ -642,7 +642,7 @@ public class TestSkyControlRun
      */
     private void initializeLandscape() {
         rootNode.attachChild(sceneNode);
-        landscapeControl = new LandscapeControl(assetManager);
+        this.landscapeControl = new LandscapeControl(assetManager);
         sceneNode.addControl(landscapeControl);
     }
 
@@ -650,10 +650,10 @@ public class TestSkyControlRun
      * Create light sources for the scene.
      */
     private void initializeLights() {
-        mainLight = new DirectionalLight();
+        this.mainLight = new DirectionalLight();
         mainLight.setName("main");
 
-        ambientLight = new AmbientLight();
+        this.ambientLight = new AmbientLight();
         ambientLight.setName("ambient");
     }
 
