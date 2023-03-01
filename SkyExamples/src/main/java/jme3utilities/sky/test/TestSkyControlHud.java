@@ -769,9 +769,7 @@ public class TestSkyControlHud
      * Display a menu of star maps.
      */
     private void showStarMapMenu() {
-        showPopupMenu("star-map ", new String[]{
-            "16m", "4m", "nebula"
-        });
+        showPopupMenu("star-map ", new String[]{"16m", "4m", "nebula"});
     }
 
     /**
@@ -794,8 +792,8 @@ public class TestSkyControlHud
      * @param statusSuffix to specify a unit of measurement (not null)
      * @return scaled value of the slider
      */
-    private float updateLogSlider(String namePrefix, float logBase,
-            String statusSuffix) {
+    private float updateLogSlider(
+            String namePrefix, float logBase, String statusSuffix) {
         float scaledValue;
         if (logBase == 10f) {
             scaledValue = readSlider(namePrefix, SliderTransform.Log10);

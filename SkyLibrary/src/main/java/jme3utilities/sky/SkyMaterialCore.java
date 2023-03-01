@@ -747,8 +747,8 @@ public class SkyMaterialCore extends Material {
      * @throws IllegalArgumentException if the index is out of range
      */
     protected void validateLayerIndex(int layerIndex) {
-        Validate.inRange(layerIndex, "cloud layer index",
-                0, maxCloudLayers - 1);
+        Validate.inRange(
+                layerIndex, "cloud layer index", 0, maxCloudLayers - 1);
     }
 
     /**
@@ -758,8 +758,8 @@ public class SkyMaterialCore extends Material {
      * @throws IllegalArgumentException if the index is out of range
      */
     protected void validateObjectIndex(int objectIndex) {
-        Validate.inRange(objectIndex, "object index",
-                0, maxObjects - 1);
+        Validate.inRange(
+                objectIndex, "object index", 0, maxObjects - 1);
     }
     // *************************************************************************
     // Savable methods

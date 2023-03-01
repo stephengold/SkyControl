@@ -77,21 +77,21 @@ public class TestSunAndStars {
         // Apply various orientations to the test node.
         final boolean invert = true;
         sas.orientEquatorialSky(node, invert);
-        assertEquals(0.9019f, 0.4319f, 0f, 0f, node.getWorldRotation(),
-                0.0001f);
+        assertEquals(
+                0.9019f, 0.4319f, 0f, 0f, node.getWorldRotation(), 0.0001f);
 
         final boolean doNotInvert = false;
         sas.orientEquatorialSky(node, doNotInvert);
-        assertEquals(-0.9019f, -0.4319f, 0f, 0f, node.getWorldRotation(),
-                0.0001f);
+        assertEquals(
+                -0.9019f, -0.4319f, 0f, 0f, node.getWorldRotation(), 0.0001f);
 
         sas.orientStarDomes(node, null);
-        assertEquals(-0.3323f, -0.9432f, 0f, 0f, node.getWorldRotation(),
-                0.0001f);
+        assertEquals(
+                -0.3323f, -0.9432f, 0f, 0f, node.getWorldRotation(), 0.0001f);
 
         sas.orientStarDomes(null, node);
-        assertEquals(-0.9432f, 0.3323f, 0f, 0f, node.getWorldRotation(),
-                0.0001f);
+        assertEquals(
+                -0.9432f, 0.3323f, 0f, 0f, node.getWorldRotation(), 0.0001f);
 
         // Test solar midnight on some interesting dates.
         sas.setSolarLongitude(Calendar.DECEMBER, 31);
@@ -134,8 +134,8 @@ public class TestSunAndStars {
         sas.setObserverLatitude(FastMath.HALF_PI); // North Pole
         assertEquals(0f, 0f, 1f, sas.eastDirection(null), 0f);
         Assert.assertEquals(0f, sas.getHour(), 0f);
-        Assert.assertEquals(FastMath.HALF_PI, sas.getObserverLatitude(),
-                0.0001f);
+        Assert.assertEquals(
+                FastMath.HALF_PI, sas.getObserverLatitude(), 0.0001f);
         Assert.assertEquals(0f, sas.getSolarLongitude(), 0f);
         assertEquals(1f, 0f, 0f, sas.northDirection(null), 0f);
         Assert.assertEquals(FastMath.PI, sas.siderealAngle(), 0f);
@@ -148,16 +148,16 @@ public class TestSunAndStars {
         assertEquals(0f, -1f, 0f, sas.sunDirection(null), 0.0001f);
 
         sas.setObserverLatitude(-FastMath.HALF_PI); // South Pole
-        Assert.assertEquals(-FastMath.HALF_PI, sas.getObserverLatitude(),
-                0.0001f);
+        Assert.assertEquals(
+                -FastMath.HALF_PI, sas.getObserverLatitude(), 0.0001f);
         assertEquals(-1f, 0f, 0f, sas.sunDirection(null), 0.0001f);
 
         // Test some interesting times of day.
         sas.setHour(23f + (59f + 59f / 60f) / 60f); // one second to midnight
         assertEquals(0f, 0f, 1f, sas.eastDirection(null), 0f);
         Assert.assertEquals(23.9997f, sas.getHour(), 0.0001f);
-        Assert.assertEquals(-FastMath.HALF_PI, sas.getObserverLatitude(),
-                0.0001f);
+        Assert.assertEquals(
+                -FastMath.HALF_PI, sas.getObserverLatitude(), 0.0001f);
         Assert.assertEquals(0f, sas.getSolarLongitude(), 0f);
         assertEquals(1f, 0f, 0f, sas.northDirection(null), 0f);
         Assert.assertEquals(3.14152f, sas.siderealAngle(), 0.00001f);
@@ -175,8 +175,8 @@ public class TestSunAndStars {
         sas.setAxes(new Vector3f(0f, 1f, 0f), new Vector3f(0f, 0f, 1f)); // Zup
         assertEquals(1f, 0f, 0f, sas.eastDirection(null), 0f);
         Assert.assertEquals(6f, sas.getHour(), 0.0001f);
-        Assert.assertEquals(-FastMath.HALF_PI, sas.getObserverLatitude(),
-                0.0001f);
+        Assert.assertEquals(
+                -FastMath.HALF_PI, sas.getObserverLatitude(), 0.0001f);
         Assert.assertEquals(0f, sas.getSolarLongitude(), 0f);
         assertEquals(0f, 1f, 0f, sas.northDirection(null), 0f);
         Assert.assertEquals(1.5f * FastMath.PI, sas.siderealAngle(), 0.00001f);
@@ -211,8 +211,8 @@ public class TestSunAndStars {
         Assert.assertEquals(w, quaternion.getW(), tolerance);
     }
 
-    private static void assertEquals(float x, float y, float z, Vector3f vector,
-            float tolerance) {
+    private static void assertEquals(
+            float x, float y, float z, Vector3f vector, float tolerance) {
         Assert.assertEquals(x, vector.x, tolerance);
         Assert.assertEquals(y, vector.y, tolerance);
         Assert.assertEquals(z, vector.z, tolerance);

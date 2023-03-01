@@ -337,8 +337,8 @@ public class MakeStarMaps {
      * @param textureSize size of each texture map (pixels per side, &gt;2)
      * @return new instance
      */
-    private RenderedImage[] generateCubeMap(float latitude, float siderealTime,
-            int textureSize) {
+    private RenderedImage[] generateCubeMap(
+            float latitude, float siderealTime, int textureSize) {
         assert latitude >= -FastMath.HALF_PI : latitude;
         assert latitude <= FastMath.HALF_PI : latitude;
         assert siderealTime >= 0f : siderealTime;
@@ -348,15 +348,15 @@ public class MakeStarMaps {
         // Create a blank, grayscale buffered image for each texture map.
         BufferedImage[] maps = new BufferedImage[6];
         for (int faceIndex = 0; faceIndex < 6; ++faceIndex) {
-            maps[faceIndex] = new BufferedImage(textureSize, textureSize,
-                    BufferedImage.TYPE_BYTE_GRAY);
+            maps[faceIndex] = new BufferedImage(
+                    textureSize, textureSize, BufferedImage.TYPE_BYTE_GRAY);
         }
 
         // Plot individual stars on the images, starting with the faintest.
         int plotCount = 0;
         for (Star star : stars) {
-            boolean success = plotStarOnCube(maps, star, latitude,
-                    siderealTime, textureSize);
+            boolean success = plotStarOnCube(
+                    maps, star, latitude, siderealTime, textureSize);
             if (success) {
                 ++plotCount;
             }
@@ -374,8 +374,8 @@ public class MakeStarMaps {
      * @param textureSize size of the texture map (pixels per side, &gt;2)
      * @return new instance
      */
-    private RenderedImage generateDomeMap(float latitude, float siderealTime,
-            int textureSize) {
+    private RenderedImage generateDomeMap(
+            float latitude, float siderealTime, int textureSize) {
         assert latitude >= -FastMath.HALF_PI : latitude;
         assert latitude <= FastMath.HALF_PI : latitude;
         assert siderealTime >= 0f : siderealTime;
@@ -391,8 +391,8 @@ public class MakeStarMaps {
          */
         int plotCount = 0;
         for (Star star : stars) {
-            boolean success = plotStarOnDome(map, star, latitude, siderealTime,
-                    textureSize);
+            boolean success = plotStarOnDome(
+                    map, star, latitude, siderealTime, textureSize);
             if (success) {
                 ++plotCount;
             }
@@ -812,8 +812,8 @@ public class MakeStarMaps {
         Vector3f world = new Vector3f(-rotated.x, rotated.z, rotated.y);
 
         float apparentMagnitude = star.getApparentMagnitude();
-        boolean success = plotStarOnDome(map, apparentMagnitude,
-                textureSize, world);
+        boolean success = plotStarOnDome(
+                map, apparentMagnitude, textureSize, world);
 
         return success;
     }

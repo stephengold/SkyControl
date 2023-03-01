@@ -141,10 +141,10 @@ public class SunAndStars implements Cloneable, Savable {
      * &le;2*Pi, &ge;0)
      * @return a new unit vector in equatorial coordinates
      */
-    public static Vector3f convertToEquatorial(float latitude,
-            float longitude) {
-        Validate.inRange(latitude, "latitude",
-                -FastMath.HALF_PI, FastMath.HALF_PI);
+    public static Vector3f convertToEquatorial(
+            float latitude, float longitude) {
+        Validate.inRange(
+                latitude, "latitude", -FastMath.HALF_PI, FastMath.HALF_PI);
         Validate.inRange(longitude, "longitude", 0f, FastMath.TWO_PI);
 
         // Convert angles to Cartesian ecliptical coordinates.
@@ -152,8 +152,8 @@ public class SunAndStars implements Cloneable, Savable {
         float sinLat = FastMath.sin(latitude);
         float cosLon = FastMath.cos(longitude);
         float sinLon = FastMath.sin(longitude);
-        Vector3f ecliptical = new Vector3f(
-                cosLat * cosLon, cosLat * sinLon, sinLat);
+        Vector3f ecliptical
+                = new Vector3f(cosLat * cosLon, cosLat * sinLon, sinLat);
         assert ecliptical.isUnitVector() : ecliptical;
 
         // Convert to equatorial coordinates.
@@ -193,8 +193,8 @@ public class SunAndStars implements Cloneable, Savable {
      * @return a unit vector in world coordinates (either storeResult or a new
      * vector)
      */
-    public Vector3f convertToWorld(float latitude, float longitude,
-            Vector3f storeResult) {
+    public Vector3f convertToWorld(
+            float latitude, float longitude, Vector3f storeResult) {
         Validate.inRange(latitude, "latitude",
                 -FastMath.HALF_PI, FastMath.HALF_PI);
         Validate.inRange(longitude, "longitude", 0f, FastMath.TWO_PI);
@@ -217,8 +217,8 @@ public class SunAndStars implements Cloneable, Savable {
      * @return a vector in world coordinates (either storeResult or a new
      * vector)
      */
-    public Vector3f convertToWorld(float northing, float height, float easting,
-            Vector3f storeResult) {
+    public Vector3f convertToWorld(
+            float northing, float height, float easting, Vector3f storeResult) {
         Vector3f result = eastDirection(storeResult);
         result.multLocal(easting);
         MyVector3f.accumulateScaled(result, northDirection, northing);
@@ -438,8 +438,8 @@ public class SunAndStars implements Cloneable, Savable {
      * default=0.89324)
      */
     public void setObserverLatitude(float latitude) {
-        Validate.inRange(latitude, "latitude",
-                -FastMath.HALF_PI, FastMath.HALF_PI);
+        Validate.inRange(
+                latitude, "latitude", -FastMath.HALF_PI, FastMath.HALF_PI);
         this.observerLatitude = latitude;
     }
 
@@ -604,17 +604,17 @@ public class SunAndStars implements Cloneable, Savable {
         float value = capsule.readFloat("hour", 0f);
         setHour(value);
 
-        value = capsule.readFloat("observerLatitude",
-                Constants.defaultLatitude);
+        value = capsule.readFloat(
+                "observerLatitude", Constants.defaultLatitude);
         setObserverLatitude(value);
 
         value = capsule.readFloat("solarLongitude", 0f);
         setSolarLongitude(value);
 
-        Vector3f north = (Vector3f) capsule.readSavable("north",
-                new Vector3f(1f, 0f, 0f));
-        Vector3f up = (Vector3f) capsule.readSavable("up",
-                new Vector3f(0f, 1f, 0f));
+        Vector3f north = (Vector3f) capsule.readSavable(
+                "north", new Vector3f(1f, 0f, 0f));
+        Vector3f up = (Vector3f) capsule.readSavable(
+                "up", new Vector3f(0f, 1f, 0f));
         setAxes(north, up);
     }
 

@@ -228,8 +228,8 @@ public class MakeSun {
      * haze, or -1 for a chaotic surround)
      * @return new instance
      */
-    private RenderedImage makeSun(float discSharpness, float surroundAlpha,
-            int numRays) {
+    private RenderedImage makeSun(
+            float discSharpness, float surroundAlpha, int numRays) {
         assert discSharpness > 0f : discSharpness;
         assert surroundAlpha >= 0f : surroundAlpha;
         assert numRays >= -1 : numRays;
@@ -254,8 +254,8 @@ public class MakeSun {
 
                 // Compute the surround radius as a function of theta.
                 float indent = indent(theta, numRays);
-                float surroundRadius = FastMath.interpolateLinear(indent,
-                        maxSurroundRadius, discRadius);
+                float surroundRadius = FastMath.interpolateLinear(
+                        indent, maxSurroundRadius, discRadius);
 
                 float alpha = discSharpness * (discRadius - r);
                 if (surroundRadius > discRadius) {

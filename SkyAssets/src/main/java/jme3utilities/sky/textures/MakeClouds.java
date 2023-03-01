@@ -185,8 +185,8 @@ public class MakeClouds {
      * (&le;1, &gt;blackCutoff)
      * @return new instance
      */
-    private static RenderedImage makeFbmClouds(int textureSize,
-            float blackCutoff, float whiteCutoff) {
+    private static RenderedImage makeFbmClouds(
+            int textureSize, float blackCutoff, float whiteCutoff) {
         assert textureSize >= 1 : textureSize;
         assert blackCutoff >= 0f : blackCutoff;
         assert blackCutoff < whiteCutoff;

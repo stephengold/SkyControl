@@ -688,8 +688,8 @@ public class TestSkyControlRun
             starsOption = StarsOption.TwoDomes; // allows stars to move
             bottomDome = true; // helpful when the scene has a low horizon
         }
-        skyControl = new SkyControl(assetManager, cam, cloudFlattening,
-                starsOption, bottomDome);
+        this.skyControl = new SkyControl(
+                assetManager, cam, cloudFlattening, starsOption, bottomDome);
         sceneNode.addControl(skyControl);
 
         if (parameters.cyclone()) {
@@ -703,13 +703,13 @@ public class TestSkyControlRun
             boolean mipmaps = false;
             Texture moonTexture = MyAsset.loadTexture(assetManager,
                     "Textures/skies/moon/clementine.png", mipmaps);
-            Material moonMaterial = MyAsset.createShadedMaterial(assetManager,
-                    moonTexture);
+            Material moonMaterial = MyAsset.createShadedMaterial(
+                    assetManager, moonTexture);
             int equatorSamples = 12;
             int meridianSamples = 24;
             int resolution = 512;
-            GlobeRenderer moonRenderer = new GlobeRenderer(moonMaterial,
-                    Image.Format.Luminance8Alpha8, equatorSamples,
+            GlobeRenderer moonRenderer = new GlobeRenderer(
+                    moonMaterial, Image.Format.Luminance8Alpha8, equatorSamples,
                     meridianSamples, resolution);
             stateManager.attach(moonRenderer);
             skyControl.setMoonRenderer(moonRenderer);

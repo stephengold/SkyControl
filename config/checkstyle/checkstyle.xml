@@ -46,6 +46,7 @@
             <property name="allowByTailComment" value="true"/>
             <property name="allowNonPrintableEscapes" value="true"/>
         </module>
+
         <!-- Checks for imports                             -->
         <!-- See https://checkstyle.org/config_imports.html -->
         <module name="AvoidStarImport"/>
@@ -53,6 +54,7 @@
         <module name="NoLineWrap">
             <property name="tokens" value="PACKAGE_DEF, IMPORT, STATIC_IMPORT"/>
         </module>
+
         <!-- Checks for blocks. You know, those {}'s       -->
         <!-- See https://checkstyle.org/config_blocks.html -->
         <module name="EmptyBlock">
@@ -92,6 +94,7 @@
             <property name="query" value="//RCURLY[parent::SLIST[count(./*)=1]
                                      or preceding-sibling::*[last()][self::LCURLY]]"/>
         </module>
+
         <module name="WhitespaceAfter">
             <property name="tokens"
                       value="COMMA, SEMI, TYPECAST, LITERAL_IF, LITERAL_ELSE,
@@ -158,6 +161,7 @@
             <property name="tokens" value="METHOD_REF"/>
             <property name="option" value="nl"/>
         </module>
+
         <!-- Checks for naming conventions.                -->
         <!-- See https://checkstyle.org/config_naming.html -->
         <module name="PackageName">
@@ -226,6 +230,7 @@
             <message key="name.invalidPattern"
                      value="Interface type name ''{0}'' must match pattern ''{1}''."/>
         </module>
+
         <module name="NoFinalizer"/>
         <module name="GenericWhitespace">
             <message key="ws.followed"

@@ -103,9 +103,9 @@ public class SkyControlCore extends SubtreeControl {
     /**
      * reusable mesh for smooth, inward-facing domes
      */
-    final private static DomeMesh hemisphereMesh = new DomeMesh(numRimSamples,
-            numLongitudinalSamples, Constants.topU, Constants.topV,
-            Constants.uvScale, true);
+    final private static DomeMesh hemisphereMesh = new DomeMesh(
+            numRimSamples, numLongitudinalSamples,
+            Constants.topU, Constants.topV, Constants.uvScale, true);
     /**
      * local copy of {@link com.jme3.math.Quaternion#IDENTITY}
      */
@@ -222,9 +222,9 @@ public class SkyControlCore extends SubtreeControl {
      * region to background color (if starsOption==TopDome) or stars (if
      * starsOption!=TopDome)
      */
-    public SkyControlCore(AssetManager assetManager, Camera camera,
-            float cloudFlattening, StarsOption starsOption,
-            boolean bottomDomeFlag) {
+    public SkyControlCore(
+            AssetManager assetManager, Camera camera, float cloudFlattening,
+            StarsOption starsOption, boolean bottomDomeFlag) {
         Validate.nonNull(assetManager, "asset manager");
         Validate.nonNull(camera, "camera");
         if (!(cloudFlattening >= 0f && cloudFlattening < 1f)) {
@@ -255,8 +255,8 @@ public class SkyControlCore extends SubtreeControl {
         if (cloudDomeFlag) {
             // Create and initialize a separate sky material for clouds only.
             int numObjects = 0;
-            cloudsMaterial = new SkyMaterial(assetManager, numObjects,
-                    numCloudLayers);
+            cloudsMaterial
+                    = new SkyMaterial(assetManager, numObjects, numCloudLayers);
             cloudsMaterial.initialize();
             cloudsMaterial.getAdditionalRenderState().setDepthWrite(false);
             cloudsMaterial.setClearColor(ColorRGBA.BlackNoAlpha);
@@ -279,8 +279,8 @@ public class SkyControlCore extends SubtreeControl {
             bottomMaterial = null;
         }
 
-        createSpatials(cloudFlattening, topMaterial, bottomMaterial,
-                cloudsMaterial);
+        createSpatials(
+                cloudFlattening, topMaterial, bottomMaterial, cloudsMaterial);
 
         assert !isEnabled();
     }
@@ -314,8 +314,8 @@ public class SkyControlCore extends SubtreeControl {
      * @return pre-existing instance
      */
     public CloudLayer getCloudLayer(int layerIndex) {
-        Validate.inRange(layerIndex, "cloud layer index",
-                0, numCloudLayers - 1);
+        Validate.inRange(
+                layerIndex, "cloud layer index", 0, numCloudLayers - 1);
         CloudLayer layer = cloudLayers[layerIndex];
 
         assert layer != null;
@@ -703,8 +703,8 @@ public class SkyControlCore extends SubtreeControl {
      * @param moonUp true if moon is above the horizon, otherwise false
      * @return new instance (alpha is undefined)
      */
-    protected ColorRGBA updateCloudsColor(ColorRGBA baseColor, boolean sunUp,
-            boolean moonUp) {
+    protected ColorRGBA updateCloudsColor(
+            ColorRGBA baseColor, boolean sunUp, boolean moonUp) {
         assert baseColor != null;
 
         ColorRGBA cloudsColor = MyColor.saturate(baseColor);
@@ -827,8 +827,8 @@ public class SkyControlCore extends SubtreeControl {
      * @param viewPort viewport where the spatial will be rendered (not null)
      */
     @Override
-    public void render(final RenderManager renderManager,
-            final ViewPort viewPort) {
+    public void render(
+            final RenderManager renderManager, final ViewPort viewPort) {
         super.render(renderManager, viewPort);
         this.camera = viewPort.getCamera();
     }

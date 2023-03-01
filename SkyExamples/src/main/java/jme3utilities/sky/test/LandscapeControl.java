@@ -335,8 +335,8 @@ public class LandscapeControl extends SubtreeControl {
             MySpatial.setWorldOrientation(upright, rotation);
         }
 
-        Box lintelMesh = new Box(lintelLength / 2f, lintelThickness / 2f,
-                ringDepth / 2);
+        Box lintelMesh = new Box(
+                lintelLength / 2f, lintelThickness / 2f, ringDepth / 2);
         for (int index = 0; index < numUprights; ++index) {
             String name = "lintel" + index;
             Geometry lintel = new Geometry(name, lintelMesh);
@@ -388,8 +388,8 @@ public class LandscapeControl extends SubtreeControl {
      */
     private AbstractHeightMap loadHeightMap() {
         boolean mipmaps = false;
-        Texture heightTexture = MyAsset.loadTexture(assetManager,
-                heightMapAssetPath, mipmaps);
+        Texture heightTexture = MyAsset.loadTexture(
+                assetManager, heightMapAssetPath, mipmaps);
         Image heightImage = heightTexture.getImage();
         float heightScale = 1f;
         AbstractHeightMap heightMap

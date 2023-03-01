@@ -196,9 +196,9 @@ public class SkyControl extends SkyControlCore {
      * hemisphere below the horizon, false to leave this region to background
      * color (if starsOption==TopDome) or stars (if starsOption!=TopDome)
      */
-    public SkyControl(AssetManager assetManager, Camera camera,
-            float cloudFlattening, StarsOption starsOption,
-            boolean bottomDome) {
+    public SkyControl(
+            AssetManager assetManager, Camera camera, float cloudFlattening,
+            StarsOption starsOption, boolean bottomDome) {
         super(assetManager, camera, cloudFlattening, starsOption, bottomDome);
 
         this.sunAndStars = new SunAndStars();
@@ -697,8 +697,8 @@ public class SkyControl extends SkyControlCore {
         } else {
             ColorRGBA blend;
             if (moonUp && moonWeight > 0f) {
-                blend = MyColor.interpolateLinear(moonWeight, starLight,
-                        moonLight);
+                blend = MyColor.interpolateLinear(
+                        moonWeight, starLight, moonLight);
             } else {
                 blend = starLight;
             }
@@ -800,8 +800,8 @@ public class SkyControl extends SkyControlCore {
         float solarLongitude = sunAndStars.getSolarLongitude();
         float celestialLongitude = solarLongitude + longitudeDifference;
         celestialLongitude = MyMath.modulo(celestialLongitude, FastMath.TWO_PI);
-        Vector3f worldDirection = sunAndStars.convertToWorld(lunarLatitude,
-                celestialLongitude, null);
+        Vector3f worldDirection = sunAndStars.convertToWorld(
+                lunarLatitude, celestialLongitude, null);
         DomeMesh topMesh = getTopMesh();
         Vector2f uvCenter = topMesh.directionUV(worldDirection);
 
@@ -826,8 +826,8 @@ public class SkyControl extends SkyControlCore {
      * @param sineSolarAltitude (&le;1, &ge:-1)
      * @param sineLunarAltitude (&le;1, &ge:-1)
      */
-    private void updateObjectColors(float sineSolarAltitude,
-            float sineLunarAltitude) {
+    private void updateObjectColors(
+            float sineSolarAltitude, float sineLunarAltitude) {
         assert sineSolarAltitude <= 1f : sineSolarAltitude;
         assert sineSolarAltitude >= -1f : sineSolarAltitude;
         assert sineLunarAltitude <= 1f : sineLunarAltitude;

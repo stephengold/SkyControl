@@ -166,10 +166,10 @@ public class GlobeRenderer extends SimpleAppState {
         super(true);
         Validate.nonNull(globeMaterial, "material");
         Validate.nonNull(outputFormat, "format");
-        Validate.inRange(equatorSamples, "equator samples",
-                3, Integer.MAX_VALUE);
-        Validate.inRange(meridianSamples, "meridian samples",
-                3, Integer.MAX_VALUE);
+        Validate.inRange(
+                equatorSamples, "equator samples", 3, Integer.MAX_VALUE);
+        Validate.inRange(
+                meridianSamples, "meridian samples", 3, Integer.MAX_VALUE);
         Validate.positive(resolution, "resolution");
 
         this.outputFormat = outputFormat;
@@ -234,8 +234,8 @@ public class GlobeRenderer extends SimpleAppState {
      * @param newLocation (in world coordinates, not null, unaffected)
      * @param newUpDirection (length&gt;0, unaffected)
      */
-    final public void moveCamera(Vector3f newLocation,
-            Vector3f newUpDirection) {
+    final public void moveCamera(
+            Vector3f newLocation, Vector3f newUpDirection) {
         Validate.nonNull(newLocation, "location");
         Validate.nonZero(newUpDirection, "up direction");
 
@@ -266,7 +266,6 @@ public class GlobeRenderer extends SimpleAppState {
      */
     final public void setGlobeRadius(float newRadius) {
         Validate.positive(newRadius, "radius");
-
         MySpatial.setWorldScale(globe, newRadius);
     }
 
@@ -346,12 +345,12 @@ public class GlobeRenderer extends SimpleAppState {
      * @param application which application owns this renderer (not null)
      */
     @Override
-    public void initialize(AppStateManager stateManager,
-            Application application) {
+    public void initialize(
+            AppStateManager stateManager, Application application) {
         super.initialize(stateManager, application);
 
-        ViewPort offscreenViewPort = renderManager.createPreView(
-                preViewName, camera);
+        ViewPort offscreenViewPort
+                = renderManager.createPreView(preViewName, camera);
         offscreenViewPort.attachScene(offscreenRootNode);
         offscreenViewPort.setClearFlags(true, true, true);
         offscreenViewPort.setOutputFrameBuffer(frameBuffer);
@@ -408,8 +407,8 @@ public class GlobeRenderer extends SimpleAppState {
      * Add a globe and orient it so that its north pole is in the global +X
      * direction.
      */
-    private void initializeGlobe(Material globeMaterial, int equatorSamples,
-            int meridianSamples) {
+    private void initializeGlobe(
+            Material globeMaterial, int equatorSamples, int meridianSamples) {
         assert globeMaterial != null;
         assert equatorSamples >= 3 : equatorSamples;
         assert meridianSamples >= 3 : meridianSamples;

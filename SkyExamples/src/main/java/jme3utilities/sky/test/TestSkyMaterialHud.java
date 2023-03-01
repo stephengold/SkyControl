@@ -326,8 +326,8 @@ public class TestSkyMaterialHud
      * @param application (not null)
      */
     @Override
-    public void initialize(AppStateManager stateManager,
-            Application application) {
+    public void initialize(
+            AppStateManager stateManager, Application application) {
         if (isInitialized()) {
             throw new IllegalStateException("already initialized");
         }

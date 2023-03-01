@@ -248,8 +248,8 @@ public class TestGlobeRenderer
             moonTexture = MyAsset.loadTexture(assetManager,
                     "Textures/skies/clouds/overcast.png", mipmaps);
         }
-        Material moonMaterial = MyAsset.createShadedMaterial(assetManager,
-                moonTexture);
+        Material moonMaterial = MyAsset.createShadedMaterial(
+                assetManager, moonTexture);
         this.moonRenderer = new GlobeRenderer(moonMaterial,
                 Image.Format.Luminance8Alpha8, equatorSamples, meridianSamples,
                 moonRendererResolution);
