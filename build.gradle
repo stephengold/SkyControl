@@ -13,11 +13,6 @@ tasks.register('checkstyle') {
         ':SkyLibrary:checkstyleMain', ':SkyLibrary:checkstyleTest'
 }
 
-tasks.register('run') {
-    dependsOn ':SkyExamples:AppChooser'
-    description 'Runs the examples.'
-}
-
 // publishing tasks:
 
 tasks.register('install') {
