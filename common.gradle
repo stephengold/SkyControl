@@ -9,13 +9,13 @@ ext {
     websiteUrl = 'https://github.com/stephengold/SkyControl'
 
     // module coordinates of dependencies:
-    acorusCoordinates = 'com.github.stephengold:Acorus:0.9.17'
-    heartCoordinates = 'com.github.stephengold:Heart:8.3.0' + jmeTarget
+    acorusCoordinates = 'com.github.stephengold:Acorus:0.9.18+for36'
+    heartCoordinates = 'com.github.stephengold:Heart:8.3.1' + jmeTarget
     jcommanderCoordinates = 'com.beust:jcommander:1.82'
-    jme3utilitiesniftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.33'
+    jme3utilitiesniftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.34' + jmeTarget
 
     // current versions of libraries:
-    jme3Version = '3.6.0-beta2'
+    jme3Version = '3.6.0-beta3'
     skycontrolVersion = '1.0.4-SNAPSHOT'
 }
 
