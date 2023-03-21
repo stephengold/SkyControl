@@ -11,6 +11,7 @@ subprojects {
 tasks.register('checkstyle') {
     dependsOn ':SkyAssets:checkstyleMain', ':SkyExamples:checkstyleMain', \
         ':SkyLibrary:checkstyleMain', ':SkyLibrary:checkstyleTest'
+    description 'Runs the checkstyle tool on all sourcecode.'
 }
 
 // publishing tasks:
