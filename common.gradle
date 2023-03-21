@@ -15,7 +15,7 @@ ext {
     jme3utilitiesniftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.34' + jmeTarget
 
     // current versions of libraries:
-    jme3Version = '3.6.0-beta3'
+    jme3Version = '3.6.0-stable'
     skycontrolVersion = '1.0.4-SNAPSHOT'
 }
 
