@@ -257,7 +257,7 @@ final public class AppChooser extends GuiApplication {
     /**
      * Execute the chosen app.
      */
-    private void executeChosenApp() {
+    private static void executeChosenApp() {
         CommandLine commandLine = new CommandLine(script);
 
         Class<?> mainClass = mainClasses[chosenAppIndex];
@@ -277,7 +277,7 @@ final public class AppChooser extends GuiApplication {
      * Look for the shell script (or batch file) to execute in
      * "./build/install/tests/bin".
      */
-    private File findScriptToExecute() {
+    private static File findScriptToExecute() {
         File buildDir = new File("build");
         File installDir = new File(buildDir, "install");
         File examplesDir = new File(installDir, "SkyExamples");

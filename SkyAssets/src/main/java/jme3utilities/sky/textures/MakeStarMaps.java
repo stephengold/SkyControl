@@ -337,7 +337,7 @@ public class MakeStarMaps {
      * @param textureSize size of each texture map (pixels per side, &gt;2)
      * @return new instance
      */
-    private RenderedImage[] generateCubeMap(
+    private static RenderedImage[] generateCubeMap(
             float latitude, float siderealTime, int textureSize) {
         assert latitude >= -FastMath.HALF_PI : latitude;
         assert latitude <= FastMath.HALF_PI : latitude;
@@ -374,7 +374,7 @@ public class MakeStarMaps {
      * @param textureSize size of the texture map (pixels per side, &gt;2)
      * @return new instance
      */
-    private RenderedImage generateDomeMap(
+    private static RenderedImage generateDomeMap(
             float latitude, float siderealTime, int textureSize) {
         assert latitude >= -FastMath.HALF_PI : latitude;
         assert latitude <= FastMath.HALF_PI : latitude;
@@ -405,7 +405,7 @@ public class MakeStarMaps {
      *
      * @param preset map preset to generate (not null)
      */
-    private void generateMap(StarMapPreset preset) {
+    private static void generateMap(StarMapPreset preset) {
         assert preset != null;
 
         float latitude = preset.latitude();
@@ -627,7 +627,7 @@ public class MakeStarMaps {
      * @param worldDirection the star's world coordinates (length=1)
      * @param faceIndex which face of the cube (&ge;0, &lt;6)
      */
-    private void plotEllipseForQuad(BufferedImage map, float luminosity,
+    private static void plotEllipseForQuad(BufferedImage map, float luminosity,
             int textureSize, Vector3f worldDirection, int faceIndex) {
         assert map != null;
         assert luminosity > 0f : luminosity;
@@ -675,7 +675,7 @@ public class MakeStarMaps {
      * @param textureSize size of the texture map (pixels per side, &gt;2)
      * @return true if the star was successfully plotted, otherwise false
      */
-    private boolean plotStarOnCube(BufferedImage[] maps, Star star,
+    private static boolean plotStarOnCube(BufferedImage[] maps, Star star,
             float latitude, float siderealTime, int textureSize) {
         assert maps != null;
         assert maps.length == 6 : maps.length;
@@ -719,7 +719,7 @@ public class MakeStarMaps {
      * @param worldDirection the star's world coordinates (length=1)
      * @return true if the star was successfully plotted, otherwise false
      */
-    private boolean plotStarOnCube(BufferedImage[] maps,
+    private static boolean plotStarOnCube(BufferedImage[] maps,
             float apparentMagnitude, int textureSize, Vector3f worldDirection) {
         assert maps != null;
         assert maps.length == 6 : maps.length;
@@ -773,8 +773,8 @@ public class MakeStarMaps {
      * @param textureSize size of the texture map (pixels per side, &gt;2)
      * @return true if the star was successfully plotted, otherwise false
      */
-    private boolean plotStarOnDome(BufferedImage map, Star star, float latitude,
-            float siderealTime, int textureSize) {
+    private static boolean plotStarOnDome(BufferedImage map, Star star,
+            float latitude, float siderealTime, int textureSize) {
         assert map != null;
         assert star != null;
         assert latitude >= -FastMath.HALF_PI : latitude;
@@ -819,8 +819,8 @@ public class MakeStarMaps {
      * @param worldDirection the star's world coordinates (length=1)
      * @return true if the star was successfully plotted, otherwise false
      */
-    private boolean plotStarOnDome(BufferedImage map, float apparentMagnitude,
-            int textureSize, Vector3f worldDirection) {
+    private static boolean plotStarOnDome(BufferedImage map,
+            float apparentMagnitude, int textureSize, Vector3f worldDirection) {
         assert map != null;
         assert worldDirection != null;
         assert worldDirection.isUnitVector() : worldDirection;
@@ -849,7 +849,7 @@ public class MakeStarMaps {
     /**
      * Read the star catalog and add each valid star to the collection.
      */
-    private void readCatalog() {
+    private static void readCatalog() {
         File catalogFile = new File(catalogFilePath);
         FileReader fileReader = null;
         BufferedReader bufferedReader = null;
@@ -885,7 +885,7 @@ public class MakeStarMaps {
      * Read the catalog line by line and use the data therein to build up the
      * collection of stars.
      */
-    private void readCatalog(BufferedReader bufferedReader)
+    private static void readCatalog(BufferedReader bufferedReader)
             throws IOException, InvalidEntryException {
         assert bufferedReader != null;
 
@@ -986,7 +986,7 @@ public class MakeStarMaps {
      * @param entryId (&ge;1)
      * @return new instance
      */
-    private Star readStar(String textLine, int entryId)
+    private static Star readStar(String textLine, int entryId)
             throws InvalidEntryException, InvalidMagnitudeException {
         assert textLine != null;
         assert entryId >= 1 : entryId;

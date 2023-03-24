@@ -169,7 +169,7 @@ public class MakeSun {
      *
      * @param styleName (not null, not empty)
      */
-    private void makeSun(String styleName) {
+    private static void makeSun(String styleName) {
         assert styleName != null;
         assert !styleName.isEmpty();
 
@@ -205,7 +205,7 @@ public class MakeSun {
      * @param numRays number of rays in the surround (&gt;0, or 0 for a circular
      * haze, or -1 for a chaotic surround)
      */
-    private void makeSun(String styleName, float discSharpness,
+    private static void makeSun(String styleName, float discSharpness,
             float surroundAlpha, int numRays)
             throws IOException {
         assert styleName != null;
@@ -228,7 +228,7 @@ public class MakeSun {
      * haze, or -1 for a chaotic surround)
      * @return new instance
      */
-    private RenderedImage makeSun(
+    private static RenderedImage makeSun(
             float discSharpness, float surroundAlpha, int numRays) {
         assert discSharpness > 0f : discSharpness;
         assert surroundAlpha >= 0f : surroundAlpha;
