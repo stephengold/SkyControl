@@ -181,11 +181,11 @@ public class MakeStarMaps {
     /**
      * stars read from the catalog
      */
-    final private Collection<Star> stars = new TreeSet<>();
+    final private static Collection<Star> stars = new TreeSet<>();
     /**
      * sample dome mesh for calculating texture coordinates
      */
-    final private DomeMesh domeMesh = new DomeMesh(3, 2);
+    final private static DomeMesh domeMesh = new DomeMesh(3, 2);
     /**
      * name of preset
      */

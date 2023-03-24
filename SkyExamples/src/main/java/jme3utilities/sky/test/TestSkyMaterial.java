@@ -127,7 +127,7 @@ public class TestSkyMaterial extends GuiApplication {
      */
     @Parameter(names = {"--showSettingsDialog"},
             description = "ignored")
-    private boolean ignoreMe = false;
+    private static boolean ignoreMe = false;
     /**
      * true means just display the usage message; false means run the
      * application
@@ -149,7 +149,7 @@ public class TestSkyMaterial extends GuiApplication {
     /**
      * heads-up display (HUD)
      */
-    private TestSkyMaterialHud hud = null;
+    private static TestSkyMaterialHud hud = null;
     // *************************************************************************
     // new methods exposed
 

@@ -105,7 +105,7 @@ public class TestGlobeRenderer
      */
     @Parameter(names = {"--showSettingsDialog"},
             description = "ignored")
-    private boolean ignoreMe = false;
+    private static boolean ignoreMe = false;
     /**
      * true means just display the usage message; false means run the
      * application
@@ -122,19 +122,19 @@ public class TestGlobeRenderer
     /**
      * globe renderer for the moon: set in simpleInitApp()
      */
-    private GlobeRenderer moonRenderer = null;
+    private static GlobeRenderer moonRenderer = null;
     /**
      * current phase of the moon: set in simpleInitApp()
      */
-    private LunarPhase phase = null;
+    private static LunarPhase phase = null;
     /**
      * material with dynamic color map
      */
-    private Material dynamicMaterial = null;
+    private static Material dynamicMaterial = null;
     /**
      * material with color map loaded from asset
      */
-    private Material loadedMaterial = null;
+    private static Material loadedMaterial = null;
     /**
      * name of initial phase (default is "full")
      */
@@ -210,7 +210,7 @@ public class TestGlobeRenderer
             if (ordinal >= LunarPhase.values().length) {
                 ordinal = 0;
             }
-            this.phase = LunarPhase.values()[ordinal];
+            phase = LunarPhase.values()[ordinal];
             updateScene();
         }
     }
@@ -250,9 +250,9 @@ public class TestGlobeRenderer
         }
         Material moonMaterial = MyAsset.createShadedMaterial(
                 assetManager, moonTexture);
-        this.moonRenderer = new GlobeRenderer(moonMaterial,
-                Image.Format.Luminance8Alpha8, equatorSamples, meridianSamples,
-                moonRendererResolution);
+        moonRenderer = new GlobeRenderer(
+                moonMaterial, Image.Format.Luminance8Alpha8, equatorSamples,
+                meridianSamples, moonRendererResolution);
         stateManager.attach(moonRenderer);
 
         // Create an unshaded material for each texture.
@@ -263,7 +263,7 @@ public class TestGlobeRenderer
         additional.setBlendMode(RenderState.BlendMode.Alpha);
         additional.setDepthWrite(false);
 
-        this.loadedMaterial = MyAsset.createUnshadedMaterial(assetManager);
+        loadedMaterial = MyAsset.createUnshadedMaterial(assetManager);
         additional = loadedMaterial.getAdditionalRenderState();
         additional.setBlendMode(RenderState.BlendMode.Alpha);
         additional.setDepthWrite(false);
