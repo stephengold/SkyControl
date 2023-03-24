@@ -501,8 +501,9 @@ final class TestSkyControlHud
      * @param event details of the event (not null)
      */
     @NiftyEventSubscriber(pattern = ".*RadioButton")
-    public void onRadioButtonChanged(final String buttonId,
-            final RadioButtonStateChangedEvent event) {
+    @Override
+    public void onRadioButtonChanged(
+            String buttonId, RadioButtonStateChangedEvent event) {
         assert buttonId != null;
         if (!hasStarted()) {
             return;

@@ -232,8 +232,7 @@ public class FloorControl extends SubtreeControl {
      * @param viewPort viewport where the spatial will be rendered (not null)
      */
     @Override
-    public void render(final RenderManager renderManager,
-            final ViewPort viewPort) {
+    public void render(RenderManager renderManager, ViewPort viewPort) {
         super.render(renderManager, viewPort);
         camera = viewPort.getCamera();
     }
