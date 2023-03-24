@@ -85,7 +85,7 @@ public class SkyControlCore extends SubtreeControl {
     /**
      * maximum number of cloud layers
      */
-    final protected static int numCloudLayers = 6;
+    final public static int numCloudLayers = 6;
     /**
      * number of samples in each longitudinal arc of a major dome, including
      * both its top and its rim (&ge;2)
