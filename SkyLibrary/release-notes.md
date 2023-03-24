@@ -1,6 +1,6 @@
 # release log for the SkyControl library and related software
 
-## Version 1.0.4 released on TBD
+## Version 1.0.4 released on 24 March 2023
 
 Notable changes:
 + publicize `SkyControlCore.numCloudLayers`

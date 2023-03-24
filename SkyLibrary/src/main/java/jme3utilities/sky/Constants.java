@@ -107,6 +107,6 @@ final public class Constants {
      * @return branch and revision (not null, not empty)
      */
     public static String versionShort() {
-        return "master 1.0.4";
+        return "master 1.0.5-SNAPSHOT";
     }
 }

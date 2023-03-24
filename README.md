@@ -79,7 +79,7 @@ Add to the project’s "build.gradle" file:
         mavenCentral()
     }
     dependencies {
-        implementation 'com.github.stephengold:SkyControl:1.0.3'
+        implementation 'com.github.stephengold:SkyControl:1.0.4'
     }
 
 For some older versions of Gradle,
@@ -99,7 +99,7 @@ Add to the project’s "pom.xml" file:
     <dependency>
       <groupId>com.github.stephengold</groupId>
       <artifactId>SkyControl</artifactId>
-      <version>1.0.3</version>
+      <version>1.0.4</version>
     </dependency>
 
 ### Ant-built projects
@@ -108,12 +108,12 @@ For projects built using [Ant], download the SkyControl and [Heart]
 libraries from GitHub:
 
 + https://github.com/stephengold/SkyControl/releases/tag/latest
-+ https://github.com/stephengold/Heart/releases/tag/8.0.0
++ https://github.com/stephengold/Heart/releases/tag/8.3.2
 
-You'll want both class jars
-and probably the `-sources` and `-javadoc` jars as well.
+You'll definitely want both class jars
+and probably the "-sources" and "-javadoc" jars as well.
 
-Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
+Open the project's properties in the IDE (JME SDK or NetBeans):
 
 1. Right-click on the project (not its assets) in the "Projects" window.
 2. Select "Properties" to open the "Project Properties" dialog.
@@ -122,15 +122,15 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
 5. Add the [Heart] class jar:
   + Click on the "Add JAR/Folder" button.
   + Navigate to the download folder.
-  + Select the "Heart-8.0.0.jar" file.
+  + Select the "Heart-8.3.2.jar" file.
   + Click on the "Open" button.
 6. (optional) Add jars for javadoc and sources:
   + Click on the "Edit" button.
   + Click on the "Browse..." button to the right of "Javadoc:"
-  + Select the "Heart-8.0.0-javadoc.jar" file.
+  + Select the "Heart-8.3.2-javadoc.jar" file.
   + Click on the "Open" button.
   + Click on the "Browse..." button to the right of "Sources:"
-  + Select the "Heart-8.0.0-sources.jar" file.
+  + Select the "Heart-8.3.2-sources.jar" file.
   + Click on the "Open" button again.
   + Click on the "OK" button to close the "Edit Jar Reference" dialog.
 7. Similarly, add the SkyControl jar(s).
@@ -156,7 +156,7 @@ Open the project's properties in the IDE (JME 3.2 SDK or NetBeans 8.2):
   + using Git:
     + `git clone https://github.com/stephengold/SkyControl.git`
     + `cd SkyControl`
-    + `git checkout -b latest 1.0.3`
+    + `git checkout -b latest 1.0.4`
   + using a web browser:
     + browse to [the latest release][latest]
     + follow the "Source code (zip)" link
@@ -205,8 +205,7 @@ Old Maven artifacts (v0.9.25 through v0.9.29) are available from JCenter.
 
 Package names begin with `jme3utilities.sky`
 
-The source code is compatible with JDK 7.
-The pre-built libraries are compatible with JDK 8.
+The source code and pre-built libraries are compatible with JDK 8.
 
 In the default world coordinate system:
 
@@ -362,7 +361,7 @@ correct the situation: sgold@sonic.net
 [license]: https://github.com/stephengold/SkyControl/blob/master/LICENSE "SkyControl license"
 [log]: https://github.com/stephengold/SkyControl/blob/master/SkyLibrary/release-notes.md "release log"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
-[meld]: https://meldmerge.org "Meld Project"
+[meld]: https://meldmerge.org "Meld merge tool"
 [mint]: https://linuxmint.com "Linux Mint Project"
 [netbeans]: https://netbeans.org "NetBeans Project"
 [nifty]: http://nifty-gui.github.io/nifty-gui "Nifty GUI Project"
