@@ -46,7 +46,7 @@ import jme3utilities.math.noise.Perlin2;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class MakeClouds {
+final class MakeClouds {
     // *************************************************************************
     // constants and loggers
 

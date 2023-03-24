@@ -58,7 +58,7 @@ import jme3utilities.sky.SkyMaterial;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestSkyMaterialHud
+final class TestSkyMaterialHud
         extends GuiScreenController
         implements ActionListener {
     // *************************************************************************
@@ -147,7 +147,7 @@ public class TestSkyMaterialHud
      *
      * @param newMaterial test material (not null)
      */
-    final void setMaterial(SkyMaterial newMaterial) {
+    void setMaterial(SkyMaterial newMaterial) {
         assert newMaterial != null;
 
         this.material = newMaterial;

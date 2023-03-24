@@ -45,7 +45,7 @@ import jme3utilities.sky.LunarPhase;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class MakeMoons {
+final class MakeMoons {
     // *************************************************************************
     // constants and loggers
 

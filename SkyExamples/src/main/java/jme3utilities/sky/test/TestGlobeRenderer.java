@@ -69,7 +69,7 @@ import org.lwjgl.system.Configuration;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestGlobeRenderer
+final class TestGlobeRenderer
         extends SimpleApplication // TODO extend AcorusDemo
         implements ActionListener {
     // *************************************************************************

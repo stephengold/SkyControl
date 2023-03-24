@@ -56,7 +56,7 @@ import jme3utilities.sky.Updater;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestSkyControlHud
+final class TestSkyControlHud
         extends GuiScreenController
         implements ActionListener {
     // *************************************************************************

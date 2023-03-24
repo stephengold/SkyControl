@@ -53,7 +53,7 @@ import org.lwjgl.system.Configuration;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-final public class AppChooser extends GuiApplication {
+final class AppChooser extends GuiApplication {
     // *************************************************************************
     // constants and loggers
 

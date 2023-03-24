@@ -66,7 +66,7 @@ import jme3utilities.Validate;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class LandscapeControl extends SubtreeControl {
+final class LandscapeControl extends SubtreeControl {
     // *************************************************************************
     // constants and loggers
 
@@ -162,7 +162,7 @@ public class LandscapeControl extends SubtreeControl {
      * @param assetManager for loading textures and material definitions (not
      * null)
      */
-    public LandscapeControl(AssetManager assetManager) {
+    LandscapeControl(AssetManager assetManager) {
         super();
         Validate.nonNull(assetManager, "asset manager");
 
@@ -185,7 +185,7 @@ public class LandscapeControl extends SubtreeControl {
      *
      * @return the material (not null)
      */
-    final public Material getGrass() {
+    Material getGrass() {
         if (terrainMaterial == null) {
             this.terrainMaterial = MyAsset.createShadedMaterial(
                     assetManager, defaultGrassColor);
@@ -199,7 +199,7 @@ public class LandscapeControl extends SubtreeControl {
      *
      * @return the Y component (in world coordinates)
      */
-    public float peakY() {
+    float peakY() {
         Spatial terrain = MySpatial.findChild((Node) getSubtree(), "terrain");
         float localYScale = terrain.getLocalScale().y;
         assert localYScale > 0f : localYScale;
@@ -214,7 +214,7 @@ public class LandscapeControl extends SubtreeControl {
      *
      * @param material the desired material (not null, alias created)
      */
-    final public void setGrass(Material material) {
+    void setGrass(Material material) {
         Validate.nonNull(material, "material");
 
         this.terrainMaterial = material;
@@ -227,7 +227,7 @@ public class LandscapeControl extends SubtreeControl {
      *
      * @param radius the distance from center to edge (&gt;0)
      */
-    public void setMonumentScale(float radius) {
+    void setMonumentScale(float radius) {
         Validate.positive(radius, "radius");
 
         Spatial monument = MySpatial.findChild((Node) getSubtree(), "monument");
@@ -243,7 +243,7 @@ public class LandscapeControl extends SubtreeControl {
      * @param baseY the lowest possible world Y-coordinate
      * @param peakY the world Y-coordinate of the peak (&gt;baseY)
      */
-    public void setTerrainScale(float radius, float baseY, float peakY) {
+    void setTerrainScale(float radius, float baseY, float peakY) {
         Validate.positive(radius, "radius");
         if (!(peakY > baseY)) {
             logger.log(Level.SEVERE, "peakY={0}, baseY={1}",

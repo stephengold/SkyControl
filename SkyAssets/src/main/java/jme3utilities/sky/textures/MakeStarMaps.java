@@ -60,7 +60,7 @@ import jme3utilities.sky.Constants;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class MakeStarMaps {
+final class MakeStarMaps {
     // *************************************************************************
     // throwables
 

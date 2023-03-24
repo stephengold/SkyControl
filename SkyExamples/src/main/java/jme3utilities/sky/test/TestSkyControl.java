@@ -52,7 +52,7 @@ import org.lwjgl.system.Configuration;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestSkyControl extends GuiApplication {
+final class TestSkyControl extends GuiApplication {
     // *************************************************************************
     // constants and loggers
 

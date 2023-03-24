@@ -81,7 +81,7 @@ import jme3utilities.ui.ActionApplication;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestSkyControlRun
+final class TestSkyControlRun
         extends AcorusAppState
         implements ViewPortListener {
     // *************************************************************************

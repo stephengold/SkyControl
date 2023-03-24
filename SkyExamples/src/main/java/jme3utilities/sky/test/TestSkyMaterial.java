@@ -68,7 +68,7 @@ import org.lwjgl.system.Configuration;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class TestSkyMaterial extends GuiApplication {
+final class TestSkyMaterial extends GuiApplication {
     // *************************************************************************
     // constants and loggers
 

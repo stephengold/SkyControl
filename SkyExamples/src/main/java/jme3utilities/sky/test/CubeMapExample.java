@@ -58,7 +58,7 @@ import org.lwjgl.system.Configuration;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class CubeMapExample extends SimpleApplication {
+final class CubeMapExample extends SimpleApplication {
     // *************************************************************************
     // constants and loggers
 
