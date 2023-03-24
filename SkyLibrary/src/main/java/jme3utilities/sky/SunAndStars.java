@@ -36,8 +36,8 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.logging.Logger;
 import jme3utilities.MySpatial;
 import jme3utilities.Validate;
@@ -483,9 +483,9 @@ public class SunAndStars implements Cloneable, Savable {
 
         // Convert month and day to day-of-the-year.
         int year = 2_000; // a recent leap year
-        Calendar calendar = new GregorianCalendar();
-        calendar.set(year, month, day, 12, 0, 0); // noon, standard time
-        int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+        Month m = Month.of(month + 1); // 1 .. 12
+        LocalDate localDate = LocalDate.of(year, m, day);
+        int dayOfYear = localDate.getDayOfYear(); // 1 .. 366
 
         // Compute the approximate solar longitude (in radians).
         float daysSinceEquinox = dayOfYear - 80;
