@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2020, Stephen Gold
+ Copyright (c) 2014-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -171,7 +171,7 @@ public class FloorControl extends SubtreeControl {
     @Override
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
-        camera = cloner.clone(camera);
+        this.camera = cloner.clone(camera);
     }
 
     /**

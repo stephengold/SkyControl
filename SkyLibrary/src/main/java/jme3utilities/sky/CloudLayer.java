@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2022, Stephen Gold
+ Copyright (c) 2014-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -233,7 +233,7 @@ public class CloudLayer
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        material = cloner.clone(material);
+        this.material = cloner.clone(material);
     }
 
     /**

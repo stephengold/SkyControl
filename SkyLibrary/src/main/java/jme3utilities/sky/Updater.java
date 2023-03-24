@@ -495,16 +495,16 @@ public class Updater
      */
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        ambientLight = cloner.clone(ambientLight);
-        shadowFilters = cloner.clone(shadowFilters);
-        shadowRenderers = cloner.clone(shadowRenderers);
-        bloomFilters = cloner.clone(bloomFilters);
-        viewPorts = new ArrayList<>(viewPorts);
-        ambientColor = cloner.clone(ambientColor);
-        backgroundColor = cloner.clone(backgroundColor);
-        mainColor = cloner.clone(mainColor);
-        mainLight = cloner.clone(mainLight);
-        direction = cloner.clone(direction);
+        this.ambientLight = cloner.clone(ambientLight);
+        this.shadowFilters = cloner.clone(shadowFilters);
+        this.shadowRenderers = cloner.clone(shadowRenderers);
+        this.bloomFilters = cloner.clone(bloomFilters);
+        this.viewPorts = new ArrayList<>(viewPorts);
+        this.ambientColor = cloner.clone(ambientColor);
+        this.backgroundColor = cloner.clone(backgroundColor);
+        this.mainColor = cloner.clone(mainColor);
+        this.mainLight = cloner.clone(mainLight);
+        this.direction = cloner.clone(direction);
     }
 
     /**

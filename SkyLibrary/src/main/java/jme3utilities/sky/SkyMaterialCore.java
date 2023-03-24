@@ -123,18 +123,18 @@ public class SkyMaterialCore extends Material {
      * No-argument constructor needed by SavableClassUtil.
      */
     protected SkyMaterialCore() {
-        assetManager = null;
-        cloudAlphas = null;
-        cloudImages = null;
-        cloudScales = null;
-        cloudsRaster = null;
-        cloudOffsets = null;
-        maxCloudLayers = 0;
-        maxObjects = 0;
+        this.assetManager = null;
+        this.cloudAlphas = null;
+        this.cloudImages = null;
+        this.cloudScales = null;
+        this.cloudsRaster = null;
+        this.cloudOffsets = null;
+        this.maxCloudLayers = 0;
+        this.maxObjects = 0;
 
-        objectCenters = null;
-        objectRotations = null;
-        objectScales = null;
+        this.objectCenters = null;
+        this.objectRotations = null;
+        this.objectScales = null;
     }
 
     /**
@@ -158,15 +158,15 @@ public class SkyMaterialCore extends Material {
         this.maxObjects = maxObjects;
         this.maxCloudLayers = maxCloudLayers;
 
-        cloudAlphas = new float[maxCloudLayers];
-        cloudImages = new Image[maxCloudLayers];
-        cloudOffsets = new Vector2f[maxCloudLayers];
-        cloudsRaster = new ImageRaster[maxCloudLayers];
-        cloudScales = new float[maxCloudLayers];
+        this.cloudAlphas = new float[maxCloudLayers];
+        this.cloudImages = new Image[maxCloudLayers];
+        this.cloudOffsets = new Vector2f[maxCloudLayers];
+        this.cloudsRaster = new ImageRaster[maxCloudLayers];
+        this.cloudScales = new float[maxCloudLayers];
 
-        objectCenters = new Vector2f[maxObjects];
-        objectRotations = new Vector2f[maxObjects];
-        objectScales = new float[maxObjects];
+        this.objectCenters = new Vector2f[maxObjects];
+        this.objectRotations = new Vector2f[maxObjects];
+        this.objectScales = new float[maxObjects];
     }
     // *************************************************************************
     // new methods exposed
@@ -193,11 +193,11 @@ public class SkyMaterialCore extends Material {
         setTexture(parameterName, alphaMap);
 
         Image image = alphaMap.getImage();
-        cloudImages[layerIndex] = image;
-        cloudsRaster[layerIndex] = ImageRaster.create(image);
+        this.cloudImages[layerIndex] = image;
+        this.cloudsRaster[layerIndex] = ImageRaster.create(image);
 
         if (firstTime) {
-            cloudOffsets[layerIndex] = new Vector2f();
+            this.cloudOffsets[layerIndex] = new Vector2f();
             setCloudsColor(layerIndex, ColorRGBA.White);
             setCloudsOffset(layerIndex, 0f, 0f);
             setCloudsScale(layerIndex, 1f);
@@ -220,8 +220,8 @@ public class SkyMaterialCore extends Material {
         setTexture(parameterName, colorMap);
 
         if (objectCenters[objectIndex] == null) {
-            objectCenters[objectIndex] = new Vector2f();
-            objectRotations[objectIndex] = new Vector2f();
+            this.objectCenters[objectIndex] = new Vector2f();
+            this.objectRotations[objectIndex] = new Vector2f();
             setObjectColor(objectIndex, ColorRGBA.White);
             setObjectGlow(objectIndex, ColorRGBA.Black);
             setObjectTransform(objectIndex, Constants.topUV, 1f, null);
