@@ -152,7 +152,7 @@ public class SkyControlCore extends SubtreeControl {
      * starsOption==TopDome) or stars only (if starsOption!=TopDome): set by
      * constructor
      */
-    private boolean bottomDomeFlag;
+    final private boolean bottomDomeFlag;
     /**
      * true to counteract rotation of the controlled node, false to allow
      * rotation

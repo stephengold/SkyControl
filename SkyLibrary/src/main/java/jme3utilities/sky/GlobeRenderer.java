@@ -85,6 +85,10 @@ public class GlobeRenderer extends SimpleAppState {
     final private static Logger logger
             = Logger.getLogger(GlobeRenderer.class.getName());
     /**
+     * name for the off-screen render of the globe
+     */
+    final private static String preViewName = "off-screen render";
+    /**
      * location of the globe's center (in world coordinates)
      */
     final private static Vector3f globeCenter = new Vector3f(0f, 0f, 0f);
@@ -135,10 +139,6 @@ public class GlobeRenderer extends SimpleAppState {
      * root of the off-screen scene graph
      */
     final private Node offscreenRootNode = new Node("off-screen root node");
-    /**
-     * name for the off-screen render of the globe
-     */
-    private String preViewName = "off-screen render";
     /**
      * dynamic output texture: set by constructor
      */
