@@ -694,8 +694,8 @@ public class SkyMaterialCore extends Material {
             tU.set(b, -a);
             tV.set(a, b);
 
-            float stretchFactor = 1f
-                    + Constants.stretchCoefficient * topDist * topDist;
+            float stretchFactor
+                    = 1f + Constants.stretchCoefficient * topDist * topDist;
             tU.divideLocal(stretchFactor);
 
             if (newRotate != null) {

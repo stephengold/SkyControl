@@ -189,8 +189,8 @@ public class MakeRamps {
      */
     private RenderedImage makeRamp(float flattening) {
         // Create a blank, grayscale buffered image for the texture map.
-        BufferedImage map = new BufferedImage(textureSize, textureSize,
-                BufferedImage.TYPE_BYTE_GRAY);
+        BufferedImage map = new BufferedImage(
+                textureSize, textureSize, BufferedImage.TYPE_BYTE_GRAY);
         Graphics2D graphics = map.createGraphics();
 
         // Compute the alpha of each pixel.

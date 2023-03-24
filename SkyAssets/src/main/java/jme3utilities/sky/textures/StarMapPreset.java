@@ -111,6 +111,7 @@ enum StarMapPreset {
                 return preset;
             }
         }
+
         return null;
     }
 

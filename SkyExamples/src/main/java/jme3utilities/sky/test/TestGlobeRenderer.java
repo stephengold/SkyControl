@@ -304,8 +304,8 @@ public class TestGlobeRenderer
 
         // Press spacebar or left-click to advance to the next phase.
         inputManager.addMapping("next", new KeyTrigger(KeyInput.KEY_SPACE));
-        inputManager.addMapping("next",
-                new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+        inputManager.addMapping(
+                "next", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
         inputManager.addListener(this, "next");
     }
 

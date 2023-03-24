@@ -383,8 +383,8 @@ public class MakeStarMaps {
         assert textureSize > 2 : textureSize;
 
         // Create a blank, grayscale buffered image for the texture map.
-        BufferedImage map = new BufferedImage(textureSize, textureSize,
-                BufferedImage.TYPE_BYTE_GRAY);
+        BufferedImage map = new BufferedImage(
+                textureSize, textureSize, BufferedImage.TYPE_BYTE_GRAY);
 
         // Plot individual stars on the image, starting with the faintest.
         int plotCount = 0;
@@ -829,8 +829,8 @@ public class MakeStarMaps {
         // Convert apparent magnitude to relative luminosity.
         float resolution = textureSize / 2_048f;
         float luminosity0 = 37f * resolution * resolution;
-        float luminosity = luminosity0
-                * FastMath.pow(pogsonsRatio, -apparentMagnitude);
+        float luminosity
+                = luminosity0 * FastMath.pow(pogsonsRatio, -apparentMagnitude);
         if (luminosity < luminosityCutoff) {
             return false;
         }

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -63,8 +63,7 @@ class TestSkyControlParameters {
     /**
      * true means use a shadow filter; false means use a shadow renderer
      */
-    @Parameter(names = {"-f", "--filter"},
-            description = "use a shadow filter")
+    @Parameter(names = {"-f", "--filter"}, description = "use a shadow filter")
     private boolean shadowFilter = false;
     /**
      * true means show the setting dialog; false means don't show it

@@ -201,8 +201,8 @@ public class MakeClouds {
         assert whiteCutoff <= 1f : whiteCutoff;
 
         // Create a blank, grayscale buffered image for the texture map.
-        BufferedImage map = new BufferedImage(textureSize, textureSize,
-                BufferedImage.TYPE_BYTE_GRAY);
+        BufferedImage map = new BufferedImage(
+                textureSize, textureSize, BufferedImage.TYPE_BYTE_GRAY);
         Graphics2D graphics = map.createGraphics();
 
         // Set brightness of each pixel based on the noise array.
@@ -231,8 +231,8 @@ public class MakeClouds {
         assert alpha <= 1f : alpha;
 
         // Create a blank, grayscale buffered image for the texture map.
-        BufferedImage map = new BufferedImage(textureSize, textureSize,
-                BufferedImage.TYPE_BYTE_GRAY);
+        BufferedImage map = new BufferedImage(
+                textureSize, textureSize, BufferedImage.TYPE_BYTE_GRAY);
         Graphics2D graphics = map.createGraphics();
 
         // Set brightness of each pixel.

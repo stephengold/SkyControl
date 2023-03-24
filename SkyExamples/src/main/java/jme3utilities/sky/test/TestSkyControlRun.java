@@ -549,8 +549,8 @@ public class TestSkyControlRun
         Updater updater = skyControl.getUpdater();
         if (parameters.shadowFilter()) {
             DirectionalLightShadowFilter dlsf
-                    = new DirectionalLightShadowFilter(assetManager,
-                            shadowMapSize, shadowMapSplits);
+                    = new DirectionalLightShadowFilter(
+                            assetManager, shadowMapSize, shadowMapSplits);
             dlsf.setEdgeFilteringMode(EdgeFilteringMode.PCF8);
             dlsf.setLight(mainLight);
             int numSamples = TestSkyControl.numSamples;
@@ -559,8 +559,8 @@ public class TestSkyControlRun
 
         } else {
             DirectionalLightShadowRenderer dlsr
-                    = new DirectionalLightShadowRenderer(assetManager,
-                            shadowMapSize, shadowMapSplits);
+                    = new DirectionalLightShadowRenderer(
+                            assetManager, shadowMapSize, shadowMapSplits);
             dlsr.setEdgeFilteringMode(EdgeFilteringMode.PCF8);
             dlsr.setLight(mainLight);
             updater.addShadowRenderer(dlsr);

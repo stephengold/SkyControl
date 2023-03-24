@@ -445,9 +445,7 @@ public class GlobeRenderer extends SimpleAppState {
 
         if (!(cameraDistance > globeRadius)) {
             logger.log(Level.SEVERE, "cameraDistance={0} globeRadius={1}",
-                    new Object[]{
-                        cameraDistance, globeRadius
-                    });
+                    new Object[]{cameraDistance, globeRadius});
             throw new IllegalArgumentException(
                     "camera should be outside the globe");
         }

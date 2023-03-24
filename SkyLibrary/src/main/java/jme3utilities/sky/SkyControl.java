@@ -809,8 +809,8 @@ public class SkyControl extends SkyControlCore {
         if (uvCenter != null) {
             Vector2f rotation = lunarRotation(celestialLongitude, uvCenter);
             // Reveal the object and update its texture transform.
-            topMaterial.setObjectTransform(moonIndex, uvCenter, moonScale,
-                    rotation);
+            topMaterial.setObjectTransform(
+                    moonIndex, uvCenter, moonScale, rotation);
         } else {
             topMaterial.hideObject(moonIndex);
         }

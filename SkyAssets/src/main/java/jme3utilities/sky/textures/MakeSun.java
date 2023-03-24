@@ -235,8 +235,8 @@ public class MakeSun {
         assert numRays >= -1 : numRays;
 
         // Create a blank, color buffered image for the texture map.
-        BufferedImage map = new BufferedImage(textureSize, textureSize,
-                BufferedImage.TYPE_4BYTE_ABGR);
+        BufferedImage map = new BufferedImage(
+                textureSize, textureSize, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D graphics = map.createGraphics();
 
         // Compute the opacity of each pixel.

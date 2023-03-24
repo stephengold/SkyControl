@@ -152,8 +152,8 @@ public class MakeMoons {
         assert phase != LunarPhase.CUSTOM;
 
         // Create a blank, color buffered image for the texture map.
-        BufferedImage image = new BufferedImage(textureSize, textureSize,
-                BufferedImage.TYPE_4BYTE_ABGR);
+        BufferedImage image = new BufferedImage(
+                textureSize, textureSize, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D graphics = image.createGraphics();
 
         // Calculate the direction to the light source.

@@ -243,8 +243,8 @@ public class SkyControlCore extends SubtreeControl {
         int topObjects = 2; // a sun and a moon
         boolean cloudDomeFlag = cloudFlattening != 0f;
         int topCloudLayers = cloudDomeFlag ? 0 : numCloudLayers;
-        SkyMaterial topMaterial = new SkyMaterial(assetManager, topObjects,
-                topCloudLayers);
+        SkyMaterial topMaterial
+                = new SkyMaterial(assetManager, topObjects, topCloudLayers);
         topMaterial.initialize();
         topMaterial.addHaze();
         if (starsOption == StarsOption.TopDome) {
@@ -806,8 +806,8 @@ public class SkyControlCore extends SubtreeControl {
         boolean starMotionFlag = ic.readBoolean("starMotionFlag", false);
         this.starsOption
                 = starMotionFlag ? StarsOption.Cube : StarsOption.TopDome;
-        this.starsOption = ic.readEnum("starsOption", StarsOption.class,
-                starsOption);
+        this.starsOption = ic.readEnum(
+                "starsOption", StarsOption.class, starsOption);
         /* camera not serialized */
         Savable[] sav = ic.readSavableArray("cloudLayers", null);
         this.cloudLayers = new CloudLayer[sav.length];

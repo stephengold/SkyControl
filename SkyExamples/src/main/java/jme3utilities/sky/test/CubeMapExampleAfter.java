@@ -155,8 +155,8 @@ public class CubeMapExampleAfter extends SimpleApplication {
         Texture roadNormal = loadSplatTexture("road_normal.png");
 
         // material
-        Material terrainMaterial = new Material(assetManager,
-                "Common/MatDefs/Terrain/TerrainLighting.j3md");
+        Material terrainMaterial = new Material(
+                assetManager, "Common/MatDefs/Terrain/TerrainLighting.j3md");
         terrainMaterial.setBoolean("useTriPlanarMapping", false);
         terrainMaterial.setBoolean("WardIso", true);
         terrainMaterial.setFloat("DiffuseMap_0_scale", 64f);

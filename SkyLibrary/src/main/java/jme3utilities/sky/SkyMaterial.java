@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -133,8 +133,8 @@ public class SkyMaterial extends SkyMaterialCore {
      * @param maxObjects number of astronomical objects required (&ge;0)
      * @param maxCloudLayers number of cloud layers required (&ge;0)
      */
-    public SkyMaterial(AssetManager assetManager, int maxObjects,
-            int maxCloudLayers) {
+    public SkyMaterial(
+            AssetManager assetManager, int maxObjects, int maxCloudLayers) {
         super(assetManager, pickMatDefs(maxObjects, maxCloudLayers), maxObjects,
                 maxCloudLayers);
     }

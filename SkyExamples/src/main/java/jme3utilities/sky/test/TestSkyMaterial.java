@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2022, Stephen Gold
+ Copyright (c) 2013-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -366,8 +366,8 @@ public class TestSkyMaterial extends GuiApplication {
      * @param material sky material under test (not null)
      * @param bloom bloom filter applied to the viewport (not null)
      */
-    private void initializeUserInterface(SkyMaterial material,
-            BloomFilter bloom) {
+    private void initializeUserInterface(
+            SkyMaterial material, BloomFilter bloom) {
         assert material != null;
         assert bloom != null;
         /*
