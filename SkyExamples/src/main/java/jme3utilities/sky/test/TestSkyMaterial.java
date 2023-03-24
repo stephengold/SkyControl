@@ -317,9 +317,8 @@ final class TestSkyMaterial extends GuiApplication {
                 default:
             }
         }
-        /*
-         * The action is not handled: forward it to the superclass.
-         */
+
+        // The action is not handled: forward it to the superclass.
         super.onAction(actionString, ongoing, tpf);
     }
     // *************************************************************************

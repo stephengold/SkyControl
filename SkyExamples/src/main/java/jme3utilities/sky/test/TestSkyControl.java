@@ -186,9 +186,8 @@ final class TestSkyControl extends GuiApplication {
         assert success;
         success = stateManager.attach(bindScreen);
         assert success;
-        /*
-         * Default input mode directly influences the scene manager.
-         */
+
+        // Default input mode directly influences the scene manager.
         InputMode dim = getDefaultInputMode();
         dim.influence(run);
 

@@ -187,9 +187,8 @@ public class FloorControl extends SubtreeControl {
         if (camera == null) {
             return;
         }
-        /*
-         * Translate the floor to center it below the camera.
-         */
+
+        // Translate the floor to center it below the camera.
         Vector3f cameraLocation = camera.getLocation();
         Node subtreeNode = (Node) getSubtree();
         MySpatial.setWorldLocation(subtreeNode, cameraLocation);
@@ -202,9 +201,7 @@ public class FloorControl extends SubtreeControl {
         floor.setLocalTranslation(-radius, -drop, radius);
 
         if (stabilizeFlag) {
-            /*
-             * Counteract rotation of the controlled node.
-             */
+            // Counteract rotation of the controlled node.
             MySpatial.setWorldOrientation(subtreeNode, rotationIdentity);
         }
     }
@@ -263,16 +260,14 @@ public class FloorControl extends SubtreeControl {
     private void createSpatials(Material material, float textureScale) {
         assert material != null;
         assert textureScale > 0f : textureScale;
-        /*
-         * Create a Node to parent the floor geometry.
-         */
+
+        // Create a Node to parent the floor geometry.
         Node subtreeNode = new Node(nodeName);
         subtreeNode.setQueueBucket(RenderQueue.Bucket.Sky);
         subtreeNode.setShadowMode(RenderQueue.ShadowMode.Off);
         setSubtree(subtreeNode);
-        /*
-         * Create and attach the floor geometry.
-         */
+
+        // Create and attach the floor geometry.
         Quad mesh = new Quad(1f, 1f);
         mesh.scaleTextureCoordinates(new Vector2f(textureScale, textureScale));
         Geometry floor = new Geometry(geometryName, mesh);

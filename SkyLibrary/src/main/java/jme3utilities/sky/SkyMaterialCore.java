@@ -658,9 +658,8 @@ public class SkyMaterialCore extends Material {
         if (objectCenters[objectIndex] == null) {
             throw new IllegalStateException("object not yet added");
         }
-        /*
-         * Record transform parameters for save().
-         */
+
+        // Record transform parameters for save().
         this.objectCenters[objectIndex] = centerUV.clone();
         if (newRotate == null) {
             this.objectRotations[objectIndex] = null;

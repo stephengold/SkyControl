@@ -205,9 +205,8 @@ final class TestSkyControlRun
             MyString.quote(saveAssetPath)
         });
         Node loadedNode = (Node) loadedScene;
-        /*
-         * Update cached references to refer to the newly loaded scene.
-         */
+
+        // Update cached references to refer to the newly loaded scene.
         this.cubeMap = MySpatial.findChild(loadedNode, cubeName);
         this.floorControl = loadedNode.getControl(FloorControl.class);
         assert floorControl != null;
@@ -337,9 +336,8 @@ final class TestSkyControlRun
         if (parameters.water()) {
             addWater();
         }
-        /*
-         * Add other filters to the main view port.
-         */
+
+        // Add other filters to the main view port.
         addBloom(viewPort);
         addCartoonEdges(viewPort);
     }
@@ -669,9 +667,7 @@ final class TestSkyControlRun
      */
     private void initializeSky() {
         if (parameters.cubes()) {
-            /*
-             * Load and attach the external star map.
-             */
+            // Load and attach the external star map.
             this.cubeMap = MyAsset.createStarMapQuads(
                     assetManager, "purple-nebula-complex");
             cubeMap.setName(cubeName);

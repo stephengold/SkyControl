@@ -176,9 +176,8 @@ public class GlobeRenderer extends SimpleAppState {
         initializeCamera(resolution);
         initializeGlobe(globeMaterial, equatorSamples, meridianSamples);
         initializeLights();
-        /*
-         * Create a texture, frame buffer, and viewport for output.
-         */
+
+        // Create a texture, frame buffer, and viewport for output.
         this.outputTexture
                 = new Texture2D(resolution, resolution, outputFormat);
         outputTexture.setMagFilter(Texture.MagFilter.Bilinear);
@@ -358,9 +357,8 @@ public class GlobeRenderer extends SimpleAppState {
             offscreenRootNode.updateLogicalState(0f);
             offscreenRootNode.updateGeometricState();
         }
-        /*
-         * Apply a contrast correction filter to the render.
-         */
+
+        // Apply a contrast correction filter to the render.
         FilterPostProcessor fpp
                 = Heart.getFpp(offscreenViewPort, assetManager, 1);
         fpp.setFrameBufferFormat(outputFormat);
@@ -376,9 +374,8 @@ public class GlobeRenderer extends SimpleAppState {
     @Override
     public void update(float tpf) {
         super.update(tpf);
-        /*
-         * spin the globe on its axis
-         */
+
+        // spin the globe on its axis
         float angle = spinRate * tpf;
         Quaternion spin = new Quaternion().fromAngleNormalAxis(angle, spinAxis);
         globe.rotate(spin);

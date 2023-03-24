@@ -627,9 +627,8 @@ final class TestSkyControlHud
 
         this.run = TestSkyControl.run;
         assert run != null;
-        /*
-         * Initialize radio buttons.
-         */
+
+        // Initialize radio buttons.
         setRadioButton("forwardRadioButton");
     }
     // *************************************************************************
@@ -693,9 +692,8 @@ final class TestSkyControlHud
 
         float speed = updateLogSlider("speed", 10f, "x");
         timeOfDay.setRate(clockDirection * speed);
-        /*
-         * Update the labels which show status.
-         */
+
+        // Update the labels which show status.
         String timeString = timeOfDay.toString();
         setStatusText("time", timeString);
 

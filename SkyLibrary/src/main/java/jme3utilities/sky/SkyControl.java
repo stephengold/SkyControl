@@ -664,9 +664,8 @@ public class SkyControl extends SkyControlCore {
             sineLunarAltitude = -1f;
         }
         updateObjectColors(sineSolarAltitude, sineLunarAltitude);
-        /*
-         * Determine the world direction to the main light source.
-         */
+
+        // Determine the world direction to the main light source.
         boolean moonUp = sineLunarAltitude >= 0f;
         boolean sunUp = sineSolarAltitude >= 0f;
         float moonWeight = getMoonIllumination();
@@ -794,9 +793,8 @@ public class SkyControl extends SkyControlCore {
             moonRenderer.setLightIntensity(intensity);
             moonRenderer.setPhase(longitudeDifference, lunarLatitude);
         }
-        /*
-         * Compute the UV coordinates of the center of the moon.
-         */
+
+        // Compute the UV coordinates of the center of the moon.
         float solarLongitude = sunAndStars.getSolarLongitude();
         float celestialLongitude = solarLongitude + longitudeDifference;
         celestialLongitude = MyMath.modulo(celestialLongitude, FastMath.TWO_PI);

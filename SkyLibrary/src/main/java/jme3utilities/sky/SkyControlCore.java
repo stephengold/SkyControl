@@ -263,9 +263,8 @@ public class SkyControlCore extends SubtreeControl {
         } else {
             cloudsMaterial = topMaterial;
         }
-        /*
-         * Initialize the cloud layers.
-         */
+
+        // Initialize the cloud layers.
         this.cloudLayers = new CloudLayer[numCloudLayers];
         for (int layerIndex = 0; layerIndex < numCloudLayers; ++layerIndex) {
             this.cloudLayers[layerIndex] = new CloudLayer(
