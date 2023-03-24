@@ -151,7 +151,7 @@ final class LandscapeControl extends SubtreeControl {
     /**
      * No-argument constructor needed by SavableClassUtil.
      */
-    protected LandscapeControl() {
+    private LandscapeControl() {
         super();
         assetManager = null;
     }
