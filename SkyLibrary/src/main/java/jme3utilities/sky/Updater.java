@@ -109,7 +109,7 @@ public class Updater
      * shadow filters whose intensities are updated by the control - not
      * synchronized
      */
-    private List<AbstractShadowFilter> shadowFilters = new ArrayList<>(1);
+    private List<AbstractShadowFilter<?>> shadowFilters = new ArrayList<>(1);
     /**
      * shadow renderers whose intensities are updated by the control - not
      * synchronized
@@ -399,9 +399,8 @@ public class Updater
      *
      * @param newState true to enable, false to disable
      */
-    @SuppressWarnings("rawtypes")
     public void setShadowFiltersEnabled(boolean newState) {
-        for (AbstractShadowFilter filter : shadowFilters) {
+        for (AbstractShadowFilter<?> filter : shadowFilters) {
             filter.setEnabled(newState);
         }
     }
@@ -474,8 +473,7 @@ public class Updater
         for (BloomFilter filter : bloomFilters) {
             filter.setBloomIntensity(bloomIntensity);
         }
-        for (@SuppressWarnings("rawtypes") AbstractShadowFilter filter
-                : shadowFilters) {
+        for (AbstractShadowFilter<?> filter : shadowFilters) {
             filter.setShadowIntensity(shadowIntensity);
         }
         for (AbstractShadowRenderer renderer : shadowRenderers) {
