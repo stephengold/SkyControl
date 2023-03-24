@@ -165,7 +165,7 @@ public class SkyControlCore extends SubtreeControl {
      */
     private Camera camera;
     /**
-     * information about individual cloud layers
+     * information about individual cloud layers - TODO privatize
      */
     protected CloudLayer[] cloudLayers;
     /**

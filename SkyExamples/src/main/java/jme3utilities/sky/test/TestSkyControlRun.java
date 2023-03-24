@@ -734,9 +734,9 @@ final class TestSkyControlRun
     }
 
     /**
-     * Update SkyControl's star map.
+     * Update SkyControl's star maps based on the specified name.
      *
-     * @param starMapName (not null)
+     * @param starMapName (either "4m" or "16m" or "nebula")
      */
     private void updateStarMap(String starMapName) {
         switch (starMapName) {
