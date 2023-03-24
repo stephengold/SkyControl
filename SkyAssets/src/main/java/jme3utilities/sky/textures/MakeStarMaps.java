@@ -228,20 +228,20 @@ final class MakeStarMaps {
                 MyString.quote(userDir));
 
         // Read the star catalog.
-        application.readCatalog();
-        if (application.stars.isEmpty()) {
+        readCatalog();
+        if (stars.isEmpty()) {
             return;
         }
 
         // Generate texture maps.
         if ("all".equals(presetName)) {
             for (StarMapPreset preset : StarMapPreset.values()) {
-                application.generateMap(preset);
+                generateMap(preset);
             }
 
         } else {
             StarMapPreset preset = StarMapPreset.fromDescription(presetName);
-            application.generateMap(preset);
+            generateMap(preset);
         }
     }
     // *************************************************************************

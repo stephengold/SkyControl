@@ -121,12 +121,12 @@ public class MakeSun {
 
         // Generate color image maps.
         if ("all".equals(styleName)) {
-            application.makeSun("chaotic");
-            application.makeSun("disc");
-            application.makeSun("hazy-disc");
-            application.makeSun("rayed");
+            makeSun("chaotic");
+            makeSun("disc");
+            makeSun("hazy-disc");
+            makeSun("rayed");
         } else {
-            application.makeSun(styleName);
+            makeSun(styleName);
         }
     }
     // *************************************************************************
