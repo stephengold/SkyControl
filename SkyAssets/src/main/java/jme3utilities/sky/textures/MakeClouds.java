@@ -116,10 +116,9 @@ final class MakeClouds {
                 MyString.quote(userDir));
 
         initializeSamples(2_048, 10);
-        RenderedImage fbm = application.makeFbmClouds(2_048, 0.58f, 0.82f);
-
-        RenderedImage clear = application.makeFillClouds(64, 0f);
-        RenderedImage overcast = application.makeFillClouds(64, 1f);
+        RenderedImage fbm = makeFbmClouds(2_048, 0.58f, 0.82f);
+        RenderedImage clear = makeFillClouds(64, 0f);
+        RenderedImage overcast = makeFillClouds(64, 1f);
 
         try {
             writeClouds("clear", clear);

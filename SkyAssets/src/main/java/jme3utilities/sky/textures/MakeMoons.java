@@ -131,12 +131,12 @@ final class MakeMoons {
         if ("all".equals(phaseName)) {
             for (LunarPhase phase : LunarPhase.values()) {
                 if (phase != LunarPhase.CUSTOM) {
-                    application.makeMoon(phase);
+                    makeMoon(phase);
                 }
             }
         } else {
             LunarPhase phase = LunarPhase.fromDescription(phaseName);
-            application.makeMoon(phase);
+            makeMoon(phase);
         }
     }
     // *************************************************************************
