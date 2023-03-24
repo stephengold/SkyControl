@@ -31,6 +31,7 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.water.SimpleWaterProcessor;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.ViewPortListener;
@@ -55,7 +56,7 @@ public class WaterProcessor extends SimpleWaterProcessor {
     /**
      * viewport listeners registered prior to initialization
      */
-    final private ArrayList<ViewPortListener> listeners = new ArrayList<>(3);
+    final private List<ViewPortListener> listeners = new ArrayList<>(3);
     // *************************************************************************
     // constructors
 

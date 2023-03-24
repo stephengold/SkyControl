@@ -221,10 +221,15 @@ final class WaterExample extends SimpleApplication {
 
         Updater updater = skyControl.getUpdater();
         for (Light light : rootNode.getLocalLightList()) {
-            if (light.getName().equals("ambient")) {
-                updater.setAmbientLight((AmbientLight) light);
-            } else if (light.getName().equals("main")) {
-                updater.setMainLight((DirectionalLight) light);
+            String lightName = light.getName();
+            switch (lightName) {
+                case "ambient":
+                    updater.setAmbientLight((AmbientLight) light);
+                    break;
+                case "main":
+                    updater.setMainLight((DirectionalLight) light);
+                    break;
+                default:
             }
         }
     }

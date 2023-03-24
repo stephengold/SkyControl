@@ -125,8 +125,7 @@ final class TestSkyMaterial extends GuiApplication {
     /**
      * parameter ignored
      */
-    @Parameter(names = {"--showSettingsDialog"},
-            description = "ignored")
+    @Parameter(names = "--showSettingsDialog", description = "ignored")
     private static boolean ignoreMe = false;
     /**
      * true means just display the usage message; false means run the

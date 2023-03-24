@@ -106,8 +106,9 @@ enum StarMapPreset {
      * @return the preset value, or null if not found
      */
     static StarMapPreset fromDescription(String description) {
-        for (StarMapPreset preset : StarMapPreset.values()) {
-            if (preset.describe().equals(description)) {
+        for (StarMapPreset preset : values()) {
+            String d = preset.describe();
+            if (d.equals(description)) {
                 return preset;
             }
         }

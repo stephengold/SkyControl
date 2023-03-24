@@ -38,10 +38,12 @@ import com.jme3.material.Material;
 import com.jme3.math.Plane;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.post.FilterPostProcessor;
 import com.jme3.post.filters.BloomFilter;
 import com.jme3.post.filters.CartoonEdgeFilter;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowFilter;
@@ -520,7 +522,9 @@ final class TestSkyControlRun
         bloom.setBlurScale(2.5f);
         bloom.setExposurePower(1f);
         int numSamples = TestSkyControl.numSamples;
-        Heart.getFpp(viewPort, assetManager, numSamples).addFilter(bloom);
+        FilterPostProcessor fpp
+                = Heart.getFpp(viewPort, assetManager, numSamples);
+        fpp.addFilter(bloom);
         skyControl.getUpdater().addBloomFilter(bloom);
     }
 
@@ -554,7 +558,9 @@ final class TestSkyControlRun
             dlsf.setEdgeFilteringMode(EdgeFilteringMode.PCF8);
             dlsf.setLight(mainLight);
             int numSamples = TestSkyControl.numSamples;
-            Heart.getFpp(viewPort, assetManager, numSamples).addFilter(dlsf);
+            FilterPostProcessor fpp
+                    = Heart.getFpp(viewPort, assetManager, numSamples);
+            fpp.addFilter(dlsf);
             updater.addShadowFilter(dlsf);
 
         } else {
@@ -601,7 +607,8 @@ final class TestSkyControlRun
         float xzOffset = diameter / 2f;
         water.setLocalTranslation(-xzOffset, depth, xzOffset);
         Vector2f textureScale = new Vector2f(10f, 10f);
-        water.getMesh().scaleTextureCoordinates(textureScale);
+        Mesh mesh = water.getMesh();
+        mesh.scaleTextureCoordinates(textureScale);
     }
 
     /**

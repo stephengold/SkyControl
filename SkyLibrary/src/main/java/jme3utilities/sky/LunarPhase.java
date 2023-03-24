@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2022, Stephen Gold
+ Copyright (c) 2014-2023, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -108,10 +108,12 @@ public enum LunarPhase {
         Validate.nonEmpty(description, "description");
 
         for (LunarPhase phase : values()) {
-            if (phase.describe().equals(description)) {
+            String d = phase.describe();
+            if (d.equals(description)) {
                 return phase;
             }
         }
+
         return null;
     }
 

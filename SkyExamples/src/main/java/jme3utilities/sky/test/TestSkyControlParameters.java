@@ -68,7 +68,7 @@ class TestSkyControlParameters {
     /**
      * true means show the setting dialog; false means don't show it
      */
-    @Parameter(names = {"--showSettingsDialog"},
+    @Parameter(names = "--showSettingsDialog",
             description = "show the setting dialog")
     private boolean showSettingsDialog = false;
     /**
