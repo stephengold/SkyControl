@@ -244,7 +244,7 @@ public class CloudLayer
     @Override
     public CloudLayer jmeClone() {
         try {
-            CloudLayer clone = (CloudLayer) super.clone();
+            CloudLayer clone = (CloudLayer) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);

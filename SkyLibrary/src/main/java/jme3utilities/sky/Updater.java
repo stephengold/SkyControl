@@ -515,7 +515,7 @@ public class Updater
     @Override
     public Updater jmeClone() {
         try {
-            Updater clone = (Updater) super.clone();
+            Updater clone = (Updater) clone();
             return clone;
         } catch (CloneNotSupportedException exception) {
             throw new RuntimeException(exception);
