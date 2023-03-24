@@ -156,7 +156,7 @@ public class MakeRamps {
          * result changes very slowly near the horizon, ensuring
          * a smooth transition to the background color or the bottom dome.
          */
-        double deltaPath = 8f * (pathMax - path);
+        double deltaPath = 8.0 * (pathMax - path);
         float result = (float) Math.exp(-deltaPath * deltaPath);
 
         assert result > 0f : result;
