@@ -79,7 +79,15 @@ public class MakeClouds {
      */
     private static float[][] samples = null;
     // *************************************************************************
-    // new methods exposed - TODO add a private constructor
+    // constructors
+
+    /**
+     * A private constructor to inhibit instantiation of this class.
+     */
+    private MakeClouds() {
+    }
+    // *************************************************************************
+    // new methods exposed
 
     /**
      * Main entry point for the MakeClouds application.

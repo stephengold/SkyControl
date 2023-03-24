@@ -91,6 +91,14 @@ public class MakeMoons {
     @Parameter(names = {"-p", "--phase"}, description = "specify phase")
     private static String phaseName = "all";
     // *************************************************************************
+    // constructors
+
+    /**
+     * A private constructor to inhibit instantiation of this class.
+     */
+    private MakeMoons() {
+    }
+    // *************************************************************************
     // new methods exposed
 
     /**
