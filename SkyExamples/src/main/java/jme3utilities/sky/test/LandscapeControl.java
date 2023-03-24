@@ -153,7 +153,7 @@ final class LandscapeControl extends SubtreeControl {
      */
     private LandscapeControl() {
         super();
-        assetManager = null;
+        this.assetManager = null;
     }
 
     /**
