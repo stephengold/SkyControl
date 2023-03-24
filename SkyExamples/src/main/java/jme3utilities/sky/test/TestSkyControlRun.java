@@ -739,27 +739,28 @@ final class TestSkyControlRun
      * @param starMapName (either "4m" or "16m" or "nebula")
      */
     private void updateStarMap(String starMapName) {
+        String path;
         switch (starMapName) {
             case "4m":
                 if (parameters.singleDome()) {
-                    starMapName = "Textures/skies/star-maps/wiltshire.png";
+                    path = "Textures/skies/star-maps/wiltshire.png";
                 } else if (parameters.cubes()) {
-                    starMapName = "equator";
+                    path = "equator";
                 } else {
-                    starMapName = "Textures/skies/star-maps";
+                    path = "Textures/skies/star-maps";
                 }
-                skyControl.setStarMaps(starMapName);
+                skyControl.setStarMaps(path);
                 break;
 
             case "16m":
                 if (parameters.singleDome()) {
-                    starMapName = "Textures/skies/star-maps/16m/wiltshire.png";
+                    path = "Textures/skies/star-maps/16m/wiltshire.png";
                 } else if (parameters.cubes()) {
-                    starMapName = "equator16m";
+                    path = "equator16m";
                 } else {
-                    starMapName = "Textures/skies/star-maps/16m";
+                    path = "Textures/skies/star-maps/16m";
                 }
-                skyControl.setStarMaps(starMapName);
+                skyControl.setStarMaps(path);
                 break;
 
             case "nebula":
