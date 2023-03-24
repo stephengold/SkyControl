@@ -210,33 +210,6 @@ final class LandscapeControl extends SubtreeControl {
     }
 
     /**
-     * Alter the material applied to the terrain.
-     *
-     * @param material the desired material (not null, alias created)
-     */
-    void setGrass(Material material) {
-        Validate.nonNull(material, "material");
-
-        this.terrainMaterial = material;
-        Spatial terrain = MySpatial.findChild((Node) getSubtree(), "terrain");
-        terrain.setMaterial(material);
-    }
-
-    /**
-     * Alter the monument's radius.
-     *
-     * @param radius the distance from center to edge (&gt;0)
-     */
-    void setMonumentScale(float radius) {
-        Validate.positive(radius, "radius");
-
-        Spatial monument = MySpatial.findChild((Node) getSubtree(), "monument");
-        float ringRadius = ringDiameter / 2f;
-        float scale = radius / ringRadius;
-        monument.setLocalScale(scale);
-    }
-
-    /**
      * Alter the terrain's radius and vertical relief.
      *
      * @param radius the distance from center to edge (&gt;0)
