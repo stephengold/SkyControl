@@ -1,5 +1,13 @@
 # release log for the SkyControl library and related software
 
+## Version 1.0.4 released on TBD
+
+Notable changes:
++ publicize `SkyControlCore.numCloudLayers`
++ base on version 8.3.2 of the Heart Library and target JME 3.6.0-stable
++ add a "Created-By" attribute to the class-jar manifest
++ replace `java.util.Calendar` with `java.time.LocalDate`
+
 ## Version 1.0.3 released on 26 June 2022
 
 Notable changes:
