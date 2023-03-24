@@ -72,7 +72,7 @@ public class SkyMaterialCore extends Material {
      * asset manager used to load textures and material definitions: set by
      * constructor
      */
-    protected AssetManager assetManager;
+    protected AssetManager assetManager; // TODO privatize
     /**
      * maximum opacity of each cloud layer (&le;1, &ge;0)
      */
@@ -99,11 +99,11 @@ public class SkyMaterialCore extends Material {
     /**
      * maximum number of cloud layers (&ge;0)
      */
-    protected int maxCloudLayers;
+    protected int maxCloudLayers; // TODO privatize
     /**
      * maximum number of astronomical objects (&ge;0)
      */
-    protected int maxObjects;
+    protected int maxObjects; // TODO privatize
     /**
      * UV offset of each cloud layer
      */
@@ -774,9 +774,8 @@ public class SkyMaterialCore extends Material {
     public void read(JmeImporter importer) throws IOException {
         super.read(importer);
         InputCapsule capsule = importer.getCapsule(this);
-        /*
-         * cloud layers
-         */
+
+        // cloud layers
         this.cloudAlphas = capsule.readFloatArray("cloudAlphas", null);
 
         Savable[] sav = capsule.readSavableArray("cloudImages", null);
@@ -799,9 +798,8 @@ public class SkyMaterialCore extends Material {
         System.arraycopy(sav, 0, objectRotations, 0, sav.length);
 
         this.objectScales = capsule.readFloatArray("objectScales", null);
-        /*
-         * cached values
-         */
+
+        // cached values
         this.assetManager = importer.getAssetManager();
         this.maxCloudLayers = cloudImages.length;
         this.maxObjects = objectCenters.length;

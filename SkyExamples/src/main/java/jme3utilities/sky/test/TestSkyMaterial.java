@@ -165,9 +165,8 @@ public class TestSkyMaterial extends GuiApplication {
         }
 
         TestSkyMaterial application = new TestSkyMaterial();
-        /*
-         * Parse the command-line arguments.
-         */
+
+        // Parse the command-line arguments.
         JCommander jCommander = new JCommander(application);
         jCommander.parse(arguments);
         jCommander.setProgramName(applicationName);
@@ -184,24 +183,20 @@ public class TestSkyMaterial extends GuiApplication {
          * permits the application to keep running while minimized.
          */
         application.setPauseOnLostFocus(false);
-        /*
-         * Initialize viewport settings.
-         */
+
+        // Initialize viewport settings.
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
-        /*
-         * This test wants a square viewport.
-         */
+
+        // This test wants a square viewport.
         settings.setResolution(viewportSize, viewportSize);
-        /*
-         * Customize the window's title bar.
-         */
+
+        // Customize the window's title bar.
         String title = applicationName + " " + MyString.join(arguments);
         settings.setTitle(title);
         application.setSettings(settings);
-        /*
-         * Skip the "Display Settings" dialog during startup.
-         */
+
+        // Skip the "Display Settings" dialog during startup.
         application.setShowSettings(false);
 
         application.start();
@@ -214,37 +209,27 @@ public class TestSkyMaterial extends GuiApplication {
      */
     @Override
     public void guiInitializeApplication() {
-        /*
-         * Log library versions.
-         */
+        // Log library versions.
         logger.log(Level.INFO, "jme3-core version is {0}",
                 MyString.quote(JmeVersion.FULL_NAME));
         logger.log(Level.INFO, "SkyControl version is {0}",
                 MyString.quote(Constants.versionShort()));
 
         configureCamera();
-        /*
-         * Create and attach a dome mesh geometry for the sky.
-         */
+
+        // Create and attach a dome mesh geometry for the sky.
         DomeMesh mesh = new DomeMesh(rimSamples, quadrantSamples);
         Geometry geometry = new Geometry(geometryName, mesh);
         rootNode.attachChild(geometry);
         geometry.setQueueBucket(Bucket.Sky);
-        /*
-         * Create and initialize a material for the sky.
-         */
+
+        // Create and initialize a material for the sky.
         SkyMaterial material;
-        if (materialName == null) {
-            /*
-             * Auto-select the material asset.
-             */
+        if (materialName == null) { // Auto-select the material asset.
             int objects = 2;
             int cloudLayers = 2;
             material = new SkyMaterial(assetManager, objects, cloudLayers);
-        } else {
-            /*
-             * Select material asset by pathname.
-             */
+        } else { // Select material asset by pathname.
             String assetPath = String.format("MatDefs/skies/%s/%s.j3md",
                     materialName, materialName);
             material = new SkyMaterial(assetManager, assetPath);
@@ -276,9 +261,8 @@ public class TestSkyMaterial extends GuiApplication {
                     SkyMaterial.sunMapPath);
         }
         material.addStars();
-        /*
-         * Create and apply a bloom filter to the viewport.
-         */
+
+        // Create and apply a bloom filter to the viewport.
         BloomFilter bloom = new BloomFilter(BloomFilter.GlowMode.Objects);
         int numSamples = settings.getSamples();
         FilterPostProcessor fpp
@@ -346,17 +330,14 @@ public class TestSkyMaterial extends GuiApplication {
      * Configure the camera, including flyCam.
      */
     private void configureCamera() {
-        /*
-         * Fish-eye view, from the origin, looking up at the zenith.
-         */
+        // Fish-eye view, from the origin, looking up at the zenith.
         float fovDegrees = 90f;
         setFrustum(fovDegrees);
 
         cam.setLocation(new Vector3f(0f, 0f, 0f));
         MyCamera.look(cam, Vector3f.UNIT_Y);
-        /*
-         * Disable flyCam.
-         */
+
+        // Disable flyCam.
         flyCam.setEnabled(false);
     }
 
@@ -370,9 +351,8 @@ public class TestSkyMaterial extends GuiApplication {
             SkyMaterial material, BloomFilter bloom) {
         assert material != null;
         assert bloom != null;
-        /*
-         * Create and attach the heads-up display (HUD).
-         */
+
+        // Create and attach the heads-up display (HUD).
         hud = new TestSkyMaterialHud(bloom);
         hud.setMaterial(material);
         boolean success = stateManager.attach(hud);
@@ -383,9 +363,7 @@ public class TestSkyMaterial extends GuiApplication {
      * Load sky geometry from an asset.
      */
     private void load() {
-        /*
-         * Remove any copy from the asset manager's cache.
-         */
+        // Remove any copy from the asset manager's cache.
         ModelKey key = new ModelKey(saveAssetPath);
         assetManager.deleteFromCache(key);
 

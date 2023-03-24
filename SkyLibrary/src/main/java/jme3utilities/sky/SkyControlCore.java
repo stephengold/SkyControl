@@ -180,17 +180,17 @@ public class SkyControlCore extends SubtreeControl {
      * the difference in celestial longitude (lambda) between the moon and the
      * sun (in radians, measured eastward from the sun, default is Pi)
      */
-    protected float longitudeDifference = FastMath.PI;
+    protected float longitudeDifference = FastMath.PI; // TODO privatize
     /**
      * the moon's celestial latitude (beta, in radians, measured north from the
      * ecliptic, &ge;-Pi/2, &le;Pi/2, default is 0f, realistic range is -0.09 to
      * 0.09)
      */
-    protected float lunarLatitude = 0f;
+    protected float lunarLatitude = 0f; // TODO privatize
     /**
      * how stars are rendered: set by constructor
      */
-    protected StarsOption starsOption;
+    protected StarsOption starsOption; // TODO privatize
     // *************************************************************************
     // constructors
 
@@ -767,9 +767,8 @@ public class SkyControlCore extends SubtreeControl {
         }
 
         updateClouds(updateInterval);
-        /*
-         * Translate the sky node to center the sky on the camera.
-         */
+
+        // Translate the sky node to center the sky on the camera.
         Vector3f cameraLocation = camera.getLocation();
         Spatial subtree = getSubtree();
         MySpatial.setWorldLocation(subtree, cameraLocation);
