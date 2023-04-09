@@ -4,6 +4,22 @@ plugins {
     id 'base' // to add a "clean" task to the root project
 }
 
+ext {
+    group = 'com.github.stephengold'
+    jmeTarget = '' // distinguish non-JME libraries built for specific JME releases
+    websiteUrl = 'https://github.com/stephengold/SkyControl'
+
+    // module coordinates of external dependencies:
+    acorusCoordinates = 'com.github.stephengold:Acorus:1.0.0' + jmeTarget
+    heartCoordinates = 'com.github.stephengold:Heart:8.3.2' + jmeTarget
+    jcommanderCoordinates = 'com.beust:jcommander:1.82'
+    jme3utilitiesniftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.35'
+
+    // current versions of libraries:
+    jme3Version = '3.6.0-stable'
+    skycontrolVersion = '1.0.5-SNAPSHOT'
+}
+
 subprojects {
     apply from: rootProject.file('common.gradle')
 }

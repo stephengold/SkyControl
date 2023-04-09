@@ -92,7 +92,7 @@ publishing {
             artifact sourcesJar
             artifactId artifact
             from components.java
-            groupId project.ext.group
+            groupId rootProject.ext.group
             pom {
                 description = 'a sky-simulation library for jMonkeyEngine'
                 developers {
@@ -108,13 +108,13 @@ publishing {
                         url = 'https://opensource.org/licenses/BSD-3-Clause'
                     }
                 }
-                name = project.ext.group + ':' + artifact
+                name = rootProject.ext.group + ':' + artifact
                 scm {
                     connection = 'scm:git:git://github.com/stephengold/SkyControl.git'
                     developerConnection = 'scm:git:ssh://github.com:stephengold/SkyControl.git'
-                    url = project.ext.websiteUrl + '/tree/master'
+                    url = rootProject.ext.websiteUrl + '/tree/master'
                 }
-                url = project.ext.websiteUrl
+                url = rootProject.ext.websiteUrl
             }
             version project.ext.version
         }
