@@ -2,7 +2,6 @@
 
 plugins {
     id 'base' // to add a "clean" task to the root project
-    id 'checkstyle'
 }
 
 ext {
@@ -23,10 +22,6 @@ ext {
 
 subprojects {
     apply from: rootProject.file('common.gradle')
-}
-
-checkstyle {
-    toolVersion '9.3'
 }
 
 tasks.withType(JavaCompile) { // Java compile-time options:

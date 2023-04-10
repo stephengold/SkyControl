@@ -1,5 +1,6 @@
 // Gradle settings and tasks common to all SkyControl subprojects
 
+apply plugin: 'checkstyle'
 apply plugin: 'java'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -8,3 +9,8 @@ targetCompatibility = JavaVersion.VERSION_1_8
 tasks.withType(JavaExec) { // Java runtime options:
     classpath sourceSets.main.runtimeClasspath
 }
+
+checkstyle {
+    toolVersion '9.3'
+}
+
