@@ -56,6 +56,11 @@ tasks.register('checkstyle') {
     description 'Checks the style of all Java sourcecode.'
 }
 
+tasks.register('AppChooser') {
+    dependsOn ':SkyExamples:AppChooser'
+    description 'Runs the examples.'
+}
+
 // publishing tasks:
 
 tasks.register('install') {
