@@ -55,7 +55,7 @@ tasks.register('checkstyle') {
 
 tasks.register('AppChooser') {
     dependsOn ':SkyExamples:AppChooser'
-    description 'Runs the examples.'
+    description 'Runs the example apps.'
 }
 
 // publishing tasks:
