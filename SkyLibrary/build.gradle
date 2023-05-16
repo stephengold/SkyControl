@@ -12,7 +12,7 @@ ext {
     group = 'com.github.stephengold'
     artifact = 'SkyControl'
     version = skycontrolVersion
-    baseName = "${artifact}-${version}"
+    baseName = "${artifact}-${version}" // for artifacts
     websiteUrl = 'https://github.com/stephengold/SkyControl'
 }
 
