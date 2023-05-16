@@ -5,9 +5,7 @@ plugins {
 }
 
 ext {
-    group = 'com.github.stephengold'
     jmeTarget = '' // distinguish non-JME libraries built for specific JME releases
-    websiteUrl = 'https://github.com/stephengold/SkyControl'
 
     // module coordinates of external dependencies:
     acorusCoordinates = 'com.github.stephengold:Acorus:1.0.0' + jmeTarget

@@ -9,9 +9,11 @@ plugins {
 }
 
 ext {
+    group = 'com.github.stephengold'
     artifact = 'SkyControl'
     version = skycontrolVersion
     baseName = "${artifact}-${version}"
+    websiteUrl = 'https://github.com/stephengold/SkyControl'
 }
 
 processResources.dependsOn(':SkyAssets:skyTextures')
@@ -92,7 +94,7 @@ publishing {
             artifact sourcesJar
             artifactId artifact
             from components.java
-            groupId rootProject.ext.group
+            groupId project.ext.group
             pom {
                 description = 'a sky-simulation library for jMonkeyEngine'
                 developers {
@@ -108,13 +110,13 @@ publishing {
                         url = 'https://opensource.org/licenses/BSD-3-Clause'
                     }
                 }
-                name = rootProject.ext.group + ':' + artifact
+                name = project.ext.group + ':' + artifact
                 scm {
                     connection = 'scm:git:git://github.com/stephengold/SkyControl.git'
                     developerConnection = 'scm:git:ssh://github.com:stephengold/SkyControl.git'
-                    url = rootProject.ext.websiteUrl + '/tree/master'
+                    url = project.ext.websiteUrl + '/tree/master'
                 }
-                url = rootProject.ext.websiteUrl
+                url = project.ext.websiteUrl
             }
             version project.ext.version
         }
