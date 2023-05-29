@@ -356,7 +356,7 @@ correct the situation: sgold@sonic.net
 [imgur]: https://imgur.com/ "Imgur"
 [java]: https://java.com "Java"
 [jfrog]: https://www.jfrog.com "JFrog"
-[jme]: https://jmonkeyengine.org  "jMonkeyEngine Project"
+[jme]: https://jmonkeyengine.org "jMonkeyEngine Project"
 [latest]: https://github.com/stephengold/SkyControl/releases/latest "latest release"
 [license]: https://github.com/stephengold/SkyControl/blob/master/LICENSE "SkyControl license"
 [log]: https://github.com/stephengold/SkyControl/blob/master/SkyLibrary/release-notes.md "release log"
