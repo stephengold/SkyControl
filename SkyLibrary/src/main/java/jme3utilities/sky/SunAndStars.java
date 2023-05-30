@@ -42,6 +42,7 @@ import java.util.logging.Logger;
 import jme3utilities.MySpatial;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 
 /**
@@ -175,9 +176,8 @@ public class SunAndStars implements Cloneable, Savable {
          * The conversion consists of a rotation about the +X
          * (March equinox) axis.
          */
-        Quaternion rotate = new Quaternion();
-        rotate.fromAngles(obliquity, 0f, 0f);
-        Vector3f equatorial = rotate.mult(ecliptical);
+        Quaternion rotate = new Quaternion().fromAngles(obliquity, 0f, 0f);
+        Vector3f equatorial = MyQuaternion.rotate(rotate, ecliptical, null);
 
         return equatorial;
     }
@@ -263,11 +263,11 @@ public class SunAndStars implements Cloneable, Savable {
          */
         Quaternion rotation = new Quaternion();
         rotation.fromAngles(0f, 0f, -siderealAngle);
-        Vector3f rotated = rotation.mult(equatorial);
+        Vector3f rotated = MyQuaternion.rotate(rotation, equatorial, null);
 
         float coLatitude = FastMath.HALF_PI - observerLatitude;
         rotation.fromAngles(0f, -coLatitude, 0f);
-        rotation.mult(rotated, rotated);
+        MyQuaternion.rotate(rotation, rotated, rotated);
 
         float northing = -rotated.x;
         float height = rotated.z;

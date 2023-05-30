@@ -54,6 +54,7 @@ import jme3utilities.MySpatial;
 import jme3utilities.SimpleAppState;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.MyQuaternion;
 
 /**
  * A simple app state to generate a dynamic texture for an object by rendering
@@ -296,7 +297,7 @@ public class GlobeRenderer extends SimpleAppState {
         yRot.fromAngles(0f, -phi, 0f);
         Quaternion turn = yRot.mult(xRot);
 
-        Vector3f lightDirection = turn.mult(unitZ);
+        Vector3f lightDirection = MyQuaternion.rotate(turn, unitZ, null);
         light.setDirection(lightDirection);
     }
 

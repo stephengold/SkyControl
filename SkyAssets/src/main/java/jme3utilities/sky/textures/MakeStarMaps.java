@@ -49,6 +49,7 @@ import jme3utilities.Heart;
 import jme3utilities.MyAsset;
 import jme3utilities.MyString;
 import jme3utilities.math.MyMath;
+import jme3utilities.math.MyQuaternion;
 import jme3utilities.math.MyVector3f;
 import jme3utilities.mesh.DomeMesh;
 import jme3utilities.sky.Constants;
@@ -699,7 +700,7 @@ final class MakeStarMaps {
         float coLatitude = FastMath.HALF_PI - latitude;
         Quaternion rotation = new Quaternion();
         rotation.fromAngleNormalAxis(-coLatitude, Vector3f.UNIT_Y);
-        Vector3f rotated = rotation.mult(equatorial);
+        Vector3f rotated = MyQuaternion.rotate(rotation, equatorial, null);
         assert rotated.isUnitVector() : rotated;
         Vector3f world = new Vector3f(-rotated.x, rotated.z, rotated.y);
 
@@ -796,7 +797,7 @@ final class MakeStarMaps {
         float coLatitude = FastMath.HALF_PI - latitude;
         Quaternion rotation = new Quaternion();
         rotation.fromAngleNormalAxis(-coLatitude, Vector3f.UNIT_Y);
-        Vector3f rotated = rotation.mult(equatorial);
+        Vector3f rotated = MyQuaternion.rotate(rotation, equatorial, null);
         assert rotated.isUnitVector() : rotated;
         if (rotated.z < 0f) { // The star lies below the horizon, so skip it.
             return false;
