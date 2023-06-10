@@ -58,7 +58,7 @@ import jme3utilities.sky.SkyMaterial;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-final class TestSkyMaterialHud
+final public class TestSkyMaterialHud // Must be "public" to support reflection!
         extends GuiScreenController
         implements ActionListener {
     // *************************************************************************
