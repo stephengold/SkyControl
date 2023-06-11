@@ -40,9 +40,7 @@ import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
-import com.jme3.system.JmeSystem;
 import com.jme3.system.JmeVersion;
-import com.jme3.system.Platform;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -58,7 +56,6 @@ import jme3utilities.sky.LunarPhase;
 import jme3utilities.sky.SkyMaterial;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.InputMode;
-import org.lwjgl.system.Configuration;
 
 /**
  * Test the SkyMaterial class using a heads-up display (HUD).
@@ -158,11 +155,6 @@ final class TestSkyMaterial extends GuiApplication {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        Platform platform = JmeSystem.getPlatform();
-        if (platform.getOs() == Platform.Os.MacOS) {
-            Configuration.GLFW_LIBRARY_NAME.set("glfw_async");
-        }
-
         TestSkyMaterial application = new TestSkyMaterial();
 
         // Parse the command-line arguments.

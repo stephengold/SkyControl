@@ -43,9 +43,7 @@ import com.jme3.math.FastMath;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Quad;
 import com.jme3.system.AppSettings;
-import com.jme3.system.JmeSystem;
 import com.jme3.system.JmeVersion;
-import com.jme3.system.Platform;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
 import java.util.logging.Level;
@@ -56,7 +54,6 @@ import jme3utilities.MyString;
 import jme3utilities.sky.Constants;
 import jme3utilities.sky.GlobeRenderer;
 import jme3utilities.sky.LunarPhase;
-import org.lwjgl.system.Configuration;
 
 /**
  * Test the GlobeRenderer class.
@@ -148,11 +145,6 @@ final class TestGlobeRenderer
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        Platform platform = JmeSystem.getPlatform();
-        if (platform.getOs() == Platform.Os.MacOS) {
-            Configuration.GLFW_LIBRARY_NAME.set("glfw_async");
-        }
-
         TestGlobeRenderer application = new TestGlobeRenderer();
 
         // Parse the command-line arguments.

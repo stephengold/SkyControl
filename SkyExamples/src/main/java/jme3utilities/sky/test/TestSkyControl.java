@@ -28,9 +28,7 @@ package jme3utilities.sky.test;
 
 import com.beust.jcommander.JCommander;
 import com.jme3.system.AppSettings;
-import com.jme3.system.JmeSystem;
 import com.jme3.system.JmeVersion;
-import com.jme3.system.Platform;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +39,6 @@ import jme3utilities.nifty.bind.BindScreen;
 import jme3utilities.sky.Constants;
 import jme3utilities.ui.ActionApplication;
 import jme3utilities.ui.InputMode;
-import org.lwjgl.system.Configuration;
 
 /**
  * Test/demonstrate the SkyControl class using a heads-up display (HUD). The
@@ -104,11 +101,6 @@ final class TestSkyControl extends GuiApplication {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        Platform platform = JmeSystem.getPlatform();
-        if (platform.getOs() == Platform.Os.MacOS) {
-            Configuration.GLFW_LIBRARY_NAME.set("glfw_async");
-        }
-
         // Parse the command-line arguments into {@code parameters}.
         JCommander jCommander = new JCommander(parameters);
         jCommander.parse(arguments);

@@ -34,6 +34,8 @@ import com.jme3.system.Platform;
 import de.lessvoid.nifty.controls.Button;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Heart;
@@ -46,7 +48,6 @@ import jme3utilities.ui.InputMode;
 import jme3utilities.ui.UiVersion;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
-import org.lwjgl.system.Configuration;
 
 /**
  * Choose an application from a list, then execute it.
@@ -109,6 +110,10 @@ final class AppChooser extends GuiApplication {
      * index of the chosen app in the {@code mainClasses} array
      */
     private static int chosenAppIndex = 0;
+    /**
+     * environment variables passed to the executor
+     */
+    private static Map<String, String> env = new TreeMap<>();
     // *************************************************************************
     // constructors
 
@@ -127,11 +132,6 @@ final class AppChooser extends GuiApplication {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        Platform platform = JmeSystem.getPlatform();
-        if (platform.getOs() == Platform.Os.MacOS) {
-            Configuration.GLFW_LIBRARY_NAME.set("glfw_async");
-        }
-
         String title = applicationName + " " + MyString.join(arguments);
         AppChooser application = new AppChooser();
         Heart.parseAppArgs(application, arguments);
@@ -179,6 +179,13 @@ final class AppChooser extends GuiApplication {
         assert success;
 
         script = findScriptToExecute();
+
+        // environment variables that will be passed to the executor
+        env.putAll(System.getenv());
+        Platform platform = JmeSystem.getPlatform();
+        if (platform.getOs() == Platform.Os.MacOS) {
+            env.put("JAVA_OPTS", "-XstartOnFirstThread");
+        }
     }
 
     /**
@@ -266,7 +273,7 @@ final class AppChooser extends GuiApplication {
 
         DefaultExecutor executor = new DefaultExecutor();
         try {
-            executor.execute(commandLine);
+            executor.execute(commandLine, env);
             // ignore the return code
         } catch (IOException exception) {
             throw new RuntimeException(exception);

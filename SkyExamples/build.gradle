@@ -30,7 +30,13 @@ dependencies {
     implementation project(':SkyLibrary') // for latest sourcecode
 }
 
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+Boolean isMacOS = DefaultNativePlatform.currentOperatingSystem.isMacOsX()
+
 tasks.withType(JavaExec) { // Java runtime options:
+    if (isMacOS) {
+        jvmArgs '-XstartOnFirstThread'
+    }
     //args '--verbose' // to enable additional log output
     dependsOn 'installDist'
 }
