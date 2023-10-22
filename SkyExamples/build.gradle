@@ -33,7 +33,7 @@ dependencies {
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 Boolean isMacOS = DefaultNativePlatform.currentOperatingSystem.isMacOsX()
 
-tasks.withType(JavaExec) { // Java runtime options:
+tasks.withType(JavaExec).configureEach { // Java runtime options:
     if (isMacOS) {
         jvmArgs '-XstartOnFirstThread'
     }
