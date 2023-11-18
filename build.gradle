@@ -23,7 +23,7 @@ subprojects {
 }
 
 configurations.configureEach {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds' // to disable caching of SNAPSHOTs
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds' // to disable caching of snapshots
 }
 
 tasks.register('checkstyle') {
@@ -37,7 +37,7 @@ tasks.register('AppChooser') {
     description 'Runs the example apps.'
 }
 
-// publishing tasks:
+// Register publishing tasks:
 
 tasks.register('install') {
     dependsOn ':SkyLibrary:install'

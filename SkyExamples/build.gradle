@@ -41,7 +41,7 @@ tasks.withType(JavaExec).configureEach { // Java runtime options:
     dependsOn 'installDist'
 }
 
-// cleanup tasks:
+// Register cleanup tasks:
 
 clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSandbox', 'cleanSOs')
 
@@ -61,7 +61,7 @@ tasks.register('cleanSOs', Delete) { // extracted Linux and Android native libra
     delete fileTree(dir: '.', include: '*.so')
 }
 
-// tasks to run the example apps:
+// Register tasks to run the example apps:
 
 tasks.register('AppChooser', JavaExec) {
     mainClass = 'jme3utilities.sky.test.AppChooser'
