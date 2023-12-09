@@ -1,6 +1,6 @@
 # release log for the SkyControl library and related software
 
-## Version 1.0.5 released on TBD
+## Version 1.0.5 released on 9 December 2023
 
 Notable changes:
 + bugfix:  `IllegalAccessException` in examples

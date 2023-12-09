@@ -79,7 +79,7 @@ Add to the project’s "build.gradle" file:
         mavenCentral()
     }
     dependencies {
-        implementation 'com.github.stephengold:SkyControl:1.0.4'
+        implementation 'com.github.stephengold:SkyControl:1.0.5'
     }
 
 For some older versions of Gradle,
@@ -99,7 +99,7 @@ Add to the project’s "pom.xml" file:
     <dependency>
       <groupId>com.github.stephengold</groupId>
       <artifactId>SkyControl</artifactId>
-      <version>1.0.4</version>
+      <version>1.0.5</version>
     </dependency>
 
 ### Ant-built projects
@@ -156,7 +156,7 @@ Open the project's properties in the IDE (JME SDK or NetBeans):
   + using Git:
     + `git clone https://github.com/stephengold/SkyControl.git`
     + `cd SkyControl`
-    + `git checkout -b latest 1.0.4`
+    + `git checkout -b latest 1.0.5`
   + using a web browser:
     + browse to [the latest release][latest]
     + follow the "Source code (zip)" link

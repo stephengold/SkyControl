@@ -5,6 +5,9 @@ plugins {
 }
 
 ext {
+    skySnapshot = '-SNAPSHOT' // for development builds
+    //skySnapshot = '' // for release builds
+
     jmeTarget = '' // distinguish non-JME libraries built for specific JME releases
 
     // module coordinates of external dependencies:
@@ -15,7 +18,7 @@ ext {
 
     // current versions of libraries:
     jme3Version = '3.6.1-stable'
-    skycontrolVersion = '1.0.5'
+    skycontrolVersion = '1.0.6' + jmeTarget + skySnapshot
 }
 
 subprojects {
