@@ -1,5 +1,13 @@
 # release log for the SkyControl library and related software
 
+## Version 1.0.5 released on TBD
+
+Notable changes:
++ bugfix:  `IllegalAccessException` in examples
++ on macOS specify -XstartOnFirstThread
++ use GLSL300 when available (for compatibility with WebGL)
++ base on version 8.8.0 of the Heart Library and target JME 3.6.1-stable
+
 ## Version 1.0.4 released on 24 March 2023
 
 Notable changes:

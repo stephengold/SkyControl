@@ -15,7 +15,7 @@ ext {
 
     // current versions of libraries:
     jme3Version = '3.6.1-stable'
-    skycontrolVersion = '1.0.5-SNAPSHOT'
+    skycontrolVersion = '1.0.5'
 }
 
 subprojects {
