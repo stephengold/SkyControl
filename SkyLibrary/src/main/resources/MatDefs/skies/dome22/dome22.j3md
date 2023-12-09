@@ -75,8 +75,8 @@ MaterialDef dome22 {
 	    HAS_CLOUDS1 : Clouds1AlphaMap
 	    HAS_HAZE : HazeAlphaMap
         }
-        FragmentShader GLSL100 GLSL150: Shaders/skies/dome22/dome22.frag
-        VertexShader   GLSL100 GLSL150: Shaders/skies/dome22/dome22.vert
+        FragmentShader GLSL300 GLSL150 GLSL100: Shaders/skies/dome22/dome22.frag
+        VertexShader   GLSL300 GLSL150 GLSL100: Shaders/skies/dome22/dome22.vert
         WorldParameters {
             WorldViewProjectionMatrix
         }
@@ -90,8 +90,8 @@ MaterialDef dome22 {
 	    HAS_CLOUDS1 : Clouds1AlphaMap
 	    HAS_HAZE : HazeAlphaMap
         }
-        FragmentShader GLSL100 GLSL150: Shaders/skies/dome22/dome22glow.frag
-        VertexShader   GLSL100 GLSL150: Shaders/skies/dome22/dome22.vert
+        FragmentShader GLSL300 GLSL150 GLSL100: Shaders/skies/dome22/dome22glow.frag
+        VertexShader   GLSL300 GLSL150 GLSL100: Shaders/skies/dome22/dome22.vert
         WorldParameters {
             WorldViewProjectionMatrix
         }

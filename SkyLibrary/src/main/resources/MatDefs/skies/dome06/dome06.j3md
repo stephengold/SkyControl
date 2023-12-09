@@ -87,8 +87,8 @@ MaterialDef dome06 {
 	    HAS_CLOUDS5 : Clouds5AlphaMap
 	    HAS_HAZE : HazeAlphaMap
         }
-        FragmentShader GLSL100 GLSL150: Shaders/skies/dome06/dome06.frag
-        VertexShader   GLSL100 GLSL150: Shaders/skies/dome06/dome06.vert
+        FragmentShader GLSL300 GLSL150 GLSL100: Shaders/skies/dome06/dome06.frag
+        VertexShader   GLSL300 GLSL150 GLSL100: Shaders/skies/dome06/dome06.vert
         WorldParameters {
             WorldViewProjectionMatrix
         }
@@ -104,8 +104,8 @@ MaterialDef dome06 {
 	    HAS_CLOUDS5 : Clouds5AlphaMap
 	    HAS_HAZE : HazeAlphaMap
         }
-        FragmentShader GLSL100 GLSL150: Shaders/skies/dome06/dome06glow.frag
-        VertexShader   GLSL100 GLSL150: Shaders/skies/dome06/dome06.vert
+        FragmentShader GLSL300 GLSL150 GLSL100: Shaders/skies/dome06/dome06glow.frag
+        VertexShader   GLSL300 GLSL150 GLSL100: Shaders/skies/dome06/dome06.vert
         WorldParameters {
             WorldViewProjectionMatrix
         }

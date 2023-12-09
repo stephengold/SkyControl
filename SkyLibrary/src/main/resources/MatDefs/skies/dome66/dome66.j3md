@@ -135,8 +135,8 @@ MaterialDef dome66 {
 	    HAS_CLOUDS5 : Clouds5AlphaMap
 	    HAS_HAZE : HazeAlphaMap
         }
-        FragmentShader GLSL100 GLSL150: Shaders/skies/dome66/dome66.frag
-        VertexShader   GLSL100 GLSL150: Shaders/skies/dome66/dome66.vert
+        FragmentShader GLSL300 GLSL150 GLSL100: Shaders/skies/dome66/dome66.frag
+        VertexShader   GLSL300 GLSL150 GLSL100: Shaders/skies/dome66/dome66.vert
         WorldParameters {
             WorldViewProjectionMatrix
         }
@@ -158,8 +158,8 @@ MaterialDef dome66 {
 	    HAS_CLOUDS5 : Clouds5AlphaMap
 	    HAS_HAZE : HazeAlphaMap
         }
-        FragmentShader GLSL100 GLSL150: Shaders/skies/dome66/dome66glow.frag
-        VertexShader   GLSL100 GLSL150: Shaders/skies/dome66/dome66.vert
+        FragmentShader GLSL300 GLSL150 GLSL100: Shaders/skies/dome66/dome66glow.frag
+        VertexShader   GLSL300 GLSL150 GLSL100: Shaders/skies/dome66/dome66.vert
         WorldParameters {
             WorldViewProjectionMatrix
         }
