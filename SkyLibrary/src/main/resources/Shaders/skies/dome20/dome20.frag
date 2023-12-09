@@ -75,7 +75,7 @@ void main() {
         vec4 objects = vec4(0.0);
 
         #ifdef HAS_OBJECT0
-                if (floor(object0Coord.s) == 0.0 && 
+                if (floor(object0Coord.s) == 0.0 &&
                     floor(object0Coord.t) == 0.0) {
                         objects = m_Object0Color;
                         objects *= texture2D(m_Object0ColorMap, object0Coord);
@@ -83,7 +83,7 @@ void main() {
 	#endif
 
         #ifdef HAS_OBJECT1
-                if (floor(object1Coord.s) == 0.0 && 
+                if (floor(object1Coord.s) == 0.0 &&
                     floor(object1Coord.t) == 0.0) {
                         vec4 object1 = m_Object1Color;
                         object1 *= texture2D(m_Object1ColorMap, object1Coord);
