@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2023, Stephen Gold
+ Copyright (c) 2013-2024, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -221,7 +221,7 @@ public class SkyControl extends SkyControlCore {
     }
 
     /**
-     * Read the phase-of-the-moon preset.
+     * Return the phase-of-the-moon preset.
      *
      * @return preset value (may be null)
      */
@@ -476,7 +476,7 @@ public class SkyControl extends SkyControlCore {
         this.cloudModulationFlag = ic.readBoolean("cloudModulationFlag", false);
         this.moonScale = ic.readFloat("moonScale", 0.02f);
         this.sunScale = ic.readFloat("sunScale", 0.08f);
-        /* moon renderer not serialized */
+        // moon renderer not serialized
         this.phase = ic.readEnum("phase", LunarPhase.class, LunarPhase.FULL);
         this.sunAndStars = (SunAndStars) ic.readSavable("sunAndStars", null);
         this.updater = (Updater) ic.readSavable("updater", null);
@@ -496,7 +496,7 @@ public class SkyControl extends SkyControlCore {
         oc.write(cloudModulationFlag, "cloudModulationFlag", false);
         oc.write(moonScale, "moonScale", 0.02f);
         oc.write(sunScale, "sunScale", 0.08f);
-        /* moon renderer not serialized */
+        // moon renderer not serialized
         oc.write(phase, "phase", LunarPhase.FULL);
         oc.write(sunAndStars, "sunAndStars", null);
         oc.write(updater, "updater", null);

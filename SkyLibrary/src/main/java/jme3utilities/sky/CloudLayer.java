@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2023, Stephen Gold
+ Copyright (c) 2014-2024, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -152,7 +152,7 @@ public class CloudLayer
     }
 
     /**
-     * Read the opacity of this layer.
+     * Return the opacity of this layer.
      *
      * @return opacity of the layer (&le;1, &ge;0)
      */

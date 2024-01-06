@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2023, Stephen Gold
+ Copyright (c) 2013-2024, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -199,7 +199,7 @@ public class Updater
     }
 
     /**
-     * Read the multiplier for the ambient light intensity.
+     * Return the multiplier for the ambient light intensity.
      *
      * @return multiple of the default intensity (&ge;0)
      */
@@ -221,7 +221,7 @@ public class Updater
     }
 
     /**
-     * Read the most recent bloom intensity.
+     * Return the most recent bloom intensity.
      *
      * @return intensity of bloom effect (&ge;0)
      */
@@ -263,7 +263,7 @@ public class Updater
     }
 
     /**
-     * Read the multiplier for the main light intensity.
+     * Return the multiplier for the main light intensity.
      *
      * @return multiple of the default intensity (&ge;0)
      */
@@ -273,7 +273,7 @@ public class Updater
     }
 
     /**
-     * Read the most recent shadow intensity.
+     * Return the most recent shadow intensity.
      *
      * @return intensity of shadows (&le;1, &ge;0)
      */

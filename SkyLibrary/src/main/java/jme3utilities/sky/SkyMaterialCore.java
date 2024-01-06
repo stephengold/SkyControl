@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2023, Stephen Gold
+ Copyright (c) 2014-2024, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -397,7 +397,7 @@ public class SkyMaterialCore extends Material {
     }
 
     /**
-     * Read the scale of the specified cloud layer.
+     * Return the scale of the specified cloud layer.
      *
      * @param layerIndex (&lt;maxCloudLayers, &ge;0)
      * @return scale factor (&gt;0)
@@ -417,7 +417,7 @@ public class SkyMaterialCore extends Material {
     }
 
     /**
-     * Read the scale of the specified astronomical object.
+     * Return the scale of the specified astronomical object.
      *
      * @param objectIndex (&lt;maxObjects, &ge;0)
      * @return scale factor (&gt;0)
@@ -437,7 +437,7 @@ public class SkyMaterialCore extends Material {
     }
 
     /**
-     * Read the value of the specified float parameter.
+     * Return the value of the specified float parameter.
      *
      * @param name name of the parameter
      * @return value

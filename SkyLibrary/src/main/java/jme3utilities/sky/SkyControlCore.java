@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2023, Stephen Gold
+ Copyright (c) 2014-2024, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -322,7 +322,7 @@ public class SkyControlCore extends SubtreeControl {
     }
 
     /**
-     * Read the speed and direction of cloud motion (all layers).
+     * Return the speed and direction of cloud motion (all layers).
      *
      * @return multiple of the default rate (may be negative)
      */
@@ -331,7 +331,7 @@ public class SkyControlCore extends SubtreeControl {
     }
 
     /**
-     * Read the vertical offset of the clouds-only dome.
+     * Return the vertical offset of the clouds-only dome.
      *
      * @return vertical offset as a fraction of the dome height
      */
@@ -347,8 +347,8 @@ public class SkyControlCore extends SubtreeControl {
     }
 
     /**
-     * Read the difference in celestial longitude (lambda) between the moon and
-     * the sun.
+     * Return the difference in celestial longitude (lambda) between the moon
+     * and the sun.
      *
      * @return radians east of the sun
      */
@@ -357,7 +357,7 @@ public class SkyControlCore extends SubtreeControl {
     }
 
     /**
-     * Read the lunar latitude (beta).
+     * Return the lunar latitude (beta).
      *
      * @return radians north of the ecliptic (&ge;-Pi/2, &le;Pi/2)
      */
@@ -389,7 +389,7 @@ public class SkyControlCore extends SubtreeControl {
     }
 
     /**
-     * Read the vertical angle of the top dome.
+     * Return the vertical angle of the top dome.
      *
      * @return angle from the zenith to the rim of the top dome (in radians,
      * &lt;1.785, &gt;0)

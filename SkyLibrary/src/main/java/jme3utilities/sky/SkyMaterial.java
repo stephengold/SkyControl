@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2023, Stephen Gold
+ Copyright (c) 2013-2024, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -258,7 +258,7 @@ public class SkyMaterial extends SkyMaterialCore {
     }
 
     /**
-     * Read the upper limit on the number of cloud layers.
+     * Return the upper limit on the number of cloud layers.
      *
      * @return maximum number of layers
      */
@@ -267,7 +267,7 @@ public class SkyMaterial extends SkyMaterialCore {
     }
 
     /**
-     * Read the upper limit on the number of astronomical objects.
+     * Return the upper limit on the number of astronomical objects.
      *
      * @return maximum number of objects
      */
