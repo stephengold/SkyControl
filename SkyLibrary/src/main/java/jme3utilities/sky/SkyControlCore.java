@@ -103,8 +103,8 @@ public class SkyControlCore extends SubtreeControl {
     /**
      * reusable mesh for smooth, inward-facing domes
      */
-    final private static DomeMesh hemisphereMesh = new DomeMesh(
-            numRimSamples, numLongitudinalSamples,
+    final private static DomeMesh hemisphereMesh
+            = new DomeMesh(numRimSamples, numLongitudinalSamples,
             Constants.topU, Constants.topV, Constants.uvScale, true);
     /**
      * local copy of {@link com.jme3.math.Quaternion#IDENTITY}
@@ -267,8 +267,8 @@ public class SkyControlCore extends SubtreeControl {
         // Initialize the cloud layers.
         this.cloudLayers = new CloudLayer[numCloudLayers];
         for (int layerIndex = 0; layerIndex < numCloudLayers; ++layerIndex) {
-            this.cloudLayers[layerIndex] = new CloudLayer(
-                    cloudsMaterial, layerIndex);
+            this.cloudLayers[layerIndex]
+                    = new CloudLayer(cloudsMaterial, layerIndex);
         }
 
         Material bottomMaterial;
@@ -804,8 +804,8 @@ public class SkyControlCore extends SubtreeControl {
         boolean starMotionFlag = ic.readBoolean("starMotionFlag", false);
         this.starsOption
                 = starMotionFlag ? StarsOption.Cube : StarsOption.TopDome;
-        this.starsOption = ic.readEnum(
-                "starsOption", StarsOption.class, starsOption);
+        this.starsOption
+                = ic.readEnum("starsOption", StarsOption.class, starsOption);
         /* camera not serialized */
         Savable[] sav = ic.readSavableArray("cloudLayers", null);
         this.cloudLayers = new CloudLayer[sav.length];

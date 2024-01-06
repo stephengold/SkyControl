@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2023, Stephen Gold
+ Copyright (c) 2013-2024, Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -100,8 +100,8 @@ final class TestSkyControlRun
     /**
      * message logger for this class
      */
-    final private static Logger logger = Logger.getLogger(
-            TestSkyControlRun.class.getName());
+    final private static Logger logger
+            = Logger.getLogger(TestSkyControlRun.class.getName());
     /**
      * name for the cube geometry
      */
@@ -706,8 +706,8 @@ final class TestSkyControlRun
             boolean mipmaps = false;
             Texture moonTexture = MyAsset.loadTexture(assetManager,
                     "Textures/skies/moon/clementine.png", mipmaps);
-            Material moonMaterial = MyAsset.createShadedMaterial(
-                    assetManager, moonTexture);
+            Material moonMaterial
+                    = MyAsset.createShadedMaterial(assetManager, moonTexture);
             int equatorSamples = 12;
             int meridianSamples = 24;
             int resolution = 512;
