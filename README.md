@@ -44,7 +44,7 @@ Complete source code (in Java) is provided under
 + demonstration apps and online tutorial provided
 + complete source code provided under FreeBSD license
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 <a name="add"></a>
@@ -136,7 +136,7 @@ Open the project's properties in the IDE (JME SDK or NetBeans):
 7. Similarly, add the SkyControl jar(s).
 8. Click on the "OK" button to exit the "Project Properties" dialog.
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 <a name="build"></a>
@@ -179,7 +179,7 @@ You can restore the project to a pristine state:
 + using Bash or Fish or PowerShell or Zsh: `./gradlew clean`
 + using Windows Command Prompt: `.\gradlew clean`
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 <a name="downloads"></a>
@@ -197,7 +197,7 @@ Newer Maven artifacts (since v0.9.30) are available from
 
 Old Maven artifacts (v0.9.25 through v0.9.29) are available from JCenter.
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 <a name="conventions"></a>
@@ -216,7 +216,7 @@ In the default world coordinate system:
 
 However, these axis assignments can be overridden using `SunAndStars.setAxes()`.
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 <a name="links"></a>
@@ -230,7 +230,7 @@ However, these axis assignments can be overridden using `SunAndStars.setAxes()`.
 + A [flight simulation game](https://github.com/ZoltanTheHun/SkyHussars)
   that uses SkyControl.
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 <a name="history"></a>
@@ -256,7 +256,7 @@ Since August 2020, SkyControl has been a separate project, hosted at
 Old (2014) versions of SkyControl can still be found in
 [the jMonkeyEngine-Contributions Project](https://github.com/jMonkeyEngine-Contributions/SkyControl).
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 <a name="acks"></a>
@@ -336,7 +336,7 @@ my dear Holly, for keeping me sane.
 If I've misattributed anything or left anyone out, please let me know, so I can
 correct the situation: sgold@sonic.net
 
-[Jump to table of contents](#toc)
+[Jump to the table of contents](#toc)
 
 
 [adoptium]: https://adoptium.net/releases.html "Adoptium Project"
