@@ -67,7 +67,7 @@ the standard "jme3-effects" library from jMonkeyEngine and
 which in turn depends on
 the standard "jme3-core" library from jMonkeyEngine.
 
-For projects built using Maven or [Gradle], it is sufficient to add a
+For projects built using [Maven] or [Gradle], it is sufficient to add a
 dependency on the SkyControl Library.  The build tools should automatically
 resolve the remaining dependencies.
 
@@ -363,6 +363,7 @@ correct the situation: sgold@sonic.net
 [license]: https://github.com/stephengold/SkyControl/blob/master/LICENSE "SkyControl license"
 [log]: https://github.com/stephengold/SkyControl/blob/master/SkyLibrary/release-notes.md "release log"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
+[maven]: https://maven.apache.org "Maven Project"
 [meld]: https://meldmerge.org "Meld merge tool"
 [mint]: https://linuxmint.com "Linux Mint Project"
 [netbeans]: https://netbeans.org "NetBeans Project"
