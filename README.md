@@ -68,8 +68,8 @@ which in turn depends on
 the standard "jme3-core" library from jMonkeyEngine.
 
 For projects built using [Maven] or [Gradle], it is sufficient to add a
-dependency on the SkyControl Library.  The build tools should automatically
-resolve the remaining dependencies.
+dependency on the SkyControl Library.
+The build tool should automatically resolve the remaining dependencies.
 
 ### Gradle-built projects
 
@@ -209,7 +209,7 @@ Old Maven artifacts (v0.9.25 through v0.9.29) are available from JCenter.
 
 Package names begin with `jme3utilities.sky`
 
-The source code and pre-built libraries are compatible with JDK 8.
+Both the source code and the pre-built libraries are compatible with JDK 8.
 
 In the default world coordinate system:
 
