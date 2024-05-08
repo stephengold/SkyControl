@@ -1,4 +1,4 @@
-// Gradle build script for the SkyControl project
+// Gradle script to build the SkyControl project
 
 plugins {
     id 'base' // to add a "clean" task to the root project
