@@ -1,21 +1,20 @@
 *.dll
 *.dylib
 *.so
+/SkyAssets/src/main/resources/bsc5.dat
+/SkyAssets/src/main/resources/bsc5.dat.gz
+/SkyExamples/private/
+/SkyExamples/Written Assets/
+/SkyLibrary/src/main/resources/Textures/skies/
 
 # Ignore Gradle's project-specific cache directory:
 /.gradle/
 
+# Ignore Gradle's build output directories:
+/SkyAssets/build/
+/SkyExamples/build/
+/SkyLibrary/build/
+
 # Ignore IDE-specific directories:
 /.idea/
 /.nb-gradle/
-
-# Ignore Gradle's build output directories:
-/SkyAssets/build/
-
-/SkyAssets/src/main/resources/bsc5.dat
-/SkyAssets/src/main/resources/bsc5.dat.gz
-/SkyExamples/build/
-/SkyExamples/private/
-/SkyExamples/Written Assets/
-/SkyLibrary/build/
-/SkyLibrary/src/main/resources/Textures/skies/
