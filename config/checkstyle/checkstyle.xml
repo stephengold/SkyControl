@@ -227,7 +227,7 @@
         </module>
         <module name="LocalFinalVariableName"/>
         <module name="MethodName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <property name="format" value="^[a-z][a-zA-Z0-9]{0,25}$"/>
             <message key="name.invalidPattern"
                      value="Method name ''{0}'' must match pattern ''{1}''."/>
         </module>
@@ -354,8 +354,8 @@
                       value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
         </module>
         <module name="JavadocMethod">
-            <property name="allowMissingParamTags" value="true"/>
-            <property name="allowMissingReturnTag" value="true"/>
+            <property name="allowMissingParamTags" value="false"/>
+            <property name="allowMissingReturnTag" value="false"/>
             <property name="allowedAnnotations" value=""/>
             <property name="tokens"
                       value="METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF,
@@ -387,13 +387,14 @@
             <property name="exceptionVariableName" value="expected"/>
         </module>
         <module name="CommentsIndentation">
-            <property name="tokens" value="BLOCK_COMMENT_BEGIN"/>
+            <property name="tokens"
+                      value="SINGLE_LINE_COMMENT, BLOCK_COMMENT_BEGIN"/>
         </module>
 
         <!-- Checks for size violations              -->
         <!-- See https://checkstyle.org/checks/sizes -->
         <module name="MethodLength">
-            <property name="max" value="160"/>
+            <property name="max" value="150"/>
         </module>
         <module name="ParameterNumber">
             <property name="max" value="6"/>
