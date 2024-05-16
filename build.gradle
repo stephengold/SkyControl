@@ -29,15 +29,15 @@ configurations.configureEach {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds' // to disable caching of snapshots
 }
 
+tasks.register('AppChooser') {
+    dependsOn ':SkyExamples:AppChooser'
+    description 'Runs the example apps.'
+}
+
 tasks.register('checkstyle') {
     dependsOn ':SkyAssets:checkstyleMain', ':SkyExamples:checkstyleMain', \
         ':SkyLibrary:checkstyleMain', ':SkyLibrary:checkstyleTest'
     description 'Checks the style of all Java sourcecode.'
-}
-
-tasks.register('AppChooser') {
-    dependsOn ':SkyExamples:AppChooser'
-    description 'Runs the example apps.'
 }
 
 // Register publishing tasks:
