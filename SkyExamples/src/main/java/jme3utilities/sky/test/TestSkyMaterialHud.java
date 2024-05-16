@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2023 Stephen Gold
+ Copyright (c) 2013-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -97,8 +97,10 @@ final public class TestSkyMaterialHud // Must be "public" to support reflection!
 
     /**
      * Instantiate a disabled display which will be enabled during
-     * initialization. Invoke setMaterial() before attaching it to the state
-     * manager.
+     * initialization. Invoke {@code setMaterial()} before attaching it to the
+     * state manager.
+     *
+     * @param bloom the {@code BloomFilter} to be controlled
      */
     TestSkyMaterialHud(BloomFilter bloom) {
         super("test-sky-material", "Interface/Nifty/huds/test-sky-material.xml",

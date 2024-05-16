@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2023, Stephen Gold
+ Copyright (c) 2013-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -179,14 +179,16 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the ambient light multiplier.
+     * Return the ambient light multiplier.
+     *
+     * @return the gain factor
      */
     float getAmbientMultiplier() {
         return ambientMultiplier;
     }
 
     /**
-     * Read the status of the "enable bloom" check box.
+     * Return the status of the "enable bloom" check box.
      *
      * @return true if the box is checked, otherwise false
      */
@@ -196,7 +198,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the status of the "enable cartoon" check box.
+     * Return the status of the "enable cartoon" check box.
      *
      * @return true if the box is checked, otherwise false
      */
@@ -206,7 +208,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the current opacity of the clouds.
+     * Return the opacity of the clouds.
      *
      * @return maximum opacity (&le;1, &ge;0)
      */
@@ -217,7 +219,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the current state of the cloud modulation flag.
+     * Return the state of the cloud modulation flag.
      *
      * @return true if clouds should modulate the main light, false for steady
      * light
@@ -227,7 +229,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the current rate of motion of clouds.
+     * Return the rate of cloud motion.
      *
      * @return rate relative to the standard rate (negative means reverse)
      */
@@ -236,7 +238,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the current vertical offset of the clouds-only dome.
+     * Return the current vertical offset of the clouds-only dome.
      *
      * @return offset as a fraction of dome height (&lt;1, &ge;0)
      */
@@ -247,7 +249,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the status of the "enable floor" check box.
+     * Return the status of the "enable floor" check box.
      *
      * @return true if the box is checked, otherwise false
      */
@@ -257,7 +259,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the current solar time.
+     * Return the current solar time.
      *
      * @return hours since midnight (&lt;24, &ge;0)
      */
@@ -270,7 +272,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the status of the "enable landscape" check box.
+     * Return the status of the "enable landscape" check box.
      *
      * @return true if the box is checked, otherwise false
      */
@@ -280,7 +282,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the observer's latitude.
+     * Return the observer's latitude.
      *
      * @return angle (radians north of the Equator, &le;Pi/2, &ge;-Pi/2)
      */
@@ -291,7 +293,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the angular diameter of the moon.
+     * Return the angular diameter of the moon.
      *
      * @return diameter (in radians, &lt;Pi, &gt;0)
      */
@@ -302,7 +304,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the celestial latitude for a custom moon.
+     * Return the celestial latitude for a custom moon.
      *
      * @return radians north of the ecliptic (&le;Pi/2, &ge;-Pi/2)
      */
@@ -313,7 +315,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the longitude difference for a custom moon.
+     * Return the longitude difference for a custom moon.
      *
      * @return radians east of the sun (&le;2*Pi, &ge;0)
      */
@@ -324,7 +326,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the phase of the moon.
+     * Return the phase of the moon.
      *
      * @return preset value, or null for hidden moon
      */
@@ -333,7 +335,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the status of the "enable main light" check box.
+     * Return the status of the "enable main light" check box.
      *
      * @return true if the box is checked, otherwise false
      */
@@ -343,14 +345,16 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the main light multiplier.
+     * Return the main-light multiplier.
+     *
+     * @return the gain factor
      */
     float getMainMultiplier() {
         return mainMultiplier;
     }
 
     /**
-     * Read the current vertical relief of the terrain.
+     * Return the current vertical relief of the terrain.
      *
      * @return Y-coordinate of peak (&gt;0)
      */
@@ -360,7 +364,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the status of the "enable shadow filters" check box.
+     * Return the status of the "enable shadow filters" check box.
      *
      * @return true if the box is checked, otherwise false
      */
@@ -370,7 +374,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the status of the "enable sky" check box.
+     * Return the status of the "enable sky" check box.
      *
      * @return true if the box is checked, otherwise false
      */
@@ -380,7 +384,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the diameter of the sun.
+     * Return the diameter of the sun.
      *
      * @return angular diameter (in radians, &lt;Pi, &gt;0)
      */
@@ -391,7 +395,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the current solar longitude.
+     * Return the longitude of the sun.
      *
      * @return radians east of March equinox (&le;2*Pi, &ge;0)
      */
@@ -402,7 +406,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the star map name.
+     * Return the name of the star map.
      *
      * @return name (not null)
      */
@@ -412,7 +416,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the sun's color map.
+     * Return the sun's color map.
      *
      * @return asset path
      */
@@ -421,7 +425,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
     }
 
     /**
-     * Read the current vertical angle for the top dome.
+     * Return the current vertical angle for the top dome.
      *
      * @return radians from top to rim (&lt;Pi, &gt;0)
      */

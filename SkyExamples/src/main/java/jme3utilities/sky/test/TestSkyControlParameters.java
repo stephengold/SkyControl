@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2023, Stephen Gold
+ Copyright (c) 2013-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -100,6 +100,8 @@ class TestSkyControlParameters {
 
     /**
      * Test whether star cubes are allowed.
+     *
+     * @return true if allowed, otherwise false
      */
     boolean cubes() {
         return !noCubes;
@@ -107,6 +109,8 @@ class TestSkyControlParameters {
 
     /**
      * Test whether the cyclone option was specified.
+     *
+     * @return true if specified, otherwise false
      */
     boolean cyclone() {
         return cyclone;
@@ -114,6 +118,8 @@ class TestSkyControlParameters {
 
     /**
      * Test whether the shadow filter option was specified.
+     *
+     * @return true if specified, otherwise false
      */
     boolean shadowFilter() {
         return shadowFilter;
@@ -121,6 +127,8 @@ class TestSkyControlParameters {
 
     /**
      * Test whether the settings-dialog option was specified.
+     *
+     * @return true if specified, otherwise false
      */
     boolean showSettingsDialog() {
         return showSettingsDialog;
@@ -128,6 +136,8 @@ class TestSkyControlParameters {
 
     /**
      * Test whether the single-dome option was specified.
+     *
+     * @return true if specified, otherwise false
      */
     boolean singleDome() {
         return singleDome;
@@ -135,6 +145,8 @@ class TestSkyControlParameters {
 
     /**
      * Test whether the "usage only" option was specified.
+     *
+     * @return true if specified, otherwise false
      */
     boolean usageOnly() {
         return usageOnly;
@@ -142,6 +154,8 @@ class TestSkyControlParameters {
 
     /**
      * Test whether the verbose-logging option was specified.
+     *
+     * @return true if specified, otherwise false
      */
     boolean verboseLogging() {
         return verboseLogging;
@@ -149,6 +163,8 @@ class TestSkyControlParameters {
 
     /**
      * Test whether the water option was specified.
+     *
+     * @return true if specified, otherwise false
      */
     boolean water() {
         return water;

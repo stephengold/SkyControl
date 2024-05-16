@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2023, Stephen Gold
+ Copyright (c) 2013-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -75,6 +75,8 @@ enum StarMapPreset {
 
     /**
      * Look up the textual description of this preset.
+     *
+     * @return a description (not null, not empty)
      */
     String describe() {
         switch (this) {
@@ -143,7 +145,7 @@ enum StarMapPreset {
     }
 
     /**
-     * Look up the observer's latitude for this preset.
+     * Return the observer's latitude for this preset.
      *
      * @return radians north of the equator (&le;Pi/2, &ge;-Pi/2)
      */
@@ -169,7 +171,9 @@ enum StarMapPreset {
     }
 
     /**
-     * Look up the name of the texture asset file or folder for this preset.
+     * Return the name of the texture asset file or folder for this preset.
+     *
+     * @return the name (not null, not empty)
      */
     String textureFileName() {
         switch (this) {

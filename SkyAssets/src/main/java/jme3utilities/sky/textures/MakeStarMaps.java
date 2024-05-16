@@ -893,6 +893,8 @@ final class MakeStarMaps {
     /**
      * Read the catalog line by line and use the data therein to build up the
      * collection of stars.
+     *
+     * @param bufferedReader the reader to use (not null)
      */
     private static void readCatalog(BufferedReader bufferedReader)
             throws IOException, InvalidEntryException {

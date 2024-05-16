@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2023 Stephen Gold
+ Copyright (c) 2014-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -238,6 +238,7 @@ final class WaterExample extends SimpleApplication {
      * Load an inverted splat texture asset in "repeat" mode.
      *
      * @param fileName (not null)
+     * @return a new texture instance
      */
     private Texture loadSplatTexture(String fileName) {
         assert fileName != null;

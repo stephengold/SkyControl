@@ -391,6 +391,8 @@ public class GlobeRenderer extends SimpleAppState {
 
     /**
      * Add a camera on the +Z axis.
+     *
+     * @param resolution the viewport width and height (in pixels, &gt;0)
      */
     private void initializeCamera(int resolution) {
         assert resolution > 0 : resolution;
@@ -404,6 +406,11 @@ public class GlobeRenderer extends SimpleAppState {
     /**
      * Add a globe and orient it so that its north pole is in the global +X
      * direction.
+     *
+     * @param globeMaterial the material to apply to the globe (not null)
+     * @param equatorSamples the number of samples on the globe's equator
+     * (&ge;3)
+     * @param meridianSamples the number of samples on a meridian (&ge;3)
      */
     private void initializeGlobe(
             Material globeMaterial, int equatorSamples, int meridianSamples) {

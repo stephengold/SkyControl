@@ -332,6 +332,7 @@ public class SkyMaterial extends SkyMaterialCore {
      * Determine the number of cloud layers supported by a specified asset path.
      *
      * @param assetPath path to material definitions (not null)
+     * @return the count (&ge;0)
      */
     private static int numCloudLayers(String assetPath) {
         assert assetPath != null;
@@ -361,6 +362,7 @@ public class SkyMaterial extends SkyMaterialCore {
      * Determine the number of objects supported by a specified asset path.
      *
      * @param assetPath path to material definitions (not null)
+     * @return the count (&ge;0)
      */
     private static int numObjects(String assetPath) {
         assert assetPath != null;

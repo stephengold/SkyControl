@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2023, Stephen Gold
+ Copyright (c) 2022-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -283,6 +283,9 @@ final class AppChooser extends GuiApplication {
     /**
      * Look for the shell script (or batch file) to execute in
      * "./build/install/tests/bin".
+     *
+     * @return a new file instance that refers to a pre-existing script file
+     * (not null)
      */
     private static File findScriptToExecute() {
         File buildDir = new File("build");

@@ -161,7 +161,7 @@ class Star implements Comparable<Star> {
     // Object methods
 
     /**
-     * Test whether this star is equivalent to another.
+     * Test for equality with another object.
      *
      * @param otherObject the object to compare (may be null, unaffected)
      * @return true if equivalent, otherwise false

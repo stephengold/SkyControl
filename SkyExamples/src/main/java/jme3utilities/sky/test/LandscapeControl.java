@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2023, Stephen Gold
+ Copyright (c) 2013-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -283,6 +283,8 @@ final class LandscapeControl extends SubtreeControl {
 
     /**
      * Create a circular monument that vaguely resembles Stonehenge.
+     *
+     * @return a new scene-graph node
      */
     private Node createMonument() {
         Material stoneMaterial
@@ -333,6 +335,8 @@ final class LandscapeControl extends SubtreeControl {
 
     /**
      * Load terrain from assets.
+     *
+     * @return a new terrain instance
      */
     private TerrainQuad createTerrain() {
         // Create the terrain quad.
