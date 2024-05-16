@@ -45,7 +45,7 @@ import jme3utilities.sky.Constants;
  *
  * @author Stephen Gold sgold@sonic.net
  */
-public class MakeSun {
+final public class MakeSun {
     // *************************************************************************
     // constants and loggers
 
