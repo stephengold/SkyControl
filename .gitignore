@@ -1,10 +1,17 @@
 *.dll
 *.dylib
 *.so
+
+# Ignore Gradle's project-specific cache directory:
 /.gradle/
+
+# Ignore IDE-specific directories:
 /.idea/
 /.nb-gradle/
+
+# Ignore Gradle's build output directories:
 /SkyAssets/build/
+
 /SkyAssets/src/main/resources/bsc5.dat
 /SkyAssets/src/main/resources/bsc5.dat.gz
 /SkyExamples/build/
