@@ -445,53 +445,53 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
         SunAndStars sunAndStars = sky.getSunAndStars();
         Updater updater = sky.getUpdater();
 
-        ambientMultiplier = updater.getAmbientMultiplier();
+        this.ambientMultiplier = updater.getAmbientMultiplier();
         setSlider("ambient", SliderTransform.None, ambientMultiplier);
 
-        cloudModulation = sky.getCloudModulation();
+        this.cloudModulation = sky.getCloudModulation();
         setChecked("modulation", cloudModulation);
-        cloudsRate = sky.getCloudsRate();
+        this.cloudsRate = sky.getCloudsRate();
         setSlider("cloudsRate", SliderTransform.None, cloudsRate);
-        cloudsYOffset = sky.getCloudsYOffset();
+        this.cloudsYOffset = sky.getCloudsYOffset();
         setSlider("cloudsYOffset", SliderTransform.None, cloudsYOffset);
-        cloudiness = sky.getCloudLayer(0).getOpacity();
+        this.cloudiness = sky.getCloudLayer(0).getOpacity();
         setSlider("cloudiness", SliderTransform.None, cloudiness);
 
-        latitude = sunAndStars.getObserverLatitude();
+        this.latitude = sunAndStars.getObserverLatitude();
         float degrees = MyMath.toDegrees(latitude);
         setSlider("latitude", SliderTransform.None, degrees);
 
-        lunarDiameter = sky.lunarDiameter();
+        this.lunarDiameter = sky.lunarDiameter();
         degrees = MyMath.toDegrees(lunarDiameter);
         setSlider("lunarDiameter", SliderTransform.Log10, degrees);
 
-        lunarLatitude = sky.getLunarLatitude();
+        this.lunarLatitude = sky.getLunarLatitude();
         degrees = MyMath.toDegrees(lunarLatitude);
         setSlider("lunarLatitude", SliderTransform.None, degrees);
 
-        mainMultiplier = updater.getMainMultiplier();
+        this.mainMultiplier = updater.getMainMultiplier();
         setSlider("main", SliderTransform.None, mainMultiplier);
 
-        phase = sky.getPhase();
-        longitudeDifference = sky.getLongitudeDifference();
+        this.phase = sky.getPhase();
+        this.longitudeDifference = sky.getLongitudeDifference();
         degrees = MyMath.toDegrees(longitudeDifference);
         setSlider("longitudeDifference", SliderTransform.None, degrees);
 
-        relief = land.peakY();
+        this.relief = land.peakY();
         setSlider("relief", SliderTransform.None, relief);
 
-        solarDiameter = sky.solarDiameter();
+        this.solarDiameter = sky.solarDiameter();
         degrees = MyMath.toDegrees(solarDiameter);
         setSlider("solarDiameter", SliderTransform.Log10, degrees);
 
-        solarLongitude = sunAndStars.getSolarLongitude();
+        this.solarLongitude = sunAndStars.getSolarLongitude();
         degrees = MyMath.toDegrees(solarLongitude);
         setSlider("solarLongitude", SliderTransform.None, degrees);
 
         float hour = sunAndStars.getHour();
         timeOfDay.setHour(hour);
 
-        topVerticalAngle = sky.getTopVerticalAngle();
+        this.topVerticalAngle = sky.getTopVerticalAngle();
         degrees = MyMath.toDegrees(topVerticalAngle);
         setSlider("topVerticalAngle", SliderTransform.None, degrees);
     }
@@ -560,7 +560,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
                     return;
 
                 case "phase none":
-                    phase = null;
+                    this.phase = null;
                     return;
 
                 case "phase waning":
@@ -576,7 +576,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
                 case "phase waxing-crescent":
                 case "phase waxing-gibbous":
                     String name = actionString.substring(6);
-                    phase = LunarPhase.fromDescription(name);
+                    this.phase = LunarPhase.fromDescription(name);
                     return;
 
                 case "star-map":
