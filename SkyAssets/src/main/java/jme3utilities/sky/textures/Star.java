@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2023, Stephen Gold
+ Copyright (c) 2013-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -162,13 +162,24 @@ class Star implements Comparable<Star> {
 
     /**
      * Test whether this star is equivalent to another.
+     *
+     * @param otherObject the object to compare (may be null, unaffected)
+     * @return true if equivalent, otherwise false
      */
     @Override
-    public boolean equals(Object other) {
-        if (other instanceof Star) {
-            return compareTo((Star) other) == 0;
+    public boolean equals(Object otherObject) {
+        boolean result;
+        if (otherObject == this) {
+            result = true;
+        } else if (otherObject != null
+                && otherObject.getClass() == getClass()) {
+            Star otherStar = (Star) otherObject;
+            result = (compareTo(otherStar) == 0);
+        } else {
+            result = false;
         }
-        return false;
+
+        return result;
     }
 
     /**
