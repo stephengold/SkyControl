@@ -310,7 +310,7 @@ artists and software developers:
     + the JCommander Java framework
     + [jMonkeyEngine][jme] and the jME3 Software Development Kit
     + the [Linux Mint][mint] operating system
-    + LWJGL, the Lightweight Java Game Library
+    + [LWJGL], the Lightweight Java Game Library
     + the [Markdown] document-conversion tool
     + the [Meld] visual merge tool
     + Microsoft Windows
@@ -365,6 +365,7 @@ correct the situation: sgold@sonic.net
 [latest]: https://github.com/stephengold/SkyControl/releases/latest "latest release"
 [license]: https://github.com/stephengold/SkyControl/blob/master/LICENSE "SkyControl license"
 [log]: https://github.com/stephengold/SkyControl/blob/master/SkyLibrary/release-notes.md "release log"
+[lwjgl]: https://www.lwjgl.org "Lightweight Java Game Library"
 [markdown]: https://daringfireball.net/projects/markdown "Markdown Project"
 [maven]: https://maven.apache.org "Maven Project"
 [meld]: https://meldmerge.org "Meld merge tool"
