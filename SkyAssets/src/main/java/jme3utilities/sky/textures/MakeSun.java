@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2023, Stephen Gold
+ Copyright (c) 2014-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -90,6 +90,14 @@ public class MakeSun {
      */
     @Parameter(names = {"-s", "--style"}, description = "specify style")
     private static String styleName = "all";
+    // *************************************************************************
+    // constructors
+
+    /**
+     * A private constructor to inhibit instantiation of this class.
+     */
+    private MakeSun() {
+    }
     // *************************************************************************
     // new methods exposed
 

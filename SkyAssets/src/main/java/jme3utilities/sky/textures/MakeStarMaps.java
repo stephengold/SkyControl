@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2023, Stephen Gold
+ Copyright (c) 2013-2024 Stephen Gold
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -192,6 +192,14 @@ final class MakeStarMaps {
      */
     @Parameter(names = {"-p", "--preset"}, description = "specify preset")
     private static String presetName = "all";
+    // *************************************************************************
+    // constructors
+
+    /**
+     * A private constructor to inhibit instantiation of this class.
+     */
+    private MakeStarMaps() {
+    }
     // *************************************************************************
     // new methods exposed
 
