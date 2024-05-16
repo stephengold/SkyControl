@@ -1,6 +1,4 @@
-/*
- * settings.gradle: global settings shared by all SkyControl subprojects
- */
+// global settings shared by all SkyControl subprojects
 
 dependencyResolutionManagement {
     repositories {
