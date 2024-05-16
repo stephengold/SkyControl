@@ -3,7 +3,7 @@
 [The SkyControl Project][skycontrol] provides a sky-simulation library for
 [the jMonkeyEngine (JME) game engine][jme].
 
-It contains 3 sub-projects:
+It contains 3 subprojects:
 
 1. SkyLibrary: the SkyControl runtime library and its automated tests
 2. SkyExamples: example applications
