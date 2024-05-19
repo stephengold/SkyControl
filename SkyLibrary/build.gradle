@@ -55,7 +55,6 @@ tasks.register('sourcesJar', Jar) {
     archiveBaseName = project.ext.baseName
     archiveClassifier = 'sources'
     description 'Creates a JAR of sourcecode.'
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from sourceSets.main.allJava
 }
 
