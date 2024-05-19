@@ -48,9 +48,8 @@ jar {
     }
 }
 
-java {
-    withJavadocJar()
-}
+java.withJavadocJar()
+javadocJar { archiveBaseName = project.ext.baseName }
 tasks.register('sourcesJar', Jar) {
     archiveBaseName = project.ext.baseName
     archiveClassifier = 'sources'
