@@ -21,10 +21,10 @@ ext {
 processResources.dependsOn(':SkyAssets:skyTextures')
 
 dependencies {
-    api 'org.jmonkeyengine:jme3-effects:' + jme3Version
-    api heartCoordinates
+    api(libs.jme3.effects)
+    api(libs.heart)
 
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation(libs.junit4)
 }
 
 // Register publishing tasks:

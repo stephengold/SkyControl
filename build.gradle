@@ -6,16 +6,6 @@ plugins {
 
 ext {
     jmeTarget = '' // distinguish non-JME libraries built for specific JME releases
-
-    // current version of the JMonkeyEngine libraries:
-    jme3Version = '3.7.0-beta1'
-
-    // module coordinates of external dependencies:
-    acorusCoordinates = 'com.github.stephengold:Acorus:2.0.0' + jmeTarget
-    heartCoordinates = 'com.github.stephengold:Heart:9.0.0' + jmeTarget
-    jcommanderCoordinates = 'com.beust:jcommander:1.82'
-    jme3utilitiesniftyCoordinates = 'com.github.stephengold:jme3-utilities-nifty:0.9.37'
-
     skySnapshot = '-SNAPSHOT' // for development builds
     //skySnapshot = '' // for release builds
     skycontrolVersion = '1.0.6' + jmeTarget + skySnapshot

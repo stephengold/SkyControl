@@ -15,11 +15,11 @@ sourceSets.main.java {
 }
 
 dependencies {
-    implementation heartCoordinates
-    implementation jcommanderCoordinates
+    implementation(libs.heart)
+    implementation(libs.jcommander)
 
-    implementation 'org.jmonkeyengine:jme3-core:' + jme3Version
-    implementation 'org.jmonkeyengine:jme3-effects:' + jme3Version
+    implementation(libs.jme3.core)
+    implementation(libs.jme3.effects)
 }
 
 // Register cleanup tasks:
