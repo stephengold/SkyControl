@@ -43,6 +43,8 @@ tasks.withType(JavaExec).configureEach { // Java runtime options:
     dependsOn 'installDist'
 }
 
+startScripts.dependsOn(':SkyLibrary:assemble')
+
 // Register cleanup tasks:
 
 clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSandbox', 'cleanSOs')
