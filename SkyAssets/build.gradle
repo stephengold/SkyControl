@@ -4,6 +4,10 @@
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
 
+plugins {
+    alias(libs.plugins.download) // to retrieve files from URLs
+}
+
 ext {
     bsc = 'src/main/resources/bsc5.dat'
     skies = '../SkyLibrary/src/main/resources/Textures/skies'
@@ -39,9 +43,10 @@ tasks.register('cleanCatalog', Delete) {
 // download gzipped Yale Bright Star Catalog
 
 processResources.dependsOn('download')
-tasks.register('download', MyDownload) {
-    sourceUrl = 'http://tdc-www.harvard.edu/catalogs/bsc5.dat.gz'
-    target = file("${bsc}.gz")
+tasks.register('download', Download) {
+    src 'http://tdc-www.harvard.edu/catalogs/bsc5.dat.gz'
+    dest file("${bsc}.gz")
+    overwrite false
 }
 tasks.register('cleanDownload', Delete) {
     delete file("${bsc}.gz")
@@ -139,18 +144,4 @@ tasks.register('wiltshire16m', JavaExec) {
     inputs.files(bsc)
     mainClass = 'jme3utilities.sky.textures.MakeStarMaps'
     outputs.files("$skies/star-maps/16m/wiltshire.png")
-}
-
-// Helper class to wrap Ant download task
-class MyDownload extends DefaultTask {
-    @Input
-    String sourceUrl
-
-    @OutputFile
-    File target
-
-    @TaskAction
-    void download() {
-        ant.get(src: sourceUrl, dest: target)
-    }
 }
