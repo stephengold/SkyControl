@@ -73,13 +73,13 @@ The build tool should automatically resolve the remaining dependencies.
 
 ### Gradle-built projects
 
-Add to the project’s "build.gradle" file:
+Add to the project’s "build.gradle" or "build.gradle.kts" file:
 
     repositories {
         mavenCentral()
     }
     dependencies {
-        implementation 'com.github.stephengold:SkyControl:1.0.5'
+        implementation("com.github.stephengold:SkyControl:1.0.5")
     }
 
 For some older versions of Gradle,
