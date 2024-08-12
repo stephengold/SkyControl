@@ -65,7 +65,7 @@ The SkyControl Library depends on
 the standard "jme3-effects" library from jMonkeyEngine and
 [the Heart Library][heart],
 which in turn depends on
-the standard "jme3-core" library from jMonkeyEngine.
+the standard "jme3-core" library.
 
 For projects built using [Maven] or [Gradle], it is sufficient to add a
 dependency on the SkyControl Library.
