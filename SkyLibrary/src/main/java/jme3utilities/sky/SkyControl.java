@@ -289,6 +289,16 @@ public class SkyControl extends SkyControlCore {
     }
 
     /**
+     * Alter the daytime clear-sky color.
+     *
+     * @param newColor the desired color (not null, unaffected,
+     * default=(0.4,0.6,1))
+     */
+    public void setColorDay(ColorRGBA newColor) {
+        colorDay.set(newColor);
+    }
+
+    /**
      * Alter the angular diameter of the moon.
      *
      * @param newDiameter (in radians, &lt;Pi, &gt;0)
