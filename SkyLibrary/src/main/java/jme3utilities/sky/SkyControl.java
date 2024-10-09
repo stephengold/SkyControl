@@ -85,11 +85,6 @@ public class SkyControl extends SkyControlCore {
     // constants and loggers
 
     /**
-     * base color of the daytime sky: pale blue
-     */
-    final private static ColorRGBA colorDay
-            = new ColorRGBA(0.4f, 0.6f, 1f, Constants.alphaMax);
-    /**
      * light color and intensity for full moonlight: bluish gray
      */
     final private static ColorRGBA moonLight
@@ -141,6 +136,11 @@ public class SkyControl extends SkyControlCore {
      * default)
      */
     private boolean cloudModulationFlag = false;
+    /**
+     * base color of the daytime sky: pale blue
+     */
+    private static ColorRGBA colorDay
+            = new ColorRGBA(0.4f, 0.6f, 1f, Constants.alphaMax);
     /**
      * texture scale for moon images; larger value gives a larger moon
      * <p>
@@ -455,6 +455,7 @@ public class SkyControl extends SkyControlCore {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
+        this.colorDay = cloner.clone(colorDay);
         this.moonRenderer = cloner.clone(moonRenderer);
         this.sunAndStars = cloner.clone(sunAndStars);
         this.updater = cloner.clone(updater);
@@ -483,6 +484,8 @@ public class SkyControl extends SkyControlCore {
         InputCapsule ic = importer.getCapsule(this);
 
         this.cloudModulationFlag = ic.readBoolean("cloudModulationFlag", false);
+        this.colorDay = (ColorRGBA) ic.readSavable(
+                "colorDay", new ColorRGBA(0.4f, 0.6f, 1f, Constants.alphaMax));
         this.moonScale = ic.readFloat("moonScale", 0.02f);
         this.sunScale = ic.readFloat("sunScale", 0.08f);
         // moon renderer not serialized
@@ -503,6 +506,8 @@ public class SkyControl extends SkyControlCore {
         OutputCapsule oc = exporter.getCapsule(this);
 
         oc.write(cloudModulationFlag, "cloudModulationFlag", false);
+        oc.write(colorDay, "colorDay",
+                new ColorRGBA(0.4f, 0.6f, 1f, Constants.alphaMax));
         oc.write(moonScale, "moonScale", 0.02f);
         oc.write(sunScale, "sunScale", 0.08f);
         // moon renderer not serialized
