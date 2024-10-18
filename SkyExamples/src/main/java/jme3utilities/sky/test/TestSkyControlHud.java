@@ -441,7 +441,6 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
      * @param land landscape control (not null)
      */
     void matchScene(SkyControl sky, LandscapeControl land) {
-        SunAndStars sunAndStars = sky.getSunAndStars();
         Updater updater = sky.getUpdater();
 
         this.ambientMultiplier = updater.getAmbientMultiplier();
@@ -456,6 +455,7 @@ final public class TestSkyControlHud // Must be "public" to support reflection!
         this.cloudiness = sky.getCloudLayer(0).getOpacity();
         setSlider("cloudiness", SliderTransform.None, cloudiness);
 
+        SunAndStars sunAndStars = sky.getSunAndStars();
         this.latitude = sunAndStars.getObserverLatitude();
         float degrees = MyMath.toDegrees(latitude);
         setSlider("latitude", SliderTransform.None, degrees);

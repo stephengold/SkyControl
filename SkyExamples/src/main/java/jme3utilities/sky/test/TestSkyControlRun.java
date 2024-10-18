@@ -212,7 +212,7 @@ final class TestSkyControlRun
         this.landscapeControl = loadedNode.getControl(LandscapeControl.class);
         assert landscapeControl != null;
 
-        Updater oldUpdater = skyControl.getUpdater();
+        final Updater oldUpdater = skyControl.getUpdater();
         this.skyControl = loadedNode.getControl(SkyControl.class);
         Updater updater = skyControl.getUpdater();
 
