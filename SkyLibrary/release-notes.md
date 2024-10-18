@@ -1,5 +1,12 @@
 # release log for the SkyControl library and related software
 
+## Version 1.1.0 released on TBD
+
+Notable changes:
++ add the `colorDay()` and `setColorDay()` methods to the `SkyControl` class
++ add a developer ID to the POM
++ base on version 9.1.0 of the Heart Library
+
 ## Version 1.0.5 released on 9 December 2023
 
 Notable changes:
