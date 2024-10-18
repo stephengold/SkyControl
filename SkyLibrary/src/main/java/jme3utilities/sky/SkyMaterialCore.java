@@ -181,8 +181,6 @@ public class SkyMaterialCore extends Material {
         validateLayerIndex(layerIndex);
         Validate.nonEmpty(assetPath, "asset path");
 
-        boolean firstTime = (cloudsRaster[layerIndex] == null);
-
         boolean mipmaps = false;
         Texture alphaMap
                 = MyAsset.loadTexture(assetManager, assetPath, mipmaps);
@@ -191,6 +189,7 @@ public class SkyMaterialCore extends Material {
                 = String.format(Locale.ROOT, "Clouds%dAlphaMap", layerIndex);
         setTexture(parameterName, alphaMap);
 
+        boolean firstTime = (cloudsRaster[layerIndex] == null);
         Image image = alphaMap.getImage();
         this.cloudImages[layerIndex] = image;
         this.cloudsRaster[layerIndex] = ImageRaster.create(image);
