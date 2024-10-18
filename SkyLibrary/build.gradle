@@ -8,6 +8,7 @@ plugins {
     id 'java-library'  // to build JVM libraries
     id 'maven-publish' // to publish artifacts to Maven repositories
     id 'signing'       // to sign artifacts for publication
+    alias(libs.plugins.validate.poms) // to verify POMs provide all info required by Maven Central
 }
 
 ext {
