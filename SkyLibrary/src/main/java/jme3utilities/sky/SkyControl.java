@@ -211,6 +211,20 @@ public class SkyControl extends SkyControlCore {
     // new methods exposed
 
     /**
+     * Copy the daytime clear-sky color.
+     *
+     * @param storeResult storage for the result (modified if not null)
+     * @return a new object
+     */
+    public ColorRGBA colorDay(ColorRGBA storeResult) {
+        ColorRGBA result
+                = (storeResult == null) ? new ColorRGBA() : storeResult;
+        result.set(colorDay);
+
+        return result;
+    }
+
+    /**
      * Test the cloud modulation flag.
      *
      * @return true if clouds modulate the main light, false otherwise
