@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2023, Stephen Gold
+ Copyright (c) 2013-2024 Stephen Gold
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -44,6 +44,9 @@ public class TestSunAndStars {
     // *************************************************************************
     // fields
 
+    /**
+     * test node
+     */
     final private Node node = new Node();
     // *************************************************************************
     // new methods exposed
@@ -202,6 +205,16 @@ public class TestSunAndStars {
     // *************************************************************************
     // private methods
 
+    /**
+     * Test for a specific Quaternion value.
+     *
+     * @param x the expected X coordinate
+     * @param y the expected Y coordinate
+     * @param z the expected Z coordinate
+     * @param w the expected W coordinate
+     * @param quaternion the actual value (not null, unaffected)
+     * @param tolerance the tolerance for comparisons (&ge;0)
+     */
     private static void assertEquals(float x, float y, float z, float w,
             Quaternion quaternion, float tolerance) {
         Assert.assertEquals(x, quaternion.getX(), tolerance);
@@ -210,6 +223,15 @@ public class TestSunAndStars {
         Assert.assertEquals(w, quaternion.getW(), tolerance);
     }
 
+    /**
+     * Test for a specific Vector3f value.
+     *
+     * @param x the expected X coordinate
+     * @param y the expected Y coordinate
+     * @param z the expected Z coordinate
+     * @param vector the actual value (not null, unexpected)
+     * @param tolerance the tolerance for comparisons (&ge;0)
+     */
     private static void assertEquals(
             float x, float y, float z, Vector3f vector, float tolerance) {
         Assert.assertEquals(x, vector.x, tolerance);
