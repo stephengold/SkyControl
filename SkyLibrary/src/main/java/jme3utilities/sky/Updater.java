@@ -360,7 +360,8 @@ public class Updater
     }
 
     /**
-     * Set filters, renderers, and viewports based on another updater.
+     * Set filters, renderers, and viewports based on another updater. TODO
+     * rename
      *
      * @param otherUpdater updater to copy from (not null)
      */
