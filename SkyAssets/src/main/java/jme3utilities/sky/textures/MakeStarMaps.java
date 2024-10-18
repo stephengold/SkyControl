@@ -71,6 +71,11 @@ final class MakeStarMaps {
 
         static final long serialVersionUID = 1L;
 
+        /**
+         * Instantiate the exception.
+         *
+         * @param message descriptive text
+         */
         InvalidEntryException(String message) {
             super(message);
         }
