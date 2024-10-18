@@ -139,7 +139,7 @@ public class SkyControl extends SkyControlCore {
     /**
      * base color of the daytime sky: pale blue
      */
-    private static ColorRGBA colorDay
+    private ColorRGBA colorDay
             = new ColorRGBA(0.4f, 0.6f, 1f, Constants.alphaMax);
     /**
      * texture scale for moon images; larger value gives a larger moon
