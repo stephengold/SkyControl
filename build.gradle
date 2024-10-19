@@ -6,9 +6,9 @@ plugins {
 
 ext {
     jmeTarget = '' // distinguish non-JME libraries built for specific JME releases
-    //skySnapshot = '-SNAPSHOT' // for development builds
-    skySnapshot = '' // for release builds
-    skycontrolVersion = '1.1.0' + jmeTarget + skySnapshot
+    skySnapshot = '-SNAPSHOT' // for development builds
+    //skySnapshot = '' // for release builds
+    skycontrolVersion = '1.1.1' + jmeTarget + skySnapshot
 }
 
 subprojects {

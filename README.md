@@ -79,7 +79,7 @@ Add to the project’s "build.gradle" or "build.gradle.kts" file:
         mavenCentral()
     }
     dependencies {
-        implementation("com.github.stephengold:SkyControl:1.0.5")
+        implementation("com.github.stephengold:SkyControl:1.1.0")
     }
 
 For some older versions of Gradle,
@@ -99,7 +99,7 @@ Add to the project’s "pom.xml" file:
     <dependency>
       <groupId>com.github.stephengold</groupId>
       <artifactId>SkyControl</artifactId>
-      <version>1.0.5</version>
+      <version>1.1.0</version>
     </dependency>
 
 ### Ant-built projects
@@ -160,7 +160,7 @@ Open the project's properties in the IDE (JME SDK or NetBeans):
   + using [Git]:
     + `git clone https://github.com/stephengold/SkyControl.git`
     + `cd SkyControl`
-    + `git checkout -b latest 1.0.5`
+    + `git checkout -b latest 1.1.0`
   + using a web browser:
     + browse to [the latest release][latest]
     + follow the "Source code (zip)" link
@@ -196,7 +196,7 @@ Older releases (v0.9.0 through v0.9.26) can be downloaded from
 [the Jme3-utilities Project](https://github.com/stephengold/jme3-utilities/releases).
 
 Newer Maven artifacts (since v0.9.30) are available from
-[MavenCentral](https://central.sonatype.com/artifact/com.github.stephengold/SkyControl/1.0.4/versions).
+[MavenCentral](https://central.sonatype.com/artifact/com.github.stephengold/SkyControl/1.1.0/versions).
 
 Old Maven artifacts (v0.9.25 through v0.9.29) are available from JCenter.
 

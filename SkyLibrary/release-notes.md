@@ -1,6 +1,6 @@
 # release log for the SkyControl library and related software
 
-## Version 1.1.0 released on TBD
+## Version 1.1.0 released on 18 October 2024
 
 Notable changes:
 + add the `colorDay()` and `setColorDay()` methods to the `SkyControl` class
