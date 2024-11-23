@@ -11,6 +11,7 @@
 /.gradle/
 
 # Ignore Gradle's build output directories:
+/build/
 /SkyAssets/build/
 /SkyExamples/build/
 /SkyLibrary/build/
