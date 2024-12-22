@@ -58,7 +58,7 @@ tasks.register('skyTextures') {
     dependsOn = ['clouds', 'equator', 'equator16m', 'moons', 'north', \
         'north16m',  'ramps', 'south', 'south16m', 'suns', 'wiltshire', \
         'wiltshire16m']
-    description 'generate texture assets distributed with SkyControl'
+    description = 'generate texture assets distributed with SkyControl'
 }
 tasks.register('cleanSkyTextures', Delete) {
     delete fileTree(dir: skies)

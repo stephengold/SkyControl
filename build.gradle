@@ -21,22 +21,22 @@ configurations.configureEach {
 
 tasks.register('AppChooser') {
     dependsOn ':SkyExamples:AppChooser'
-    description 'Runs the example apps.'
+    description = 'Runs the example apps.'
 }
 
 tasks.register('checkstyle') {
     dependsOn ':SkyAssets:checkstyleMain', ':SkyExamples:checkstyleMain', \
         ':SkyLibrary:checkstyleMain', ':SkyLibrary:checkstyleTest'
-    description 'Checks the style of all Java sourcecode.'
+    description = 'Checks the style of all Java sourcecode.'
 }
 
 // Register publishing tasks:
 
 tasks.register('install') {
     dependsOn ':SkyLibrary:install'
-    description 'Installs Maven artifacts to the local repository.'
+    description = 'Installs Maven artifacts to the local repository.'
 }
 tasks.register('release') {
     dependsOn ':SkyLibrary:release'
-    description 'Stages Maven artifacts to Sonatype OSSRH.'
+    description = 'Stages Maven artifacts to Sonatype OSSRH.'
 }
