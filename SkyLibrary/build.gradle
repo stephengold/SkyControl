@@ -25,6 +25,7 @@ dependencies {
     api(libs.jme3.effects)
     api(libs.heart)
 
+    testImplementation(libs.jme3.desktop)
     testImplementation(libs.junit4)
 }
 
