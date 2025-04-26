@@ -42,7 +42,19 @@ jobs:
       - uses: actions/checkout@v4
       - run: ./gradlew build --console=plain --stacktrace
 
-  Java23-Windows:
+  Java21-MacOS:
+    if: contains(toJson(github.event.commits), '[ci skip] ') == false
+    runs-on: macOS-15
+    timeout-minutes: 10
+    steps:
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 21
+      - uses: actions/checkout@v4
+      - run: ./gradlew build --console=plain --stacktrace
+
+  Java24-Windows:
     if: contains(toJson(github.event.commits), '[ci skip] ') == false
     runs-on: windows-2025
     timeout-minutes: 3
@@ -50,7 +62,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: 23
+          java-version: 24
       - uses: actions/checkout@v4
       - run: ./gradlew build --console=plain --stacktrace
         shell: bash
