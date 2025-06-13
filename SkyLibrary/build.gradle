@@ -1,8 +1,8 @@
-// Gradle script to build the SkyLibrary subproject of SkyControl
+// Gradle script to build and publish the SkyLibrary subproject of SkyControl
 
 // Note: "common.gradle" in the root project contains additional initialization
 //   for this project. This initialization is applied in the "build.gradle"
-//   of the root project.
+//   script of the root project.
 
 plugins {
     id 'java-library'  // to build JVM libraries
@@ -143,11 +143,12 @@ publishMavenPublicationToMavenLocal.doLast {
 }
 publishMavenPublicationToCentralRepository.dependsOn('assemble')
 
-// Register signing tasks:
+// Register tasks to sign the Maven artifacts for publication:
 
 // Signing relies on the existence of 3 properties
 // (signing.keyId, signing.password, and signing.secretKeyRingFile)
-// which should be stored in ~/.gradle/gradle.properties
+// which should be set in the ~/.gradle/gradle.properties file
+// or by -P options on the command line.
 
 signing {
     sign publishing.publications.maven

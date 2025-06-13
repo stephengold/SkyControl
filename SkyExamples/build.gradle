@@ -29,7 +29,7 @@ dependencies {
     runtimeOnly(libs.jme3.plugins)
 
     //implementation 'com.github.stephengold:SkyControl:' + skycontrolVersion // for published library
-    implementation project(':SkyLibrary') // for latest sourcecode
+    implementation project(':SkyLibrary') // for local library build
 }
 
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
