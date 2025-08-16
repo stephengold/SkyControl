@@ -14,7 +14,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 8
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./gradlew build --console=plain --stacktrace
 
   Java11-Linux:
@@ -26,7 +26,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 11
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: gradle/actions/wrapper-validation@v4
       - run: ./gradlew build --console=plain --stacktrace
 
@@ -39,7 +39,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./gradlew build --console=plain --stacktrace
 
   Java21-MacOS:
@@ -51,7 +51,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./gradlew build --console=plain --stacktrace
 
   Java24-Windows:
@@ -63,6 +63,6 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 24
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./gradlew build --console=plain --stacktrace
         shell: bash
