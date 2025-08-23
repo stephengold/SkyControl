@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2024 Stephen Gold
+ Copyright (c) 2013-2025 Stephen Gold
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -67,7 +67,7 @@ final class MakeStarMaps {
     /**
      * exception to indicate unexpected invalid data in a catalog entry
      */
-    static private class InvalidEntryException extends Exception {
+    final static private class InvalidEntryException extends Exception {
 
         static final long serialVersionUID = 1L;
 
@@ -85,7 +85,7 @@ final class MakeStarMaps {
      * exception to indicate an invalid apparent magnitude in a catalog entry:
      * such entries can be ignored
      */
-    static private class InvalidMagnitudeException extends Exception {
+    final static private class InvalidMagnitudeException extends Exception {
 
         static final long serialVersionUID = 1L;
     }
