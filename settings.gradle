@@ -1,5 +1,7 @@
 // global build settings for the SkyControl project
 
+rootProject.name = 'SkyControl'
+
 dependencyResolutionManagement {
     repositories {
         //mavenLocal() // to find libraries installed locally
@@ -10,8 +12,6 @@ dependencyResolutionManagement {
         }
     }
 }
-
-rootProject.name = 'SkyControl'
 
 /*
  * Enumerate subdirectories in the project's root directory that contain a
