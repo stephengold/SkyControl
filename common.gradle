@@ -21,19 +21,13 @@ tasks.withType(JavaCompile).configureEach { // Java compile-time options:
     options.compilerArgs << '-Xlint:unchecked'
     options.deprecation = true // to provide detailed deprecation warnings
     options.encoding = 'UTF-8'
-    if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_1_10)) {
-        options.release = 8
-    }
+    options.release = 8
 }
-
-Boolean enableNativeAccess = JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)
 
 tasks.withType(JavaExec).configureEach { // Java runtime options:
     classpath sourceSets.main.runtimeClasspath
     enableAssertions = true
-    if (enableNativeAccess) {
-        jvmArgs '--enable-native-access=ALL-UNNAMED' // suppress System::load() warning
-    }
+    jvmArgs '--enable-native-access=ALL-UNNAMED' // suppress System::load() warning
     //jvmArgs '-verbose:gc'
     //jvmArgs '-Xms512m', '-Xmx512m' // to enlarge the Java heap
     //jvmArgs '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=10'
