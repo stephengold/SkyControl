@@ -379,9 +379,7 @@
         <module name="JavadocStyle">
             <property name="checkFirstSentence" value="false"/>
         </module>
-        <module name="JavadocVariable">
-            <property name="scope" value="private"/>
-        </module>
+        <module name="JavadocVariable"/>
         <module name="SingleLineJavadoc"/>
 
         <module name="EmptyCatchBlock">
