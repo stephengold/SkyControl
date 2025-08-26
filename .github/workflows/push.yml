@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 3
     steps:
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: 17
@@ -23,7 +23,7 @@ jobs:
     runs-on: macOS-13
     timeout-minutes: 10
     steps:
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: 17
@@ -35,7 +35,7 @@ jobs:
     runs-on: macOS-15
     timeout-minutes: 10
     steps:
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: 21
@@ -47,7 +47,7 @@ jobs:
     runs-on: windows-2025
     timeout-minutes: 3
     steps:
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: 24
