@@ -67,9 +67,9 @@ final class MakeStarMaps {
     /**
      * exception to indicate unexpected invalid data in a catalog entry
      */
-    final static private class InvalidEntryException extends Exception {
+    final private static class InvalidEntryException extends Exception {
 
-        static final long serialVersionUID = 1L;
+        final static long serialVersionUID = 1L;
 
         /**
          * Instantiate the exception.
@@ -85,9 +85,9 @@ final class MakeStarMaps {
      * exception to indicate an invalid apparent magnitude in a catalog entry:
      * such entries can be ignored
      */
-    final static private class InvalidMagnitudeException extends Exception {
+    final private static class InvalidMagnitudeException extends Exception {
 
-        static final long serialVersionUID = 1L;
+        final static long serialVersionUID = 1L;
     }
     // *************************************************************************
     // constants and loggers
