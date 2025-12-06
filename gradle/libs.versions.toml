@@ -8,7 +8,7 @@ jme = "3.9.0-alpha5"
 [libraries]
 
 acorus = "com.github.stephengold:Acorus:2.0.2"
-commons-exec = "org.apache.commons:commons-exec:1.5.0"
+commons-exec = "org.apache.commons:commons-exec:1.6.0"
 heart = "com.github.stephengold:Heart:9.2.0"
 jcommander = "org.jcommander:jcommander:1.85"
 
