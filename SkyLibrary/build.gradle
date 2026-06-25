@@ -15,7 +15,7 @@ ext {
     artifact = rootProject.ext.skySimulationArtifact
     version = rootProject.ext.skySimulationVersion
     baseName = "${artifact}-${version}" // for artifacts
-    websiteUrl = 'https://github.com/CalistaVerner/SkySimulation'
+    websiteUrl = 'https://github.com/Take-Some/SkySimulation'
 }
 
 processResources.dependsOn(':SkyAssets:skyTextures')
@@ -111,8 +111,8 @@ publishing {
                 }
                 name = project.ext.group + ':' + artifact
                 scm {
-                    connection = 'scm:git:https://github.com/CalistaVerner/SkySimulation.git'
-                    developerConnection = 'scm:git:https://github.com/CalistaVerner/SkySimulation.git'
+                    connection = 'scm:git:https://github.com/Take-Some/SkySimulation.git'
+                    developerConnection = 'scm:git:https://github.com/Take-Some/SkySimulation.git'
                     url = project.ext.websiteUrl + '/tree/master'
                 }
                 url = project.ext.websiteUrl
@@ -135,7 +135,7 @@ publishing {
         }
         maven {
             name = 'GitHubPackages'
-            url = uri('https://maven.pkg.github.com/CalistaVerner/SkySimulation')
+            url = uri('https://maven.pkg.github.com/Take-Some/SkySimulation')
             credentials {
                 username = findProperty('gpr.user') ?: System.getenv('GITHUB_ACTOR')
                 password = findProperty('gpr.key') ?: System.getenv('GITHUB_TOKEN')
