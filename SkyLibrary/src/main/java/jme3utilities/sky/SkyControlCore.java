@@ -30,7 +30,6 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
-import com.jme3.export.Savable;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -52,7 +51,12 @@ import jme3utilities.SubtreeControl;
 import jme3utilities.Validate;
 import jme3utilities.math.MyColor;
 import jme3utilities.mesh.DomeMesh;
-import jme3utilities.sky.scene.SkyNodeNames;
+import jme3utilities.sky.cloud.SkyCloudPreset;
+import jme3utilities.sky.control.SkyCelestialState;
+import jme3utilities.sky.control.SkyCloudRuntime;
+import jme3utilities.sky.material.SkyMaterialFactory;
+import jme3utilities.sky.scene.SkyDomeFactory;
+import jme3utilities.sky.scene.SkySceneLookup;
 
 /**
  * Core fields and methods of a SubtreeControl to simulate a dynamic sky.
@@ -119,28 +123,13 @@ public class SkyControlCore extends SubtreeControl {
      */
     private Camera camera;
     /**
-     * information about individual cloud layers - TODO privatize
+     * Runtime state and update logic for cloud layers.
      */
-    protected CloudLayer[] cloudLayers;
+    private SkyCloudRuntime cloudRuntime;
     /**
-     * simulation time for cloud layer animations (initially 0, may be negative)
+     * Runtime state for the moon's latitude and phase angle.
      */
-    private float cloudsAnimationTime = 0f;
-    /**
-     * rate of motion for cloud layer animations (default is 1, may be negative)
-     */
-    private float cloudsRate = 1f;
-    /**
-     * the difference in celestial longitude (lambda) between the moon and the
-     * sun (in radians, measured eastward from the sun, default is Pi)
-     */
-    protected float longitudeDifference = FastMath.PI; // TODO privatize
-    /**
-     * the moon's celestial latitude (beta, in radians, measured north from the
-     * ecliptic, &ge;-Pi/2, &le;Pi/2, default is 0f, realistic range is -0.09 to
-     * 0.09)
-     */
-    protected float lunarLatitude = 0f; // TODO privatize
+    private SkyCelestialState celestialState = new SkyCelestialState();
     /**
      * how stars are rendered: set by constructor
      */
@@ -156,7 +145,8 @@ public class SkyControlCore extends SubtreeControl {
         this.bottomDomeFlag = false;
         this.starsOption = StarsOption.TopDome;
         this.camera = null;
-        this.cloudLayers = null;
+        this.cloudRuntime = null;
+        this.celestialState = new SkyCelestialState();
     }
 
     /**
@@ -198,7 +188,9 @@ public class SkyControlCore extends SubtreeControl {
                 assetManager, separateCloudDome, starsOption);
         SkyMaterial cloudsMaterial = SkyMaterialFactory.createClouds(
                 assetManager, separateCloudDome, topMaterial);
-        this.cloudLayers = SkyMaterialFactory.createLayers(cloudsMaterial);
+        CloudLayer[] cloudLayers
+                = SkyCloudLayerFactory.createLayers(cloudsMaterial);
+        this.cloudRuntime = new SkyCloudRuntime(cloudLayers);
         Material bottomMaterial = SkyMaterialFactory.createBottom(
                 assetManager, bottomDomeFlag);
         Node subtreeNode = SkyDomeFactory.createSubtree(cloudFlattening,
@@ -244,10 +236,8 @@ public class SkyControlCore extends SubtreeControl {
     public CloudLayer getCloudLayer(int layerIndex) {
         Validate.inRange(
                 layerIndex, "cloud layer index", 0, numCloudLayers - 1);
-        CloudLayer layer = cloudLayers[layerIndex];
-
-        assert layer != null;
-        return layer;
+        CloudLayer result = cloudRuntime.getLayer(layerIndex);
+        return result;
     }
 
     /**
@@ -256,7 +246,8 @@ public class SkyControlCore extends SubtreeControl {
      * @return multiple of the default rate (may be negative)
      */
     public float getCloudsRate() {
-        return cloudsRate;
+        float result = cloudRuntime.rate();
+        return result;
     }
 
     /**
@@ -282,7 +273,8 @@ public class SkyControlCore extends SubtreeControl {
      * @return radians east of the sun
      */
     public float getLongitudeDifference() {
-        return longitudeDifference;
+        float result = celestialState.longitudeDifference();
+        return result;
     }
 
     /**
@@ -291,7 +283,8 @@ public class SkyControlCore extends SubtreeControl {
      * @return radians north of the ecliptic (&ge;-Pi/2, &le;Pi/2)
      */
     public float getLunarLatitude() {
-        return lunarLatitude;
+        float result = celestialState.lunarLatitude();
+        return result;
     }
 
     /**
@@ -302,19 +295,8 @@ public class SkyControlCore extends SubtreeControl {
      * contribution
      */
     public float getMoonIllumination() {
-        float fullAngle = FastMath.abs(longitudeDifference - FastMath.PI);
-        if (lunarLatitude != 0f) {
-            float cos = FastMath.cos(fullAngle) * FastMath.cos(lunarLatitude);
-            fullAngle = FastMath.acos(cos);
-        }
-        assert fullAngle >= 0f : fullAngle;
-        assert fullAngle <= FastMath.PI : fullAngle;
-
-        float weight = 1f - FastMath.saturate(fullAngle * 0.6f);
-
-        assert weight >= 0f : weight;
-        assert weight <= 1f : weight;
-        return weight;
+        float result = celestialState.moonIllumination();
+        return result;
     }
 
     /**
@@ -349,9 +331,7 @@ public class SkyControlCore extends SubtreeControl {
     public void setCloudiness(float newAlpha) {
         Validate.fraction(newAlpha, "alpha");
 
-        for (int layer = 0; layer < numCloudLayers; ++layer) {
-            cloudLayers[layer].setOpacity(newAlpha);
-        }
+        cloudRuntime.setCloudiness(newAlpha);
     }
 
     /**
@@ -360,7 +340,25 @@ public class SkyControlCore extends SubtreeControl {
      * @param newRate multiple of the default rate (may be negative, default=1)
      */
     public void setCloudsRate(float newRate) {
-        this.cloudsRate = newRate;
+        cloudRuntime.setRate(newRate);
+    }
+
+    /**
+     * Transition cloud layers to a weather preset.
+     * <p>
+     * Textures are swapped only after the affected layers fade out, then the
+     * target layers fade back in.
+     *
+     * @param preset target cloud preset (not null)
+     * @param seconds transition duration in seconds (&ge;0)
+     */
+    public void setCloudPreset(SkyCloudPreset preset, float seconds) {
+        Validate.nonNull(preset, "preset");
+        if (!(seconds >= 0f)) {
+            throw new IllegalArgumentException("duration must be non-negative");
+        }
+
+        cloudRuntime.transitionTo(preset, seconds);
     }
 
     /**
@@ -478,8 +476,7 @@ public class SkyControlCore extends SubtreeControl {
      */
     protected Geometry getBottomDome() {
         Node subtreeNode = (Node) getSubtree();
-        Geometry bottomDome = (Geometry) MySpatial.findChild(
-                subtreeNode, SkyNodeNames.bottom);
+        Geometry bottomDome = SkySceneLookup.bottomDome(subtreeNode);
 
         return bottomDome;
     }
@@ -491,10 +488,7 @@ public class SkyControlCore extends SubtreeControl {
      */
     protected Material getBottomMaterial() {
         Geometry bottomDome = getBottomDome();
-        if (bottomDome == null) {
-            return null;
-        }
-        Material bottomMaterial = bottomDome.getMaterial();
+        Material bottomMaterial = SkySceneLookup.material(bottomDome);
 
         return bottomMaterial;
     }
@@ -506,10 +500,7 @@ public class SkyControlCore extends SubtreeControl {
      */
     protected DomeMesh getBottomMesh() {
         Geometry bottomDome = getBottomDome();
-        if (bottomDome == null) {
-            return null;
-        }
-        DomeMesh bottomMesh = (DomeMesh) bottomDome.getMesh();
+        DomeMesh bottomMesh = SkySceneLookup.domeMesh(bottomDome);
 
         return bottomMesh;
     }
@@ -521,8 +512,7 @@ public class SkyControlCore extends SubtreeControl {
      */
     protected Geometry getCloudsOnlyDome() {
         Node subtreeNode = (Node) getSubtree();
-        Geometry cloudsOnlyDome = (Geometry) MySpatial.findChild(
-                subtreeNode, SkyNodeNames.clouds);
+        Geometry cloudsOnlyDome = SkySceneLookup.cloudsOnlyDome(subtreeNode);
 
         return cloudsOnlyDome;
     }
@@ -571,8 +561,7 @@ public class SkyControlCore extends SubtreeControl {
      */
     protected Node getStarsNode() {
         Node subtreeNode = (Node) getSubtree();
-        Node starsNode = (Node) MySpatial.findChild(
-                subtreeNode, SkyNodeNames.starsNode);
+        Node starsNode = SkySceneLookup.starsNode(subtreeNode);
 
         return starsNode;
     }
@@ -584,8 +573,7 @@ public class SkyControlCore extends SubtreeControl {
      */
     protected Geometry getTopDome() {
         Node subtreeNode = (Node) getSubtree();
-        Geometry topDome = (Geometry) MySpatial.findChild(
-                subtreeNode, SkyNodeNames.top);
+        Geometry topDome = SkySceneLookup.topDome(subtreeNode);
 
         assert topDome != null;
         return topDome;
@@ -598,9 +586,8 @@ public class SkyControlCore extends SubtreeControl {
      */
     protected SkyMaterial getTopMaterial() {
         Geometry topDome = getTopDome();
-        SkyMaterial topMaterial = (SkyMaterial) topDome.getMaterial();
+        SkyMaterial topMaterial = SkySceneLookup.skyMaterial(topDome);
 
-        assert topMaterial != null;
         return topMaterial;
     }
 
@@ -611,7 +598,7 @@ public class SkyControlCore extends SubtreeControl {
      */
     protected DomeMesh getTopMesh() {
         Geometry topDome = getTopDome();
-        DomeMesh topMesh = (DomeMesh) topDome.getMesh();
+        DomeMesh topMesh = SkySceneLookup.domeMesh(topDome);
 
         assert topMesh != null;
         return topMesh;
@@ -640,11 +627,58 @@ public class SkyControlCore extends SubtreeControl {
             }
             cloudsColor.multLocal(cloudBrightness);
         }
-        for (int layer = 0; layer < numCloudLayers; ++layer) {
-            cloudLayers[layer].setColor(cloudsColor);
-        }
+        setCloudLayersColor(cloudsColor);
 
         return cloudsColor;
+    }
+
+    /**
+     * Apply a color to all cloud layers.
+     *
+     * @param color desired cloud color (not null, unaffected)
+     */
+    protected void setCloudLayersColor(ColorRGBA color) {
+        cloudRuntime.setColor(color);
+    }
+
+    /**
+     * Return the moon's longitude difference.
+     *
+     * @return radians east of the sun
+     */
+    protected float moonLongitudeDifference() {
+        float result = celestialState.longitudeDifference();
+        return result;
+    }
+
+    /**
+     * Return the moon's lunar latitude.
+     *
+     * @return radians north of the ecliptic
+     */
+    protected float moonLatitude() {
+        float result = celestialState.lunarLatitude();
+        return result;
+    }
+
+    /**
+     * Alter the moon's longitude difference.
+     *
+     * @param longitudeDifference radians east of the sun
+     */
+    protected void setMoonLongDiff(float longitudeDifference) {
+        celestialState.setLongitudeDifference(longitudeDifference);
+    }
+
+    /**
+     * Alter the moon's lunar latitude and phase angle.
+     *
+     * @param longitudeDifference radians east of the sun
+     * @param lunarLatitude radians north of the ecliptic
+     */
+    protected void setCelestialPhase(float longitudeDifference,
+            float lunarLatitude) {
+        celestialState.setPhase(longitudeDifference, lunarLatitude);
     }
     // *************************************************************************
     // SubtreeControl methods
@@ -673,7 +707,8 @@ public class SkyControlCore extends SubtreeControl {
         super.cloneFields(cloner, original);
 
         this.camera = cloner.clone(camera);
-        this.cloudLayers = cloner.clone(cloudLayers);
+        this.cloudRuntime.cloneFields(cloner);
+        this.celestialState = celestialState.copy();
     }
 
     /**
@@ -690,7 +725,7 @@ public class SkyControlCore extends SubtreeControl {
             return;
         }
 
-        updateClouds(updateInterval);
+        cloudRuntime.update(updateInterval);
 
         // Translate the sky node to center the sky on the camera.
         Vector3f cameraLocation = camera.getLocation();
@@ -732,14 +767,8 @@ public class SkyControlCore extends SubtreeControl {
         this.starsOption
                 = ic.readEnum("starsOption", StarsOption.class, starsOption);
         /* camera not serialized */
-        Savable[] sav = ic.readSavableArray("cloudLayers", null);
-        this.cloudLayers = new CloudLayer[sav.length];
-        System.arraycopy(sav, 0, cloudLayers, 0, sav.length);
-
-        this.cloudsAnimationTime = ic.readFloat("cloudsAnimationTime", 0f);
-        this.cloudsRate = ic.readFloat("cloudsRelativeSpeed", 1f);
-        this.lunarLatitude = ic.readFloat("lunarLatitude", 0f);
-        this.longitudeDifference = ic.readFloat("phaseAngle", FastMath.PI);
+        this.cloudRuntime = SkyCloudRuntime.read(ic);
+        this.celestialState = SkyCelestialState.read(ic);
     }
 
     /**
@@ -769,11 +798,8 @@ public class SkyControlCore extends SubtreeControl {
         oc.write(stabilizeFlag, "stabilizeFlag", false);
         oc.write(starsOption, "starsOption", StarsOption.TopDome);
         /* camera not serialized */
-        oc.write(cloudLayers, "cloudLayers", null);
-        oc.write(cloudsAnimationTime, "cloudsAnimationTime", 0f);
-        oc.write(cloudsRate, "cloudsRelativeSpeed", 1f);
-        oc.write(lunarLatitude, "lunarLatitude", 0f);
-        oc.write(longitudeDifference, "phaseAngle", FastMath.PI);
+        cloudRuntime.write(oc);
+        celestialState.write(oc);
     }
     // *************************************************************************
     // private methods
@@ -789,17 +815,4 @@ public class SkyControlCore extends SubtreeControl {
         }
     }
 
-    /**
-     * Update the cloud layers. (Invoked once per frame.)
-     *
-     * @param updateInterval time interval between updates (in seconds, &ge;0)
-     */
-    private void updateClouds(float updateInterval) {
-        assert updateInterval >= 0f : updateInterval;
-
-        this.cloudsAnimationTime += updateInterval * cloudsRate;
-        for (int layer = 0; layer < numCloudLayers; ++layer) {
-            cloudLayers[layer].updateOffset(cloudsAnimationTime);
-        }
-    }
 }

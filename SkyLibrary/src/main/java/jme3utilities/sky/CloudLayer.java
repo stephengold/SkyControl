@@ -210,12 +210,22 @@ public class CloudLayer
         material.setCloudsScale(layerIndex, scale);
     }
 
+
+    /**
+     * Add, replace, or clear this layer's normal-map texture.
+     *
+     * @param assetPath asset path to the normal map, or null to clear it
+     */
+    public void setNormalMap(String assetPath) {
+        material.setCloudsNormalMap(layerIndex, assetPath);
+    }
+
     /**
      * Update this layer's texture offset in the material.
      *
      * @param time (in seconds)
      */
-    void updateOffset(float time) {
+    public void updateOffset(float time) {
         float u = u0 + time * uRate;
         float v = v0 + time * vRate;
         material.setCloudsOffset(layerIndex, u, v);

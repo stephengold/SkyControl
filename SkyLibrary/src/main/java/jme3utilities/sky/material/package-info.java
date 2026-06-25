@@ -24,6 +24,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * Sky material and texture sampling helpers.
+ * Sky material parameter, transform, and texture-sampling helpers.
  */
 package jme3utilities.sky.material;

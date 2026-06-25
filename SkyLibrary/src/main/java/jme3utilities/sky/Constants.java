@@ -74,7 +74,7 @@ final public class Constants {
     /**
      * UV distance from top to rim (&lt;0.5, &gt;0)
      */
-    final static float uvScale = 0.44f;
+    final public static float uvScale = 0.44f;
     /**
      * coefficient used to compute the stretchFactor for objects projected onto
      * a DomeMesh

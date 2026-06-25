@@ -24,6 +24,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * Sky scene-graph naming helpers.
+ * Sky scene-graph naming and lookup helpers.
  */
 package jme3utilities.sky.scene;

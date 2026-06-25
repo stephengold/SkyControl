@@ -25,26 +25,26 @@
  */
 package jme3utilities.sky;
 
+import com.jme3.asset.AssetLoadException;
 import com.jme3.asset.AssetManager;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
-import com.jme3.export.Savable;
 import com.jme3.material.MatParam;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
-import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
-import com.jme3.texture.image.ImageRaster;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.logging.Logger;
 import jme3utilities.MyAsset;
 import jme3utilities.Validate;
-import jme3utilities.math.MyMath;
-import jme3utilities.sky.material.SkyTextureSampler;
+import jme3utilities.sky.material.SkyCloudMaterialSlots;
+import jme3utilities.sky.material.SkyDdsTextureLoader;
+import jme3utilities.sky.material.SkyMaterialParamNames;
+import jme3utilities.sky.material.SkyObjectMaterialSlots;
+import jme3utilities.sky.material.SkyObjectTransform;
 
 /**
  * Core fields and methods of a material for a dynamic sky dome.
@@ -73,28 +73,15 @@ public class SkyMaterialCore extends Material {
      */
     protected AssetManager assetManager; // TODO privatize
     /**
-     * maximum opacity of each cloud layer (&le;1, &ge;0)
+     * state and raster cache for cloud material slots: set by constructor or
+     * read().
      */
-    private float[] cloudAlphas;
+    private SkyCloudMaterialSlots cloudSlots;
     /**
-     * scale factors of cloud layers (each &gt;0)
+     * state for astronomical object material slots: set by constructor or
+     * read().
      */
-    private float[] cloudScales;
-    /**
-     * scale factors of astronomical objects (each &gt;0)
-     */
-    private float[] objectScales;
-    /**
-     * image of each cloud layer
-     * <p>
-     * Since ImageRaster does not implement Savable, these are retained for use
-     * by write().
-     */
-    private Image[] cloudImages;
-    /**
-     * cached rasterization of each cloud layer
-     */
-    private ImageRaster[] cloudsRaster;
+    private SkyObjectMaterialSlots objectSlots;
     /**
      * maximum number of cloud layers (&ge;0)
      */
@@ -103,18 +90,6 @@ public class SkyMaterialCore extends Material {
      * maximum number of astronomical objects (&ge;0)
      */
     protected int maxObjects; // TODO privatize
-    /**
-     * UV offset of each cloud layer
-     */
-    private Vector2f[] cloudOffsets;
-    /**
-     * sky texture coordinates of the center of each astronomical object
-     */
-    private Vector2f[] objectCenters;
-    /**
-     * rotation vectors of astronomical objects (each may be null)
-     */
-    private Vector2f[] objectRotations;
     // *************************************************************************
     // constructors
 
@@ -123,17 +98,11 @@ public class SkyMaterialCore extends Material {
      */
     protected SkyMaterialCore() {
         this.assetManager = null;
-        this.cloudAlphas = null;
-        this.cloudImages = null;
-        this.cloudScales = null;
-        this.cloudsRaster = null;
-        this.cloudOffsets = null;
+        this.cloudSlots = null;
         this.maxCloudLayers = 0;
         this.maxObjects = 0;
 
-        this.objectCenters = null;
-        this.objectRotations = null;
-        this.objectScales = null;
+        this.objectSlots = null;
     }
 
     /**
@@ -157,15 +126,9 @@ public class SkyMaterialCore extends Material {
         this.maxObjects = maxObjects;
         this.maxCloudLayers = maxCloudLayers;
 
-        this.cloudAlphas = new float[maxCloudLayers];
-        this.cloudImages = new Image[maxCloudLayers];
-        this.cloudOffsets = new Vector2f[maxCloudLayers];
-        this.cloudsRaster = new ImageRaster[maxCloudLayers];
-        this.cloudScales = new float[maxCloudLayers];
+        this.cloudSlots = new SkyCloudMaterialSlots(maxCloudLayers);
 
-        this.objectCenters = new Vector2f[maxObjects];
-        this.objectRotations = new Vector2f[maxObjects];
-        this.objectScales = new float[maxObjects];
+        this.objectSlots = new SkyObjectMaterialSlots(maxObjects);
     }
     // *************************************************************************
     // new methods exposed
@@ -186,19 +149,38 @@ public class SkyMaterialCore extends Material {
                 = MyAsset.loadTexture(assetManager, assetPath, mipmaps);
         alphaMap.setWrap(Texture.WrapMode.Repeat);
         String parameterName
-                = String.format(Locale.ROOT, "Clouds%dAlphaMap", layerIndex);
+                = SkyMaterialParamNames.cloudAlphaMap(layerIndex);
         setTexture(parameterName, alphaMap);
 
-        boolean firstTime = (cloudsRaster[layerIndex] == null);
-        Image image = alphaMap.getImage();
-        this.cloudImages[layerIndex] = image;
-        this.cloudsRaster[layerIndex] = ImageRaster.create(image);
+        boolean firstTime = cloudSlots.addAlphaMap(layerIndex, alphaMap);
 
         if (firstTime) {
-            this.cloudOffsets[layerIndex] = new Vector2f();
             setCloudsColor(layerIndex, ColorRGBA.White);
             setCloudsOffset(layerIndex, 0f, 0f);
             setCloudsScale(layerIndex, 1f);
+        }
+    }
+
+
+    /**
+     * Add, replace, or clear a cloud-layer normal map.
+     *
+     * @param layerIndex (&lt;maxCloudLayers, &ge;0)
+     * @param assetPath asset path to the normal map, or null to clear it
+     */
+    public void setCloudsNormalMap(int layerIndex, String assetPath) {
+        validateLayerIndex(layerIndex);
+        requireCloudLayerAdded(layerIndex);
+
+        String parameterName
+                = SkyMaterialParamNames.cloudNormalMap(layerIndex);
+        if (assetPath == null) {
+            clearParam(parameterName);
+        } else {
+            Validate.nonEmpty(assetPath, "asset path");
+            Texture normalMap = loadNormalMap(assetPath);
+            normalMap.setWrap(Texture.WrapMode.Repeat);
+            setTexture(parameterName, normalMap);
         }
     }
 
@@ -214,12 +196,10 @@ public class SkyMaterialCore extends Material {
         Validate.nonNull(colorMap, "texture");
 
         String parameterName
-                = String.format(Locale.ROOT, "Object%dColorMap", objectIndex);
+                = SkyMaterialParamNames.objectColorMap(objectIndex);
         setTexture(parameterName, colorMap);
 
-        if (objectCenters[objectIndex] == null) {
-            this.objectCenters[objectIndex] = new Vector2f();
-            this.objectRotations[objectIndex] = new Vector2f();
+        if (objectSlots.addObject(objectIndex)) {
             setObjectColor(objectIndex, ColorRGBA.White);
             setObjectGlow(objectIndex, ColorRGBA.Black);
             setObjectTransform(objectIndex, Constants.topUV, 1f, null);
@@ -235,14 +215,12 @@ public class SkyMaterialCore extends Material {
      */
     public ColorRGBA copyCloudsColor(int layerIndex) {
         validateLayerIndex(layerIndex);
-        if (cloudsRaster[layerIndex] == null) {
-            throw new IllegalStateException("layer not yet added");
-        }
+        requireCloudLayerAdded(layerIndex);
 
         String parameterName
-                = String.format(Locale.ROOT, "Clouds%dColor", layerIndex);
+                = SkyMaterialParamNames.cloudColor(layerIndex);
         ColorRGBA color = copyColor(parameterName);
-        color.a = cloudAlphas[layerIndex];
+        color.a = cloudSlots.alpha(layerIndex);
 
         return color;
     }
@@ -256,12 +234,10 @@ public class SkyMaterialCore extends Material {
      */
     public ColorRGBA copyCloudsGlow(int layerIndex) {
         validateLayerIndex(layerIndex);
-        if (cloudsRaster[layerIndex] == null) {
-            throw new IllegalStateException("layer not yet added");
-        }
+        requireCloudLayerAdded(layerIndex);
 
         String parameterName
-                = String.format(Locale.ROOT, "Clouds%dGlow", layerIndex);
+                = SkyMaterialParamNames.cloudGlow(layerIndex);
         ColorRGBA color = copyColor(parameterName);
 
         return color;
@@ -276,12 +252,10 @@ public class SkyMaterialCore extends Material {
      */
     public Vector2f copyCloudsOffset(int layerIndex) {
         validateLayerIndex(layerIndex);
-        if (cloudsRaster[layerIndex] == null) {
-            throw new IllegalStateException("layer not yet added");
-        }
+        requireCloudLayerAdded(layerIndex);
 
-        Vector2f offset = cloudOffsets[layerIndex];
-        return offset.clone();
+        Vector2f result = cloudSlots.copyOffset(layerIndex);
+        return result;
     }
 
     /**
@@ -308,12 +282,10 @@ public class SkyMaterialCore extends Material {
      */
     public ColorRGBA copyObjectColor(int objectIndex) {
         validateObjectIndex(objectIndex);
-        if (objectCenters[objectIndex] == null) {
-            throw new IllegalStateException("object not yet added");
-        }
+        requireObjectAdded(objectIndex);
 
         String parameterName
-                = String.format(Locale.ROOT, "Object%dColor", objectIndex);
+                = SkyMaterialParamNames.objectColor(objectIndex);
         ColorRGBA color = copyColor(parameterName);
 
         return color;
@@ -328,12 +300,10 @@ public class SkyMaterialCore extends Material {
      */
     public ColorRGBA copyObjectGlow(int objectIndex) {
         validateObjectIndex(objectIndex);
-        if (objectCenters[objectIndex] == null) {
-            throw new IllegalStateException("object not yet added");
-        }
+        requireObjectAdded(objectIndex);
 
         String parameterName
-                = String.format(Locale.ROOT, "Object%dGlow", objectIndex);
+                = SkyMaterialParamNames.objectGlow(objectIndex);
         ColorRGBA color = copyColor(parameterName);
 
         return color;
@@ -349,12 +319,10 @@ public class SkyMaterialCore extends Material {
      */
     public Vector2f copyObjectOffset(int objectIndex) {
         validateObjectIndex(objectIndex);
-        if (objectCenters[objectIndex] == null) {
-            throw new IllegalStateException("object not yet added");
-        }
+        requireObjectAdded(objectIndex);
 
-        Vector2f offset = objectCenters[objectIndex];
-        return offset.clone();
+        Vector2f result = objectSlots.copyCenter(objectIndex);
+        return result;
     }
 
     /**
@@ -367,16 +335,10 @@ public class SkyMaterialCore extends Material {
      */
     public Vector2f copyObjectRotation(int objectIndex) {
         validateObjectIndex(objectIndex);
-        if (objectCenters[objectIndex] == null) {
-            throw new IllegalStateException("object not yet added");
-        }
+        requireObjectAdded(objectIndex);
 
-        Vector2f vector = objectRotations[objectIndex];
-        if (vector == null) {
-            return null;
-        } else {
-            return vector.clone();
-        }
+        Vector2f result = objectSlots.copyRotation(objectIndex);
+        return result;
     }
 
     /**
@@ -402,12 +364,10 @@ public class SkyMaterialCore extends Material {
      */
     public float getCloudsScale(int layerIndex) {
         validateLayerIndex(layerIndex);
-        if (cloudsRaster[layerIndex] == null) {
-            throw new IllegalStateException("layer not yet added");
-        }
+        requireCloudLayerAdded(layerIndex);
 
         String parameterName
-                = String.format(Locale.ROOT, "Clouds%dScale", layerIndex);
+                = SkyMaterialParamNames.cloudScale(layerIndex);
         float result = getFloat(parameterName);
 
         assert result > 0f : result;
@@ -424,11 +384,9 @@ public class SkyMaterialCore extends Material {
      */
     public float getObjectScale(int objectIndex) {
         validateObjectIndex(objectIndex);
-        if (objectCenters[objectIndex] == null) {
-            throw new IllegalStateException("object not yet added");
-        }
+        requireObjectAdded(objectIndex);
 
-        float result = objectScales[objectIndex];
+        float result = objectSlots.scale(objectIndex);
 
         assert result > 0f : result;
         return result;
@@ -456,11 +414,9 @@ public class SkyMaterialCore extends Material {
      */
     public float getTransmission(int objectIndex) {
         validateObjectIndex(objectIndex);
+        requireObjectAdded(objectIndex);
 
-        Vector2f center = objectCenters[objectIndex];
-        if (center == null) {
-            throw new IllegalStateException("object not yet added");
-        }
+        Vector2f center = objectSlots.copyCenter(objectIndex);
         float result = getTransmission(center);
 
         return result;
@@ -476,16 +432,7 @@ public class SkyMaterialCore extends Material {
     public float getTransmission(Vector2f skyCoordinates) {
         Validate.nonNull(skyCoordinates, "coordinates");
 
-        float result = 1f;
-        for (int layerIndex = 0; layerIndex < maxCloudLayers; ++layerIndex) {
-            if (cloudsRaster[layerIndex] != null) {
-                float transparency = transparency(layerIndex, skyCoordinates);
-                result *= transparency;
-            }
-        }
-
-        assert result >= Constants.alphaMin : result;
-        assert result <= Constants.alphaMax : result;
+        float result = cloudSlots.transmission(skyCoordinates);
         return result;
     }
 
@@ -500,22 +447,20 @@ public class SkyMaterialCore extends Material {
      */
     public void hideObject(int objectIndex) {
         validateObjectIndex(objectIndex);
-        if (objectCenters[objectIndex] == null) {
-            throw new IllegalStateException("object not yet added");
-        }
+        requireObjectAdded(objectIndex);
 
         String objectParameterName
-                = String.format(Locale.ROOT, "Object%dCenter", objectIndex);
+                = SkyMaterialParamNames.objectCenter(objectIndex);
         setVector2(objectParameterName, hidden);
-        objectCenters[objectIndex].set(hidden);
+        objectSlots.hide(objectIndex, hidden);
 
         // Scale down the object to occupy only a few pixels in texture space.
         float scale = 1000f;
         String transformUParameterName
-                = String.format(Locale.ROOT, "Object%dTransformU", objectIndex);
+                = SkyMaterialParamNames.objectTransformU(objectIndex);
         setVector2(transformUParameterName, new Vector2f(scale, scale));
         String transformVParameterName
-                = String.format(Locale.ROOT, "Object%dTransformV", objectIndex);
+                = SkyMaterialParamNames.objectTransformV(objectIndex);
         setVector2(transformVParameterName, new Vector2f(scale, scale));
     }
 
@@ -528,14 +473,12 @@ public class SkyMaterialCore extends Material {
     public void setCloudsColor(int layerIndex, ColorRGBA newColor) {
         validateLayerIndex(layerIndex);
         Validate.nonNull(newColor, "color");
-        if (cloudsRaster[layerIndex] == null) {
-            throw new IllegalStateException("layer not yet added");
-        }
+        requireCloudLayerAdded(layerIndex);
 
         String parameterName
-                = String.format(Locale.ROOT, "Clouds%dColor", layerIndex);
+                = SkyMaterialParamNames.cloudColor(layerIndex);
         setColor(parameterName, newColor.clone());
-        this.cloudAlphas[layerIndex] = newColor.a;
+        cloudSlots.setAlpha(layerIndex, newColor.a);
     }
 
     /**
@@ -547,12 +490,10 @@ public class SkyMaterialCore extends Material {
     public void setCloudsGlow(int layerIndex, ColorRGBA newColor) {
         validateLayerIndex(layerIndex);
         Validate.nonNull(newColor, "color");
-        if (cloudsRaster[layerIndex] == null) {
-            throw new IllegalStateException("layer not yet added");
-        }
+        requireCloudLayerAdded(layerIndex);
 
         String parameterName
-                = String.format(Locale.ROOT, "Clouds%dGlow", layerIndex);
+                = SkyMaterialParamNames.cloudGlow(layerIndex);
         setColor(parameterName, newColor.clone());
     }
 
@@ -565,18 +506,13 @@ public class SkyMaterialCore extends Material {
      */
     public void setCloudsOffset(int layerIndex, float newU, float newV) {
         validateLayerIndex(layerIndex);
-        if (cloudsRaster[layerIndex] == null) {
-            throw new IllegalStateException("layer not yet added");
-        }
+        requireCloudLayerAdded(layerIndex);
 
-        float uOffset = MyMath.modulo(newU, 1f);
-        float vOffset = MyMath.modulo(newV, 1f);
-        Vector2f offset = new Vector2f(uOffset, vOffset);
+        Vector2f offset = cloudSlots.setOffset(layerIndex, newU, newV);
 
         String parameterName
-                = String.format(Locale.ROOT, "Clouds%dOffset", layerIndex);
+                = SkyMaterialParamNames.cloudOffset(layerIndex);
         setVector2(parameterName, offset);
-        cloudOffsets[layerIndex].set(offset);
     }
 
     /**
@@ -588,14 +524,12 @@ public class SkyMaterialCore extends Material {
     public void setCloudsScale(int layerIndex, float newScale) {
         validateLayerIndex(layerIndex);
         Validate.positive(newScale, "scale");
-        if (cloudsRaster[layerIndex] == null) {
-            throw new IllegalStateException("layer not yet added");
-        }
+        requireCloudLayerAdded(layerIndex);
 
         String parameterName
-                = String.format(Locale.ROOT, "Clouds%dScale", layerIndex);
+                = SkyMaterialParamNames.cloudScale(layerIndex);
         setFloat(parameterName, newScale);
-        this.cloudScales[layerIndex] = newScale;
+        cloudSlots.setScale(layerIndex, newScale);
     }
 
     /**
@@ -607,12 +541,10 @@ public class SkyMaterialCore extends Material {
     public void setObjectColor(int objectIndex, ColorRGBA newColor) {
         validateObjectIndex(objectIndex);
         Validate.nonNull(newColor, "color");
-        if (objectCenters[objectIndex] == null) {
-            throw new IllegalStateException("object not yet added");
-        }
+        requireObjectAdded(objectIndex);
 
         String parameterName
-                = String.format(Locale.ROOT, "Object%dColor", objectIndex);
+                = SkyMaterialParamNames.objectColor(objectIndex);
         setColor(parameterName, newColor.clone());
     }
 
@@ -625,12 +557,10 @@ public class SkyMaterialCore extends Material {
     public void setObjectGlow(int objectIndex, ColorRGBA newColor) {
         validateObjectIndex(objectIndex);
         Validate.nonNull(newColor, "color");
-        if (objectCenters[objectIndex] == null) {
-            throw new IllegalStateException("object not yet added");
-        }
+        requireObjectAdded(objectIndex);
 
         String parameterName
-                = String.format(Locale.ROOT, "Object%dGlow", objectIndex);
+                = SkyMaterialParamNames.objectGlow(objectIndex);
         setColor(parameterName, newColor.clone());
     }
 
@@ -653,86 +583,25 @@ public class SkyMaterialCore extends Material {
         if (newRotate != null) {
             Validate.nonZero(newRotate, "rotation vector");
         }
-        if (objectCenters[objectIndex] == null) {
-            throw new IllegalStateException("object not yet added");
-        }
+        requireObjectAdded(objectIndex);
 
         // Record transform parameters for save().
-        this.objectCenters[objectIndex] = centerUV.clone();
-        if (newRotate == null) {
-            this.objectRotations[objectIndex] = null;
-        } else {
-            this.objectRotations[objectIndex] = newRotate.clone();
-        }
-        this.objectScales[objectIndex] = newScale;
+        objectSlots.setTransform(objectIndex, centerUV, newScale, newRotate);
 
         String objectParameterName
-                = String.format(Locale.ROOT, "Object%dCenter", objectIndex);
+                = SkyMaterialParamNames.objectCenter(objectIndex);
         setVector2(objectParameterName, centerUV);
 
-        Vector2f offset = centerUV.subtract(Constants.topUV);
-        float topDist = offset.length();
-        /*
-         * The texture coordinate transforms are broken into pairs of
-         * vectors because there is no Matrix2f class.
-         */
-        Vector2f transformU = new Vector2f();
-        Vector2f transformV = new Vector2f();
-        Vector2f tU = new Vector2f();
-        Vector2f tV = new Vector2f();
-
-        if (topDist > 0f) {
-            /*
-             * Stretch the image horizontally to compensate for UV distortion
-             * near the horizon.
-             */
-            float a = offset.x / topDist;
-            float b = offset.y / topDist;
-            tU.set(b, -a);
-            tV.set(a, b);
-
-            float stretchFactor
-                    = 1f + Constants.stretchCoefficient * topDist * topDist;
-            tU.divideLocal(stretchFactor);
-
-            if (newRotate != null) {
-                transformU.set(tU.x * b + tV.x * a, tU.y * b + tV.y * a);
-                transformV.set(tV.x * b - tU.x * a, tV.y * b - tU.y * a);
-            } else {
-                transformU.set(tU);
-                transformV.set(tV);
-            }
-
-        } else {
-            // No UV distortion at the top of the dome.
-            transformU.set(1f, 0f);
-            transformV.set(0f, 1f);
-        }
-
-        if (newRotate != null) {
-            // Rotate so top is toward the north horizon.
-            tU.set(transformV);
-            tV.set(-transformU.x, -transformU.y);
-
-            // Rotate by newRotate.
-            Vector2f norm = newRotate.normalize();
-            transformU.set(tU.x * norm.x + tV.x * norm.y,
-                    tU.y * norm.x + tV.y * norm.y);
-            transformV.set(tV.x * norm.x - tU.x * norm.y,
-                    tV.y * norm.x - tU.y * norm.y);
-        }
-
-        // Scale by newScale.
-        transformU.divideLocal(newScale);
-        transformV.divideLocal(newScale);
+        SkyObjectTransform transform
+                = SkyObjectTransform.from(centerUV, newScale, newRotate);
 
         String transformUParameterName
-                = String.format(Locale.ROOT, "Object%dTransformU", objectIndex);
-        setVector2(transformUParameterName, transformU);
+                = SkyMaterialParamNames.objectTransformU(objectIndex);
+        setVector2(transformUParameterName, transform.copyTransformU());
 
         String transformVParameterName
-                = String.format(Locale.ROOT, "Object%dTransformV", objectIndex);
-        setVector2(transformVParameterName, transformV);
+                = SkyMaterialParamNames.objectTransformV(objectIndex);
+        setVector2(transformVParameterName, transform.copyTransformV());
     }
     // *************************************************************************
     // new protected methods
@@ -773,43 +642,16 @@ public class SkyMaterialCore extends Material {
         InputCapsule capsule = importer.getCapsule(this);
 
         // cloud layers
-        this.cloudAlphas = capsule.readFloatArray("cloudAlphas", null);
-
-        Savable[] sav = capsule.readSavableArray("cloudImages", null);
-        this.cloudImages = new Image[sav.length];
-        System.arraycopy(sav, 0, cloudImages, 0, sav.length);
-
-        sav = capsule.readSavableArray("cloudOffsets", null);
-        this.cloudOffsets = new Vector2f[sav.length];
-        System.arraycopy(sav, 0, cloudOffsets, 0, sav.length);
-
-        this.cloudScales = capsule.readFloatArray("cloudScales", null);
+        this.cloudSlots = SkyCloudMaterialSlots.read(capsule);
 
         // astronomical objects
-        sav = capsule.readSavableArray("objectCenters", null);
-        this.objectCenters = new Vector2f[sav.length];
-        System.arraycopy(sav, 0, objectCenters, 0, sav.length);
-
-        sav = capsule.readSavableArray("objectRotations", null);
-        this.objectRotations = new Vector2f[sav.length];
-        System.arraycopy(sav, 0, objectRotations, 0, sav.length);
-
-        this.objectScales = capsule.readFloatArray("objectScales", null);
+        this.objectSlots = SkyObjectMaterialSlots.read(capsule);
 
         // cached values
         this.assetManager = importer.getAssetManager();
-        this.maxCloudLayers = cloudImages.length;
-        this.maxObjects = objectCenters.length;
+        this.maxCloudLayers = cloudSlots.count();
+        this.maxObjects = objectSlots.count();
 
-        this.cloudsRaster = new ImageRaster[maxCloudLayers];
-        for (int layerIndex = 0; layerIndex < maxCloudLayers; ++layerIndex) {
-            Image image = cloudImages[layerIndex];
-            if (image == null) {
-                this.cloudsRaster[layerIndex] = null;
-            } else {
-                this.cloudsRaster[layerIndex] = ImageRaster.create(image);
-            }
-        }
     }
 
     /**
@@ -824,45 +666,58 @@ public class SkyMaterialCore extends Material {
 
         OutputCapsule capsule = exporter.getCapsule(this);
 
-        capsule.write(cloudAlphas, "cloudAlphas", null);
-        capsule.write(cloudImages, "cloudImages", null);
-        capsule.write(cloudOffsets, "cloudOffsets", null);
-        capsule.write(cloudScales, "cloudScales", null);
+        cloudSlots.write(capsule);
 
-        capsule.write(objectCenters, "objectCenters", null);
-        capsule.write(objectRotations, "objectRotations", null);
-        capsule.write(objectScales, "objectScales", null);
+        objectSlots.write(capsule);
     }
+
+    /**
+     * Load a cloud normal map, including BC5 DDS fallback.
+     *
+     * @param assetPath texture asset path (not null, not empty)
+     * @return new texture
+     */
+    private Texture loadNormalMap(String assetPath) {
+        assert assetPath != null;
+
+        boolean mipmaps = false;
+        Texture result;
+        try {
+            result = MyAsset.loadTexture(assetManager, assetPath, mipmaps);
+        } catch (AssetLoadException exception) {
+            if (!assetPath.toLowerCase(java.util.Locale.ROOT)
+                    .endsWith(".dds")) {
+                throw exception;
+            }
+            result = SkyDdsTextureLoader.loadTexture(assetManager, assetPath);
+        }
+
+        return result;
+    }
+
     // *************************************************************************
     // private methods
 
     /**
-     * Estimate how much light is transmitted through an indexed cloud layer at
-     * the specified texture coordinates.
+     * Verify that the specified cloud layer has been added.
      *
-     * @param layerIndex (&lt;maxCloudLayers, &ge;0)
-     * @param skyCoordinates (unaffected, not null)
-     * @return fraction of light transmitted (&le;1, &ge;0)
+     * @param layerIndex cloud layer index
+     * @throws IllegalStateException if the layer has not been added
      */
-    private float transparency(int layerIndex, Vector2f skyCoordinates) {
-        assert layerIndex >= 0 : layerIndex;
-        assert layerIndex < maxCloudLayers : layerIndex;
-        assert skyCoordinates != null;
-        assert cloudsRaster[layerIndex] != null : layerIndex;
-
-        Vector2f coord = skyCoordinates.mult(cloudScales[layerIndex]);
-        coord.addLocal(cloudOffsets[layerIndex]);
-        coord.x = MyMath.modulo(coord.x, Constants.uvMax);
-        coord.y = MyMath.modulo(coord.y, Constants.uvMax);
-        float opacity = SkyTextureSampler.sampleRed(
-                cloudsRaster[layerIndex], coord);
-        opacity *= cloudAlphas[layerIndex];
-        float result = Constants.alphaMax - opacity;
-
-        assert result >= Constants.alphaMin : result;
-        assert result <= Constants.alphaMax : result;
-        return result;
+    private void requireCloudLayerAdded(int layerIndex) {
+        cloudSlots.requireAdded(layerIndex);
     }
+
+    /**
+     * Verify that the specified astronomical object has been added.
+     *
+     * @param objectIndex astronomical object index
+     * @throws IllegalStateException if the object has not been added
+     */
+    private void requireObjectAdded(int objectIndex) {
+        objectSlots.requireAdded(objectIndex);
+    }
+
 
 
 }

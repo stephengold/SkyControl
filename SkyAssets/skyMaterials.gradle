@@ -1,0 +1,306 @@
+// Gradle support for generated sky material definitions and shaders.
+
+ext.skyDomeProfiles = [
+    [name: 'dome02', objects: 0, clouds: 2],
+    [name: 'dome06', objects: 0, clouds: 6],
+    [name: 'dome20', objects: 2, clouds: 0],
+    [name: 'dome22', objects: 2, clouds: 2],
+    [name: 'dome60', objects: 6, clouds: 0],
+    [name: 'dome66', objects: 6, clouds: 6],
+]
+
+tasks.register('skyMaterials') {
+    description = 'generate sky material definitions and shaders'
+    outputs.dir("$skyResources/MatDefs/skies")
+    outputs.dir("$skyResources/Shaders/skies")
+
+    doLast {
+        def profiles = project.ext.skyDomeProfiles
+        profiles.each { profile ->
+            String name = profile.name
+            int numObjects = profile.objects
+            int numClouds = profile.clouds
+            writeGenerated("$skyResources/MatDefs/skies/$name/${name}.j3md",
+                    makeMatDef(name, numObjects, numClouds))
+            writeGenerated("$skyResources/Shaders/skies/$name/${name}.vert",
+                    makeVertexShader(name, numObjects, numClouds))
+            writeGenerated("$skyResources/Shaders/skies/$name/${name}.frag",
+                    makeFragmentShader(name, numObjects, numClouds, false))
+            writeGenerated("$skyResources/Shaders/skies/$name/${name}glow.frag",
+                    makeFragmentShader(name, numObjects, numClouds, true))
+        }
+    }
+}
+
+void writeGenerated(String path, String text) {
+    File target = file(path)
+    target.parentFile.mkdirs()
+    target.text = text.replace('\n', System.lineSeparator())
+}
+
+String makeMatDef(String name, int objects, int clouds) {
+    StringBuilder b = new StringBuilder()
+    b << generatedLine('//')
+    b << "// A generated material for SkyMaterial: $objects objects and "
+    b << "$clouds cloud layers.\n\n"
+    b << "MaterialDef $name {\n"
+    b << '    MaterialParameters {\n'
+    b << '        Color ClearColor\n'
+    b << '        Color ClearGlow\n'
+    b << '        Vector2 TopCoord\n\n'
+    b << '        Texture2D StarsColorMap\n'
+    for (int i = 0; i < objects; ++i) {
+        b << "\n        Color Object${i}Color\n"
+        b << "        Color Object${i}Glow\n"
+        b << "\tTexture2D Object${i}ColorMap\n"
+        b << "\tVector2 Object${i}Center\n"
+        b << "\tVector2 Object${i}TransformU\n"
+        b << "\tVector2 Object${i}TransformV\n"
+    }
+    for (int i = 0; i < clouds; ++i) {
+        b << "\n        Color Clouds${i}Color\n"
+        b << "        Color Clouds${i}Glow\n"
+        b << "        Float Clouds${i}Scale : 1.0\n"
+        b << "\tTexture2D Clouds${i}AlphaMap\n"
+        b << "\tTexture2D Clouds${i}NormalMap\n"
+        b << "\tVector2 Clouds${i}Offset\n"
+    }
+    b << '\n\tColor HazeColor\n'
+    b << '        Color HazeGlow\n'
+    b << '\tTexture2D HazeAlphaMap\n'
+    b << '    }\n\n'
+    b << makeTechnique(name, objects, clouds, false)
+    b << '\n'
+    b << makeTechnique(name, objects, clouds, true)
+    b << '}\n'
+    return b.toString()
+}
+
+String makeTechnique(String name, int objects, int clouds, boolean glow) {
+    StringBuilder b = new StringBuilder()
+    b << (glow ? '    Technique Glow {\n' : '    Technique {\n')
+    b << '        Defines {\n'
+    if (!glow) {
+        b << '\t    HAS_STARS : StarsColorMap\n'
+    }
+    for (int i = 0; i < objects; ++i) {
+        b << "\t    HAS_OBJECT${i} : Object${i}ColorMap\n"
+    }
+    for (int i = 0; i < clouds; ++i) {
+        b << "\t    HAS_CLOUDS${i} : Clouds${i}AlphaMap\n"
+        b << "\t    HAS_CLOUDS${i}_NORMAL : Clouds${i}NormalMap\n"
+    }
+    b << '\t    HAS_HAZE : HazeAlphaMap\n'
+    b << '        }\n'
+    String frag = glow ? "${name}glow.frag" : "${name}.frag"
+    b << "        FragmentShader GLSL300 GLSL150 GLSL100: "
+    b << "Shaders/skies/${name}/${frag}\n"
+    b << "        VertexShader   GLSL300 GLSL150 GLSL100: "
+    b << "Shaders/skies/$name/${name}.vert\n"
+    b << '        WorldParameters {\n'
+    b << '            WorldViewProjectionMatrix\n'
+    b << '        }\n'
+    b << '    }\n'
+    return b.toString()
+}
+
+String makeVertexShader(String name, int objects, int clouds) {
+    StringBuilder b = new StringBuilder()
+    b << generatedLine('/*')
+    b << "/*\n * generated vertex shader used by ${name}.j3md\n */\n"
+    b << '#import "Common/ShaderLib/GLSLCompat.glsllib"\n'
+    b << 'attribute vec2 inTexCoord;\n'
+    b << 'attribute vec3 inPosition;\n'
+    b << 'uniform mat4 g_WorldViewProjectionMatrix;\n'
+    b << 'uniform vec2 m_TopCoord;\n'
+    b << 'varying vec2 skyTexCoord;\n'
+    appendObjectDecls(b, objects, true)
+    appendCloudDecls(b, clouds, true, false)
+    b << '\nvoid main(){\n'
+    b << '        skyTexCoord = inTexCoord;\n'
+    if (clouds > 0) {
+        b << '        /*\n'
+        b << '         * Keep cloud coordinates consistent with material sampling.\n'
+        b << '         */\n'
+    }
+    for (int i = 0; i < clouds; ++i) {
+        b << "        #ifdef HAS_CLOUDS${i}\n"
+        b << "                clouds${i}Coord = inTexCoord "
+        b << "* m_Clouds${i}Scale + m_Clouds${i}Offset;\n"
+        b << '        #endif\n'
+    }
+    for (int i = 0; i < objects; ++i) {
+        b << "        #ifdef HAS_OBJECT${i}\n"
+        b << "                object${i}Offset = inTexCoord - m_Object${i}Center;\n"
+        b << "                object${i}Coord.x = "
+        b << "dot(m_Object${i}TransformU, object${i}Offset);\n"
+        b << "                object${i}Coord.y = "
+        b << "dot(m_Object${i}TransformV, object${i}Offset);\n"
+        b << "                object${i}Coord += m_TopCoord;\n"
+        b << '        #endif\n'
+    }
+    b << '\n        gl_Position = g_WorldViewProjectionMatrix '
+    b << '* vec4(inPosition, 1);\n'
+    b << '}\n'
+    return b.toString()
+}
+
+String makeFragmentShader(String name, int objects, int clouds, boolean glow) {
+    StringBuilder b = new StringBuilder()
+    b << generatedLine('/*')
+    String kind = glow ? 'glow fragment shader' : 'fragment shader'
+    b << "/*\n * generated $kind used by ${name}.j3md\n */\n"
+    b << '#import "Common/ShaderLib/GLSLCompat.glsllib"\n'
+    b << (glow ? 'uniform vec4 m_ClearGlow;\n' : 'uniform vec4 m_ClearColor;\n')
+    b << 'varying vec2 skyTexCoord;\n'
+    if (!glow) {
+        b << '\n#ifdef HAS_STARS\n'
+        b << '        uniform sampler2D m_StarsColorMap;\n'
+        b << '#endif\n'
+    }
+    appendObjectDecls(b, objects, false)
+    appendHazeDecls(b, glow)
+    appendCloudDecls(b, clouds, false, glow)
+    b << mixColorsFunction()
+    b << '\nvoid main() {\n'
+    if (glow) {
+        b << '        vec4 stars = vec4(0.0);\n'
+    } else {
+        b << '        #ifdef HAS_STARS\n'
+        b << '                vec4 stars = texture2D(m_StarsColorMap, skyTexCoord);\n'
+        b << '        #else\n'
+        b << '                vec4 stars = vec4(0.0);\n'
+        b << '        #endif\n'
+    }
+    b << '        vec4 objects = vec4(0.0);\n'
+    appendObjectMain(b, objects, glow)
+    b << '\n        vec4 color = mixColors(stars, objects);\n\n'
+    b << (glow ? '        vec4 clear = m_ClearGlow;\n' : '        vec4 clear = m_ClearColor;\n')
+    appendHazeMain(b, glow)
+    b << '        color = mixColors(color, clear);\n'
+    b << '        color.rgb += objects.rgb * objects.a * (1.0 - clear.rgb)'
+    b << ' * clear.a;\n'
+    appendCloudMain(b, clouds, glow)
+    b << '\n\tgl_FragColor = color;\n'
+    b << '}\n'
+    return b.toString()
+}
+
+void appendObjectDecls(StringBuilder b, int objects, boolean vertex) {
+    for (int i = 0; i < objects; ++i) {
+        b << "\n#ifdef HAS_OBJECT${i}\n"
+        if (vertex) {
+            b << "        uniform vec2 m_Object${i}Center;\n"
+            b << "        uniform vec2 m_Object${i}TransformU;\n"
+            b << "        uniform vec2 m_Object${i}TransformV;\n"
+            b << "        varying vec2 object${i}Coord;\n"
+            b << "        varying vec2 object${i}Offset;\n"
+        } else {
+            b << "        uniform vec4 m_Object${i}Color;\n"
+            b << "\tuniform sampler2D m_Object${i}ColorMap;\n"
+            b << "\tvarying vec2 object${i}Coord;\n"
+        }
+        b << '#endif\n'
+    }
+}
+
+void appendCloudDecls(StringBuilder b, int clouds, boolean vertex,
+        boolean glow) {
+    for (int i = 0; i < clouds; ++i) {
+        b << "\n#ifdef HAS_CLOUDS${i}\n"
+        if (vertex) {
+            b << "        uniform float m_Clouds${i}Scale;\n"
+            b << "        uniform vec2 m_Clouds${i}Offset;\n"
+            b << "        varying vec2 clouds${i}Coord;\n"
+        } else {
+            b << "        uniform sampler2D m_Clouds${i}AlphaMap;\n"
+            b << "        uniform vec4 m_Clouds${i}${glow ? 'Glow' : 'Color'};\n"
+            b << "\tvarying vec2 clouds${i}Coord;\n"
+        }
+        b << '#endif\n'
+        if (!vertex) {
+            b << "#ifdef HAS_CLOUDS${i}_NORMAL\n"
+            b << "        uniform sampler2D m_Clouds${i}NormalMap;\n"
+            b << '#endif\n'
+        }
+    }
+}
+
+void appendHazeDecls(StringBuilder b, boolean glow) {
+    b << '\n#ifdef HAS_HAZE\n'
+    b << '        uniform sampler2D m_HazeAlphaMap;\n'
+    b << "        uniform vec4 m_Haze${glow ? 'Glow' : 'Color'};\n"
+    b << '#endif\n'
+}
+
+void appendObjectMain(StringBuilder b, int objects, boolean glow) {
+    for (int i = 0; i < objects; ++i) {
+        String objectColor = glow ? "m_Object${i}Glow" : "m_Object${i}Color"
+        b << "\n        #ifdef HAS_OBJECT${i}\n"
+        b << "                if (floor(object${i}Coord.s) == 0.0 &&\n"
+        b << "                    floor(object${i}Coord.t) == 0.0) {\n"
+        b << "                        vec4 object${i} = $objectColor;\n"
+        b << "                        object${i} *= "
+        b << "texture2D(m_Object${i}ColorMap, object${i}Coord);\n"
+        if (i == 0) {
+            b << "                        objects = object${i};\n"
+        } else {
+            b << "                        objects = mixColors(objects, object${i});\n"
+        }
+        b << '                }\n'
+        b << '\t#endif\n'
+    }
+}
+
+void appendHazeMain(StringBuilder b, boolean glow) {
+    String hazeColor = glow ? 'm_HazeGlow' : 'm_HazeColor'
+    b << '\t#ifdef HAS_HAZE\n'
+    b << "                vec4 haze = $hazeColor;\n"
+    b << '                haze.a *= texture2D(m_HazeAlphaMap, skyTexCoord).r;\n'
+    b << '\t        clear = mixColors(clear, haze);\n'
+    b << '\t#endif\n'
+}
+
+void appendCloudMain(StringBuilder b, int clouds, boolean glow) {
+    for (int i = 0; i < clouds; ++i) {
+        String cloudColor = glow ? "m_Clouds${i}Glow" : "m_Clouds${i}Color"
+        b << "\n\t#ifdef HAS_CLOUDS${i}\n"
+        b << "                vec4 clouds${i} = $cloudColor;\n"
+        b << "\t\tclouds${i}.a *= "
+        b << "texture2D(m_Clouds${i}AlphaMap, clouds${i}Coord).r;\n"
+        b << "\t\t#ifdef HAS_CLOUDS${i}_NORMAL\n"
+        b << "\t\t\tvec3 normal${i} = "
+        b << "texture2D(m_Clouds${i}NormalMap, clouds${i}Coord).xyz;\n"
+        b << "\t\t\tnormal${i} = normal${i} * 2.0 - 1.0;\n"
+        b << "\t\t\tfloat relief${i} = clamp(0.90 + normal${i}.z "
+        b << "* 0.15, 0.75, 1.15);\n"
+        b << "\t\t\tclouds${i}.rgb *= relief${i};\n"
+        b << '\t\t#endif\n'
+        b << "                color = mixColors(color, clouds${i});\n"
+        b << '        #endif\n'
+    }
+}
+
+String mixColorsFunction() {
+    return '''
+vec4 mixColors(vec4 color0, vec4 color1) {
+        vec4 result;
+        float a0 = color0.a * (1.0 - color1.a);
+        result.a = a0 + color1.a;
+        if (result.a > 0.0) {
+                result.rgb = (a0 * color0.rgb + color1.a * color1.rgb)
+                        / result.a;
+        } else {
+                result.rgb = vec3(0.0);
+        }
+        return result;
+}
+'''
+}
+
+String generatedLine(String commentStyle) {
+    if (commentStyle == '//') {
+        return '// Generated by :SkyAssets:skyMaterials. Do not edit by hand.\n'
+    }
+    return '/* Generated by :SkyAssets:skyMaterials. Do not edit by hand. */\n\n'
+}

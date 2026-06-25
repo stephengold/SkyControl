@@ -8,9 +8,12 @@ plugins {
     alias(libs.plugins.download) // to retrieve files from URLs
 }
 
+apply from: file('skyMaterials.gradle')
+
 ext {
     bsc = 'src/main/resources/bsc5.dat'
     skies = '../SkyLibrary/src/main/resources/Textures/skies'
+    skyResources = '../SkyLibrary/src/main/resources'
 }
 
 sourceSets.main.java {
@@ -52,6 +55,10 @@ tasks.register('cleanDownload', Delete) {
     delete file("${bsc}.gz")
 }
 
+// Register tasks to generate generated sky material definitions/shaders:
+
+processResources.dependsOn('skyMaterials')
+
 // Register tasks to generate sky textures:
 
 tasks.register('skyTextures') {
@@ -61,7 +68,13 @@ tasks.register('skyTextures') {
     description = 'generate texture assets distributed with SkyControl'
 }
 tasks.register('cleanSkyTextures', Delete) {
-    delete fileTree(dir: skies)
+    delete file("$skies/clouds/clear.png")
+    delete file("$skies/clouds/fbm.png")
+    delete file("$skies/clouds/overcast.png")
+    delete fileTree(dir: "$skies/moon-nonviral")
+    delete fileTree(dir: "$skies/ramps")
+    delete fileTree(dir: "$skies/star-maps")
+    delete fileTree(dir: "$skies/suns")
 }
 
 tasks.register('clouds', JavaExec) {

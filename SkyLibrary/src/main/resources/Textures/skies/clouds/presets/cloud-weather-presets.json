@@ -1,0 +1,876 @@
+{
+  "schema": "dev.takesome.sky.cloudPresets.v1",
+  "purpose": "Resource-side database for cloud weather presets, DDS assets, generated dome profiles, and recovered settings preserved after material/shader autogen.",
+  "resourceRoot": "Textures/skies/clouds/presets",
+  "runtime": {
+    "transitionPolicy": "fade-out current layers, swap alpha/normal/scale/motion while invisible, fade-in target layers",
+    "defaultTransitionSeconds": 60.0,
+    "maxCloudLayers": 6,
+    "normalMapsAreOptional": true,
+    "normalMapFallback": "If normalMap is null or absent, shader uses legacy alpha-only cloud rendering."
+  },
+  "autogen": {
+    "gradleTask": ":SkyAssets:skyMaterials",
+    "source": "SkyAssets/skyMaterials.gradle",
+    "generatedFamilies": [
+      {
+        "name": "dome02",
+        "objects": 0,
+        "clouds": 2
+      },
+      {
+        "name": "dome06",
+        "objects": 0,
+        "clouds": 6
+      },
+      {
+        "name": "dome20",
+        "objects": 2,
+        "clouds": 0
+      },
+      {
+        "name": "dome22",
+        "objects": 2,
+        "clouds": 2
+      },
+      {
+        "name": "dome60",
+        "objects": 6,
+        "clouds": 0
+      },
+      {
+        "name": "dome66",
+        "objects": 6,
+        "clouds": 6
+      }
+    ],
+    "recoveredSettings": {
+      "materialParameters": [
+        "ClearColor",
+        "ClearGlow",
+        "TopCoord",
+        "StarsColorMap",
+        "HazeColor",
+        "HazeGlow",
+        "HazeAlphaMap"
+      ],
+      "objectParametersPerLayer": [
+        "ObjectNColor",
+        "ObjectNGlow",
+        "ObjectNColorMap",
+        "ObjectNCenter",
+        "ObjectNTransformU",
+        "ObjectNTransformV"
+      ],
+      "cloudParametersPerLayer": [
+        "CloudsNColor",
+        "CloudsNGlow",
+        "CloudsNScale",
+        "CloudsNAlphaMap",
+        "CloudsNNormalMap",
+        "CloudsNOffset"
+      ],
+      "shaderDefines": [
+        "HAS_STARS",
+        "HAS_OBJECTN",
+        "HAS_CLOUDSN",
+        "HAS_CLOUDSN_NORMAL",
+        "HAS_HAZE"
+      ],
+      "cloudUvContract": "cloudsNCoord = inTexCoord * m_CloudsNScale + m_CloudsNOffset",
+      "blendFunction": "premultiplied alpha-style mixColors(color0, color1) preserved from legacy dome shaders",
+      "normalRelief": "cloud.rgb *= clamp(0.90 + normal.z * 0.15, 0.75, 1.15)"
+    }
+  },
+  "managedPresets": {
+    "CLEAR": {
+      "description": "No visible clouds; uses the legacy clear PNG fallback.",
+      "layers": [
+        {
+          "alphaMap": "Textures/skies/clouds/clear.png",
+          "normalMap": null,
+          "opacity": 0.0,
+          "scale": 1.0,
+          "uRate": 0.0,
+          "vRate": 0.0
+        }
+      ]
+    },
+    "FAIR": {
+      "description": "Legacy procedural fair-weather setup using FBM PNG.",
+      "layers": [
+        {
+          "alphaMap": "Textures/skies/clouds/fbm.png",
+          "normalMap": null,
+          "opacity": 0.35,
+          "scale": 1.5,
+          "uRate": -0.0005,
+          "vRate": 0.003
+        },
+        {
+          "alphaMap": "Textures/skies/clouds/fbm.png",
+          "normalMap": null,
+          "opacity": 0.18,
+          "scale": 2.15,
+          "uRate": 0.0003,
+          "vRate": 0.001
+        }
+      ]
+    },
+    "OVERCAST": {
+      "description": "Legacy overcast fallback with broad opacity and FBM detail.",
+      "layers": [
+        {
+          "alphaMap": "Textures/skies/clouds/overcast.png",
+          "normalMap": null,
+          "opacity": 0.72,
+          "scale": 1.0,
+          "uRate": 0.0,
+          "vRate": 0.0003
+        },
+        {
+          "alphaMap": "Textures/skies/clouds/fbm.png",
+          "normalMap": null,
+          "opacity": 0.2,
+          "scale": 2.4,
+          "uRate": 0.0002,
+          "vRate": 0.001
+        }
+      ]
+    },
+    "WISPY": {
+      "description": "Thin high clouds with cirrocumulus plus wisps.",
+      "layers": [
+        {
+          "alphaMap": "Textures/skies/clouds/presets/wispy/skyhat_cirrocumulus01_ap.dds",
+          "normalMap": "Textures/skies/clouds/presets/wispy/skyhat_cirrocumulus01_nrm.dds",
+          "opacity": 0.28,
+          "scale": 1.3,
+          "uRate": 0.0001,
+          "vRate": 0.0012
+        },
+        {
+          "alphaMap": "Textures/skies/clouds/presets/wispy/wisps_ap.dds",
+          "normalMap": "Textures/skies/clouds/presets/wispy/wisps_nrm.dds",
+          "opacity": 0.16,
+          "scale": 2.2,
+          "uRate": -0.0002,
+          "vRate": 0.002
+        }
+      ]
+    },
+    "CLOUDY": {
+      "description": "Medium coverage with detail modulation.",
+      "layers": [
+        {
+          "alphaMap": "Textures/skies/clouds/presets/cloudy/trialap.dds",
+          "normalMap": "Textures/skies/clouds/presets/cloudy/trialn.dds",
+          "opacity": 0.52,
+          "scale": 1.2,
+          "uRate": -0.0003,
+          "vRate": 0.0018
+        },
+        {
+          "alphaMap": "Textures/skies/clouds/presets/cloudy/cloudhat_marble02_ap.dds",
+          "normalMap": "Textures/skies/clouds/presets/cloudy/detail1_nrm.dds",
+          "opacity": 0.22,
+          "scale": 3.0,
+          "uRate": 0.0004,
+          "vRate": 0.0024
+        }
+      ]
+    },
+    "RAIN": {
+      "description": "Rain clouds with cloudy base and fast moving detail layer.",
+      "layers": [
+        {
+          "alphaMap": "Textures/skies/clouds/presets/rain/skyhat_rain02_ap.dds",
+          "normalMap": "Textures/skies/clouds/presets/rain/skyhat_rain02_n2.dds",
+          "opacity": 0.68,
+          "scale": 1.1,
+          "uRate": -0.0003,
+          "vRate": 0.0026
+        },
+        {
+          "alphaMap": "Textures/skies/clouds/presets/cloudy/trialap.dds",
+          "normalMap": "Textures/skies/clouds/presets/cloudy/trialn.dds",
+          "opacity": 0.35,
+          "scale": 2.0,
+          "uRate": 0.0002,
+          "vRate": 0.0018
+        },
+        {
+          "alphaMap": "Textures/skies/clouds/presets/cloudy/cloudhat_marble02_ap.dds",
+          "normalMap": "Textures/skies/clouds/presets/cloudy/detail1_nrm.dds",
+          "opacity": 0.18,
+          "scale": 3.5,
+          "uRate": 0.0004,
+          "vRate": 0.003
+        }
+      ]
+    },
+    "STORM": {
+      "description": "Heavy storm front, rain veil, and high-frequency detail.",
+      "layers": [
+        {
+          "alphaMap": "Textures/skies/clouds/presets/storm/stormclouds_ap.dds",
+          "normalMap": "Textures/skies/clouds/presets/storm/stormclouds_nrm.dds",
+          "opacity": 0.85,
+          "scale": 1.0,
+          "uRate": -0.0004,
+          "vRate": 0.0032
+        },
+        {
+          "alphaMap": "Textures/skies/clouds/presets/storm/skyhat_rain02_ap.dds",
+          "normalMap": "Textures/skies/clouds/presets/storm/skyhat_rain02_n2.dds",
+          "opacity": 0.42,
+          "scale": 1.8,
+          "uRate": 0.0002,
+          "vRate": 0.0026
+        },
+        {
+          "alphaMap": "Textures/skies/clouds/presets/storm/cloudhat_marble02_ap.dds",
+          "normalMap": "Textures/skies/clouds/presets/storm/detail1_nrm.dds",
+          "opacity": 0.26,
+          "scale": 4.0,
+          "uRate": 0.0005,
+          "vRate": 0.0035
+        }
+      ]
+    },
+    "NIMBUS": {
+      "description": "Nimbus coverage with detail modulation.",
+      "layers": [
+        {
+          "alphaMap": "Textures/skies/clouds/presets/nimbus/final_nimbusclouds_ap.dds",
+          "normalMap": "Textures/skies/clouds/presets/nimbus/final_nimbusclouds_n.dds",
+          "opacity": 0.76,
+          "scale": 1.1,
+          "uRate": -0.0004,
+          "vRate": 0.002
+        },
+        {
+          "alphaMap": "Textures/skies/clouds/presets/nimbus/cloudhat_marble02_ap.dds",
+          "normalMap": "Textures/skies/clouds/presets/nimbus/detail1_nrm.dds",
+          "opacity": 0.22,
+          "scale": 3.5,
+          "uRate": 0.0003,
+          "vRate": 0.0024
+        }
+      ]
+    }
+  },
+  "rawBundles": [
+    {
+      "name": "alt_heavy",
+      "alphaMaps": [
+        "Textures/skies/clouds/presets/alt_heavy/cloudhat_marble02_ap.dds",
+        "Textures/skies/clouds/presets/alt_heavy/skyhat_raintop_ap.dds"
+      ],
+      "normalMaps": [
+        "Textures/skies/clouds/presets/alt_heavy/detail1_nrm.dds",
+        "Textures/skies/clouds/presets/alt_heavy/skyhat_raintop_n.dds"
+      ]
+    },
+    {
+      "name": "alt_light",
+      "alphaMaps": [
+        "Textures/skies/clouds/presets/alt_light/cloudhat_altitude_medium.dds",
+        "Textures/skies/clouds/presets/alt_light/cloudhat_marble02_ap.dds",
+        "Textures/skies/clouds/presets/alt_light/skyhat_cirrocumulus01_alt2.dds"
+      ],
+      "normalMaps": [
+        "Textures/skies/clouds/presets/alt_light/cloudhat_altitude_medium_n.dds",
+        "Textures/skies/clouds/presets/alt_light/detail1_nrm.dds",
+        "Textures/skies/clouds/presets/alt_light/skyhat_cirrocumulus01_alt_n.dds"
+      ]
+    },
+    {
+      "name": "alt_med",
+      "alphaMaps": [
+        "Textures/skies/clouds/presets/alt_med/cloudhat_altitude_medium.dds",
+        "Textures/skies/clouds/presets/alt_med/cloudhat_marble02_ap.dds"
+      ],
+      "normalMaps": [
+        "Textures/skies/clouds/presets/alt_med/cloudhat_altitude_medium_n.dds",
+        "Textures/skies/clouds/presets/alt_med/detail1_nrm.dds"
+      ]
+    },
+    {
+      "name": "cirrus",
+      "alphaMaps": [
+        "Textures/skies/clouds/presets/cirrus/cloudhat_cirrus_ap.dds"
+      ],
+      "normalMaps": [
+        "Textures/skies/clouds/presets/cirrus/cloudhat_cirrus_nrm.dds"
+      ]
+    },
+    {
+      "name": "clear",
+      "alphaMaps": [
+        "Textures/skies/clouds/presets/clear/cloudhat_marble02_ap.dds",
+        "Textures/skies/clouds/presets/clear/new_skyhat_clear01_bot_ap.dds"
+      ],
+      "normalMaps": [
+        "Textures/skies/clouds/presets/clear/detail1_nrm.dds",
+        "Textures/skies/clouds/presets/clear/new_skyhat_clear01_bot_nrm.dds"
+      ]
+    },
+    {
+      "name": "cloudy",
+      "alphaMaps": [
+        "Textures/skies/clouds/presets/cloudy/cloudhat_marble02_ap.dds",
+        "Textures/skies/clouds/presets/cloudy/trialap.dds"
+      ],
+      "normalMaps": [
+        "Textures/skies/clouds/presets/cloudy/detail1_nrm.dds",
+        "Textures/skies/clouds/presets/cloudy/trialn.dds"
+      ]
+    },
+    {
+      "name": "contrails",
+      "alphaMaps": [
+        "Textures/skies/clouds/presets/contrails/contrails_ap3.dds"
+      ],
+      "normalMaps": [
+        "Textures/skies/clouds/presets/contrails/contrails_nrm3.dds"
+      ]
+    },
+    {
+      "name": "horizon",
+      "alphaMaps": [
+        "Textures/skies/clouds/presets/horizon/cloudhat_marble02_ap.dds",
+        "Textures/skies/clouds/presets/horizon/stripeyclouds_ap.dds"
+      ],
+      "normalMaps": [
+        "Textures/skies/clouds/presets/horizon/detail1_nrm.dds",
+        "Textures/skies/clouds/presets/horizon/stripeyclouds_nrm.dds"
+      ]
+    },
+    {
+      "name": "nimbus",
+      "alphaMaps": [
+        "Textures/skies/clouds/presets/nimbus/cloudhat_marble02_ap.dds",
+        "Textures/skies/clouds/presets/nimbus/final_nimbusclouds_ap.dds"
+      ],
+      "normalMaps": [
+        "Textures/skies/clouds/presets/nimbus/detail1_nrm.dds",
+        "Textures/skies/clouds/presets/nimbus/final_nimbusclouds_n.dds"
+      ]
+    },
+    {
+      "name": "puffs",
+      "alphaMaps": [
+        "Textures/skies/clouds/presets/puffs/cloudhat_marble02_ap.dds",
+        "Textures/skies/clouds/presets/puffs/cloudhat_puffs_ap.dds"
+      ],
+      "normalMaps": [
+        "Textures/skies/clouds/presets/puffs/cloudhat_puffs_nrm.dds",
+        "Textures/skies/clouds/presets/puffs/detail1_nrm.dds"
+      ]
+    },
+    {
+      "name": "rain",
+      "alphaMaps": [
+        "Textures/skies/clouds/presets/rain/skyhat_rain02_ap.dds"
+      ],
+      "normalMaps": [
+        "Textures/skies/clouds/presets/rain/skyhat_rain02_n2.dds"
+      ]
+    },
+    {
+      "name": "showers",
+      "alphaMaps": [
+        "Textures/skies/clouds/presets/showers/skyhat_showers01_ap.dds"
+      ],
+      "normalMaps": [
+        "Textures/skies/clouds/presets/showers/skyhat_showers01_n.dds"
+      ]
+    },
+    {
+      "name": "storm",
+      "alphaMaps": [
+        "Textures/skies/clouds/presets/storm/cloudhat_marble02_ap.dds",
+        "Textures/skies/clouds/presets/storm/skyhat_rain02_ap.dds",
+        "Textures/skies/clouds/presets/storm/stormclouds_ap.dds"
+      ],
+      "normalMaps": [
+        "Textures/skies/clouds/presets/storm/detail1_nrm.dds",
+        "Textures/skies/clouds/presets/storm/skyhat_rain02_n2.dds",
+        "Textures/skies/clouds/presets/storm/stormclouds_nrm.dds"
+      ]
+    },
+    {
+      "name": "test",
+      "alphaMaps": [
+        "Textures/skies/clouds/presets/test/cloudhat_marble02_ap.dds",
+        "Textures/skies/clouds/presets/test/testwritting.dds"
+      ],
+      "normalMaps": [
+        "Textures/skies/clouds/presets/test/detail1_nrm.dds",
+        "Textures/skies/clouds/presets/test/testwritting_nrm.dds"
+      ]
+    },
+    {
+      "name": "wispy",
+      "alphaMaps": [
+        "Textures/skies/clouds/presets/wispy/skyhat_cirrocumulus01_ap.dds",
+        "Textures/skies/clouds/presets/wispy/wisps_ap.dds"
+      ],
+      "normalMaps": [
+        "Textures/skies/clouds/presets/wispy/skyhat_cirrocumulus01_nrm.dds",
+        "Textures/skies/clouds/presets/wispy/wisps_nrm.dds"
+      ]
+    }
+  ],
+  "inventory": [
+    {
+      "path": "Textures/skies/clouds/presets/alt_heavy/cloudhat_marble02_ap.dds",
+      "folder": "alt_heavy",
+      "file": "cloudhat_marble02_ap.dds",
+      "role": "alpha",
+      "bytes": 43816,
+      "sha256": "021a1ee4ce81336a794a3a01ca94a0fa5c1682c2d01d057d4452389be8c8b69b"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/alt_heavy/detail1_nrm.dds",
+      "folder": "alt_heavy",
+      "file": "detail1_nrm.dds",
+      "role": "normal",
+      "bytes": 2856,
+      "sha256": "d0254ef1fb973e7ce01eb0fdf49025d68725e0ac2eaf63234bbc2a8fa7873420"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/alt_heavy/skyhat_raintop_ap.dds",
+      "folder": "alt_heavy",
+      "file": "skyhat_raintop_ap.dds",
+      "role": "alpha",
+      "bytes": 699176,
+      "sha256": "c21feac428c8badd412dbed593098bebc60af63029d5c8dc44a5125499508a1e"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/alt_heavy/skyhat_raintop_n.dds",
+      "folder": "alt_heavy",
+      "file": "skyhat_raintop_n.dds",
+      "role": "normal",
+      "bytes": 1398224,
+      "sha256": "d2f6c8b0f7be07ca616d02128a6a1a6a34db61cde92c73f2a39819e837fcd7cc"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/alt_light/cloudhat_altitude_medium.dds",
+      "folder": "alt_light",
+      "file": "cloudhat_altitude_medium.dds",
+      "role": "alpha",
+      "bytes": 699176,
+      "sha256": "faebbdef3e10f79f6263f5fbf12adac69b15ad54de0c17a599cc7ae9f9855f19"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/alt_light/cloudhat_altitude_medium_n.dds",
+      "folder": "alt_light",
+      "file": "cloudhat_altitude_medium_n.dds",
+      "role": "normal",
+      "bytes": 1398224,
+      "sha256": "49505724446ee3aa4bfeee09f66d774f0a8f5807ce6786e564070ab35c82a90e"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/alt_light/cloudhat_marble02_ap.dds",
+      "folder": "alt_light",
+      "file": "cloudhat_marble02_ap.dds",
+      "role": "alpha",
+      "bytes": 43816,
+      "sha256": "021a1ee4ce81336a794a3a01ca94a0fa5c1682c2d01d057d4452389be8c8b69b"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/alt_light/detail1_nrm.dds",
+      "folder": "alt_light",
+      "file": "detail1_nrm.dds",
+      "role": "normal",
+      "bytes": 2856,
+      "sha256": "d0254ef1fb973e7ce01eb0fdf49025d68725e0ac2eaf63234bbc2a8fa7873420"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/alt_light/skyhat_cirrocumulus01_alt2.dds",
+      "folder": "alt_light",
+      "file": "skyhat_cirrocumulus01_alt2.dds",
+      "role": "alpha",
+      "bytes": 699176,
+      "sha256": "f2cbfd755fef940385b06c21126b1f83e9257ef5a325f0c5297b2d6dc3083e1a"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/alt_light/skyhat_cirrocumulus01_alt_n.dds",
+      "folder": "alt_light",
+      "file": "skyhat_cirrocumulus01_alt_n.dds",
+      "role": "normal",
+      "bytes": 1398224,
+      "sha256": "e47be0bfdaf67758f0a8981f48795a1d125ef14c0f59662b027577a250a3a7eb"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/alt_med/cloudhat_altitude_medium.dds",
+      "folder": "alt_med",
+      "file": "cloudhat_altitude_medium.dds",
+      "role": "alpha",
+      "bytes": 699176,
+      "sha256": "faebbdef3e10f79f6263f5fbf12adac69b15ad54de0c17a599cc7ae9f9855f19"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/alt_med/cloudhat_altitude_medium_n.dds",
+      "folder": "alt_med",
+      "file": "cloudhat_altitude_medium_n.dds",
+      "role": "normal",
+      "bytes": 1398224,
+      "sha256": "49505724446ee3aa4bfeee09f66d774f0a8f5807ce6786e564070ab35c82a90e"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/alt_med/cloudhat_marble02_ap.dds",
+      "folder": "alt_med",
+      "file": "cloudhat_marble02_ap.dds",
+      "role": "alpha",
+      "bytes": 43816,
+      "sha256": "021a1ee4ce81336a794a3a01ca94a0fa5c1682c2d01d057d4452389be8c8b69b"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/alt_med/detail1_nrm.dds",
+      "folder": "alt_med",
+      "file": "detail1_nrm.dds",
+      "role": "normal",
+      "bytes": 2856,
+      "sha256": "d0254ef1fb973e7ce01eb0fdf49025d68725e0ac2eaf63234bbc2a8fa7873420"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/cirrus/cloudhat_cirrus_ap.dds",
+      "folder": "cirrus",
+      "file": "cloudhat_cirrus_ap.dds",
+      "role": "alpha",
+      "bytes": 699176,
+      "sha256": "94132ddb03e0a587275f1bdd939f7b1da0473582199e5591d52649d56221c773"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/cirrus/cloudhat_cirrus_nrm.dds",
+      "folder": "cirrus",
+      "file": "cloudhat_cirrus_nrm.dds",
+      "role": "normal",
+      "bytes": 1398224,
+      "sha256": "184a100769a139275fe9606b05fe9cce8ff702cc371580bd4e5eb5091509330f"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/clear/cloudhat_marble02_ap.dds",
+      "folder": "clear",
+      "file": "cloudhat_marble02_ap.dds",
+      "role": "alpha",
+      "bytes": 43816,
+      "sha256": "021a1ee4ce81336a794a3a01ca94a0fa5c1682c2d01d057d4452389be8c8b69b"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/clear/detail1_nrm.dds",
+      "folder": "clear",
+      "file": "detail1_nrm.dds",
+      "role": "normal",
+      "bytes": 2856,
+      "sha256": "d0254ef1fb973e7ce01eb0fdf49025d68725e0ac2eaf63234bbc2a8fa7873420"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/clear/new_skyhat_clear01_bot_ap.dds",
+      "folder": "clear",
+      "file": "new_skyhat_clear01_bot_ap.dds",
+      "role": "alpha",
+      "bytes": 699168,
+      "sha256": "48d1582d5239fae2f894e8e2df428790cba89a4a710bc43c8dd18c4db637652d"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/clear/new_skyhat_clear01_bot_nrm.dds",
+      "folder": "clear",
+      "file": "new_skyhat_clear01_bot_nrm.dds",
+      "role": "normal",
+      "bytes": 1398208,
+      "sha256": "d79765e22aeeb9170873e0101938962ec55d73fb084ac7d3cfd498caa786cffc"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/cloudy/cloudhat_marble02_ap.dds",
+      "folder": "cloudy",
+      "file": "cloudhat_marble02_ap.dds",
+      "role": "alpha",
+      "bytes": 43816,
+      "sha256": "021a1ee4ce81336a794a3a01ca94a0fa5c1682c2d01d057d4452389be8c8b69b"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/cloudy/detail1_nrm.dds",
+      "folder": "cloudy",
+      "file": "detail1_nrm.dds",
+      "role": "normal",
+      "bytes": 2856,
+      "sha256": "d0254ef1fb973e7ce01eb0fdf49025d68725e0ac2eaf63234bbc2a8fa7873420"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/cloudy/trialap.dds",
+      "folder": "cloudy",
+      "file": "trialap.dds",
+      "role": "alpha",
+      "bytes": 699168,
+      "sha256": "f41873b5d7a8ad4fda526324d3f5e8aa36a28307da34fd6c97b8f59794a408fe"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/cloudy/trialn.dds",
+      "folder": "cloudy",
+      "file": "trialn.dds",
+      "role": "normal",
+      "bytes": 1398208,
+      "sha256": "a1653a298b96194a1e6d3924866cad9a1a0e66746c7fb34749cc14e4127ee88d"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/contrails/contrails_ap3.dds",
+      "folder": "contrails",
+      "file": "contrails_ap3.dds",
+      "role": "alpha",
+      "bytes": 174848,
+      "sha256": "20f8d0d8375dcf850e2b8f41f961e964d9dff6db2ac49d8f69d49204654e06ad"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/contrails/contrails_nrm3.dds",
+      "folder": "contrails",
+      "file": "contrails_nrm3.dds",
+      "role": "normal",
+      "bytes": 174848,
+      "sha256": "37fc7a673b4fd00e31b25b1af426ab69a8edc97ae9a2b20f2f22bdafeb0c32a7"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/horizon/cloudhat_marble02_ap.dds",
+      "folder": "horizon",
+      "file": "cloudhat_marble02_ap.dds",
+      "role": "alpha",
+      "bytes": 43816,
+      "sha256": "021a1ee4ce81336a794a3a01ca94a0fa5c1682c2d01d057d4452389be8c8b69b"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/horizon/detail1_nrm.dds",
+      "folder": "horizon",
+      "file": "detail1_nrm.dds",
+      "role": "normal",
+      "bytes": 2856,
+      "sha256": "d0254ef1fb973e7ce01eb0fdf49025d68725e0ac2eaf63234bbc2a8fa7873420"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/horizon/stripeyclouds_ap.dds",
+      "folder": "horizon",
+      "file": "stripeyclouds_ap.dds",
+      "role": "alpha",
+      "bytes": 349648,
+      "sha256": "58e1431115e4b06676af864876114d24b6d84ec5ae0d5f04c16a6a5d92273c31"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/horizon/stripeyclouds_nrm.dds",
+      "folder": "horizon",
+      "file": "stripeyclouds_nrm.dds",
+      "role": "normal",
+      "bytes": 699168,
+      "sha256": "2c980896f6dff8fb469b20d37a3a39c5c4482f6822b1f97b5a000c6778f104fc"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/nimbus/cloudhat_marble02_ap.dds",
+      "folder": "nimbus",
+      "file": "cloudhat_marble02_ap.dds",
+      "role": "alpha",
+      "bytes": 43816,
+      "sha256": "021a1ee4ce81336a794a3a01ca94a0fa5c1682c2d01d057d4452389be8c8b69b"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/nimbus/detail1_nrm.dds",
+      "folder": "nimbus",
+      "file": "detail1_nrm.dds",
+      "role": "normal",
+      "bytes": 2856,
+      "sha256": "d0254ef1fb973e7ce01eb0fdf49025d68725e0ac2eaf63234bbc2a8fa7873420"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/nimbus/final_nimbusclouds_ap.dds",
+      "folder": "nimbus",
+      "file": "final_nimbusclouds_ap.dds",
+      "role": "alpha",
+      "bytes": 699168,
+      "sha256": "8a1f9d840ed720b73886ef63ad089833604e342ee31e26471a545a01c569c98d"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/nimbus/final_nimbusclouds_n.dds",
+      "folder": "nimbus",
+      "file": "final_nimbusclouds_n.dds",
+      "role": "normal",
+      "bytes": 1398208,
+      "sha256": "672c343c91b3b35d27b9572203988a1f76681c03b3581ce05e2c80704c446368"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/puffs/cloudhat_marble02_ap.dds",
+      "folder": "puffs",
+      "file": "cloudhat_marble02_ap.dds",
+      "role": "alpha",
+      "bytes": 43816,
+      "sha256": "021a1ee4ce81336a794a3a01ca94a0fa5c1682c2d01d057d4452389be8c8b69b"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/puffs/cloudhat_puffs_ap.dds",
+      "folder": "puffs",
+      "file": "cloudhat_puffs_ap.dds",
+      "role": "alpha",
+      "bytes": 699168,
+      "sha256": "473db38c19d1558136837bb67d1d338a950e57c942368d5fd01ec7c6c9198702"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/puffs/cloudhat_puffs_nrm.dds",
+      "folder": "puffs",
+      "file": "cloudhat_puffs_nrm.dds",
+      "role": "normal",
+      "bytes": 1398208,
+      "sha256": "1be16cbc09b39d785cc5e7761dd618d12728f0a91a31b2664173f23fa95a97d0"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/puffs/detail1_nrm.dds",
+      "folder": "puffs",
+      "file": "detail1_nrm.dds",
+      "role": "normal",
+      "bytes": 2856,
+      "sha256": "d0254ef1fb973e7ce01eb0fdf49025d68725e0ac2eaf63234bbc2a8fa7873420"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/rain/skyhat_rain02_ap.dds",
+      "folder": "rain",
+      "file": "skyhat_rain02_ap.dds",
+      "role": "alpha",
+      "bytes": 699176,
+      "sha256": "aee1e60ec83fcc0e7b22bbfb8b6157df158de87f4066dc31b4e44cdf5ec902bd"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/rain/skyhat_rain02_n2.dds",
+      "folder": "rain",
+      "file": "skyhat_rain02_n2.dds",
+      "role": "normal",
+      "bytes": 1398224,
+      "sha256": "48804ee4651e8d11852e036e3614ec2a616d31f26bb3f1537a6211ee40f5ce15"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/showers/skyhat_showers01_ap.dds",
+      "folder": "showers",
+      "file": "skyhat_showers01_ap.dds",
+      "role": "alpha",
+      "bytes": 699176,
+      "sha256": "97c87ac12fe799f1b315f489d20f6dd0c8602b13aa6fb90f7aaf4a9541d28cb3"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/showers/skyhat_showers01_n.dds",
+      "folder": "showers",
+      "file": "skyhat_showers01_n.dds",
+      "role": "normal",
+      "bytes": 1398224,
+      "sha256": "53e7349d110f7432c903e1344717190853648dacb25053b26fb17a7c158422b9"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/storm/cloudhat_marble02_ap.dds",
+      "folder": "storm",
+      "file": "cloudhat_marble02_ap.dds",
+      "role": "alpha",
+      "bytes": 43816,
+      "sha256": "021a1ee4ce81336a794a3a01ca94a0fa5c1682c2d01d057d4452389be8c8b69b"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/storm/detail1_nrm.dds",
+      "folder": "storm",
+      "file": "detail1_nrm.dds",
+      "role": "normal",
+      "bytes": 2856,
+      "sha256": "d0254ef1fb973e7ce01eb0fdf49025d68725e0ac2eaf63234bbc2a8fa7873420"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/storm/skyhat_rain02_ap.dds",
+      "folder": "storm",
+      "file": "skyhat_rain02_ap.dds",
+      "role": "alpha",
+      "bytes": 699176,
+      "sha256": "aee1e60ec83fcc0e7b22bbfb8b6157df158de87f4066dc31b4e44cdf5ec902bd"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/storm/skyhat_rain02_n2.dds",
+      "folder": "storm",
+      "file": "skyhat_rain02_n2.dds",
+      "role": "normal",
+      "bytes": 1398224,
+      "sha256": "48804ee4651e8d11852e036e3614ec2a616d31f26bb3f1537a6211ee40f5ce15"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/storm/stormclouds_ap.dds",
+      "folder": "storm",
+      "file": "stormclouds_ap.dds",
+      "role": "alpha",
+      "bytes": 349648,
+      "sha256": "8abd5f25928639f353bfe229824ef174d6fa1f279b6d8d96255c19a581f3d0ba"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/storm/stormclouds_nrm.dds",
+      "folder": "storm",
+      "file": "stormclouds_nrm.dds",
+      "role": "normal",
+      "bytes": 699168,
+      "sha256": "d4e5a6e8bf94b6c0fdd86cee5825464d5903a6d6341c7467b9280491791d4481"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/test/cloudhat_marble02_ap.dds",
+      "folder": "test",
+      "file": "cloudhat_marble02_ap.dds",
+      "role": "alpha",
+      "bytes": 43816,
+      "sha256": "021a1ee4ce81336a794a3a01ca94a0fa5c1682c2d01d057d4452389be8c8b69b"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/test/detail1_nrm.dds",
+      "folder": "test",
+      "file": "detail1_nrm.dds",
+      "role": "normal",
+      "bytes": 2856,
+      "sha256": "d0254ef1fb973e7ce01eb0fdf49025d68725e0ac2eaf63234bbc2a8fa7873420"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/test/testwritting.dds",
+      "folder": "test",
+      "file": "testwritting.dds",
+      "role": "alpha",
+      "bytes": 699176,
+      "sha256": "9163f5d4452f25103ea36c7be0c01bfb14a0bc1b3cc1ebbad61a7c8909c06cb2"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/test/testwritting_nrm.dds",
+      "folder": "test",
+      "file": "testwritting_nrm.dds",
+      "role": "normal",
+      "bytes": 699176,
+      "sha256": "dc26882e1b8278c88e1a87f867170714ad957593c9181fe458453c2ebf6be712"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/wispy/skyhat_cirrocumulus01_ap.dds",
+      "folder": "wispy",
+      "file": "skyhat_cirrocumulus01_ap.dds",
+      "role": "alpha",
+      "bytes": 699176,
+      "sha256": "16a75cfc8ca6d19d37a6ccc29306c4f115b3af352487b687edd664fd7f56d345"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/wispy/skyhat_cirrocumulus01_nrm.dds",
+      "folder": "wispy",
+      "file": "skyhat_cirrocumulus01_nrm.dds",
+      "role": "normal",
+      "bytes": 1398224,
+      "sha256": "1a54736790a2368b86e524495cb3ba782bc979359a3f127a2615e6f862a58473"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/wispy/wisps_ap.dds",
+      "folder": "wispy",
+      "file": "wisps_ap.dds",
+      "role": "alpha",
+      "bytes": 349648,
+      "sha256": "63a916cb97004f1a47a5d806648d5777b1b61d81ac3cb9ccfc4c7b196e744965"
+    },
+    {
+      "path": "Textures/skies/clouds/presets/wispy/wisps_nrm.dds",
+      "folder": "wispy",
+      "file": "wisps_nrm.dds",
+      "role": "normal",
+      "bytes": 699168,
+      "sha256": "35e556144cd0e3f38f9fe5f54007c146d91760b441d719570359a3ab70c77729"
+    }
+  ]
+}

@@ -54,6 +54,24 @@ Some helper classes remain package-private in `jme3utilities.sky` when moving
 those classes would force us to expose constructors or state that should stay
 encapsulated. Public compatibility is preferred over cosmetic directory moves.
 
+## Cloud weather and generated sky materials
+
+Version `1.1.0` adds data-driven cloud weather presets, generated sky material definitions, and DDS cloud resources.
+
+- `SkyCloudPreset` provides `CLEAR`, `FAIR`, `OVERCAST`, `WISPY`, `CLOUDY`, `RAIN`, `STORM`, and `NIMBUS`.
+- `SkyControl.setCloudPreset(preset, seconds)` changes weather by fading current layers out, swapping alpha/normal/scale/motion while invisible, and fading target layers in.
+- DDS resources live under `SkyLibrary/src/main/resources/Textures/skies/clouds/presets`.
+- `cloud-weather-presets.json` records managed presets, raw bundles, DDS inventory, SHA-256 values, transition policy, and generated material/shader settings.
+- `:SkyAssets:skyMaterials` generates `dome02`, `dome06`, `dome20`, `dome22`, `dome60`, and `dome66` MatDefs and GLSL shaders.
+- BC5/ATI2 DDS normal maps are supported through the first-party fallback loader and are mapped to `Image.Format.RGTC2`.
+
+Visual smoke test:
+
+```bat
+gradlew.bat :SkyExamples:SkyCloudWeatherSmoke
+```
+
+
 ## Package
 
 ### Release package
@@ -71,7 +89,7 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.takesome:sky-simulation:1.0.0")
+    implementation("dev.takesome:sky-simulation:1.1.0")
 }
 ```
 
@@ -92,7 +110,7 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.takesome:sky-simulation:1.0.0-SNAPSHOT")
+    implementation("dev.takesome:sky-simulation:1.1.0-SNAPSHOT")
 }
 ```
 
@@ -114,7 +132,7 @@ gradlew.bat packageLocal
 Build release artifacts locally:
 
 ```bat
-gradlew.bat :SkyLibrary:assemble -PskySimulationVersion=1.0.0
+gradlew.bat :SkyLibrary:assemble -PskySimulationVersion=1.1.0
 ```
 
 Artifacts are generated in:
@@ -128,8 +146,8 @@ SkyLibrary/build/libs
 A GitHub release is produced by pushing a version tag:
 
 ```bat
-git tag -a v1.0.0 -m "SkySimulation v1.0.0"
-git push origin v1.0.0
+git tag -a v1.1.0 -m "SkySimulation v1.1.0"
+git push origin v1.1.0
 ```
 
 The release workflow publishes the Maven package to GitHub Packages and attaches the JAR, sources, Javadoc, POM, and Gradle module metadata to the GitHub Release.
@@ -148,6 +166,10 @@ The release workflow publishes the Maven package to GitHub Packages and attaches
 - `clearMoonTexture()` for returning to phase-preset moon textures.
 - GitHub Packages publishing under `dev.takesome:sky-simulation`.
 - Release workflow for GitHub Releases.
+- `SkyCloudPreset` weather presets with gradual transitions.
+- DDS cloud preset resources plus `cloud-weather-presets.json` registry.
+- Generated sky MatDefs/GLSL via `:SkyAssets:skyMaterials`.
+- BC5/ATI2 DDS normal-map fallback loader for cloud normals.
 
 ## Attribution
 

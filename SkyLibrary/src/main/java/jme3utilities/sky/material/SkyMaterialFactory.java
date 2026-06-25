@@ -23,19 +23,22 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jme3utilities.sky;
+package jme3utilities.sky.material;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import jme3utilities.MyAsset;
+import jme3utilities.sky.SkyControlCore;
+import jme3utilities.sky.SkyMaterial;
+import jme3utilities.sky.StarsOption;
 
 /**
  * Factory for sky materials and cloud-layer runtime objects.
  *
  * @author Take Some
  */
-final class SkyMaterialFactory {
+public final class SkyMaterialFactory {
     /**
      * Hidden constructor.
      */
@@ -50,7 +53,8 @@ final class SkyMaterialFactory {
      * @param enabled true to create a material, otherwise false
      * @return material, or null when disabled
      */
-    static Material createBottom(AssetManager assetManager, boolean enabled) {
+    public static Material createBottom(AssetManager assetManager,
+            boolean enabled) {
         Material result = enabled
                 ? MyAsset.createUnshadedMaterial(assetManager) : null;
         return result;
@@ -64,7 +68,7 @@ final class SkyMaterialFactory {
      * @param topMaterial initialized top material (not null)
      * @return initialized cloud material (not null)
      */
-    static SkyMaterial createClouds(AssetManager assetManager,
+    public static SkyMaterial createClouds(AssetManager assetManager,
             boolean separateDome, SkyMaterial topMaterial) {
         SkyMaterial result;
         if (separateDome) {
@@ -82,21 +86,6 @@ final class SkyMaterialFactory {
     }
 
     /**
-     * Create cloud-layer runtime objects.
-     *
-     * @param material cloud material (not null)
-     * @return new cloud-layer array
-     */
-    static CloudLayer[] createLayers(SkyMaterial material) {
-        CloudLayer[] result = new CloudLayer[SkyControlCore.numCloudLayers];
-        for (int layer = 0; layer < SkyControlCore.numCloudLayers; ++layer) {
-            result[layer] = new CloudLayer(material, layer);
-        }
-
-        return result;
-    }
-
-    /**
      * Create and initialize the top sky material.
      *
      * @param assetManager asset manager (not null)
@@ -104,7 +93,7 @@ final class SkyMaterialFactory {
      * @param starsOption star rendering option (not null)
      * @return initialized top material (not null)
      */
-    static SkyMaterial createTop(AssetManager assetManager,
+    public static SkyMaterial createTop(AssetManager assetManager,
             boolean separateCloudDome, StarsOption starsOption) {
         int topObjects = 2;
         int topClouds = separateCloudDome ? 0 : SkyControlCore.numCloudLayers;

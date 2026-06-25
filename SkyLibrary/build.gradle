@@ -18,7 +18,7 @@ ext {
     websiteUrl = 'https://github.com/Take-Some/SkySimulation'
 }
 
-processResources.dependsOn(':SkyAssets:skyTextures')
+processResources.dependsOn(':SkyAssets:skyTextures', ':SkyAssets:skyMaterials')
 
 dependencies {
     api(libs.jme3.effects)

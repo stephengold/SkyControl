@@ -119,3 +119,7 @@ tasks.register('TestSkyControlWater', JavaExec) {
 tasks.register('TestSkyMaterial', JavaExec) {
     mainClass = 'jme3utilities.sky.test.TestSkyMaterial'
 }
+
+tasks.register('SkyCloudWeatherSmoke', JavaExec) {
+    mainClass = 'jme3utilities.sky.test.SkyCloudWeatherSmoke'
+}

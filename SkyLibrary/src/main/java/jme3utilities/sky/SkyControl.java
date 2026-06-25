@@ -26,7 +26,6 @@
 package jme3utilities.sky;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.asset.AssetNotFoundException;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -37,7 +36,6 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.texture.Texture;
 import com.jme3.util.clone.Cloner;
@@ -46,9 +44,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyColor;
-import jme3utilities.math.MyMath;
 import jme3utilities.mesh.DomeMesh;
-import jme3utilities.sky.atmosphere.SkyLightingModel;
+import jme3utilities.sky.control.SkyBaseColorRuntime;
+import jme3utilities.sky.control.SkyCloudTransmissionRuntime;
+import jme3utilities.sky.control.SkyLightSelectionRuntime;
+import jme3utilities.sky.control.SkyLightingOutputRuntime;
+import jme3utilities.sky.control.SkyMoonRuntime;
+import jme3utilities.sky.control.SkyObjectLightingRuntime;
 
 /**
  * Simple control to simulate a dynamic sky using assets and techniques derived
@@ -288,11 +290,10 @@ public class SkyControl extends SkyControlCore {
      * storeResult or a new vector)
      */
     public Vector3f moonDirection(Vector3f storeResult) {
-        float solarLongitude = sunAndStars.getSolarLongitude();
-        float celestialLongitude = solarLongitude + longitudeDifference;
-        celestialLongitude = MyMath.modulo(celestialLongitude, FastMath.TWO_PI);
-        Vector3f result = sunAndStars.convertToWorld(
-                lunarLatitude, celestialLongitude, storeResult);
+        float longitudeDifference = moonLongitudeDifference();
+        float lunarLatitude = moonLatitude();
+        Vector3f result = SkyMoonRuntime.direction(sunAndStars,
+                longitudeDifference, lunarLatitude, storeResult);
 
         return result;
     }
@@ -399,7 +400,7 @@ public class SkyControl extends SkyControlCore {
      */
     final public void setPhase(LunarPhase newPreset) {
         if (newPreset == LunarPhase.CUSTOM) {
-            setPhase(longitudeDifference, lunarLatitude);
+            setPhase(moonLongitudeDifference(), moonLatitude());
             return;
         }
 
@@ -408,16 +409,11 @@ public class SkyControl extends SkyControlCore {
         }
         this.phase = newPreset;
         if (newPreset != null) {
-            this.longitudeDifference = newPreset.longitudeDifference();
+            setMoonLongDiff(newPreset.longitudeDifference());
             if (!applyMoonTexture()) {
                 SkyMaterial topMaterial = getTopMaterial();
-                String assetPath = newPreset.imagePath("");
-                try {
-                    topMaterial.addObject(moonIndex, assetPath);
-                } catch (AssetNotFoundException exception) {
-                    assetPath = newPreset.imagePath("-nonviral");
-                    topMaterial.addObject(moonIndex, assetPath);
-                }
+                SkyMoonRuntime.applyPresetTexture(
+                        topMaterial, moonIndex, newPreset);
             }
         }
     }
@@ -439,8 +435,7 @@ public class SkyControl extends SkyControlCore {
 
         moonRenderer.setEnabled(true);
         this.phase = LunarPhase.CUSTOM;
-        this.longitudeDifference = longitudeDifference;
-        this.lunarLatitude = lunarLatitude;
+        setCelestialPhase(longitudeDifference, lunarLatitude);
         this.moonAssetPath = null;
         this.moonColorMap = null;
 
@@ -536,9 +531,7 @@ public class SkyControl extends SkyControlCore {
             }
         }
         cloudsColor.multLocal(brightness);
-        for (int layer = 0; layer < numCloudLayers; ++layer) {
-            cloudLayers[layer].setColor(cloudsColor);
-        }
+        setCloudLayersColor(cloudsColor);
 
         return cloudsColor;
     }
@@ -648,129 +641,9 @@ public class SkyControl extends SkyControlCore {
      */
     private boolean applyMoonTexture() {
         SkyMaterial topMaterial = getTopMaterial();
-        if (moonColorMap != null) {
-            topMaterial.addObject(moonIndex, moonColorMap);
-            return true;
-        } else if (moonAssetPath != null) {
-            topMaterial.addObject(moonIndex, moonAssetPath);
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Compute where mainDirection intersects the cloud dome in the dome's local
-     * coordinates, accounting for the dome's flattening and vertical offset.
-     *
-     * @param mainDirection (unit vector with non-negative y-component)
-     * @return new unit vector
-     */
-    private Vector3f intersectCloudDome(Vector3f mainDirection) {
-        assert mainDirection != null;
-        assert mainDirection.isUnitVector() : mainDirection;
-        assert mainDirection.y >= 0f : mainDirection;
-
-        double cosSquared
-                = MyMath.sumOfSquares(mainDirection.x, mainDirection.z);
-        if (cosSquared == 0.0) {
-            // Special case when the main light is directly overhead.
-            return new Vector3f(0f, 1f, 0f);
-        }
-
-        float deltaY;
-        float semiMinorAxis;
-        Geometry cloudsOnlyDome = getCloudsOnlyDome();
-        if (cloudsOnlyDome == null) {
-            deltaY = 0f;
-            semiMinorAxis = 1f;
-        } else {
-            Vector3f offset = cloudsOnlyDome.getLocalTranslation();
-            assert offset.x == 0f : offset;
-            assert offset.y <= 0f : offset;
-            assert offset.z == 0f : offset;
-            deltaY = offset.y;
-
-            Vector3f scale = cloudsOnlyDome.getLocalScale();
-            assert scale.x == 1f : scale;
-            assert scale.y > 0f : scale;
-            assert scale.z == 1f : scale;
-            semiMinorAxis = scale.y;
-        }
-        /*
-         * Solve for the most positive root of a quadratic equation
-         * in w = sqrt(x^2 + z^2).  Use double precision arithmetic.
-         */
-        double cosAltitude = Math.sqrt(cosSquared);
-        double tanAltitude = mainDirection.y / cosAltitude;
-        double smaSquared = semiMinorAxis * semiMinorAxis;
-        double a = tanAltitude * tanAltitude + smaSquared;
-        assert a > 0.0 : a;
-        double b = -2.0 * deltaY * tanAltitude;
-        double c = deltaY * deltaY - smaSquared;
-        double discriminant = MyMath.discriminant(a, b, c);
-        assert discriminant >= 0.0 : discriminant;
-        double w = (-b + Math.sqrt(discriminant)) / (2.0 * a);
-
-        double distance = w / cosAltitude;
-        if (distance > 1.0) { // Squash rounding errors.
-            distance = 1.0;
-        }
-        float x = (float) (mainDirection.x * distance);
-        float y = (float) MyMath.circle(w);
-        float z = (float) (mainDirection.z * distance);
-        Vector3f result = new Vector3f(x, y, z);
-
-        assert result.isUnitVector() : result;
+        boolean result = SkyMoonRuntime.applyTexture(
+                topMaterial, moonIndex, moonAssetPath, moonColorMap);
         return result;
-    }
-
-    /**
-     * Compute the clockwise (left-handed) rotation of the moon's texture
-     * relative to the sky's texture.
-     *
-     * @param longitude the moon's celestial longitude (in radians east of the
-     * March equinox)
-     * @param uvCenter texture coordinates of the moon's center (not null)
-     * @return new unit vector with its x-component equal to the cosine of the
-     * rotation angle and its y-component equal to the sine of the rotation
-     * angle
-     */
-    private Vector2f lunarRotation(float longitude, Vector2f uvCenter) {
-        assert uvCenter != null;
-        /*
-         * Compute UV coordinates for 0.01 radians north of the center
-         * of the moon.
-         */
-        DomeMesh topMesh = getTopMesh();
-        float latitude = lunarLatitude + 0.01f;
-        if (latitude <= FastMath.HALF_PI) {
-            Vector3f north
-                    = sunAndStars.convertToWorld(latitude, longitude, null);
-            Vector2f uvNorth = topMesh.directionUV(north);
-            if (uvNorth != null) {
-                Vector2f offset = uvNorth.subtract(uvCenter);
-                assert offset.length() > 0f : offset;
-                Vector2f result = offset.normalize();
-                return result;
-            }
-        }
-        /*
-         * Compute UV coordinates for 0.01 radians south of the center
-         * of the moon.
-         */
-        latitude = lunarLatitude - 0.01f;
-        assert latitude >= -FastMath.HALF_PI : lunarLatitude;
-        Vector3f south = sunAndStars.convertToWorld(latitude, longitude, null);
-        Vector2f uvSouth = topMesh.directionUV(south);
-        if (uvSouth != null) {
-            Vector2f offset = uvCenter.subtract(uvSouth);
-            assert offset.length() > 0f : offset;
-            Vector2f result = offset.normalize();
-            return result;
-        }
-        assert false : south;
-        return null;
     }
 
     /**
@@ -806,73 +679,28 @@ public class SkyControl extends SkyControlCore {
      * @param moonDirection world direction to the moon (length=1 or null)
      */
     private void updateLighting(Vector3f sunDirection, Vector3f moonDirection) {
-        assert sunDirection != null;
-        assert sunDirection.isUnitVector() : sunDirection;
-        if (moonDirection != null) {
-            assert moonDirection.isUnitVector() : moonDirection;
-        }
-
-        float sineSolarAltitude = sunDirection.y;
-        float sineLunarAltitude;
-        if (moonDirection != null) {
-            sineLunarAltitude = moonDirection.y;
-        } else {
-            sineLunarAltitude = -1f;
-        }
-        updateObjectColors(sineSolarAltitude, sineLunarAltitude);
-
-        // Determine the world direction to the main light source.
-        boolean moonUp = sineLunarAltitude >= 0f;
-        boolean sunUp = sineSolarAltitude >= 0f;
         float moonWeight = getMoonIllumination();
-        Vector3f mainDirection;
-        if (sunUp) {
-            mainDirection = sunDirection;
-        } else if (moonUp && moonWeight > 0f) {
-            assert moonDirection != null;
-            mainDirection = moonDirection;
-        } else {
-            mainDirection = starlightDirection;
-        }
-        assert mainDirection.isUnitVector() : mainDirection;
-        assert mainDirection.y >= 0f : mainDirection;
+        SkyLightSelectionRuntime.Result lightSelection
+                = SkyLightSelectionRuntime.select(
+                        sunDirection, moonDirection, moonWeight,
+                        starlightDirection);
+        float sineSolarAltitude = lightSelection.sineSolarAltitude();
+        float sineLunarAltitude = lightSelection.sineLunarAltitude();
+        boolean moonUp = lightSelection.moonUp();
+        boolean sunUp = lightSelection.sunUp();
+        Vector3f mainDirection = lightSelection.mainDirection();
+
+        SkyMaterial topMaterial = getTopMaterial();
+        SkyObjectLightingRuntime.updateObjects(
+                topMaterial, atmosphere, sineSolarAltitude, sineLunarAltitude);
         /*
          * Determine the base color (applied to horizon haze, bottom dome, and
-         * viewport backgrounds) using the sun's altitude:
-         *  + sunlight when ssa >= 0.25,
-         *  + twilight when ssa = 0,
-         *  + blend of moonlight and starlight when ssa <= -0.04,
-         * with linearly interpolated transitions.
+         * viewport backgrounds) using the sun's altitude.
          */
-        ColorRGBA twilightColor = atmosphere.copyTwilightColor(null);
-        ColorRGBA sunColor = SkyLightingModel.daylightColor(
-                atmosphere, sineSolarAltitude);
-        ColorRGBA moonColor = atmosphere.copyMoonLight(null);
-        ColorRGBA starColor = atmosphere.copyStarLight(null);
-        ColorRGBA baseColor;
-        if (sunUp) {
-            float dayWeight = SkyLightingModel.smoothStep(
-                    sineSolarAltitude / atmosphere.getFullDayAltitude());
-            baseColor = MyColor.interpolateLinear(
-                    dayWeight, twilightColor, sunColor);
-            float hazeWeight = atmosphere.getHazeStrength()
-                    * (1f - dayWeight) * 0.5f;
-            baseColor = MyColor.interpolateLinear(
-                    hazeWeight, baseColor, twilightColor);
-        } else {
-            ColorRGBA blend;
-            if (moonUp && moonWeight > 0f) {
-                blend = MyColor.interpolateLinear(
-                        moonWeight, starColor, moonColor);
-            } else {
-                blend = starColor;
-            }
-            float nightWeight = SkyLightingModel.smoothStep(
-                    -sineSolarAltitude / atmosphere.getTwilightLimit());
-            baseColor = MyColor.interpolateLinear(
-                    nightWeight, twilightColor, blend);
-        }
-        SkyMaterial topMaterial = getTopMaterial();
+        SkyBaseColorRuntime.Result baseResult
+                = SkyBaseColorRuntime.compute(
+                        atmosphere, sineSolarAltitude, moonUp, moonWeight);
+        ColorRGBA baseColor = baseResult.baseColor();
         topMaterial.setHazeColor(baseColor);
         Material bottomMaterial = getBottomMaterial();
         if (bottomMaterial != null) {
@@ -881,71 +709,27 @@ public class SkyControl extends SkyControlCore {
 
         ColorRGBA cloudsColor = updateCloudsColor(baseColor, sunUp, moonUp);
 
-        // Determine what fraction of the main light passes through the clouds.
-        float transmit;
-        if (cloudModulationFlag && (sunUp || moonUp && moonWeight > 0f)) {
-            // Modulate light intensity as clouds pass in front.
-            Vector3f intersection = intersectCloudDome(mainDirection);
-            DomeMesh cloudsMesh = getCloudsMesh();
-            Vector2f texCoord = cloudsMesh.directionUV(intersection);
-            SkyMaterial cloudsMaterial = getCloudsMaterial();
-            transmit = cloudsMaterial.getTransmission(texCoord);
+        SkyCloudTransmissionRuntime.Input transmissionInput
+                = new SkyCloudTransmissionRuntime.Input(
+                        cloudModulationFlag, sunUp, moonUp, moonWeight,
+                        mainDirection);
+        SkyCloudTransmissionRuntime.Resources transmissionResources
+                = new SkyCloudTransmissionRuntime.Resources(
+                        getCloudsOnlyDome(), getCloudsMesh(),
+                        getCloudsMaterial());
+        float transmit = SkyCloudTransmissionRuntime.transmission(
+                transmissionInput, transmissionResources);
 
-        } else {
-            transmit = 1f;
-        }
-
-        // Determine the color and intensity of the main light.
-        ColorRGBA main;
-        if (sunUp) {
-            /*
-             * By day, the main light has the base color, modulated by
-             * clouds and the cube root of the sine of the sun's altitude.
-             */
-            float altitudeFactor = MyMath.cubeRoot(
-                    FastMath.saturate(sineSolarAltitude));
-            float sunFactor = transmit * altitudeFactor;
-            main = sunColor.mult(sunFactor);
-
-        } else if (moonUp) {
-            /*
-             * By night, the main light is a blend of moonlight and starlight,
-             * with the moon's portion modulated by clouds and the moon's phase.
-             */
-            float lunarAltitudeFactor = MyMath.cubeRoot(
-                    FastMath.saturate(sineLunarAltitude));
-            float moonFactor = transmit * moonWeight * lunarAltitudeFactor;
-            main = MyColor.interpolateLinear(moonFactor, starColor, moonColor);
-
-        } else {
-            main = starColor.clone();
-        }
-        /*
-         * The ambient light color is based on the clouds color;
-         * its intensity is modulated by the "slack" left by
-         * strongest component of the main light.
-         */
-        float slack = 1f - MyMath.max(main.r, main.g, main.b);
-        assert slack >= 0f : slack;
-        ColorRGBA ambient = cloudsColor.mult(
-                slack * atmosphere.getAmbientScale());
-        /*
-         * Compute the recommended shadow intensity as the fraction of
-         * the total directional light.
-         */
-        float mainAmount = main.r + main.g + main.b;
-        float ambientAmount = ambient.r + ambient.g + ambient.b;
-        float totalAmount = mainAmount + ambientAmount;
-        assert totalAmount > 0f : totalAmount;
-        float shadowIntensity = FastMath.saturate(mainAmount / totalAmount);
-        shadowIntensity = FastMath.saturate(
-                shadowIntensity * atmosphere.getShadowContrast());
-
-        // Determine the recommended bloom intensity using the sun's altitude.
-        float bloomIntensity = 6f * atmosphere.getBloomScale()
-                * sineSolarAltitude;
-        bloomIntensity = FastMath.clamp(
-                bloomIntensity, 0f, atmosphere.getMaxBloomIntensity());
+        SkyLightingOutputRuntime.Input outputInput
+                = new SkyLightingOutputRuntime.Input(
+                        atmosphere, lightSelection, baseResult, cloudsColor,
+                        moonWeight, transmit);
+        SkyLightingOutputRuntime.Result output
+                = SkyLightingOutputRuntime.compute(outputInput);
+        ColorRGBA ambient = output.ambientColor();
+        ColorRGBA main = output.mainDirectionalColor();
+        float bloomIntensity = output.bloomIntensity();
+        float shadowIntensity = output.shadowIntensity();
 
         updater.update(ambient, baseColor, main, bloomIntensity,
                 shadowIntensity, mainDirection);
@@ -958,76 +742,17 @@ public class SkyControl extends SkyControlCore {
      * is hidden
      */
     private Vector3f updateMoon() {
-        if (phase == null) {
-            SkyMaterial topMaterial = getTopMaterial();
-            topMaterial.hideObject(moonIndex);
-            return null;
-        }
-        if (phase == LunarPhase.CUSTOM) {
-            assert moonRenderer != null;
-            float intensity;
-            intensity = 2f + FastMath.abs(longitudeDifference - FastMath.PI);
-            moonRenderer.setLightIntensity(intensity);
-            moonRenderer.setPhase(longitudeDifference, lunarLatitude);
-        }
-
-        // Compute the UV coordinates of the center of the moon.
-        float solarLongitude = sunAndStars.getSolarLongitude();
-        float celestialLongitude = solarLongitude + longitudeDifference;
-        celestialLongitude = MyMath.modulo(celestialLongitude, FastMath.TWO_PI);
-        Vector3f worldDirection = sunAndStars.convertToWorld(
-                lunarLatitude, celestialLongitude, null);
+        SkyMaterial topMaterial = getTopMaterial();
         DomeMesh topMesh = getTopMesh();
-        Vector2f uvCenter = topMesh.directionUV(worldDirection);
+        float longitudeDifference = moonLongitudeDifference();
+        float lunarLatitude = moonLatitude();
+        SkyMoonRuntime.MoonUpdateState state
+                = new SkyMoonRuntime.MoonUpdateState(moonRenderer, moonIndex,
+                        longitudeDifference, lunarLatitude, moonScale);
+        Vector3f result = SkyMoonRuntime.updateMoon(
+                topMaterial, topMesh, sunAndStars, phase, state);
 
-        SkyMaterial topMaterial = getTopMaterial();
-        if (uvCenter != null) {
-            Vector2f rotation = lunarRotation(celestialLongitude, uvCenter);
-            // Reveal the object and update its texture transform.
-            topMaterial.setObjectTransform(
-                    moonIndex, uvCenter, moonScale, rotation);
-        } else {
-            topMaterial.hideObject(moonIndex);
-        }
-
-        return worldDirection;
-    }
-
-    /**
-     * Update the colors of the sun and moon based on their altitudes.
-     *
-     * @param sineSolarAltitude (&le;1, &ge:-1)
-     * @param sineLunarAltitude (&le;1, &ge:-1)
-     */
-    private void updateObjectColors(
-            float sineSolarAltitude, float sineLunarAltitude) {
-        assert sineSolarAltitude <= 1f : sineSolarAltitude;
-        assert sineSolarAltitude >= -1f : sineSolarAltitude;
-        assert sineLunarAltitude <= 1f : sineLunarAltitude;
-        assert sineLunarAltitude >= -1f : sineLunarAltitude;
-
-        // Update the sun's color and glow.
-        float sunVisibility = FastMath.saturate(
-                1f + sineSolarAltitude / atmosphere.getTwilightLimit());
-        ColorRGBA sunColor = SkyLightingModel.daylightColor(
-                atmosphere, sineSolarAltitude);
-        sunColor.a = Constants.alphaMax * sunVisibility;
-        SkyMaterial topMaterial = getTopMaterial();
-        topMaterial.setObjectColor(sunIndex, sunColor);
-        topMaterial.setObjectGlow(sunIndex, sunColor);
-
-        // Update the moon's color.
-        float moonVisibility = FastMath.saturate(
-                2f * sineLunarAltitude + 0.6f);
-        float moonWarmth = 1f - SkyLightingModel.smoothStep(
-                (sineLunarAltitude + 0.02f) / 0.25f);
-        float moonShift = moonWarmth * atmosphere.getSunsetWarmth();
-        ColorRGBA moonColor = atmosphere.copyMoonLight(null);
-        moonColor.g *= 1f - 0.15f * moonShift;
-        moonColor.b *= 1f - 0.35f * moonShift;
-        moonColor.multLocal(moonVisibility);
-        moonColor.a = Constants.alphaMax;
-        topMaterial.setObjectColor(moonIndex, moonColor);
+        return result;
     }
 
     /**

@@ -23,7 +23,7 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jme3utilities.sky;
+package jme3utilities.sky.scene;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
@@ -36,22 +36,24 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import jme3utilities.MyAsset;
 import jme3utilities.mesh.DomeMesh;
-import jme3utilities.sky.scene.SkyNodeNames;
+import jme3utilities.sky.Constants;
+import jme3utilities.sky.SkyMaterial;
+import jme3utilities.sky.StarsOption;
 
 /**
  * Factory for sky dome geometries and default star-map nodes.
  *
  * @author Take Some
  */
-final class SkyDomeFactory {
+public final class SkyDomeFactory {
     /** Number of samples in each longitudinal arc of a major dome. */
     final private static int numLongSamples = 16;
     /** Number of samples around the rim of a dome. */
     final private static int numRimSamples = 60;
     /** Reusable mesh for smooth, inward-facing domes. */
     final private static DomeMesh hemisphereMesh = new DomeMesh(
-            numRimSamples, numLongSamples, Constants.topU,
-            Constants.topV, Constants.uvScale, true);
+            numRimSamples, numLongSamples, Constants.topUV.x,
+            Constants.topUV.y, Constants.uvScale, true);
     /** Negative Y axis. */
     final private static Vector3f negativeUnitY = new Vector3f(0f, -1f, 0f);
     /** Local copy of unitX. */
@@ -72,7 +74,7 @@ final class SkyDomeFactory {
      * @param subtree sky subtree (not null)
      * @param starsNode stars node (not null)
      */
-    static void attachStars(Node subtree, Node starsNode) {
+    public static void attachStars(Node subtree, Node starsNode) {
         subtree.attachChildAt(starsNode, 0);
     }
 
@@ -86,7 +88,8 @@ final class SkyDomeFactory {
      * @param cloudsMaterial cloud material (not null)
      * @return new sky subtree node
      */
-    static Node createSubtree(float cloudFlattening, boolean bottomEnabled,
+    public static Node createSubtree(float cloudFlattening,
+            boolean bottomEnabled,
             SkyMaterial topMaterial, Material bottomMaterial,
             SkyMaterial cloudsMaterial) {
         Node result = new Node(SkyNodeNames.skyNode);
@@ -115,7 +118,7 @@ final class SkyDomeFactory {
      * @param option star rendering option (not null)
      * @return new stars node, or null when no node is needed
      */
-    static Node createDefaultStars(
+    public static Node createDefaultStars(
             AssetManager assetManager, StarsOption option) {
         Node result;
         switch (option) {
@@ -144,7 +147,7 @@ final class SkyDomeFactory {
      * @param assetName asset name or path (not null)
      * @return new stars node, or null for TopDome
      */
-    static Node createStars(
+    public static Node createStars(
             AssetManager assetManager, StarsOption option, String assetName) {
         Node result;
         switch (option) {
@@ -172,8 +175,8 @@ final class SkyDomeFactory {
      * @return new bottom geometry
      */
     private static Geometry createBottom(Material material) {
-        DomeMesh mesh = new DomeMesh(numRimSamples, 2, Constants.topU,
-                Constants.topV, Constants.uvScale, true);
+        DomeMesh mesh = new DomeMesh(numRimSamples, 2, Constants.topUV.x,
+                Constants.topUV.y, Constants.uvScale, true);
         Geometry result = new Geometry(SkyNodeNames.bottom, mesh);
         Quaternion upsideDown = new Quaternion();
         upsideDown.lookAt(unitX, negativeUnitY);
