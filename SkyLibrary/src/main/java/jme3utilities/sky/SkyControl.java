@@ -85,31 +85,6 @@ public class SkyControl extends SkyControlCore {
     // constants and loggers
 
     /**
-     * light color and intensity for full moonlight: bluish gray
-     */
-    final private static ColorRGBA moonLight
-            = new ColorRGBA(0.4f, 0.4f, 0.6f, Constants.alphaMax);
-    /**
-     * light color and intensity for moonless night: nearly black
-     */
-    final private static ColorRGBA starLight
-            = new ColorRGBA(0.03f, 0.03f, 0.03f, Constants.alphaMax);
-    /**
-     * light color and intensity for full sunlight: yellowish white
-     */
-    final private static ColorRGBA sunLight
-            = new ColorRGBA(0.8f, 0.8f, 0.75f, Constants.alphaMax);
-    /**
-     * color blended in around sunrise and sunset: ruddy orange
-     */
-    final private static ColorRGBA twilight
-            = new ColorRGBA(0.6f, 0.3f, 0.15f, Constants.alphaMax);
-    /**
-     * extent of the twilight periods before sunrise and after sunset, expressed
-     * as the sine of the sun's angle below the horizon (&le;1, &ge;0)
-     */
-    final private static float limitOfTwilight = 0.1f;
-    /**
      * object index for the moon
      */
     final public static int moonIndex = 1;
@@ -169,6 +144,12 @@ public class SkyControl extends SkyControlCore {
      * lights, shadows, and viewports to update
      */
     private Updater updater = null;
+    /** atmospheric lighting and realism profile */
+    private SkyAtmosphere atmosphere = new SkyAtmosphere();
+    /** custom moon texture asset path, or null to use the phase preset */
+    private String moonAssetPath = null;
+    /** custom moon texture object, or null for phase preset or path */
+    private Texture moonColorMap = null;
     // *************************************************************************
     // constructors
 
@@ -263,6 +244,29 @@ public class SkyControl extends SkyControlCore {
     }
 
     /**
+     * Access the atmospheric tuning profile.
+     *
+     * @return the pre-existing mutable profile (not null)
+     */
+    public SkyAtmosphere getAtmosphere() {
+        assert atmosphere != null;
+        return atmosphere;
+    }
+
+    /**
+     * Replace the atmospheric tuning profile.
+     * <p>
+     * The specified profile is copied, so later caller-side mutation will not
+     * alter this control.
+     *
+     * @param newAtmosphere desired profile (not null, unaffected)
+     */
+    public void setAtmosphere(SkyAtmosphere newAtmosphere) {
+        Validate.nonNull(newAtmosphere, "atmosphere");
+        this.atmosphere = newAtmosphere.copy();
+    }
+
+    /**
      * Calculate the angular diameter of the moon.
      *
      * @return diameter (in radians, &lt;Pi, &gt;0)
@@ -342,10 +346,49 @@ public class SkyControl extends SkyControlCore {
         this.moonRenderer = newRenderer;
 
         if (moonRenderer.isEnabled()) {
+            this.moonAssetPath = null;
+            this.moonColorMap = null;
             Texture dynamicTexture = moonRenderer.getTexture();
             SkyMaterial topMaterial = getTopMaterial();
             topMaterial.addObject(moonIndex, dynamicTexture);
         }
+    }
+
+    /** Remove any custom moon texture and return to phase-preset images. */
+    public void clearMoonTexture() {
+        this.moonAssetPath = null;
+        this.moonColorMap = null;
+        setPhase(phase);
+    }
+
+    /**
+     * Alter the moon's color map texture using an asset path.
+     *
+     * @param assetPath path to the texture asset (not null, not empty)
+     */
+    public void setMoonTexture(String assetPath) {
+        Validate.nonEmpty(assetPath, "asset path");
+        this.moonAssetPath = assetPath;
+        this.moonColorMap = null;
+        if (moonRenderer != null) {
+            moonRenderer.setEnabled(false);
+        }
+        applyMoonTexture();
+    }
+
+    /**
+     * Alter the moon's color map texture using a pre-loaded texture.
+     *
+     * @param colorMap texture to apply (not null)
+     */
+    public void setMoonTexture(Texture colorMap) {
+        Validate.nonNull(colorMap, "texture");
+        this.moonAssetPath = null;
+        this.moonColorMap = colorMap;
+        if (moonRenderer != null) {
+            moonRenderer.setEnabled(false);
+        }
+        applyMoonTexture();
     }
 
     /**
@@ -365,14 +408,15 @@ public class SkyControl extends SkyControlCore {
         this.phase = newPreset;
         if (newPreset != null) {
             this.longitudeDifference = newPreset.longitudeDifference();
-            SkyMaterial topMaterial = getTopMaterial();
-
-            String assetPath = newPreset.imagePath("");
-            try {
-                topMaterial.addObject(moonIndex, assetPath);
-            } catch (AssetNotFoundException exception) {
-                assetPath = newPreset.imagePath("-nonviral");
-                topMaterial.addObject(moonIndex, assetPath);
+            if (!applyMoonTexture()) {
+                SkyMaterial topMaterial = getTopMaterial();
+                String assetPath = newPreset.imagePath("");
+                try {
+                    topMaterial.addObject(moonIndex, assetPath);
+                } catch (AssetNotFoundException exception) {
+                    assetPath = newPreset.imagePath("-nonviral");
+                    topMaterial.addObject(moonIndex, assetPath);
+                }
             }
         }
     }
@@ -396,6 +440,8 @@ public class SkyControl extends SkyControlCore {
         this.phase = LunarPhase.CUSTOM;
         this.longitudeDifference = longitudeDifference;
         this.lunarLatitude = lunarLatitude;
+        this.moonAssetPath = null;
+        this.moonColorMap = null;
 
         Texture dynamicTexture = moonRenderer.getTexture();
         SkyMaterial topMaterial = getTopMaterial();
@@ -421,13 +467,31 @@ public class SkyControl extends SkyControlCore {
     /**
      * Alter the sun's color map.
      *
-     * @param assetPath to new color map (not null)
+     * @param assetPath path to the texture asset (not null, not empty)
      */
     final public void setSunStyle(String assetPath) {
-        Validate.nonNull(assetPath, "path");
+        setSunTexture(assetPath);
+    }
 
+    /**
+     * Alter the sun's color map texture using an asset path.
+     *
+     * @param assetPath path to the texture asset (not null, not empty)
+     */
+    public void setSunTexture(String assetPath) {
+        Validate.nonEmpty(assetPath, "asset path");
         SkyMaterial topMaterial = getTopMaterial();
         topMaterial.addObject(sunIndex, assetPath);
+    }
+
+    /**
+     * Alter the sun's color map texture using a pre-loaded texture.
+     *
+     * @param colorMap texture to apply (not null)
+     */
+    public void setSunTexture(Texture colorMap) {
+        Validate.nonNull(colorMap, "texture");
+        setObjectTexture(sunIndex, colorMap);
     }
 
     /**
@@ -436,13 +500,48 @@ public class SkyControl extends SkyControlCore {
      * @return diameter (in radians, &lt;Pi, &gt;0)
      */
     public float solarDiameter() {
-        float result = moonScale * Constants.discDiameter * FastMath.HALF_PI
+        float result = sunScale * Constants.discDiameter * FastMath.HALF_PI
                 / Constants.uvScale;
 
         assert result > 0f : result;
         assert result < FastMath.PI : result;
         return result;
     }
+
+    /**
+     * Update cloud colors using the atmospheric profile.
+     * <p>
+     * Subclasses overriding this method should preserve the contract of
+     * returning the color used for ambient-light estimation and should update
+     * every configured cloud layer.
+     *
+     * @param baseColor source color (not null, unaffected)
+     * @param sunUp true if the sun is above the horizon, otherwise false
+     * @param moonUp true if the moon is above the horizon, otherwise false
+     * @return new color used for ambient-light estimation
+     */
+    @Override
+    protected ColorRGBA updateCloudsColor(
+            ColorRGBA baseColor, boolean sunUp, boolean moonUp) {
+        assert baseColor != null;
+
+        ColorRGBA cloudsColor = MyColor.saturate(baseColor);
+        float brightness = atmosphere.getCloudDayBrightness();
+        if (!sunUp) {
+            brightness = atmosphere.getCloudNight();
+            if (moonUp) {
+                brightness += atmosphere.getCloudMoonBoost()
+                        * getMoonIllumination();
+            }
+        }
+        cloudsColor.multLocal(brightness);
+        for (int layer = 0; layer < numCloudLayers; ++layer) {
+            cloudLayers[layer].setColor(cloudsColor);
+        }
+
+        return cloudsColor;
+    }
+
     // *************************************************************************
     // SkyControlCore methods
 
@@ -471,6 +570,8 @@ public class SkyControl extends SkyControlCore {
 
         this.colorDay = cloner.clone(colorDay);
         this.moonRenderer = cloner.clone(moonRenderer);
+        this.moonColorMap = cloner.clone(moonColorMap);
+        this.atmosphere = cloner.clone(atmosphere);
         this.sunAndStars = cloner.clone(sunAndStars);
         this.updater = cloner.clone(updater);
     }
@@ -501,6 +602,10 @@ public class SkyControl extends SkyControlCore {
         this.colorDay = (ColorRGBA) ic.readSavable(
                 "colorDay", new ColorRGBA(0.4f, 0.6f, 1f, Constants.alphaMax));
         this.moonScale = ic.readFloat("moonScale", 0.02f);
+        this.moonAssetPath = ic.readString("moonAssetPath", null);
+        this.moonColorMap = (Texture) ic.readSavable("moonColorMap", null);
+        this.atmosphere = (SkyAtmosphere) ic.readSavable(
+                "atmosphere", new SkyAtmosphere());
         this.sunScale = ic.readFloat("sunScale", 0.08f);
         // moon renderer not serialized
         this.phase = ic.readEnum("phase", LunarPhase.class, LunarPhase.FULL);
@@ -523,6 +628,9 @@ public class SkyControl extends SkyControlCore {
         oc.write(colorDay, "colorDay",
                 new ColorRGBA(0.4f, 0.6f, 1f, Constants.alphaMax));
         oc.write(moonScale, "moonScale", 0.02f);
+        oc.write(moonAssetPath, "moonAssetPath", null);
+        oc.write(moonColorMap, "moonColorMap", null);
+        oc.write(atmosphere, "atmosphere", null);
         oc.write(sunScale, "sunScale", 0.08f);
         // moon renderer not serialized
         oc.write(phase, "phase", LunarPhase.FULL);
@@ -531,6 +639,75 @@ public class SkyControl extends SkyControlCore {
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Apply the custom moon texture, if one has been specified.
+     *
+     * @return true if a custom texture was applied, otherwise false
+     */
+    private boolean applyMoonTexture() {
+        SkyMaterial topMaterial = getTopMaterial();
+        if (moonColorMap != null) {
+            topMaterial.addObject(moonIndex, moonColorMap);
+            return true;
+        } else if (moonAssetPath != null) {
+            topMaterial.addObject(moonIndex, moonAssetPath);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Approximate solar transmission through the atmosphere.
+     *
+     * @param sineSolarAltitude sine of the solar altitude
+     * @return transmission fraction between 0 and 1
+     */
+    private float airMassTransmission(float sineSolarAltitude) {
+        float altitude = FastMath.clamp(sineSolarAltitude, 0.01f, 1f);
+        float opticalMass = 1f / (altitude + 0.15f
+                * (float) Math.pow(altitude + 0.1f, 1.25));
+        float extinction = (float) Math.exp(-0.18f
+                * atmosphere.getAirMassStrength() * (opticalMass - 1f));
+        float result = FastMath.clamp(extinction,
+                atmosphere.getMinSunTransmit(), 1f);
+
+        return result;
+    }
+
+    /**
+     * Compute daylight color after approximate atmospheric extinction.
+     *
+     * @param sineSolarAltitude sine of the solar altitude
+     * @return new color
+     */
+    private ColorRGBA daylightColor(float sineSolarAltitude) {
+        ColorRGBA result = atmosphere.copySunLight(null);
+        float transmission = airMassTransmission(sineSolarAltitude);
+        float warmWeight = 1f - smoothStep(
+                sineSolarAltitude / atmosphere.getColorShiftAltitude());
+        float shift = warmWeight * atmosphere.getSunsetWarmth();
+
+        result.g *= 1f - 0.35f * shift;
+        result.b *= 1f - 0.75f * shift;
+        result.multLocal(transmission);
+
+        return result;
+    }
+
+    /**
+     * Smoothly remap a value from 0..1 to 0..1.
+     *
+     * @param input input value
+     * @return smoothed fraction
+     */
+    private static float smoothStep(float input) {
+        float x = FastMath.saturate(input);
+        float result = x * x * (3f - 2f * x);
+
+        return result;
+    }
 
     /**
      * Compute where mainDirection intersects the cloud dome in the dome's local
@@ -657,7 +834,8 @@ public class SkyControl extends SkyControlCore {
          */
         Vector3f sunDirection = updateSun();
         ColorRGBA clearColor = colorDay.clone();
-        clearColor.a = FastMath.saturate(1f + sunDirection.y / limitOfTwilight);
+        float twilightLimit = atmosphere.getTwilightLimit();
+        clearColor.a = FastMath.saturate(1f + sunDirection.y / twilightLimit);
         SkyMaterial topMaterial = getTopMaterial();
         topMaterial.setClearColor(clearColor);
 
@@ -716,21 +894,32 @@ public class SkyControl extends SkyControlCore {
          *  + blend of moonlight and starlight when ssa <= -0.04,
          * with linearly interpolated transitions.
          */
+        ColorRGBA twilightColor = atmosphere.copyTwilightColor(null);
+        ColorRGBA sunColor = daylightColor(sineSolarAltitude);
+        ColorRGBA moonColor = atmosphere.copyMoonLight(null);
+        ColorRGBA starColor = atmosphere.copyStarLight(null);
         ColorRGBA baseColor;
         if (sunUp) {
-            float dayWeight = FastMath.saturate(sineSolarAltitude / 0.25f);
+            float dayWeight = smoothStep(
+                    sineSolarAltitude / atmosphere.getFullDayAltitude());
             baseColor = MyColor.interpolateLinear(
-                    dayWeight, twilight, sunLight);
+                    dayWeight, twilightColor, sunColor);
+            float hazeWeight = atmosphere.getHazeStrength()
+                    * (1f - dayWeight) * 0.5f;
+            baseColor = MyColor.interpolateLinear(
+                    hazeWeight, baseColor, twilightColor);
         } else {
             ColorRGBA blend;
             if (moonUp && moonWeight > 0f) {
                 blend = MyColor.interpolateLinear(
-                        moonWeight, starLight, moonLight);
+                        moonWeight, starColor, moonColor);
             } else {
-                blend = starLight;
+                blend = starColor;
             }
-            float nightWeight = FastMath.saturate(-sineSolarAltitude / 0.04f);
-            baseColor = MyColor.interpolateLinear(nightWeight, twilight, blend);
+            float nightWeight = smoothStep(
+                    -sineSolarAltitude / atmosphere.getTwilightLimit());
+            baseColor = MyColor.interpolateLinear(
+                    nightWeight, twilightColor, blend);
         }
         SkyMaterial topMaterial = getTopMaterial();
         topMaterial.setHazeColor(baseColor);
@@ -762,19 +951,23 @@ public class SkyControl extends SkyControlCore {
              * By day, the main light has the base color, modulated by
              * clouds and the cube root of the sine of the sun's altitude.
              */
-            float sunFactor = transmit * MyMath.cubeRoot(sineSolarAltitude);
-            main = baseColor.mult(sunFactor);
+            float altitudeFactor = MyMath.cubeRoot(
+                    FastMath.saturate(sineSolarAltitude));
+            float sunFactor = transmit * altitudeFactor;
+            main = sunColor.mult(sunFactor);
 
         } else if (moonUp) {
             /*
              * By night, the main light is a blend of moonlight and starlight,
              * with the moon's portion modulated by clouds and the moon's phase.
              */
-            float moonFactor = transmit * moonWeight;
-            main = MyColor.interpolateLinear(moonFactor, starLight, moonLight);
+            float lunarAltitudeFactor = MyMath.cubeRoot(
+                    FastMath.saturate(sineLunarAltitude));
+            float moonFactor = transmit * moonWeight * lunarAltitudeFactor;
+            main = MyColor.interpolateLinear(moonFactor, starColor, moonColor);
 
         } else {
-            main = starLight.clone();
+            main = starColor.clone();
         }
         /*
          * The ambient light color is based on the clouds color;
@@ -783,7 +976,8 @@ public class SkyControl extends SkyControlCore {
          */
         float slack = 1f - MyMath.max(main.r, main.g, main.b);
         assert slack >= 0f : slack;
-        ColorRGBA ambient = cloudsColor.mult(slack);
+        ColorRGBA ambient = cloudsColor.mult(
+                slack * atmosphere.getAmbientScale());
         /*
          * Compute the recommended shadow intensity as the fraction of
          * the total directional light.
@@ -793,10 +987,14 @@ public class SkyControl extends SkyControlCore {
         float totalAmount = mainAmount + ambientAmount;
         assert totalAmount > 0f : totalAmount;
         float shadowIntensity = FastMath.saturate(mainAmount / totalAmount);
+        shadowIntensity = FastMath.saturate(
+                shadowIntensity * atmosphere.getShadowContrast());
 
         // Determine the recommended bloom intensity using the sun's altitude.
-        float bloomIntensity = 6f * sineSolarAltitude;
-        bloomIntensity = FastMath.clamp(bloomIntensity, 0f, 1.7f);
+        float bloomIntensity = 6f * atmosphere.getBloomScale()
+                * sineSolarAltitude;
+        bloomIntensity = FastMath.clamp(
+                bloomIntensity, 0f, atmosphere.getMaxBloomIntensity());
 
         updater.update(ambient, baseColor, main, bloomIntensity,
                 shadowIntensity, mainDirection);
@@ -857,19 +1055,26 @@ public class SkyControl extends SkyControlCore {
         assert sineLunarAltitude <= 1f : sineLunarAltitude;
         assert sineLunarAltitude >= -1f : sineLunarAltitude;
 
-        // Update the sun's color.
-        float green = FastMath.saturate(3f * sineSolarAltitude);
-        float blue = FastMath.saturate(sineSolarAltitude - 0.1f);
-        ColorRGBA sunColor = new ColorRGBA(1f, green, blue, Constants.alphaMax);
+        // Update the sun's color and glow.
+        float sunVisibility = FastMath.saturate(
+                1f + sineSolarAltitude / atmosphere.getTwilightLimit());
+        ColorRGBA sunColor = daylightColor(sineSolarAltitude);
+        sunColor.a = Constants.alphaMax * sunVisibility;
         SkyMaterial topMaterial = getTopMaterial();
         topMaterial.setObjectColor(sunIndex, sunColor);
         topMaterial.setObjectGlow(sunIndex, sunColor);
 
         // Update the moon's color.
-        green = FastMath.saturate(2f * sineLunarAltitude + 0.6f);
-        blue = FastMath.saturate(5f * sineLunarAltitude + 0.1f);
-        ColorRGBA moonColor
-                = new ColorRGBA(1f, green, blue, Constants.alphaMax);
+        float moonVisibility = FastMath.saturate(
+                2f * sineLunarAltitude + 0.6f);
+        float moonWarmth = 1f - smoothStep(
+                (sineLunarAltitude + 0.02f) / 0.25f);
+        float moonShift = moonWarmth * atmosphere.getSunsetWarmth();
+        ColorRGBA moonColor = atmosphere.copyMoonLight(null);
+        moonColor.g *= 1f - 0.15f * moonShift;
+        moonColor.b *= 1f - 0.35f * moonShift;
+        moonColor.multLocal(moonVisibility);
+        moonColor.a = Constants.alphaMax;
         topMaterial.setObjectColor(moonIndex, moonColor);
     }
 
