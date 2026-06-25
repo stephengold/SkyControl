@@ -46,6 +46,8 @@ import jme3utilities.sky.cloud.SkyCloudPresetRegistry;
  * @author Take Some
  */
 final public class SkySimulationConfig {
+    /** Atmosphere configuration. */
+    final private SkyAtmosphereConfig atmosphereConfig;
     /** Clock configuration. */
     final private SkyClockConfig clockConfig;
     /** Integration configuration. */
@@ -63,10 +65,28 @@ final public class SkySimulationConfig {
     public SkySimulationConfig(SkyClockConfig clockConfig,
             SkyRenderConfig renderConfig,
             SkyIntegrationConfig integrationConfig) {
+        this(new SkyAtmosphereConfig(integrationConfig.atmospherePath(),
+                jme3utilities.sky.atmosphere.SkyGradientStyle.CINEMATIC,
+                1f, 1f, 1f), clockConfig, renderConfig, integrationConfig);
+    }
+
+    /**
+     * Instantiate sky simulation configuration.
+     *
+     * @param atmosphereConfig atmosphere configuration (not null)
+     * @param clockConfig clock configuration (not null)
+     * @param renderConfig render configuration (not null)
+     * @param integrationConfig integration configuration (not null)
+     */
+    public SkySimulationConfig(SkyAtmosphereConfig atmosphereConfig,
+            SkyClockConfig clockConfig, SkyRenderConfig renderConfig,
+            SkyIntegrationConfig integrationConfig) {
+        Validate.nonNull(atmosphereConfig, "atmosphere config");
         Validate.nonNull(clockConfig, "clock config");
         Validate.nonNull(renderConfig, "render config");
         Validate.nonNull(integrationConfig, "integration config");
 
+        this.atmosphereConfig = atmosphereConfig;
         this.clockConfig = clockConfig;
         this.renderConfig = renderConfig;
         this.integrationConfig = integrationConfig;
@@ -83,7 +103,8 @@ final public class SkySimulationConfig {
         Validate.nonNull(skyControl, "control");
 
         SkyAtmosphere atmosphere = loadAtmosphere(assetManager,
-                integrationConfig.atmospherePath());
+                atmosphereConfig.profilePath());
+        atmosphereConfig.applyTo(atmosphere);
         skyControl.setAtmosphere(atmosphere);
         clockConfig.applyTo(skyControl);
         renderConfig.applyTo(skyControl);
@@ -95,6 +116,15 @@ final public class SkySimulationConfig {
                 integrationConfig.initialWeatherId());
         skyControl.setCloudPreset(
                 definition, integrationConfig.transitionSec());
+    }
+
+    /**
+     * Return atmosphere configuration.
+     *
+     * @return atmosphere configuration
+     */
+    public SkyAtmosphereConfig atmosphere() {
+        return atmosphereConfig;
     }
 
     /**

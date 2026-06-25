@@ -95,15 +95,16 @@ public final class SkyObjectLightingRuntime {
             SkyAtmosphere atmosphere, float sineLunarAltitude) {
         float moonVisibility = FastMath.saturate(
                 2f * sineLunarAltitude + 0.6f);
-        float moonWarmth = 1f - SkyLightingModel.smoothStep(
-                (sineLunarAltitude + 0.02f) / 0.25f);
-        float moonShift = moonWarmth * atmosphere.getSunsetWarmth();
-        ColorRGBA moonColor = atmosphere.copyMoonLight(null);
-        moonColor.g *= 1f - 0.15f * moonShift;
-        moonColor.b *= 1f - 0.35f * moonShift;
+        ColorRGBA moonColor = SkyLightingModel.lunarColor(
+                atmosphere, sineLunarAltitude);
+        ColorRGBA moonGlow = SkyLightingModel.moonGlowColor(
+                atmosphere, sineLunarAltitude);
         moonColor.multLocal(moonVisibility);
+        moonGlow.multLocal(moonVisibility);
         moonColor.a = maxAlpha;
+        moonGlow.a = maxAlpha * moonVisibility;
         material.setObjectColor(moonObjectIndex, moonColor);
+        material.setObjectGlow(moonObjectIndex, moonGlow);
     }
 
     /**
@@ -119,8 +120,11 @@ public final class SkyObjectLightingRuntime {
                 1f + sineSolarAltitude / atmosphere.getTwilightLimit());
         ColorRGBA sunColor = SkyLightingModel.daylightColor(
                 atmosphere, sineSolarAltitude);
+        ColorRGBA sunGlow = SkyLightingModel.sunGlowColor(
+                atmosphere, sineSolarAltitude);
         sunColor.a = maxAlpha * sunVisibility;
+        sunGlow.a = maxAlpha * sunVisibility;
         material.setObjectColor(sunObjectIndex, sunColor);
-        material.setObjectGlow(sunObjectIndex, sunColor);
+        material.setObjectGlow(sunObjectIndex, sunGlow);
     }
 }

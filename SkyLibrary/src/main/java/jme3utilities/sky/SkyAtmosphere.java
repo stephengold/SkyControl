@@ -34,9 +34,11 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.util.clone.Cloner;
 import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Properties;
 import jme3utilities.Validate;
 import jme3utilities.sky.atmosphere.SkyAtmosphereProperties;
+import jme3utilities.sky.atmosphere.SkyGradientStyle;
 
 /**
  * Mutable atmospheric tuning profile used by SkyControl.
@@ -110,6 +112,22 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
      */
     private float sunsetWarmth = 1f;
     /**
+     * Art direction style for gradients and halos.
+     */
+    private SkyGradientStyle gradientStyle = SkyGradientStyle.CINEMATIC;
+    /**
+     * Moon halo intensity multiplier.
+     */
+    private float moonHaloIntensity = 1f;
+    /**
+     * Sun halo intensity multiplier.
+     */
+    private float sunHaloIntensity = 1f;
+    /**
+     * Sunset gradient intensity multiplier.
+     */
+    private float sunsetIntensity = 1f;
+    /**
      * Twilight reach expressed as sine of solar depression below horizon.
      */
     private float twilightLimit = 0.12f;
@@ -151,9 +169,10 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
      * Recognized color keys use comma-separated components: r,g,b or r,g,b,a.
      * Recognized keys are: airMassStrength, ambientScale, bloomScale,
      * colorShiftAltitude, cloudDayBrightness, cloudMoonBoost,
-     * cloudNight, fullDayAltitude, hazeStrength, maxBloomIntensity,
-     * minSunTransmission, shadowContrast, sunsetWarmth, twilightLimit,
-     * moonLight, starLight, sunLight, and twilightColor.
+     * cloudNight, fullDayAltitude, gradientStyle, hazeStrength,
+     * maxBloomIntensity, minSunTransmission, moonHaloIntensity,
+     * shadowContrast, sunHaloIntensity, sunsetIntensity, sunsetWarmth,
+     * twilightLimit, moonLight, starLight, sunLight, and twilightColor.
      *
      * @param properties source properties (not null)
      */
@@ -184,6 +203,13 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
                 "minSunTransmission", minSunTransmission));
         setShadowContrast(SkyAtmosphereProperties.readFloat(properties,
                 "shadowContrast", shadowContrast));
+        setGradientStyle(readGradientStyle(properties));
+        setMoonHaloIntensity(SkyAtmosphereProperties.readFloat(
+                properties, "moonHaloIntensity", moonHaloIntensity));
+        setSunHaloIntensity(SkyAtmosphereProperties.readFloat(
+                properties, "sunHaloIntensity", sunHaloIntensity));
+        setSunsetIntensity(SkyAtmosphereProperties.readFloat(
+                properties, "sunsetIntensity", sunsetIntensity));
         setSunsetWarmth(SkyAtmosphereProperties.readFloat(
                 properties, "sunsetWarmth", sunsetWarmth));
         setTwilightLimit(SkyAtmosphereProperties.readFloat(
@@ -274,6 +300,10 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
         this.maxBloomIntensity = source.maxBloomIntensity;
         this.minSunTransmission = source.minSunTransmission;
         this.shadowContrast = source.shadowContrast;
+        this.gradientStyle = source.gradientStyle;
+        this.moonHaloIntensity = source.moonHaloIntensity;
+        this.sunHaloIntensity = source.sunHaloIntensity;
+        this.sunsetIntensity = source.sunsetIntensity;
         this.sunsetWarmth = source.sunsetWarmth;
         this.twilightLimit = source.twilightLimit;
         this.moonLight = source.moonLight.clone();
@@ -355,12 +385,30 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
     }
 
     /**
+     * Return the gradient art-direction style.
+     *
+     * @return gradient style
+     */
+    public SkyGradientStyle getGradientStyle() {
+        return gradientStyle;
+    }
+
+    /**
      * Return the strength of low-altitude haze coloration.
      *
      * @return fraction (&le;1, &ge;0)
      */
     public float getHazeStrength() {
         return hazeStrength;
+    }
+
+    /**
+     * Return the moon halo intensity multiplier.
+     *
+     * @return multiplier (&ge;0)
+     */
+    public float getMoonHaloIntensity() {
+        return moonHaloIntensity;
     }
 
     /**
@@ -388,6 +436,24 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
      */
     public float getShadowContrast() {
         return shadowContrast;
+    }
+
+    /**
+     * Return the sun halo intensity multiplier.
+     *
+     * @return multiplier (&ge;0)
+     */
+    public float getSunHaloIntensity() {
+        return sunHaloIntensity;
+    }
+
+    /**
+     * Return the sunset gradient intensity multiplier.
+     *
+     * @return multiplier (&ge;0)
+     */
+    public float getSunsetIntensity() {
+        return sunsetIntensity;
     }
 
     /**
@@ -489,6 +555,16 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
     }
 
     /**
+     * Alter the gradient art-direction style.
+     *
+     * @param style desired style (not null)
+     */
+    public void setGradientStyle(SkyGradientStyle style) {
+        Validate.nonNull(style, "style");
+        this.gradientStyle = style;
+    }
+
+    /**
      * Alter the strength of low-altitude haze coloration.
      *
      * @param strength desired fraction (&le;1, &ge;0)
@@ -496,6 +572,16 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
     public void setHazeStrength(float strength) {
         Validate.fraction(strength, "strength");
         this.hazeStrength = strength;
+    }
+
+    /**
+     * Alter the moon halo intensity multiplier.
+     *
+     * @param intensity desired multiplier (&ge;0)
+     */
+    public void setMoonHaloIntensity(float intensity) {
+        Validate.nonNegative(intensity, "intensity");
+        this.moonHaloIntensity = intensity;
     }
 
     /**
@@ -549,6 +635,16 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
     }
 
     /**
+     * Alter the sun halo intensity multiplier.
+     *
+     * @param intensity desired multiplier (&ge;0)
+     */
+    public void setSunHaloIntensity(float intensity) {
+        Validate.nonNegative(intensity, "intensity");
+        this.sunHaloIntensity = intensity;
+    }
+
+    /**
      * Alter full sunlight color before atmospheric extinction.
      *
      * @param color desired color (not null, unaffected)
@@ -556,6 +652,16 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
     public void setSunLight(ColorRGBA color) {
         Validate.nonNull(color, "color");
         this.sunLight = color.clone();
+    }
+
+    /**
+     * Alter sunset gradient intensity.
+     *
+     * @param intensity desired multiplier (&ge;0)
+     */
+    public void setSunsetIntensity(float intensity) {
+        Validate.nonNegative(intensity, "intensity");
+        this.sunsetIntensity = intensity;
     }
 
     /**
@@ -662,6 +768,11 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
         minSunTransmission
                 = capsule.readFloat("minSunTransmission", 0.08f);
         shadowContrast = capsule.readFloat("shadowContrast", 1f);
+        gradientStyle = capsule.readEnum("gradientStyle",
+                SkyGradientStyle.class, SkyGradientStyle.CINEMATIC);
+        moonHaloIntensity = capsule.readFloat("moonHaloIntensity", 1f);
+        sunHaloIntensity = capsule.readFloat("sunHaloIntensity", 1f);
+        sunsetIntensity = capsule.readFloat("sunsetIntensity", 1f);
         sunsetWarmth = capsule.readFloat("sunsetWarmth", 1f);
         twilightLimit = capsule.readFloat("twilightLimit", 0.12f);
         moonLight = (ColorRGBA) capsule.readSavable(
@@ -700,6 +811,11 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
         capsule.write(maxBloomIntensity, "maxBloomIntensity", 1.7f);
         capsule.write(minSunTransmission, "minSunTransmission", 0.08f);
         capsule.write(shadowContrast, "shadowContrast", 1f);
+        capsule.write(gradientStyle, "gradientStyle",
+                SkyGradientStyle.CINEMATIC);
+        capsule.write(moonHaloIntensity, "moonHaloIntensity", 1f);
+        capsule.write(sunHaloIntensity, "sunHaloIntensity", 1f);
+        capsule.write(sunsetIntensity, "sunsetIntensity", 1f);
         capsule.write(sunsetWarmth, "sunsetWarmth", 1f);
         capsule.write(twilightLimit, "twilightLimit", 0.12f);
         capsule.write(moonLight, "moonLight", null);
@@ -709,6 +825,24 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Read gradient style from properties.
+     *
+     * @param properties source properties (not null)
+     * @return parsed or current style
+     */
+    private SkyGradientStyle readGradientStyle(Properties properties) {
+        String text = properties.getProperty("gradientStyle");
+        SkyGradientStyle result;
+        if (text == null) {
+            result = gradientStyle;
+        } else {
+            String key = text.trim().toUpperCase(Locale.ROOT);
+            result = SkyGradientStyle.valueOf(key);
+        }
+        return result;
+    }
 
     /**
      * Copy a color.

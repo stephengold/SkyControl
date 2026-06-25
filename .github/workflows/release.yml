@@ -44,13 +44,13 @@ jobs:
 
       - name: Build and test
         shell: cmd
-        run: gradlew.bat clean build packageLocal -PskySimulationVersion=${{ steps.version.outputs.version }}
+        run: gradlew.bat --no-daemon clean build packageLocal --console=plain --stacktrace -PskySimulationVersion=${{ steps.version.outputs.version }}
 
       - name: Publish to GitHub Packages
         shell: cmd
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gradlew.bat publishGithubPackage -PskySimulationVersion=${{ steps.version.outputs.version }}
+        run: gradlew.bat --no-daemon publishGithubPackage --console=plain --stacktrace -PskySimulationVersion=${{ steps.version.outputs.version }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

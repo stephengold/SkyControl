@@ -8,6 +8,7 @@ local M = {
         version = "1.0.0",
         capabilities = {
             "sky.command.bus",
+            "sky.atmosphere.commands",
             "sky.weather.commands",
             "sky.clock.commands",
             "sky.environment.commands",
@@ -15,6 +16,31 @@ local M = {
         }
     },
     commands = {
+        ["sky.atmosphere.setGradient"] = {
+            args = {"gradientStyle"},
+            updates = {
+                "sky.atmosphere.gradientStyle",
+                "sky.atmosphere.sunsetIntensity",
+                "sky.atmosphere.sunHaloIntensity",
+                "sky.atmosphere.moonHaloIntensity"
+            },
+            events = {"sky.atmosphere.changed", "sky.environment.changed"}
+        },
+        ["sky.atmosphere.setSunsetIntensity"] = {
+            args = {"intensity"},
+            updates = {"sky.atmosphere.sunsetIntensity"},
+            events = {"sky.atmosphere.changed", "sky.environment.changed"}
+        },
+        ["sky.atmosphere.setSunHaloIntensity"] = {
+            args = {"intensity"},
+            updates = {"sky.atmosphere.sunHaloIntensity"},
+            events = {"sky.atmosphere.changed", "sky.environment.changed"}
+        },
+        ["sky.atmosphere.setMoonHaloIntensity"] = {
+            args = {"intensity"},
+            updates = {"sky.atmosphere.moonHaloIntensity"},
+            events = {"sky.atmosphere.changed", "sky.environment.changed"}
+        },
         ["sky.weather.set"] = {
             args = {"weatherId", "transitionSeconds?"},
             updates = {"sky.weather.current", "sky.environment"},

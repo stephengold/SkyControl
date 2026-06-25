@@ -58,7 +58,8 @@ final public class SkyBaseColorRuntime {
         assert moonWeight >= 0f : moonWeight;
         assert moonWeight <= 1f : moonWeight;
 
-        final ColorRGBA twilightColor = atmosphere.copyTwilightColor(null);
+        final ColorRGBA twilightColor = SkyLightingModel.horizonColor(
+                atmosphere, sineSolarAltitude);
         final ColorRGBA sunColor = SkyLightingModel.daylightColor(
                 atmosphere, sineSolarAltitude);
         final ColorRGBA moonColor = atmosphere.copyMoonLight(null);

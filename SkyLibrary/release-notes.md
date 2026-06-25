@@ -1,5 +1,16 @@
 # release log for the SkyControl library and related software
 
+## Version 1.4.1 released on 25 June 2026
+
+Notable changes:
++ add atmospheric gradient style presets (`REALISTIC`, `CINEMATIC`, `FANTASY`)
++ add runtime sunset, sun-halo, and moon-halo intensity controls
++ add Lua config ABI fields for atmospheric gradient styling
++ add command ABI entries for live atmosphere gradient changes
++ add SkyCommandBus support for runtime atmosphere commands
++ improve sunrise, sunset, sun glow, and moon glow gradient math
++ harden GitHub CI for push, pull request, and release validation
+
 ## Version 1.4.0 released on 25 June 2026
 
 Notable changes:

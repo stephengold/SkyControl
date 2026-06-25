@@ -75,12 +75,122 @@ public final class SkyLightingModel {
         float transmission = airMassTransmission(atmosphere, sineSolarAltitude);
         float warmWeight = 1f - smoothStep(
                 sineSolarAltitude / atmosphere.getColorShiftAltitude());
-        float shift = warmWeight * atmosphere.getSunsetWarmth();
+        float horizonWeight = horizonWeight(
+                sineSolarAltitude, atmosphere.getTwilightLimit());
+        float styleScale = atmosphere.getGradientStyle().colorScale();
+        float shift = warmWeight * atmosphere.getSunsetWarmth()
+                * atmosphere.getSunsetIntensity() * styleScale;
+        float amber = horizonWeight * atmosphere.getHazeStrength()
+                * atmosphere.getSunsetWarmth()
+                * atmosphere.getSunsetIntensity() * styleScale;
 
-        result.g *= 1f - 0.35f * shift;
-        result.b *= 1f - 0.75f * shift;
+        result.r *= 1f + 0.28f * amber;
+        result.g *= 1f - 0.28f * shift + 0.10f * amber;
+        result.b *= 1f - 0.70f * shift - 0.22f * amber;
         result.multLocal(transmission);
 
+        return result;
+    }
+
+    /**
+     * Compute a horizon/twilight gradient color.
+     *
+     * @param atmosphere active atmospheric profile (not null)
+     * @param sineSolarAltitude sine of the solar altitude
+     * @return new color
+     */
+    public static ColorRGBA horizonColor(
+            SkyAtmosphere atmosphere, float sineSolarAltitude) {
+        ColorRGBA result = atmosphere.copyTwilightColor(null);
+        float horizonWeight = horizonWeight(
+                sineSolarAltitude, atmosphere.getTwilightLimit());
+        float duskWeight = smoothStep(
+                -sineSolarAltitude / atmosphere.getTwilightLimit());
+        float strength = atmosphere.getSunsetWarmth()
+                * atmosphere.getSunsetIntensity()
+                * atmosphere.getHazeStrength()
+                * atmosphere.getGradientStyle().horizonScale();
+        float amber = horizonWeight * strength;
+        float violet = duskWeight * horizonWeight * strength;
+
+        result.r *= 1f + 0.35f * amber + 0.12f * violet;
+        result.g *= 1f + 0.06f * amber - 0.18f * violet;
+        result.b *= 1f - 0.26f * amber + 0.42f * violet;
+
+        return result;
+    }
+
+    /**
+     * Compute the bell-shaped strength of horizon gradients.
+     *
+     * @param sineAltitude sine of altitude above horizon
+     * @param twilightLimit twilight reach below horizon
+     * @return gradient strength
+     */
+    public static float horizonWeight(float sineAltitude, float twilightLimit) {
+        float distance = Math.abs(sineAltitude) / twilightLimit;
+        float result = 1f - smoothStep(distance);
+        return result;
+    }
+
+    /**
+     * Compute lunar color after low-altitude horizon tint.
+     *
+     * @param atmosphere active atmospheric profile (not null)
+     * @param sineLunarAltitude sine of lunar altitude
+     * @return new color
+     */
+    public static ColorRGBA lunarColor(
+            SkyAtmosphere atmosphere, float sineLunarAltitude) {
+        ColorRGBA result = atmosphere.copyMoonLight(null);
+        float horizonWeight = horizonWeight(
+                sineLunarAltitude, atmosphere.getTwilightLimit());
+        float shift = horizonWeight * atmosphere.getSunsetWarmth()
+                * atmosphere.getSunsetIntensity()
+                * atmosphere.getGradientStyle().colorScale();
+
+        result.r *= 1f + 0.10f * shift;
+        result.g *= 1f - 0.10f * shift;
+        result.b *= 1f - 0.25f * shift;
+
+        return result;
+    }
+
+    /**
+     * Compute moon halo/glow color.
+     *
+     * @param atmosphere active atmospheric profile (not null)
+     * @param sineLunarAltitude sine of lunar altitude
+     * @return new color
+     */
+    public static ColorRGBA moonGlowColor(
+            SkyAtmosphere atmosphere, float sineLunarAltitude) {
+        ColorRGBA result = lunarColor(atmosphere, sineLunarAltitude);
+        float horizonWeight = horizonWeight(
+                sineLunarAltitude, atmosphere.getTwilightLimit());
+        float glow = 0.45f + 0.35f * horizonWeight
+                * atmosphere.getGradientStyle().haloScale();
+        result.multLocal(glow * atmosphere.getMoonHaloIntensity());
+        return result;
+    }
+
+    /**
+     * Compute sun halo/glow color.
+     *
+     * @param atmosphere active atmospheric profile (not null)
+     * @param sineSolarAltitude sine of solar altitude
+     * @return new color
+     */
+    public static ColorRGBA sunGlowColor(
+            SkyAtmosphere atmosphere, float sineSolarAltitude) {
+        ColorRGBA result = daylightColor(atmosphere, sineSolarAltitude);
+        float horizonWeight = horizonWeight(
+                sineSolarAltitude, atmosphere.getTwilightLimit());
+        float glow = 1.15f + 1.10f * horizonWeight
+                * atmosphere.getSunsetWarmth()
+                * atmosphere.getSunsetIntensity()
+                * atmosphere.getGradientStyle().haloScale();
+        result.multLocal(glow * atmosphere.getSunHaloIntensity());
         return result;
     }
 

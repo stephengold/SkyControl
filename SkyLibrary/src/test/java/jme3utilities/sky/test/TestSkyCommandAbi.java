@@ -33,6 +33,7 @@ import com.jme3.renderer.Camera;
 import com.jme3.texture.plugins.AWTLoader;
 import com.jme3.texture.plugins.DDSLoader;
 import jme3utilities.sky.SkyControl;
+import jme3utilities.sky.atmosphere.SkyGradientStyle;
 import jme3utilities.sky.command.SkyCommandBus;
 import jme3utilities.sky.command.SkyCommandIds;
 import jme3utilities.sky.command.SkyCommandResult;
@@ -64,6 +65,36 @@ public class TestSkyCommandAbi {
                 assetManager, new Camera(640, 480));
         SkyCommandBus commandBus = new SkyCommandBus(
                 assetManager, skyControl);
+
+        SkyCommandResult gradient = commandBus.execute(
+                SkyCommandIds.atmosphereSetGradient, "FANTASY");
+        Assert.assertTrue(gradient.succeeded());
+        Assert.assertEquals(SkyGradientStyle.FANTASY,
+                skyControl.getAtmosphere().getGradientStyle());
+        Assert.assertEquals(1.80f,
+                skyControl.getAtmosphere().getSunsetIntensity(), 0.0001f);
+        Assert.assertEquals(1.65f,
+                skyControl.getAtmosphere().getSunHaloIntensity(), 0.0001f);
+        Assert.assertEquals(1.55f,
+                skyControl.getAtmosphere().getMoonHaloIntensity(), 0.0001f);
+
+        SkyCommandResult sunset = commandBus.execute(
+                SkyCommandIds.atmosphereSetSunsetIntensity, "2.0");
+        Assert.assertTrue(sunset.succeeded());
+        Assert.assertEquals(2f,
+                skyControl.getAtmosphere().getSunsetIntensity(), 0.0001f);
+
+        SkyCommandResult sunHalo = commandBus.execute(
+                SkyCommandIds.atmosphereSetSunHaloIntensity, "1.7");
+        Assert.assertTrue(sunHalo.succeeded());
+        Assert.assertEquals(1.7f,
+                skyControl.getAtmosphere().getSunHaloIntensity(), 0.0001f);
+
+        SkyCommandResult moonHalo = commandBus.execute(
+                SkyCommandIds.atmosphereSetMoonHaloIntensity, "1.8");
+        Assert.assertTrue(moonHalo.succeeded());
+        Assert.assertEquals(1.8f,
+                skyControl.getAtmosphere().getMoonHaloIntensity(), 0.0001f);
 
         SkyCommandResult list = commandBus.execute(SkyCommandIds.weatherList);
         Assert.assertTrue(list.succeeded());

@@ -29,8 +29,10 @@ import com.jme3.asset.AssetManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import jme3utilities.Validate;
 import jme3utilities.sky.SkyControl;
+import jme3utilities.sky.atmosphere.SkyGradientStyle;
 import jme3utilities.sky.cloud.SkyCloudPresetDefinition;
 import jme3utilities.sky.cloud.SkyCloudPresetLoader;
 import jme3utilities.sky.cloud.SkyCloudPresetRegistry;
@@ -96,7 +98,18 @@ final public class SkyCommandBus {
 
         String[] args = arguments == null ? new String[0] : arguments;
         SkyCommandResult result;
-        if (SkyCommandIds.weatherSet.equals(commandId)) {
+        if (SkyCommandIds.atmosphereSetGradient.equals(commandId)) {
+            result = execAtmoGradient(args);
+        } else if (SkyCommandIds.atmosphereSetSunsetIntensity.equals(
+                commandId)) {
+            result = execAtmoSunset(args);
+        } else if (SkyCommandIds.atmosphereSetSunHaloIntensity.equals(
+                commandId)) {
+            result = execAtmoSunHalo(args);
+        } else if (SkyCommandIds.atmosphereSetMoonHaloIntensity.equals(
+                commandId)) {
+            result = execAtmoMoonHalo(args);
+        } else if (SkyCommandIds.weatherSet.equals(commandId)) {
             result = executeWeatherSet(args);
         } else if (SkyCommandIds.weatherList.equals(commandId)) {
             result = executeWeatherList();
@@ -131,6 +144,87 @@ final public class SkyCommandBus {
      */
     public SkyCloudPresetRegistry weatherRegistry() {
         return weatherRegistry;
+    }
+
+    /**
+     * Execute atmosphere set-gradient command.
+     *
+     * @param args command arguments
+     * @return command result
+     */
+    private SkyCommandResult execAtmoGradient(String[] args) {
+        String styleId = requireArgument(args, 0,
+                SkyCommandIds.atmosphereSetGradient);
+        SkyGradientStyle style = parseGradientStyle(styleId);
+
+        skyControl.getAtmosphere().setGradientStyle(style);
+        skyControl.getAtmosphere().setSunsetIntensity(
+                style.presetSunset());
+        skyControl.getAtmosphere().setSunHaloIntensity(
+                style.presetSunHalo());
+        skyControl.getAtmosphere().setMoonHaloIntensity(
+                style.presetMoonHalo());
+        SkyCommandResult result = SkyCommandResult.success(
+                SkyCommandIds.atmosphereSetGradient,
+                "atmosphere gradient set: " + style.name());
+        return result;
+    }
+
+    /**
+     * Execute atmosphere set-moon-halo-intensity command.
+     *
+     * @param args command arguments
+     * @return command result
+     */
+    private SkyCommandResult execAtmoMoonHalo(
+            String[] args) {
+        float intensity = parseFloat(requireArgument(args, 0,
+                SkyCommandIds.atmosphereSetMoonHaloIntensity),
+                "moon halo intensity");
+
+        skyControl.getAtmosphere().setMoonHaloIntensity(intensity);
+        SkyCommandResult result = SkyCommandResult.success(
+                SkyCommandIds.atmosphereSetMoonHaloIntensity,
+                "moon halo intensity set");
+        return result;
+    }
+
+    /**
+     * Execute atmosphere set-sun-halo-intensity command.
+     *
+     * @param args command arguments
+     * @return command result
+     */
+    private SkyCommandResult execAtmoSunHalo(
+            String[] args) {
+        float intensity = parseFloat(requireArgument(args, 0,
+                SkyCommandIds.atmosphereSetSunHaloIntensity),
+                "sun halo intensity");
+
+        skyControl.getAtmosphere().setSunHaloIntensity(intensity);
+        SkyCommandResult result = SkyCommandResult.success(
+                SkyCommandIds.atmosphereSetSunHaloIntensity,
+                "sun halo intensity set");
+        return result;
+    }
+
+    /**
+     * Execute atmosphere set-sunset-intensity command.
+     *
+     * @param args command arguments
+     * @return command result
+     */
+    private SkyCommandResult execAtmoSunset(
+            String[] args) {
+        float intensity = parseFloat(requireArgument(args, 0,
+                SkyCommandIds.atmosphereSetSunsetIntensity),
+                "sunset intensity");
+
+        skyControl.getAtmosphere().setSunsetIntensity(intensity);
+        SkyCommandResult result = SkyCommandResult.success(
+                SkyCommandIds.atmosphereSetSunsetIntensity,
+                "sunset intensity set");
+        return result;
     }
 
     /**
@@ -237,6 +331,18 @@ final public class SkyCommandBus {
             float fallback, String label) {
         float result = index < args.length
                 ? parseFloat(args[index], label) : fallback;
+        return result;
+    }
+
+    /**
+     * Parse a gradient style argument.
+     *
+     * @param text command argument text
+     * @return parsed style
+     */
+    private static SkyGradientStyle parseGradientStyle(String text) {
+        String key = text.trim().toUpperCase(Locale.ROOT);
+        SkyGradientStyle result = SkyGradientStyle.valueOf(key);
         return result;
     }
 

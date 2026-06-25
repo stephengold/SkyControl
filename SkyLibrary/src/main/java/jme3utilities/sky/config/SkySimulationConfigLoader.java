@@ -36,6 +36,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import jme3utilities.Validate;
 import jme3utilities.sky.StarsOption;
+import jme3utilities.sky.atmosphere.SkyGradientStyle;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
@@ -89,6 +90,25 @@ final public class SkySimulationConfigLoader {
      */
     public static SkySimulationConfig loadDefault(AssetManager assetManager) {
         SkySimulationConfig result = load(assetManager, defaultConfig);
+        return result;
+    }
+
+    /**
+     * Parse atmosphere section.
+     *
+     * @param value Lua atmosphere table
+     * @return parsed atmosphere config
+     */
+    private static SkyAtmosphereConfig parseAtmosphere(LuaValue value) {
+        requireTable(value, "atmosphere");
+
+        SkyAtmosphereConfig result = new SkyAtmosphereConfig(
+                requiredString(value, "profile"),
+                optionalStyle(value, "gradientStyle",
+                        SkyGradientStyle.CINEMATIC),
+                optionalFloat(value, "sunsetIntensity", 1f),
+                optionalFloat(value, "sunHaloIntensity", 1f),
+                optionalFloat(value, "moonHaloIntensity", 1f));
         return result;
     }
 
@@ -161,11 +181,13 @@ final public class SkySimulationConfigLoader {
             LuaValue root, String assetPath) {
         requireTable(root, assetPath);
 
+        SkyAtmosphereConfig atmosphere = parseAtmosphere(
+                root.get("atmosphere"));
         SkyClockConfig clock = parseClock(root.get("clock"));
         SkyRenderConfig render = parseRender(root.get("rendering"));
         SkyIntegrationConfig integration = parseIntegration(root);
         SkySimulationConfig result = new SkySimulationConfig(
-                clock, render, integration);
+                atmosphere, clock, render, integration);
         return result;
     }
 
@@ -203,6 +225,38 @@ final public class SkySimulationConfigLoader {
     }
 
     /**
+     * Read an optional float field.
+     *
+     * @param table Lua table
+     * @param name field name
+     * @param fallback fallback value
+     * @return parsed or fallback value
+     */
+    private static float optionalFloat(LuaValue table, String name,
+            float fallback) {
+        LuaValue value = table.get(name);
+        float result = value.isnil()
+                ? fallback : (float) value.checkdouble();
+        return result;
+    }
+
+    /**
+     * Read an optional gradient style field.
+     *
+     * @param table Lua table
+     * @param name field name
+     * @param fallback fallback style
+     * @return parsed or fallback style
+     */
+    private static SkyGradientStyle optionalStyle(LuaValue table, String name,
+            SkyGradientStyle fallback) {
+        LuaValue value = table.get(name);
+        SkyGradientStyle result = value.isnil()
+                ? fallback : SkyGradientStyle.valueOf(value.checkjstring());
+        return result;
+    }
+
+    /**
      * Read a required boolean field.
      *
      * @param table Lua table
@@ -229,7 +283,8 @@ final public class SkySimulationConfigLoader {
     private static float requiredFloat(LuaValue table, String name) {
         LuaValue value = table.get(name);
         if (value.isnil()) {
-            throw new IllegalArgumentException("Missing float field: " + name);
+            throw new IllegalArgumentException(
+                    "Missing float field: " + name);
         }
         float result = (float) value.checkdouble();
         return result;

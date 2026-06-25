@@ -31,6 +31,18 @@ package jme3utilities.sky.command;
  * @author Take Some
  */
 final public class SkyCommandIds {
+    /** Set atmosphere gradient preset. */
+    final public static String atmosphereSetGradient
+            = "sky.atmosphere.setGradient";
+    /** Set moon halo intensity. */
+    final public static String atmosphereSetMoonHaloIntensity
+            = "sky.atmosphere.setMoonHaloIntensity";
+    /** Set sun halo intensity. */
+    final public static String atmosphereSetSunHaloIntensity
+            = "sky.atmosphere.setSunHaloIntensity";
+    /** Set sunset intensity. */
+    final public static String atmosphereSetSunsetIntensity
+            = "sky.atmosphere.setSunsetIntensity";
     /** Lua command ABI resource path. */
     final public static String luaRegistry = "helix/lua/sky/commands.lua";
     /** Reload SkySimulation config from Lua ABI. */

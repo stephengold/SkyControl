@@ -34,6 +34,7 @@ import com.jme3.texture.plugins.AWTLoader;
 import jme3utilities.math.MyMath;
 import jme3utilities.sky.SkyControl;
 import jme3utilities.sky.StarsOption;
+import jme3utilities.sky.atmosphere.SkyGradientStyle;
 import jme3utilities.sky.config.SkySimulationConfig;
 import jme3utilities.sky.config.SkySimulationConfigLoader;
 import org.junit.Assert;
@@ -64,6 +65,14 @@ public class TestSkySimulationConfigLoader {
                 config.rendering().cloudFlattening(), 0.0001f);
         Assert.assertEquals("FAIR",
                 config.integration().initialWeatherId());
+        Assert.assertEquals(SkyGradientStyle.CINEMATIC,
+                config.atmosphere().gradientStyle());
+        Assert.assertEquals(1.25f,
+                config.atmosphere().sunsetIntensity(), 0.0001f);
+        Assert.assertEquals(1.15f,
+                config.atmosphere().sunHaloIntensity(), 0.0001f);
+        Assert.assertEquals(1.10f,
+                config.atmosphere().moonHaloIntensity(), 0.0001f);
 
         Camera camera = new Camera(640, 480);
         SkyControl skyControl = config.createControl(assetManager, camera);
@@ -73,6 +82,10 @@ public class TestSkySimulationConfigLoader {
                 skyControl.getSunAndStars().getObserverLatitude(), 0.0001f);
         Assert.assertEquals(0.4f, skyControl.getCloudsYOffset(), 0.0001f);
         Assert.assertTrue(skyControl.getCloudModulation());
+        Assert.assertEquals(SkyGradientStyle.CINEMATIC,
+                skyControl.getAtmosphere().getGradientStyle());
+        Assert.assertEquals(1.25f,
+                skyControl.getAtmosphere().getSunsetIntensity(), 0.0001f);
         Assert.assertEquals("FAIR", skyControl.environment().weather().id());
         Assert.assertEquals(0.95f,
                 skyControl.environment().visibility(), 0.0001f);

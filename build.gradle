@@ -6,7 +6,7 @@ plugins {
 
 ext {
     jmeTarget = '' // distinguish non-JME libraries built for specific JME releases
-    skySimulationBaseVersion = '1.4.0'
+    skySimulationBaseVersion = '1.4.1'
     skySnapshot = hasProperty('releaseBuild') ? '' : '-SNAPSHOT'
     skySimulationGroup = 'dev.takesome'
     skySimulationArtifact = 'sky-simulation'
