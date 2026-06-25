@@ -23,7 +23,7 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jme3utilities.sky;
+package jme3utilities.sky.update;
 
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -40,7 +40,7 @@ import java.util.List;
  *
  * @author Take Some
  */
-final class UpdaterApplier {
+public final class UpdaterApplier {
     /**
      * Hidden constructor.
      */
@@ -55,7 +55,7 @@ final class UpdaterApplier {
      * @param color source color (not null, unaffected)
      * @param multiplier intensity multiplier
      */
-    static void applyAmbient(
+    public static void applyAmbient(
             AmbientLight light, ColorRGBA color, float multiplier) {
         if (light != null) {
             ColorRGBA applied = color.mult(multiplier);
@@ -69,7 +69,7 @@ final class UpdaterApplier {
      * @param filters target filters (not null)
      * @param intensity bloom intensity
      */
-    static void applyBloom(List<BloomFilter> filters, float intensity) {
+    public static void applyBloom(List<BloomFilter> filters, float intensity) {
         for (BloomFilter filter : filters) {
             filter.setBloomIntensity(intensity);
         }
@@ -83,7 +83,7 @@ final class UpdaterApplier {
      * @param multiplier intensity multiplier
      * @param direction direction to the light source (not null, unaffected)
      */
-    static void applyMain(DirectionalLight light, ColorRGBA color,
+    public static void applyMain(DirectionalLight light, ColorRGBA color,
             float multiplier, Vector3f direction) {
         if (light != null) {
             ColorRGBA applied = color.mult(multiplier);
@@ -99,7 +99,7 @@ final class UpdaterApplier {
      * @param filters target filters (not null)
      * @param intensity shadow intensity
      */
-    static void applyShadowFilters(
+    public static void applyShadowFilters(
             List<AbstractShadowFilter<?>> filters, float intensity) {
         for (AbstractShadowFilter<?> filter : filters) {
             filter.setShadowIntensity(intensity);
@@ -112,7 +112,7 @@ final class UpdaterApplier {
      * @param renderers target renderers (not null)
      * @param intensity shadow intensity
      */
-    static void applyShadowRenderers(
+    public static void applyShadowRenderers(
             List<AbstractShadowRenderer> renderers, float intensity) {
         for (AbstractShadowRenderer renderer : renderers) {
             renderer.setShadowIntensity(intensity);
@@ -125,7 +125,8 @@ final class UpdaterApplier {
      * @param viewPorts target viewports (not null)
      * @param color background color (not null, unaffected)
      */
-    static void applyViewPorts(List<ViewPort> viewPorts, ColorRGBA color) {
+    public static void applyViewPorts(
+            List<ViewPort> viewPorts, ColorRGBA color) {
         for (ViewPort viewPort : viewPorts) {
             viewPort.setBackgroundColor(color);
         }

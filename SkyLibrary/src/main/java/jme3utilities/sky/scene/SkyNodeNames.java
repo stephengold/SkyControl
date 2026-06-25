@@ -23,28 +23,28 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jme3utilities.sky;
+package jme3utilities.sky.scene;
 
 /**
  * Internal scene-graph names used by sky controls and factories.
  *
  * @author Take Some
  */
-final class SkyNodeNames {
+public final class SkyNodeNames {
     /** Name for the bottom geometry. */
-    final static String bottom = "bottom";
+    final public static String bottom = "bottom";
     /** Name for the clouds-only geometry. */
-    final static String clouds = "clouds";
+    final public static String clouds = "clouds";
     /** Name for the northern stars geometry. */
-    final static String northStars = "northern stars";
+    final public static String northStars = "northern stars";
     /** Name for the sky subtree node. */
-    final static String skyNode = "sky node";
+    final public static String skyNode = "sky node";
     /** Name for the southern stars geometry. */
-    final static String southStars = "southern stars";
+    final public static String southStars = "southern stars";
     /** Name for the stars node. */
-    final static String starsNode = "stars node";
+    final public static String starsNode = "stars node";
     /** Name for the top geometry. */
-    final static String top = "top";
+    final public static String top = "top";
 
     /**
      * Hidden constructor.

@@ -36,6 +36,7 @@ import com.jme3.util.clone.JmeCloneable;
 import java.io.IOException;
 import java.util.Properties;
 import jme3utilities.Validate;
+import jme3utilities.sky.atmosphere.SkyAtmosphereProperties;
 
 /**
  * Mutable atmospheric tuning profile used by SkyControl.

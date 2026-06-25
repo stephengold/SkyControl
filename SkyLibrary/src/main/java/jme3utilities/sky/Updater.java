@@ -47,6 +47,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.ViewPortListener;
+import jme3utilities.sky.update.UpdaterApplier;
 
 /**
  * Component of SkyControl to keep track of all the lights, shadows, and

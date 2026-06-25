@@ -26,6 +26,34 @@ import jme3utilities.sky.SkyAtmosphere;
 
 That keeps existing code usable while the artifact itself is published under Take Some() coordinates.
 
+
+## Source layout
+
+The public API stays in the stable `jme3utilities.sky` namespace:
+
+```text
+SkyControl
+SkyControlCore
+SkyMaterial / SkyMaterialCore
+SkyAtmosphere
+CloudLayer
+SunAndStars
+Updater
+```
+
+Implementation helpers are grouped by responsibility in focused packages:
+
+```text
+jme3utilities.sky.atmosphere  atmospheric parsing and lighting math
+jme3utilities.sky.material    texture sampling helpers
+jme3utilities.sky.scene       scene-graph naming helpers
+jme3utilities.sky.update      live updater application helpers
+```
+
+Some helper classes remain package-private in `jme3utilities.sky` when moving
+those classes would force us to expose constructors or state that should stay
+encapsulated. Public compatibility is preferred over cosmetic directory moves.
+
 ## Package
 
 ### Release package

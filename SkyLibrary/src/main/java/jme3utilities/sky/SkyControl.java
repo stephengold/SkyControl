@@ -48,6 +48,7 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyColor;
 import jme3utilities.math.MyMath;
 import jme3utilities.mesh.DomeMesh;
+import jme3utilities.sky.atmosphere.SkyLightingModel;
 
 /**
  * Simple control to simulate a dynamic sky using assets and techniques derived

@@ -36,6 +36,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import jme3utilities.MyAsset;
 import jme3utilities.mesh.DomeMesh;
+import jme3utilities.sky.scene.SkyNodeNames;
 
 /**
  * Factory for sky dome geometries and default star-map nodes.

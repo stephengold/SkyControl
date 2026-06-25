@@ -52,6 +52,7 @@ import jme3utilities.SubtreeControl;
 import jme3utilities.Validate;
 import jme3utilities.math.MyColor;
 import jme3utilities.mesh.DomeMesh;
+import jme3utilities.sky.scene.SkyNodeNames;
 
 /**
  * Core fields and methods of a SubtreeControl to simulate a dynamic sky.

@@ -23,17 +23,18 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jme3utilities.sky;
+package jme3utilities.sky.atmosphere;
 
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
+import jme3utilities.sky.SkyAtmosphere;
 
 /**
  * Physically-inspired sky lighting calculations shared by SkyControl.
  *
  * @author Take Some
  */
-final class SkyLightingModel {
+public final class SkyLightingModel {
     /**
      * Hidden constructor.
      */
@@ -48,7 +49,7 @@ final class SkyLightingModel {
      * @param sineSolarAltitude sine of the solar altitude
      * @return transmission fraction between 0 and 1
      */
-    static float airMassTransmission(
+    public static float airMassTransmission(
             SkyAtmosphere atmosphere, float sineSolarAltitude) {
         float altitude = FastMath.clamp(sineSolarAltitude, 0.01f, 1f);
         float opticalMass = 1f / (altitude + 0.15f
@@ -68,7 +69,7 @@ final class SkyLightingModel {
      * @param sineSolarAltitude sine of the solar altitude
      * @return new color
      */
-    static ColorRGBA daylightColor(
+    public static ColorRGBA daylightColor(
             SkyAtmosphere atmosphere, float sineSolarAltitude) {
         ColorRGBA result = atmosphere.copySunLight(null);
         float transmission = airMassTransmission(atmosphere, sineSolarAltitude);
@@ -89,7 +90,7 @@ final class SkyLightingModel {
      * @param input input value
      * @return smoothed fraction
      */
-    static float smoothStep(float input) {
+    public static float smoothStep(float input) {
         float x = FastMath.saturate(input);
         float result = x * x * (3f - 2f * x);
 

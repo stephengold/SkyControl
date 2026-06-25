@@ -44,6 +44,7 @@ import java.util.logging.Logger;
 import jme3utilities.MyAsset;
 import jme3utilities.Validate;
 import jme3utilities.math.MyMath;
+import jme3utilities.sky.material.SkyTextureSampler;
 
 /**
  * Core fields and methods of a material for a dynamic sky dome.

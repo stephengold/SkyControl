@@ -23,18 +23,19 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jme3utilities.sky;
+package jme3utilities.sky.material;
 
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector2f;
 import com.jme3.texture.image.ImageRaster;
+import jme3utilities.sky.Constants;
 
 /**
  * Texture sampling utilities for sky materials.
  *
  * @author Take Some
  */
-final class SkyTextureSampler {
+public final class SkyTextureSampler {
     /**
      * Hidden constructor.
      */
@@ -49,7 +50,7 @@ final class SkyTextureSampler {
      * @param uv texture coordinates to sample (not null, unaffected)
      * @return red intensity (&le;1, &ge;0)
      */
-    static float sampleRed(ImageRaster colorImage, Vector2f uv) {
+    public static float sampleRed(ImageRaster colorImage, Vector2f uv) {
         assert colorImage != null;
         assert uv != null;
         float u = uv.x;
@@ -83,8 +84,8 @@ final class SkyTextureSampler {
                 + r10 * xFraction1 * yFraction0
                 + r11 * xFraction1 * yFraction1;
 
-        assert result >= Constants.alphaMin : result;
-        assert result <= Constants.alphaMax : result;
+        assert result >= 0f : result;
+        assert result <= 1f : result;
         return result;
     }
 }

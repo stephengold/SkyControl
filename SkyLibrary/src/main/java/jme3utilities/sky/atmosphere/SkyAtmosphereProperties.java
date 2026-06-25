@@ -23,7 +23,7 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jme3utilities.sky;
+package jme3utilities.sky.atmosphere;
 
 import com.jme3.math.ColorRGBA;
 import java.util.Properties;
@@ -33,7 +33,7 @@ import java.util.Properties;
  *
  * @author Take Some
  */
-final class SkyAtmosphereProperties {
+public final class SkyAtmosphereProperties {
     /**
      * Hidden constructor.
      */
@@ -49,7 +49,7 @@ final class SkyAtmosphereProperties {
      * @param fallback fallback color (not null)
      * @return parsed or fallback color
      */
-    static ColorRGBA readColor(
+    public static ColorRGBA readColor(
             Properties properties, String key, ColorRGBA fallback) {
         String text = properties.getProperty(key);
         if (text == null) {
@@ -79,7 +79,8 @@ final class SkyAtmosphereProperties {
      * @param fallback fallback value
      * @return parsed or fallback value
      */
-    static float readFloat(Properties properties, String key, float fallback) {
+    public static float readFloat(
+            Properties properties, String key, float fallback) {
         String text = properties.getProperty(key);
         if (text == null) {
             return fallback;
@@ -95,7 +96,7 @@ final class SkyAtmosphereProperties {
      * @param value value to validate
      * @param description value description (not null)
      */
-    static void validatePosFraction(float value, String description) {
+    public static void validatePosFraction(float value, String description) {
         if (!(value > 0f && value <= 1f)) {
             throw new IllegalArgumentException(
                     description + " should be greater than 0"
