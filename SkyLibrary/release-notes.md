@@ -1,5 +1,17 @@
 # release log for the SkyControl library and related software
 
+## Version 1.4.0 released on 25 June 2026
+
+Notable changes:
++ add Lua weather ABI (`helix/lua/sky/weather.lua`)
++ add data-driven weather preset definitions and registry loader
++ add game-facing environment snapshots and world clock
++ add Lua SkySimulation config ABI (`helix/lua/sky/default-sky.lua`)
++ add typed SkySimulation config loading and application
++ add command ABI (`helix/lua/sky/commands.lua`) and command bus
++ add commands for weather, clock, environment snapshot, and config reload
++ run full build and local package validation for releases
+
 ## Version 1.1.0 released on 18 October 2024
 
 Notable changes:

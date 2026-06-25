@@ -42,9 +42,9 @@ jobs:
           java-version: '17'
           cache: gradle
 
-      - name: Build and check
+      - name: Build and test
         shell: cmd
-        run: gradlew.bat :SkyLibrary:checkstyleMain -PskySimulationVersion=${{ steps.version.outputs.version }}
+        run: gradlew.bat clean build packageLocal -PskySimulationVersion=${{ steps.version.outputs.version }}
 
       - name: Publish to GitHub Packages
         shell: cmd
@@ -57,6 +57,7 @@ jobs:
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: SkySimulation v${{ steps.version.outputs.version }}
+          body_path: RELEASE_NOTES_v${{ steps.version.outputs.version }}.md
           generate_release_notes: true
           files: |
             SkyLibrary/build/libs/sky-simulation-${{ steps.version.outputs.version }}.jar

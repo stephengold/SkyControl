@@ -52,6 +52,7 @@ import jme3utilities.Validate;
 import jme3utilities.math.MyColor;
 import jme3utilities.mesh.DomeMesh;
 import jme3utilities.sky.cloud.SkyCloudPreset;
+import jme3utilities.sky.cloud.SkyCloudPresetDefinition;
 import jme3utilities.sky.control.SkyCelestialState;
 import jme3utilities.sky.control.SkyCloudRuntime;
 import jme3utilities.sky.material.SkyMaterialFactory;
@@ -359,6 +360,25 @@ public class SkyControlCore extends SubtreeControl {
         }
 
         cloudRuntime.transitionTo(preset, seconds);
+    }
+
+    /**
+     * Transition cloud layers to a data-driven weather preset.
+     * <p>
+     * Textures are swapped only after the affected layers fade out, then the
+     * target layers fade back in.
+     *
+     * @param definition target cloud preset definition (not null)
+     * @param seconds transition duration in seconds (&ge;0)
+     */
+    public void setCloudPreset(SkyCloudPresetDefinition definition,
+            float seconds) {
+        Validate.nonNull(definition, "definition");
+        if (!(seconds >= 0f)) {
+            throw new IllegalArgumentException("duration must be non-negative");
+        }
+
+        cloudRuntime.transitionTo(definition, seconds);
     }
 
     /**

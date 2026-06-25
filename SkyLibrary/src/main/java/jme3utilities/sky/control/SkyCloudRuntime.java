@@ -34,6 +34,7 @@ import java.io.IOException;
 import jme3utilities.Validate;
 import jme3utilities.sky.CloudLayer;
 import jme3utilities.sky.cloud.SkyCloudPreset;
+import jme3utilities.sky.cloud.SkyCloudPresetDefinition;
 import jme3utilities.sky.cloud.SkyCloudTransitionRuntime;
 
 /**
@@ -178,6 +179,17 @@ public final class SkyCloudRuntime {
      */
     public void transitionTo(SkyCloudPreset preset, float seconds) {
         transitionRuntime.transitionTo(preset, seconds);
+    }
+
+    /**
+     * Transition to a data-driven cloud weather preset.
+     *
+     * @param definition target preset definition (not null)
+     * @param seconds transition duration in seconds (&ge;0)
+     */
+    public void transitionTo(SkyCloudPresetDefinition definition,
+            float seconds) {
+        transitionRuntime.transitionTo(definition, seconds);
     }
 
     /**

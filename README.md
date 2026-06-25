@@ -56,7 +56,7 @@ encapsulated. Public compatibility is preferred over cosmetic directory moves.
 
 ## Cloud weather and generated sky materials
 
-Version `1.1.0` adds data-driven cloud weather presets, generated sky material definitions, and DDS cloud resources.
+Version `1.4.0` adds the Lua ABI runtime foundation: data-driven weather presets, SkySimulation config loading, command execution, generated sky material definitions, and DDS cloud resources.
 
 - `SkyCloudPreset` provides `CLEAR`, `FAIR`, `OVERCAST`, `WISPY`, `CLOUDY`, `RAIN`, `STORM`, and `NIMBUS`.
 - `SkyControl.setCloudPreset(preset, seconds)` changes weather by fading current layers out, swapping alpha/normal/scale/motion while invisible, and fading target layers in.
@@ -89,7 +89,7 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.takesome:sky-simulation:1.1.0")
+    implementation("dev.takesome:sky-simulation:1.4.0")
 }
 ```
 
@@ -110,7 +110,7 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.takesome:sky-simulation:1.1.0-SNAPSHOT")
+    implementation("dev.takesome:sky-simulation:1.4.0-SNAPSHOT")
 }
 ```
 
@@ -132,7 +132,7 @@ gradlew.bat packageLocal
 Build release artifacts locally:
 
 ```bat
-gradlew.bat :SkyLibrary:assemble -PskySimulationVersion=1.1.0
+gradlew.bat :SkyLibrary:assemble -PskySimulationVersion=1.4.0
 ```
 
 Artifacts are generated in:
@@ -146,8 +146,8 @@ SkyLibrary/build/libs
 A GitHub release is produced by pushing a version tag:
 
 ```bat
-git tag -a v1.1.0 -m "SkySimulation v1.1.0"
-git push origin v1.1.0
+git tag -a v1.4.0 -m "SkySimulation v1.4.0"
+git push origin v1.4.0
 ```
 
 The release workflow publishes the Maven package to GitHub Packages and attaches the JAR, sources, Javadoc, POM, and Gradle module metadata to the GitHub Release.

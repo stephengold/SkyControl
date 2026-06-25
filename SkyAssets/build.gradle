@@ -24,6 +24,7 @@ sourceSets.main.java {
 dependencies {
     implementation(libs.heart)
     implementation(libs.jcommander)
+    implementation(libs.luaj.jse)
 
     implementation(libs.jme3.core)
     implementation(libs.jme3.effects)

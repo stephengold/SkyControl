@@ -43,6 +43,9 @@ final public class SkyCloudAssets {
     final public static String registry
             = presetDirectory + "/cloud-weather-presets.json";
 
+    /** Runtime Lua ABI cloud weather preset registry. */
+    final public static String luaRegistry = "helix/lua/sky/weather.lua";
+
     /** Existing clear fallback alpha map. */
     final public static String clear = directory + "/clear.png";
     /** Existing procedural FBM alpha map. */

@@ -45,12 +45,18 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyColor;
 import jme3utilities.mesh.DomeMesh;
+import jme3utilities.sky.cloud.SkyCloudPreset;
+import jme3utilities.sky.cloud.SkyCloudPresetDefinition;
 import jme3utilities.sky.control.SkyBaseColorRuntime;
 import jme3utilities.sky.control.SkyCloudTransmissionRuntime;
 import jme3utilities.sky.control.SkyLightSelectionRuntime;
 import jme3utilities.sky.control.SkyLightingOutputRuntime;
 import jme3utilities.sky.control.SkyMoonRuntime;
 import jme3utilities.sky.control.SkyObjectLightingRuntime;
+import jme3utilities.sky.runtime.SkyEnvironmentRuntime;
+import jme3utilities.sky.runtime.SkyLightingSnapshot;
+import jme3utilities.sky.runtime.SkyLightingState;
+import jme3utilities.sky.runtime.SkyWorldClock;
 
 /**
  * Simple control to simulate a dynamic sky using assets and techniques derived
@@ -147,12 +153,19 @@ public class SkyControl extends SkyControlCore {
      * lights, shadows, and viewports to update
      */
     private Updater updater = null;
+    /**
+     * Game-facing environment runtime.
+     */
+    private SkyEnvironmentRuntime environmentRuntime = null;
     /** atmospheric lighting and realism profile */
     private SkyAtmosphere atmosphere = new SkyAtmosphere();
     /** custom moon texture asset path, or null to use the phase preset */
     private String moonAssetPath = null;
     /** custom moon texture object, or null for phase preset or path */
     private Texture moonColorMap = null;
+    /** Latest lighting snapshot exposed to game/runtime code. */
+    private SkyLightingSnapshot lastLightSnapshot
+            = SkyLightingSnapshot.empty();
     // *************************************************************************
     // constructors
 
@@ -161,6 +174,7 @@ public class SkyControl extends SkyControlCore {
      */
     protected SkyControl() {
         super();
+        this.environmentRuntime = createEnvRuntime();
     }
 
     /**
@@ -186,6 +200,7 @@ public class SkyControl extends SkyControlCore {
 
         this.sunAndStars = new SunAndStars();
         this.updater = new Updater();
+        this.environmentRuntime = createEnvRuntime();
         setPhase(phase);
         setSunStyle("Textures/skies/suns/hazy-disc.png");
 
@@ -247,6 +262,16 @@ public class SkyControl extends SkyControlCore {
     }
 
     /**
+     * Access the game-facing sky environment runtime.
+     *
+     * @return pre-existing runtime
+     */
+    public SkyEnvironmentRuntime environment() {
+        ensureEnvRuntime();
+        return environmentRuntime;
+    }
+
+    /**
      * Access the atmospheric tuning profile.
      *
      * @return the pre-existing mutable profile (not null)
@@ -267,6 +292,16 @@ public class SkyControl extends SkyControlCore {
     public void setAtmosphere(SkyAtmosphere newAtmosphere) {
         Validate.nonNull(newAtmosphere, "atmosphere");
         this.atmosphere = newAtmosphere.copy();
+    }
+
+    /**
+     * Copy the latest lighting output snapshot.
+     *
+     * @return copied lighting snapshot
+     */
+    public SkyLightingSnapshot lightingSnapshot() {
+        ensureEnvRuntime();
+        return lastLightSnapshot.copy();
     }
 
     /**
@@ -306,6 +341,31 @@ public class SkyControl extends SkyControlCore {
      */
     public void setCloudModulation(boolean newValue) {
         this.cloudModulationFlag = newValue;
+    }
+
+    /**
+     * Transition cloud layers to a weather preset and update environment state.
+     *
+     * @param preset target cloud preset (not null)
+     * @param seconds transition duration in seconds (&ge;0)
+     */
+    @Override
+    public void setCloudPreset(SkyCloudPreset preset, float seconds) {
+        ensureEnvRuntime();
+        environmentRuntime.setWeather(preset, seconds);
+    }
+
+    /**
+     * Transition cloud layers to a data-driven weather preset and update state.
+     *
+     * @param definition target cloud preset definition (not null)
+     * @param seconds transition duration in seconds (&ge;0)
+     */
+    @Override
+    public void setCloudPreset(SkyCloudPresetDefinition definition,
+            float seconds) {
+        ensureEnvRuntime();
+        environmentRuntime.setWeather(definition, seconds);
     }
 
     /**
@@ -562,12 +622,21 @@ public class SkyControl extends SkyControlCore {
     public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
+        final SkyControl originalControl = (SkyControl) original;
         this.colorDay = cloner.clone(colorDay);
         this.moonRenderer = cloner.clone(moonRenderer);
         this.moonColorMap = cloner.clone(moonColorMap);
         this.atmosphere = cloner.clone(atmosphere);
         this.sunAndStars = cloner.clone(sunAndStars);
         this.updater = cloner.clone(updater);
+        this.lastLightSnapshot
+                = originalControl.lastLightSnapshot.copy();
+        this.environmentRuntime = createEnvRuntime();
+        if (originalControl.environmentRuntime != null) {
+            this.environmentRuntime.restoreWeather(
+                    originalControl.environmentRuntime.weather());
+            this.environmentRuntime.updateLighting(lastLightSnapshot);
+        }
     }
 
     /**
@@ -605,6 +674,11 @@ public class SkyControl extends SkyControlCore {
         this.phase = ic.readEnum("phase", LunarPhase.class, LunarPhase.FULL);
         this.sunAndStars = (SunAndStars) ic.readSavable("sunAndStars", null);
         this.updater = (Updater) ic.readSavable("updater", null);
+        this.lastLightSnapshot = SkyLightingSnapshot.empty();
+        this.environmentRuntime = createEnvRuntime();
+        if (sunAndStars != null) {
+            environmentRuntime.clock().setTimeOfDay(sunAndStars.getHour());
+        }
     }
 
     /**
@@ -633,6 +707,68 @@ public class SkyControl extends SkyControlCore {
     }
     // *************************************************************************
     // private methods
+
+    /**
+     * Apply a cloud preset using the inherited visual cloud runtime.
+     *
+     * @param preset target cloud preset
+     * @param seconds transition duration in seconds
+     */
+    private void applyCloudPresetToCore(SkyCloudPreset preset, float seconds) {
+        super.setCloudPreset(preset, seconds);
+    }
+
+    /**
+     * Apply a data-driven cloud preset using the inherited runtime.
+     *
+     * @param definition target cloud preset definition
+     * @param seconds transition duration in seconds
+     */
+    private void applyCloudPresetToCore(SkyCloudPresetDefinition definition,
+            float seconds) {
+        super.setCloudPreset(definition, seconds);
+    }
+
+    /**
+     * Create the game-facing environment runtime.
+     *
+     * @return new runtime
+     */
+    private SkyEnvironmentRuntime createEnvRuntime() {
+        SkyEnvironmentRuntime result = new SkyEnvironmentRuntime(
+                new SkyWorldClock.TimeApplier() {
+                    @Override
+                    public void applyTimeOfDay(float timeOfDayHours) {
+                        if (sunAndStars != null) {
+                            sunAndStars.setHour(timeOfDayHours);
+                        }
+                    }
+                },
+                new SkyEnvironmentRuntime.WeatherApplier() {
+                    @Override
+                    public void applyWeather(
+                            SkyCloudPreset preset, float seconds) {
+                        applyCloudPresetToCore(preset, seconds);
+                    }
+
+                    @Override
+                    public void applyWeather(
+                            SkyCloudPresetDefinition definition,
+                            float seconds) {
+                        applyCloudPresetToCore(definition, seconds);
+                    }
+                });
+        return result;
+    }
+
+    /**
+     * Ensure the environment runtime exists.
+     */
+    private void ensureEnvRuntime() {
+        if (environmentRuntime == null) {
+            environmentRuntime = createEnvRuntime();
+        }
+    }
 
     /**
      * Apply the custom moon texture, if one has been specified.
@@ -730,6 +866,13 @@ public class SkyControl extends SkyControlCore {
         ColorRGBA main = output.mainDirectionalColor();
         float bloomIntensity = output.bloomIntensity();
         float shadowIntensity = output.shadowIntensity();
+
+        SkyLightingState lightingState = new SkyLightingState(
+                bloomIntensity, shadowIntensity, sunUp, moonUp);
+        lastLightSnapshot = new SkyLightingSnapshot(
+                ambient, baseColor, main, mainDirection, lightingState);
+        ensureEnvRuntime();
+        environmentRuntime.updateLighting(lastLightSnapshot);
 
         updater.update(ambient, baseColor, main, bloomIntensity,
                 shadowIntensity, mainDirection);

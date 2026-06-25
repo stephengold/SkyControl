@@ -51,7 +51,7 @@ final public class SkyCloudTransitionRuntime {
     /** Total transition duration. */
     private float duration;
     /** Target preset. */
-    private SkyCloudPreset target;
+    private SkyCloudPresetDefinition target;
 
     /**
      * Instantiate a transition runtime.
@@ -85,18 +85,33 @@ final public class SkyCloudTransitionRuntime {
     }
 
     /**
-     * Start a transition to the specified preset.
+     * Start a transition to the specified built-in preset.
      *
      * @param preset target preset (not null)
      * @param seconds transition duration in seconds (&ge;0)
      */
     public void transitionTo(SkyCloudPreset preset, float seconds) {
         Validate.nonNull(preset, "preset");
+
+        SkyCloudPresetDefinition definition
+                = SkyCloudPresetDefinition.fromPreset(preset);
+        transitionTo(definition, seconds);
+    }
+
+    /**
+     * Start a transition to the specified data preset.
+     *
+     * @param definition target preset definition (not null)
+     * @param seconds transition duration in seconds (&ge;0)
+     */
+    public void transitionTo(SkyCloudPresetDefinition definition,
+            float seconds) {
+        Validate.nonNull(definition, "definition");
         if (!(seconds >= 0f)) {
             throw new IllegalArgumentException("duration must be non-negative");
         }
 
-        this.target = preset;
+        this.target = definition;
         this.duration = seconds;
         this.elapsed = 0f;
         this.swapped = false;
