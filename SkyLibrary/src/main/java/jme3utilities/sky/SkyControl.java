@@ -659,57 +659,6 @@ public class SkyControl extends SkyControlCore {
     }
 
     /**
-     * Approximate solar transmission through the atmosphere.
-     *
-     * @param sineSolarAltitude sine of the solar altitude
-     * @return transmission fraction between 0 and 1
-     */
-    private float airMassTransmission(float sineSolarAltitude) {
-        float altitude = FastMath.clamp(sineSolarAltitude, 0.01f, 1f);
-        float opticalMass = 1f / (altitude + 0.15f
-                * (float) Math.pow(altitude + 0.1f, 1.25));
-        float extinction = (float) Math.exp(-0.18f
-                * atmosphere.getAirMassStrength() * (opticalMass - 1f));
-        float result = FastMath.clamp(extinction,
-                atmosphere.getMinSunTransmit(), 1f);
-
-        return result;
-    }
-
-    /**
-     * Compute daylight color after approximate atmospheric extinction.
-     *
-     * @param sineSolarAltitude sine of the solar altitude
-     * @return new color
-     */
-    private ColorRGBA daylightColor(float sineSolarAltitude) {
-        ColorRGBA result = atmosphere.copySunLight(null);
-        float transmission = airMassTransmission(sineSolarAltitude);
-        float warmWeight = 1f - smoothStep(
-                sineSolarAltitude / atmosphere.getColorShiftAltitude());
-        float shift = warmWeight * atmosphere.getSunsetWarmth();
-
-        result.g *= 1f - 0.35f * shift;
-        result.b *= 1f - 0.75f * shift;
-        result.multLocal(transmission);
-
-        return result;
-    }
-
-    /**
-     * Smoothly remap a value from 0..1 to 0..1.
-     *
-     * @param input input value
-     * @return smoothed fraction
-     */
-    private static float smoothStep(float input) {
-        float x = FastMath.saturate(input);
-        float result = x * x * (3f - 2f * x);
-
-        return result;
-    }
-
-    /**
      * Compute where mainDirection intersects the cloud dome in the dome's local
      * coordinates, accounting for the dome's flattening and vertical offset.
      *
@@ -895,12 +844,13 @@ public class SkyControl extends SkyControlCore {
          * with linearly interpolated transitions.
          */
         ColorRGBA twilightColor = atmosphere.copyTwilightColor(null);
-        ColorRGBA sunColor = daylightColor(sineSolarAltitude);
+        ColorRGBA sunColor = SkyLightingModel.daylightColor(
+                atmosphere, sineSolarAltitude);
         ColorRGBA moonColor = atmosphere.copyMoonLight(null);
         ColorRGBA starColor = atmosphere.copyStarLight(null);
         ColorRGBA baseColor;
         if (sunUp) {
-            float dayWeight = smoothStep(
+            float dayWeight = SkyLightingModel.smoothStep(
                     sineSolarAltitude / atmosphere.getFullDayAltitude());
             baseColor = MyColor.interpolateLinear(
                     dayWeight, twilightColor, sunColor);
@@ -916,7 +866,7 @@ public class SkyControl extends SkyControlCore {
             } else {
                 blend = starColor;
             }
-            float nightWeight = smoothStep(
+            float nightWeight = SkyLightingModel.smoothStep(
                     -sineSolarAltitude / atmosphere.getTwilightLimit());
             baseColor = MyColor.interpolateLinear(
                     nightWeight, twilightColor, blend);
@@ -1058,7 +1008,8 @@ public class SkyControl extends SkyControlCore {
         // Update the sun's color and glow.
         float sunVisibility = FastMath.saturate(
                 1f + sineSolarAltitude / atmosphere.getTwilightLimit());
-        ColorRGBA sunColor = daylightColor(sineSolarAltitude);
+        ColorRGBA sunColor = SkyLightingModel.daylightColor(
+                atmosphere, sineSolarAltitude);
         sunColor.a = Constants.alphaMax * sunVisibility;
         SkyMaterial topMaterial = getTopMaterial();
         topMaterial.setObjectColor(sunIndex, sunColor);
@@ -1067,7 +1018,7 @@ public class SkyControl extends SkyControlCore {
         // Update the moon's color.
         float moonVisibility = FastMath.saturate(
                 2f * sineLunarAltitude + 0.6f);
-        float moonWarmth = 1f - smoothStep(
+        float moonWarmth = 1f - SkyLightingModel.smoothStep(
                 (sineLunarAltitude + 0.02f) / 0.25f);
         float moonShift = moonWarmth * atmosphere.getSunsetWarmth();
         ColorRGBA moonColor = atmosphere.copyMoonLight(null);

@@ -159,34 +159,43 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
     public void apply(Properties properties) {
         Validate.nonNull(properties, "properties");
 
-        setAirMassStrength(readFloat(properties,
+        setAirMassStrength(SkyAtmosphereProperties.readFloat(properties,
                 "airMassStrength", airMassStrength));
-        setAmbientScale(readFloat(properties, "ambientScale", ambientScale));
-        setBloomScale(readFloat(properties, "bloomScale", bloomScale));
-        setColorShiftAltitude(readFloat(properties,
+        setAmbientScale(SkyAtmosphereProperties.readFloat(
+                properties, "ambientScale", ambientScale));
+        setBloomScale(SkyAtmosphereProperties.readFloat(
+                properties, "bloomScale", bloomScale));
+        setColorShiftAltitude(SkyAtmosphereProperties.readFloat(properties,
                 "colorShiftAltitude", colorShiftAltitude));
-        setCloudDayBrightness(readFloat(properties,
+        setCloudDayBrightness(SkyAtmosphereProperties.readFloat(properties,
                 "cloudDayBrightness", cloudDayBrightness));
-        setCloudMoonBoost(readFloat(properties,
+        setCloudMoonBoost(SkyAtmosphereProperties.readFloat(properties,
                 "cloudMoonBoost", cloudMoonBoost));
-        setCloudNight(readFloat(properties,
+        setCloudNight(SkyAtmosphereProperties.readFloat(properties,
                 "cloudNight", cloudNight));
-        setFullDayAltitude(readFloat(properties,
+        setFullDayAltitude(SkyAtmosphereProperties.readFloat(properties,
                 "fullDayAltitude", fullDayAltitude));
-        setHazeStrength(readFloat(properties, "hazeStrength", hazeStrength));
-        setMaxBloomIntensity(readFloat(properties,
+        setHazeStrength(SkyAtmosphereProperties.readFloat(
+                properties, "hazeStrength", hazeStrength));
+        setMaxBloomIntensity(SkyAtmosphereProperties.readFloat(properties,
                 "maxBloomIntensity", maxBloomIntensity));
-        setMinSunTransmit(readFloat(properties,
+        setMinSunTransmit(SkyAtmosphereProperties.readFloat(properties,
                 "minSunTransmission", minSunTransmission));
-        setShadowContrast(readFloat(properties,
+        setShadowContrast(SkyAtmosphereProperties.readFloat(properties,
                 "shadowContrast", shadowContrast));
-        setSunsetWarmth(readFloat(properties, "sunsetWarmth", sunsetWarmth));
-        setTwilightLimit(readFloat(properties, "twilightLimit", twilightLimit));
+        setSunsetWarmth(SkyAtmosphereProperties.readFloat(
+                properties, "sunsetWarmth", sunsetWarmth));
+        setTwilightLimit(SkyAtmosphereProperties.readFloat(
+                properties, "twilightLimit", twilightLimit));
 
-        setMoonLight(readColor(properties, "moonLight", moonLight));
-        setStarLight(readColor(properties, "starLight", starLight));
-        setSunLight(readColor(properties, "sunLight", sunLight));
-        setTwilightColor(readColor(properties, "twilightColor", twilightColor));
+        setMoonLight(SkyAtmosphereProperties.readColor(
+                properties, "moonLight", moonLight));
+        setStarLight(SkyAtmosphereProperties.readColor(
+                properties, "starLight", starLight));
+        setSunLight(SkyAtmosphereProperties.readColor(
+                properties, "sunLight", sunLight));
+        setTwilightColor(SkyAtmosphereProperties.readColor(
+                properties, "twilightColor", twilightColor));
     }
 
     /**
@@ -434,7 +443,7 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
      * @param altitude sine of solar altitude (&gt;0, &le;1)
      */
     public void setColorShiftAltitude(float altitude) {
-        validatePosFraction(altitude, "altitude");
+        SkyAtmosphereProperties.validatePosFraction(altitude, "altitude");
         this.colorShiftAltitude = altitude;
     }
 
@@ -474,7 +483,7 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
      * @param altitude sine of solar altitude (&gt;0, &le;1)
      */
     public void setFullDayAltitude(float altitude) {
-        validatePosFraction(altitude, "altitude");
+        SkyAtmosphereProperties.validatePosFraction(altitude, "altitude");
         this.fullDayAltitude = altitude;
     }
 
@@ -564,7 +573,7 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
      * @param limit sine of solar depression (&gt;0, &le;1)
      */
     public void setTwilightLimit(float limit) {
-        validatePosFraction(limit, "limit");
+        SkyAtmosphereProperties.validatePosFraction(limit, "limit");
         this.twilightLimit = limit;
     }
 
@@ -715,67 +724,5 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
         return result;
     }
 
-    /**
-     * Read a color override from properties.
-     *
-     * @param properties source properties (not null)
-     * @param key property key (not null)
-     * @param fallback fallback color (not null)
-     * @return parsed or fallback color
-     */
-    private static ColorRGBA readColor(
-            Properties properties, String key, ColorRGBA fallback) {
-        String text = properties.getProperty(key);
-        if (text == null) {
-            return fallback;
-        }
 
-        String[] components = text.split(",");
-        if (components.length != 3 && components.length != 4) {
-            throw new IllegalArgumentException(
-                    key + " should contain r,g,b or r,g,b,a");
-        }
-        float r = Float.parseFloat(components[0].trim());
-        float g = Float.parseFloat(components[1].trim());
-        float b = Float.parseFloat(components[2].trim());
-        float a = (components.length == 4)
-                ? Float.parseFloat(components[3].trim()) : fallback.a;
-        ColorRGBA result = new ColorRGBA(r, g, b, a);
-
-        return result;
-    }
-
-    /**
-     * Read a float override from properties.
-     *
-     * @param properties source properties (not null)
-     * @param key property key (not null)
-     * @param fallback fallback value
-     * @return parsed or fallback value
-     */
-    private static float readFloat(
-            Properties properties, String key, float fallback) {
-        String text = properties.getProperty(key);
-        if (text == null) {
-            return fallback;
-        }
-        float result = Float.parseFloat(text.trim());
-
-        return result;
-    }
-
-    /**
-     * Validate a positive fraction.
-     *
-     * @param value value to validate
-     * @param description value description (not null)
-     */
-    private static void validatePosFraction(
-            float value, String description) {
-        if (!(value > 0f && value <= 1f)) {
-            throw new IllegalArgumentException(
-                    description + " should be greater than 0"
-                    + " and no more than 1");
-        }
-    }
 }
