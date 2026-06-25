@@ -455,33 +455,14 @@ public class Updater
             this.direction.set(direction);
         }
 
-        if (mainLight != null) {
-            ColorRGBA color = mainColor.mult(mainMultiplier);
-            mainLight.setColor(color);
-            /*
-             * The direction of the main light is the direction in which it
-             * propagates, which is the opposite of the direction to the
-             * light source.
-             */
-            Vector3f propagationDirection = direction.negate();
-            mainLight.setDirection(propagationDirection);
-        }
-        if (ambientLight != null) {
-            ColorRGBA color = ambientColor.mult(ambientMultiplier);
-            ambientLight.setColor(color);
-        }
-        for (BloomFilter filter : bloomFilters) {
-            filter.setBloomIntensity(bloomIntensity);
-        }
-        for (AbstractShadowFilter<?> filter : shadowFilters) {
-            filter.setShadowIntensity(shadowIntensity);
-        }
-        for (AbstractShadowRenderer renderer : shadowRenderers) {
-            renderer.setShadowIntensity(shadowIntensity);
-        }
-        for (ViewPort viewPort : viewPorts) {
-            viewPort.setBackgroundColor(backgroundColor);
-        }
+        UpdaterApplier.applyMain(
+                mainLight, mainColor, mainMultiplier, direction);
+        UpdaterApplier.applyAmbient(
+                ambientLight, ambientColor, ambientMultiplier);
+        UpdaterApplier.applyBloom(bloomFilters, bloomIntensity);
+        UpdaterApplier.applyShadowFilters(shadowFilters, shadowIntensity);
+        UpdaterApplier.applyShadowRenderers(shadowRenderers, shadowIntensity);
+        UpdaterApplier.applyViewPorts(viewPorts, backgroundColor);
     }
     // *************************************************************************
     // JmeCloneable methods
