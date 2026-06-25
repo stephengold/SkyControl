@@ -39,8 +39,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
-import com.jme3.renderer.queue.RenderQueue.Bucket;
-import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -49,7 +47,6 @@ import com.jme3.util.clone.Cloner;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jme3utilities.MyAsset;
 import jme3utilities.MySpatial;
 import jme3utilities.SubtreeControl;
 import jme3utilities.Validate;
@@ -86,57 +83,14 @@ public class SkyControlCore extends SubtreeControl {
      */
     final public static int numCloudLayers = 6;
     /**
-     * number of samples in each longitudinal arc of a major dome, including
-     * both its top and its rim (&ge;2)
-     */
-    final private static int numLongitudinalSamples = 16;
-    /**
-     * number of samples around the rim of a dome (&ge;3)
-     */
-    final private static int numRimSamples = 60;
-    /**
      * message logger for this class
      */
     final private static Logger logger
             = Logger.getLogger(SkyControlCore.class.getName());
     /**
-     * reusable mesh for smooth, inward-facing domes
-     */
-    final private static DomeMesh hemisphereMesh
-            = new DomeMesh(numRimSamples, numLongitudinalSamples,
-            Constants.topU, Constants.topV, Constants.uvScale, true);
-    /**
      * local copy of {@link com.jme3.math.Quaternion#IDENTITY}
      */
     final private static Quaternion rotationIdentity = new Quaternion();
-    /**
-     * name for the bottom geometry
-     */
-    final private static String bottomName = "bottom";
-    /**
-     * name for the clouds-only geometry
-     */
-    final private static String cloudsName = "clouds";
-    /**
-     * name for the stars node
-     */
-    final private static String starsNodeName = "stars node";
-    /**
-     * name for the top geometry
-     */
-    final private static String topName = "top";
-    /**
-     * local copy of {@link com.jme3.math.Vector3f#UNIT_X}
-     */
-    final private static Vector3f unitX = new Vector3f(1f, 0f, 0f);
-    /**
-     * local copy of {@link com.jme3.math.Vector3f#UNIT_Z}
-     */
-    final private static Vector3f unitZ = new Vector3f(0f, 0f, 1f);
-    /**
-     * negative Y-axis
-     */
-    final private static Vector3f negativeUnitY = new Vector3f(0f, -1f, 0f);
     // *************************************************************************
     // fields
 
@@ -238,47 +192,22 @@ public class SkyControlCore extends SubtreeControl {
         this.starsOption = starsOption;
         this.bottomDomeFlag = bottomDomeFlag;
 
-        // Create and initialize the sky material for sun, moon, and haze.
-        int topObjects = 2; // a sun and a moon
-        boolean cloudDomeFlag = cloudFlattening != 0f;
-        int topCloudLayers = cloudDomeFlag ? 0 : numCloudLayers;
-        SkyMaterial topMaterial
-                = new SkyMaterial(assetManager, topObjects, topCloudLayers);
-        topMaterial.initialize();
-        topMaterial.addHaze();
-        if (starsOption == StarsOption.TopDome) {
-            topMaterial.addStars();
+        boolean separateCloudDome = cloudFlattening != 0f;
+        SkyMaterial topMaterial = SkyMaterialFactory.createTop(
+                assetManager, separateCloudDome, starsOption);
+        SkyMaterial cloudsMaterial = SkyMaterialFactory.createClouds(
+                assetManager, separateCloudDome, topMaterial);
+        this.cloudLayers = SkyMaterialFactory.createLayers(cloudsMaterial);
+        Material bottomMaterial = SkyMaterialFactory.createBottom(
+                assetManager, bottomDomeFlag);
+        Node subtreeNode = SkyDomeFactory.createSubtree(cloudFlattening,
+                bottomDomeFlag, topMaterial, bottomMaterial, cloudsMaterial);
+        setSubtree(subtreeNode);
+        Node starsNode = SkyDomeFactory.createDefaultStars(
+                assetManager, starsOption);
+        if (starsNode != null) {
+            SkyDomeFactory.attachStars(subtreeNode, starsNode);
         }
-
-        SkyMaterial cloudsMaterial;
-        if (cloudDomeFlag) {
-            // Create and initialize a separate sky material for clouds only.
-            int numObjects = 0;
-            cloudsMaterial
-                    = new SkyMaterial(assetManager, numObjects, numCloudLayers);
-            cloudsMaterial.initialize();
-            cloudsMaterial.getAdditionalRenderState().setDepthWrite(false);
-            cloudsMaterial.setClearColor(ColorRGBA.BlackNoAlpha);
-        } else {
-            cloudsMaterial = topMaterial;
-        }
-
-        // Initialize the cloud layers.
-        this.cloudLayers = new CloudLayer[numCloudLayers];
-        for (int layerIndex = 0; layerIndex < numCloudLayers; ++layerIndex) {
-            this.cloudLayers[layerIndex]
-                    = new CloudLayer(cloudsMaterial, layerIndex);
-        }
-
-        Material bottomMaterial;
-        if (bottomDomeFlag) {
-            bottomMaterial = MyAsset.createUnshadedMaterial(assetManager);
-        } else {
-            bottomMaterial = null;
-        }
-
-        createSpatials(
-                cloudFlattening, topMaterial, bottomMaterial, cloudsMaterial);
 
         assert !isEnabled();
     }
@@ -496,24 +425,18 @@ public class SkyControlCore extends SubtreeControl {
     final public void setStarMaps(String assetName) {
         Validate.nonEmpty(assetName, "asset name");
 
-        Node starNode;
         switch (starsOption) {
             case Cube:
+            case TwoDomes:
                 removeStarsNode();
-                starNode = MyAsset.createStarMapQuads(assetManager, assetName);
-                starNode.setName(starsNodeName);
-                ((Node) getSubtree()).attachChildAt(starNode, 0);
+                Node starNode = SkyDomeFactory.createStars(
+                        assetManager, starsOption, assetName);
+                SkyDomeFactory.attachStars((Node) getSubtree(), starNode);
                 break;
 
             case TopDome:
                 SkyMaterial topMaterial = getTopMaterial();
                 topMaterial.addStars(assetName);
-                break;
-
-            case TwoDomes:
-                removeStarsNode();
-                starNode = createStarMapDomes(assetName);
-                ((Node) getSubtree()).attachChildAt(starNode, 0);
                 break;
 
             default:
@@ -554,8 +477,8 @@ public class SkyControlCore extends SubtreeControl {
      */
     protected Geometry getBottomDome() {
         Node subtreeNode = (Node) getSubtree();
-        Geometry bottomDome
-                = (Geometry) MySpatial.findChild(subtreeNode, bottomName);
+        Geometry bottomDome = (Geometry) MySpatial.findChild(
+                subtreeNode, SkyNodeNames.bottom);
 
         return bottomDome;
     }
@@ -597,8 +520,8 @@ public class SkyControlCore extends SubtreeControl {
      */
     protected Geometry getCloudsOnlyDome() {
         Node subtreeNode = (Node) getSubtree();
-        Geometry cloudsOnlyDome
-                = (Geometry) MySpatial.findChild(subtreeNode, cloudsName);
+        Geometry cloudsOnlyDome = (Geometry) MySpatial.findChild(
+                subtreeNode, SkyNodeNames.clouds);
 
         return cloudsOnlyDome;
     }
@@ -647,7 +570,8 @@ public class SkyControlCore extends SubtreeControl {
      */
     protected Node getStarsNode() {
         Node subtreeNode = (Node) getSubtree();
-        Node starsNode = (Node) MySpatial.findChild(subtreeNode, starsNodeName);
+        Node starsNode = (Node) MySpatial.findChild(
+                subtreeNode, SkyNodeNames.starsNode);
 
         return starsNode;
     }
@@ -659,7 +583,8 @@ public class SkyControlCore extends SubtreeControl {
      */
     protected Geometry getTopDome() {
         Node subtreeNode = (Node) getSubtree();
-        Geometry topDome = (Geometry) MySpatial.findChild(subtreeNode, topName);
+        Geometry topDome = (Geometry) MySpatial.findChild(
+                subtreeNode, SkyNodeNames.top);
 
         assert topDome != null;
         return topDome;
@@ -851,109 +776,6 @@ public class SkyControlCore extends SubtreeControl {
     }
     // *************************************************************************
     // private methods
-
-    /**
-     * Create and initialize the sky node and all its dome geometries.
-     *
-     * @param cloudFlattening the oblateness (ellipticity) of the dome with the
-     * clouds (&ge; 0, &lt;1, 0 &rarr; no flattening (hemisphere), 1 &rarr;
-     * maximum flattening
-     * @param topMaterial (not null)
-     * @param bottomMaterial (may be null)
-     * @param cloudsMaterial (not null)
-     */
-    private void createSpatials(float cloudFlattening, Material topMaterial,
-            Material bottomMaterial, Material cloudsMaterial) {
-        // Create a Node to parent the dome geometries.
-        Node subtreeNode = new Node("sky node");
-        subtreeNode.setQueueBucket(Bucket.Sky);
-        subtreeNode.setShadowMode(ShadowMode.Off);
-        setSubtree(subtreeNode);
-        /*
-         * Attach geometries to the sky node from the outside in
-         * because they'll be rendered in that order.
-         */
-        switch (starsOption) {
-            case Cube:
-                setStarMaps("equator");
-                break;
-
-            case TwoDomes:
-                setStarMaps("Textures/skies/star-maps");
-                break;
-
-            default:
-        }
-        Geometry topDome = new Geometry(topName, hemisphereMesh.clone());
-        subtreeNode.attachChild(topDome);
-        topDome.setMaterial(topMaterial);
-
-        if (bottomDomeFlag) {
-            DomeMesh bottomMesh = new DomeMesh(numRimSamples, 2, Constants.topU,
-                    Constants.topV, Constants.uvScale, true);
-            Geometry bottomDome = new Geometry(bottomName, bottomMesh);
-            subtreeNode.attachChild(bottomDome);
-
-            Quaternion upsideDown = new Quaternion();
-            upsideDown.lookAt(unitX, negativeUnitY);
-            bottomDome.setLocalRotation(upsideDown);
-            bottomDome.setMaterial(bottomMaterial);
-        }
-
-        if (cloudsMaterial != topMaterial) {
-            assert cloudFlattening > 0f : cloudFlattening;
-            assert cloudFlattening < 1f : cloudFlattening;
-
-            Geometry cloudsOnlyDome = new Geometry(cloudsName, hemisphereMesh);
-            subtreeNode.attachChild(cloudsOnlyDome);
-            /*
-             * Flatten the clouds-only dome in order to foreshorten clouds
-             * near the horizon -- even if cloudYOffset=0.
-             */
-            float yScale = 1f - cloudFlattening;
-            cloudsOnlyDome.setLocalScale(1f, yScale, 1f);
-            cloudsOnlyDome.setMaterial(cloudsMaterial);
-        }
-    }
-
-    /**
-     * Load a star map onto a sphere formed by 2 domes, one for the northern
-     * hemisphere and one for the southern hemisphere.
-     *
-     * @param assetPath path to an asset folder containing northern.png and
-     * southern.png (not null)
-     * @return a new, orphan node
-     */
-    private Node createStarMapDomes(String assetPath) {
-        assert assetPath != null;
-
-        Node starNode = new Node(starsNodeName);
-
-        Geometry northGeometry = new Geometry("northern stars", hemisphereMesh);
-        starNode.attachChild(northGeometry);
-        String northAssetPath = assetPath + "/northern.png";
-        Material northMaterial
-                = MyAsset.createUnshadedMaterial(assetManager, northAssetPath);
-        northGeometry.setMaterial(northMaterial);
-
-        Quaternion orientNorth = new Quaternion();
-        orientNorth.fromAngleAxis(-FastMath.HALF_PI, unitZ);
-        northGeometry.setLocalRotation(orientNorth);
-
-        Geometry southGeometry
-                = new Geometry("southern stars", hemisphereMesh);
-        starNode.attachChild(southGeometry);
-        String southAssetPath = assetPath + "/southern.png";
-        Material southMaterial
-                = MyAsset.createUnshadedMaterial(assetManager, southAssetPath);
-        southGeometry.setMaterial(southMaterial);
-
-        Quaternion orientSouth = new Quaternion();
-        orientSouth.fromAngleAxis(FastMath.HALF_PI, unitZ);
-        southGeometry.setLocalRotation(orientSouth);
-
-        return starNode;
-    }
 
     /**
      * Remove the stars node (if it exists) from the scene graph.
