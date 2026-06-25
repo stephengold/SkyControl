@@ -35,10 +35,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.TreeSet;
@@ -62,48 +58,12 @@ import jme3utilities.sky.Constants;
  */
 final class MakeStarMaps {
     // *************************************************************************
-    // throwables
-
-    /**
-     * exception to indicate unexpected invalid data in a catalog entry
-     */
-    final private static class InvalidEntryException extends Exception {
-
-        final static long serialVersionUID = 1L;
-
-        /**
-         * Instantiate the exception.
-         *
-         * @param message descriptive text
-         */
-        InvalidEntryException(String message) {
-            super(message);
-        }
-    }
-
-    /**
-     * exception to indicate an invalid apparent magnitude in a catalog entry:
-     * such entries can be ignored
-     */
-    final private static class InvalidMagnitudeException extends Exception {
-
-        final static long serialVersionUID = 1L;
-    }
-    // *************************************************************************
     // constants and loggers
 
     /**
      * luminosity of the faintest stars to include
      */
     final private static float luminosityCutoff = 0.1f;
-    /**
-     * maximum (dimmest) apparent magnitude of all stars in the catalog
-     */
-    final private static float maxMagnitude = 7.96f;
-    /**
-     * minimum (brightest) apparent magnitude of all stars in the catalog
-     */
-    final private static float minMagnitude = -1.47f;
     /**
      * luminosity ratio between successive stellar magnitudes (5th root of 100)
      */
@@ -113,22 +73,6 @@ final class MakeStarMaps {
      */
     final private static float radiansPerHour
             = FastMath.TWO_PI / Constants.hoursPerDay;
-    /**
-     * expected id of the last entry in the catalog
-     */
-    final private static int lastEntryExpected = 9_110;
-    /**
-     * number of degrees from equator to pole
-     */
-    final private static int maxDeclination = 90;
-    /**
-     * number of minutes in an hour or degree
-     */
-    final private static int maxMinutes = 60;
-    /**
-     * number of seconds in a minute
-     */
-    final private static int maxSeconds = 60;
     /**
      * number of points per ellipse
      */
@@ -292,54 +236,6 @@ final class MakeStarMaps {
         Vector2f uv = new Vector2f(u, v);
 
         return uv;
-    }
-
-    /**
-     * Extract a star's declination from a catalog entry.
-     *
-     * @param line of text read from the catalog (not null)
-     * @return angle north of the celestial equator (in degrees, &le;90,
-     * &ge;-90)
-     */
-    private static float declination(String line)
-            throws InvalidEntryException {
-        assert line != null;
-
-        // Extract declination components from the line of text.
-        String dd = line.substring(83, 86);
-        String mm = line.substring(86, 88);
-        String ss = line.substring(88, 90);
-        logger.log(Level.FINE, "{0}d {1}m {2}s", new Object[]{dd, mm, ss});
-
-        // sanity checks
-        int degrees = Integer.parseInt(dd);
-        if (degrees < -maxDeclination || degrees > maxDeclination) {
-            throw new InvalidEntryException(
-                    "dec degrees should be between -90 and 90, inclusive");
-        }
-        int minutes = Integer.parseInt(mm);
-        if (minutes < 0 || minutes >= maxMinutes) {
-            throw new InvalidEntryException(
-                    "dec minutes should be between 0 and 59, inclusive");
-        }
-        float seconds = Float.parseFloat(ss);
-        if (seconds < 0f || seconds >= maxSeconds) {
-            throw new InvalidEntryException(
-                    "dec seconds should be between 0 and 59, inclusive");
-        }
-
-        // Convert to an angle.
-        float result; // in degrees
-        if (degrees > 0) {
-            result = degrees + minutes / 60f + seconds / 3600f;
-        } else {
-            result = degrees - minutes / 60f - seconds / 3600f;
-        }
-
-        assert result >= -maxDeclination : result;
-        assert result <= maxDeclination : result;
-        logger.log(Level.FINE, "result = {0}", result);
-        return result;
     }
 
     /**
@@ -863,227 +759,8 @@ final class MakeStarMaps {
      * Read the star catalog and add each valid star to the collection.
      */
     private static void readCatalog() {
-        File catalogFile = new File(catalogFilePath);
-        FileReader fileReader = null;
-        BufferedReader bufferedReader = null;
-        try {
-            fileReader = new FileReader(catalogFile);
-            bufferedReader = new BufferedReader(fileReader);
-            readCatalog(bufferedReader);
-        } catch (FileNotFoundException exception) {
-            logger.log(Level.SEVERE, "unable to open {0}",
-                    MyString.quote(catalogFilePath));
-            throw new RuntimeException(exception);
-        } catch (IOException exception) {
-            logger.log(Level.SEVERE, "unable to read {0}",
-                    MyString.quote(catalogFilePath));
-        } catch (InvalidEntryException exception) {
-            logger.log(Level.SEVERE, "", exception);
-        } finally {
-            try {
-                if (fileReader != null) {
-                    fileReader.close();
-                }
-                if (bufferedReader != null) {
-                    bufferedReader.close();
-                }
-            } catch (IOException exception) {
-                logger.log(Level.WARNING, "unable to close {0}",
-                        MyString.quote(catalogFilePath));
-            }
-        }
+        stars.clear();
+        stars.addAll(BrightStarCatalogReader.read(catalogFilePath));
     }
 
-    /**
-     * Read the catalog line by line and use the data therein to build up the
-     * collection of stars.
-     *
-     * @param bufferedReader the reader to use (not null)
-     */
-    private static void readCatalog(BufferedReader bufferedReader)
-            throws IOException, InvalidEntryException {
-        assert bufferedReader != null;
-
-        int duplicateEntries = 0;
-        int nextEntry = 1;
-        int missedEntries = 0;
-        int readEntries = 0;
-        int skippedEntries = 0;
-        for (;;) {
-            String textLine;
-            textLine = bufferedReader.readLine();
-            if (textLine == null) {
-                // Might have reached the end of the catalog file.
-                break;
-            }
-            logger.log(Level.FINE, "{0}", textLine);
-            /*
-             * If the line does not resemble a catalog entry,
-             * then silently ignore it.
-             */
-            if (textLine.length() < 5) {
-                continue;
-            }
-            String actualPrefix = textLine.substring(0, 4);
-            if (!actualPrefix.matches("[ ]*[0-9]+")) {
-                continue;
-            }
-            ++readEntries;
-
-            // Cope with missing/duplicate entry ids.
-            int actualEntry = Integer.parseInt(actualPrefix.trim());
-            if (actualEntry > nextEntry) {
-                logger.log(Level.FINE, "missed entries #{0} through #{1}",
-                        new Object[]{nextEntry, actualEntry - 1});
-                nextEntry = actualEntry;
-                missedEntries += actualEntry - nextEntry;
-
-            } else if (actualEntry < nextEntry) {
-                logger.log(Level.WARNING,
-                        "skipped entry due to duplicate id #{0}",
-                        actualEntry);
-                ++skippedEntries;
-                continue;
-            }
-
-            assert actualEntry == nextEntry : nextEntry;
-            Star star = null;
-            try {
-                star = readStar(textLine, nextEntry);
-
-            } catch (InvalidMagnitudeException exception) {
-                logger.log(Level.FINE,
-                        "skipped entry #{0} due to invalid magnitude",
-                        nextEntry);
-                ++skippedEntries;
-            }
-            if (star != null) {
-                if (stars.contains(star)) {
-                    logger.log(Level.FINE, "entry #{0} is a duplicate",
-                            nextEntry);
-                    ++duplicateEntries;
-                } else {
-                    boolean success = stars.add(star);
-                    assert success : nextEntry;
-                }
-            }
-            ++nextEntry;
-        }
-
-        // Verify that the entire catalog was read.
-        int lastEntryRead = nextEntry - 1;
-        if (lastEntryRead != lastEntryExpected) {
-            logger.log(Level.WARNING,
-                    "expected last entry to be #{0} but it was actually #{1}",
-                    new Object[]{lastEntryExpected, lastEntryRead});
-        }
-
-        // Log statistics.
-        if (missedEntries > 0) {
-            logger.log(Level.WARNING, "missed {0} entries", missedEntries);
-        }
-        logger.log(Level.INFO, "read {0} catalog entries from {1}",
-                new Object[]{readEntries, catalogFilePath});
-        if (duplicateEntries > 0) {
-            logger.log(Level.WARNING, "{0} duplicate entries",
-                    duplicateEntries);
-        }
-        if (skippedEntries > 0) {
-            logger.log(Level.WARNING, "{0} entries skipped", skippedEntries);
-        }
-        logger.log(Level.INFO, "collected {0} stars", stars.size());
-    }
-
-    /**
-     * Construct a new star based on a catalog entry.
-     *
-     * @param textLine line of text read from the catalog (not null)
-     * @param entryId (&ge;1)
-     * @return new instance
-     */
-    private static Star readStar(String textLine, int entryId)
-            throws InvalidEntryException, InvalidMagnitudeException {
-        assert textLine != null;
-        assert entryId >= 1 : entryId;
-
-        // Extract the apparent magnitude field from the line of text.
-        if (textLine.length() < 107) {
-            throw new InvalidEntryException("catalog entry is too short");
-        }
-        String magnitudeText = textLine.substring(102, 107);
-        logger.log(Level.FINE, "mag={0}", magnitudeText);
-
-        // sanity checks on the magnitude
-        if (magnitudeText.equals("     ")) {
-            throw new InvalidMagnitudeException();
-        }
-        float apparentMagnitude;
-        try {
-            apparentMagnitude = Float.parseFloat(magnitudeText);
-        } catch (NumberFormatException exception) {
-            logger.log(Level.WARNING, "entry #{0} has invalid magnitude {1}",
-                    new Object[]{entryId, MyString.quote(magnitudeText)});
-            throw new InvalidMagnitudeException();
-        }
-        if (apparentMagnitude < minMagnitude
-                || apparentMagnitude > maxMagnitude) {
-            logger.log(Level.WARNING, "entry #{0} has invalid magnitude {1}",
-                    new Object[]{entryId, MyString.quote(magnitudeText)});
-            throw new InvalidMagnitudeException();
-        }
-        /*
-         * Compute the star's equatorial coordinates
-         * and convert them to radians.
-         */
-        float declinationDegrees = declination(textLine);
-        float declination = MyMath.toRadians(declinationDegrees);
-        float rightAscension = rightAscensionHours(textLine) * radiansPerHour;
-
-        // Instantiate the star.
-        Star result = new Star(rightAscension, declination, apparentMagnitude);
-
-        return result;
-    }
-
-    /**
-     * Extract a star's right ascension from a catalog entry.
-     *
-     * @param line of text read from the catalog (not null)
-     * @return angle east of the March equinox (in hours, &lt;24, &ge;0)
-     */
-    private static float rightAscensionHours(String line)
-            throws InvalidEntryException {
-        assert line != null;
-
-        // Extract right ascension components from the line of text.
-        String hh = line.substring(75, 77);
-        String mm = line.substring(77, 79);
-        String ss = line.substring(79, 83);
-        logger.log(Level.FINE, "{0}:{1}:{2}", new Object[]{hh, mm, ss});
-
-        // sanity checks
-        int hours = Integer.parseInt(hh);
-        if (hours < 0 || hours >= Constants.hoursPerDay) {
-            throw new InvalidEntryException(
-                    "RA hours should be between 0 and 23, inclusive");
-        }
-        int minutes = Integer.parseInt(mm);
-        if (minutes < 0 || minutes >= maxMinutes) {
-            throw new InvalidEntryException(
-                    "RA minutes should be between 0 and 59, inclusive");
-        }
-        float seconds = Float.parseFloat(ss);
-        if (seconds < 0f || seconds >= maxSeconds) {
-            throw new InvalidEntryException(
-                    "RA seconds should be between 0 and 59, inclusive");
-        }
-
-        // Convert to an angle.
-        float result = hours + minutes / 60f + seconds / 3600f; // in hours
-
-        assert result >= 0f : result;
-        assert result < Constants.hoursPerDay : result;
-        logger.log(Level.FINE, "result = {0}", result);
-        return result;
-    }
 }
