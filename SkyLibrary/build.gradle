@@ -1,4 +1,4 @@
-// Gradle script to build and publish the SkyLibrary subproject of SkyControl
+// Gradle script to build and publish the SkyLibrary package
 
 // Note: "common.gradle" in the root project contains additional initialization
 //   for this project. This initialization is applied in the "build.gradle"
@@ -11,11 +11,11 @@ plugins {
 }
 
 ext {
-    group = 'com.github.stephengold'
-    artifact = 'SkyControl'
-    version = skycontrolVersion
+    group = rootProject.ext.skySimulationGroup
+    artifact = rootProject.ext.skySimulationArtifact
+    version = rootProject.ext.skySimulationVersion
     baseName = "${artifact}-${version}" // for artifacts
-    websiteUrl = 'https://github.com/stephengold/SkyControl'
+    websiteUrl = 'https://github.com/CalistaVerner/SkySimulation'
 }
 
 processResources.dependsOn(':SkyAssets:skyTextures')
@@ -32,11 +32,11 @@ dependencies {
 
 tasks.register('install') {
     dependsOn 'publishMavenPublicationToMavenLocal'
-    description = 'Installs the Maven artifacts to the local repository.'
+    description = 'Installs the Take Some SkySimulation package to Maven Local.'
 }
 tasks.register('release') {
     dependsOn 'publishMavenPublicationToCentralRepository'
-    description = 'Stages the Maven artifacts to the Central Publisher Portal.'
+    description = 'Stages the Maven artifacts to the configured repository.'
 }
 
 jar {
@@ -95,12 +95,11 @@ publishing {
             from components.java
             groupId = project.ext.group
             pom {
-                description = 'A sky-simulation library for jMonkeyEngine'
+                description = 'Take Some internal sky-simulation library for jMonkeyEngine'
                 developers {
                     developer {
-                        email = 'sgold@sonic.net'
-                        id = 'stephengold'
-                        name = 'Stephen Gold'
+                        id = 'takesome'
+                        name = 'Take Some'
                     }
                 }
                 licenses {
@@ -112,8 +111,8 @@ publishing {
                 }
                 name = project.ext.group + ':' + artifact
                 scm {
-                    connection = 'scm:git:git://github.com/stephengold/SkyControl.git'
-                    developerConnection = 'scm:git:ssh://github.com:stephengold/SkyControl.git'
+                    connection = 'scm:git:https://github.com/CalistaVerner/SkySimulation.git'
+                    developerConnection = 'scm:git:https://github.com/CalistaVerner/SkySimulation.git'
                     url = project.ext.websiteUrl + '/tree/master'
                 }
                 url = project.ext.websiteUrl
@@ -134,13 +133,27 @@ publishing {
             name = 'Central'
             url = 'https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/'
         }
+        maven {
+            name = 'GitHubPackages'
+            url = uri('https://maven.pkg.github.com/CalistaVerner/SkySimulation')
+            credentials {
+                username = findProperty('gpr.user') ?: System.getenv('GITHUB_ACTOR')
+                password = findProperty('gpr.key') ?: System.getenv('GITHUB_TOKEN')
+            }
+        }
     }
 }
 generateMetadataFileForMavenPublication.dependsOn('pom')
 publishMavenPublicationToMavenLocal.dependsOn('assemble')
 publishMavenPublicationToMavenLocal.doLast {
-    println 'installed locally as ' + baseName
+    println 'installed locally as ' + project.ext.group + ':' \
+            + artifact + ':' + project.ext.version
 }
+tasks.register('publishGithubPackage') {
+    dependsOn 'publishMavenPublicationToGitHubPackagesRepository'
+    description = 'Publishes the Take Some SkySimulation package to GitHub Packages.'
+}
+publishMavenPublicationToGitHubPackagesRepository.dependsOn('assemble')
 publishMavenPublicationToCentralRepository.dependsOn('assemble')
 
 // Register tasks to sign the Maven artifacts for publication:

@@ -1,6 +1,6 @@
-// global build settings for the SkyControl project
+// global build settings for the SkySimulation project
 
-rootProject.name = 'SkyControl'
+rootProject.name = 'SkySimulation'
 
 dependencyResolutionManagement {
     repositories {

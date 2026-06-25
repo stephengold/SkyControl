@@ -1,4 +1,4 @@
-// Gradle script to build the SkyControl project
+// Gradle script to build the SkySimulation project
 
 plugins {
     id 'base' // to add a "clean" task to the root project
@@ -6,9 +6,13 @@ plugins {
 
 ext {
     jmeTarget = '' // distinguish non-JME libraries built for specific JME releases
-    skySnapshot = '-SNAPSHOT' // for development builds
-    //skySnapshot = '' // for release builds
-    skycontrolVersion = '1.1.1' + jmeTarget + skySnapshot
+    skySimulationBaseVersion = '1.0.0'
+    skySnapshot = hasProperty('releaseBuild') ? '' : '-SNAPSHOT'
+    skySimulationGroup = 'dev.takesome'
+    skySimulationArtifact = 'sky-simulation'
+    skySimulationVersion = (findProperty('skySimulationVersion')
+            ?: skySimulationBaseVersion + jmeTarget + skySnapshot).toString()
+    skycontrolVersion = skySimulationVersion // compatibility alias
 }
 
 subprojects {
@@ -34,7 +38,15 @@ tasks.register('checkstyle') {
 
 tasks.register('install') {
     dependsOn ':SkyLibrary:install'
-    description = 'Installs the Maven artifacts to the local repository.'
+    description = 'Installs the Take Some SkySimulation package to Maven Local.'
+}
+tasks.register('packageLocal') {
+    dependsOn ':SkyLibrary:install'
+    description = 'Builds and installs dev.takesome:sky-simulation locally.'
+}
+tasks.register('publishGithubPackage') {
+    dependsOn ':SkyLibrary:publishGithubPackage'
+    description = 'Publishes dev.takesome:sky-simulation to GitHub Packages.'
 }
 tasks.register('release') {
     dependsOn ':SkyLibrary:release'
