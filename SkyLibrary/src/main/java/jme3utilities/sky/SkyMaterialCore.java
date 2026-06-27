@@ -186,7 +186,7 @@ public class SkyMaterialCore extends Material {
             normalMap.setWrap(Texture.WrapMode.Repeat);
             setTexture(parameterName, normalMap);
             logger.log(Level.FINE,
-                    "cloud normal map applied: layer={0}, parameter={1}, path={2}, image={3}",
+                    "cloud normal map applied: layer={0}, parameter={1}",
                     new Object[]{layerIndex, parameterName, assetPath,
                         normalMap.getImage()});
         }
@@ -701,7 +701,7 @@ public class SkyMaterialCore extends Material {
                 throw exception;
             }
             logger.log(Level.INFO,
-                    "using internal compressed texture reader for cloud normal map: {0}",
+                    "using compressed reader for cloud normal map: {0}",
                     assetPath);
             result = SkyDdsTextureLoader.loadTexture(assetManager, assetPath);
         }

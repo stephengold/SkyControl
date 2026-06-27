@@ -144,6 +144,11 @@ final public class SkyWeatherEvent {
         return transitionSeconds;
     }
 
+    /**
+     * Describe this weather event.
+     *
+     * @return description string
+     */
     @Override
     public String toString() {
         return "SkyWeatherEvent[sequence=" + sequence

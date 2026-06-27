@@ -121,7 +121,7 @@ public final class SkyDdsTextureLoader {
         MipData mipData = copyMipData(
                 data, width, height, mipLevels, format.blockBytes);
         logger.log(Level.INFO,
-                "loaded compressed sky texture: width={0}, height={1}, mips={2}, code={3}, format={4}, blockBytes={5}",
+                "loaded compressed sky: width={0}, height={1}, mips={2}",
                 new Object[]{width, height, mipData.sizes.length, fourCc,
                     format.imageFormat, format.blockBytes});
         Image result = new Image(format.imageFormat, width, height,

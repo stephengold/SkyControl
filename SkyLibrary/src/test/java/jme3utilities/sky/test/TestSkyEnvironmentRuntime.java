@@ -129,7 +129,7 @@ public class TestSkyEnvironmentRuntime {
         final String[] currentId = {null};
         final float[] transitionSeconds = {-1f};
 
-        SkyWeatherSubscription all = runtime.subscribeWeather(
+        final SkyWeatherSubscription all = runtime.subscribeWeather(
                 new SkyWeatherListener() {
                     @Override
                     public void onWeatherChanged(SkyWeatherEvent event) {

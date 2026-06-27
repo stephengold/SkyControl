@@ -125,8 +125,8 @@ final public class SkyCloudPresetLoader {
         SkyCloudPresetDefinition result = new SkyCloudPresetDefinition(
                 id, description, seconds, layers, metrics);
         logger.log(Level.FINE,
-                "parsed sky weather preset: id={0}, seconds={1}, layers={2}, metrics={3}",
-                new Object[]{id, seconds, layers.size(), metrics});
+                "parsed sky weather preset: id={0}, seconds={1}, layers={2}",
+                new Object[]{id, seconds, layers.size()});
         return result;
     }
 
@@ -154,8 +154,8 @@ final public class SkyCloudPresetLoader {
                     alphaMap, normalMap, opacity, scale, uRate, vRate);
         }
         logger.log(Level.FINER,
-                "parsed cloud layer: alpha={0}, normal={1}, opacity={2}, scale={3}, uRate={4}, vRate={5}",
-                new Object[]{alphaMap, normalMap, opacity, scale, uRate, vRate});
+                "parsed cloud layer: alpha={0}, normal={1}, opacity={2}",
+                new Object[]{alphaMap, normalMap, opacity});
         return result;
     }
 

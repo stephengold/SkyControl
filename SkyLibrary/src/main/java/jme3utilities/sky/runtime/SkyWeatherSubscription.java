@@ -79,33 +79,57 @@ final public class SkyWeatherSubscription {
         return active;
     }
 
-    /** Dispatch an event to the listener. */
+    /**
+     * Dispatch an event to the listener.
+     *
+     * @param event event payload
+     */
     void dispatch(SkyWeatherEvent event) {
         assert event != null;
         listener.onWeatherChanged(event);
     }
 
-    /** Return the listener. */
+    /**
+     * Return the listener.
+     *
+     * @return listener callback
+     */
     SkyWeatherListener listener() {
         return listener;
     }
 
-    /** Mark the subscription as cancelled. */
+    /**
+     * Mark the subscription as cancelled.
+     */
     void markCancelled() {
         active = false;
     }
 
-    /** Test whether a state matches this subscription. */
+    /**
+     * Test whether a state matches this subscription.
+     *
+     * @param state candidate weather state
+     * @return true if the state matches
+     */
     boolean matches(SkyWeatherState state) {
         assert state != null;
         return active && filter.matches(state);
     }
 
-    /** Return the owning runtime. */
+    /**
+     * Return the owning runtime.
+     *
+     * @return owning runtime
+     */
     SkyEnvironmentRuntime owner() {
         return owner;
     }
 
+    /**
+     * Describe this subscription.
+     *
+     * @return description string
+     */
     @Override
     public String toString() {
         return "SkyWeatherSubscription[active=" + active

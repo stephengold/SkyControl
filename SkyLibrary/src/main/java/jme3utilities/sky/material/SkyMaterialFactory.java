@@ -118,7 +118,7 @@ public final class SkyMaterialFactory {
         }
 
         logger.log(Level.INFO,
-                "top sky material created: objects={0}, cloudLayers={1}, stars={2}",
+                "top sky material created: objects={0}, clouds={1}, stars={2}",
                 new Object[]{topObjects, topClouds, starsOption});
         return result;
     }

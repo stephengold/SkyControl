@@ -271,6 +271,11 @@ final public class SkyWeatherState {
         return metrics.windStrength();
     }
 
+    /**
+     * Describe this weather state.
+     *
+     * @return description string
+     */
     @Override
     public String toString() {
         return "SkyWeatherState[id=" + id

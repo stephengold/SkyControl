@@ -73,7 +73,7 @@ final public class SkyCloudTransitionRuntime {
     public void cancel() {
         if (active && elapsed < duration) {
             logger.log(Level.FINE,
-                    "cloud weather transition cancelled: target={0}, elapsed={1}, duration={2}",
+                    "cloud transition cancelled: target={0}, elapsed={1}",
                     new Object[]{target == null ? null : target.id(),
                         elapsed, duration});
         }
@@ -133,8 +133,8 @@ final public class SkyCloudTransitionRuntime {
         }
 
         logger.log(Level.INFO,
-                "cloud weather transition started: id={0}, seconds={1}, layers={2}",
-                new Object[]{definition.id(), seconds, definition.layerCount()});
+                "cloud transition started: id={0}, seconds={1}",
+                new Object[]{definition.id(), seconds});
         if (seconds == 0f) {
             applyTargetTextures();
             applyTargetOpacities();
@@ -204,9 +204,9 @@ final public class SkyCloudTransitionRuntime {
             layer.setNormalMap(spec.normalMap());
             layer.setMotion(0f, spec.uRate(), 0f, spec.vRate());
             logger.log(Level.FINER,
-                    "cloud layer target applied: index={0}, alpha={1}, normal={2}, scale={3}, opacity={4}, uRate={5}, vRate={6}",
-                    new Object[]{layerI, spec.alphaMap(), spec.normalMap(),
-                        spec.scale(), spec.opacity(), spec.uRate(), spec.vRate()});
+                    "cloud target applied: index={0}, alpha={1}, normal={2}",
+                    new Object[]{layerI, spec.alphaMap(), spec.normalMap()});
+
         }
     }
 

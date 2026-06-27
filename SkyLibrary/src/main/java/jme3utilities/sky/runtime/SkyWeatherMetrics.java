@@ -124,6 +124,11 @@ final public class SkyWeatherMetrics {
         return windStrength;
     }
 
+    /**
+     * Describe this weather metrics.
+     *
+     * @return description string
+     */
     @Override
     public String toString() {
         return "SkyWeatherMetrics[cloudiness=" + cloudiness
