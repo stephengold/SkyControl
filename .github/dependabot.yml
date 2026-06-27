@@ -1,0 +1,58 @@
+---
+# Dependabot keeps SkySimulation dependency drift visible while CI validates every update.
+version: 2
+
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Amsterdam"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "gradle"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    groups:
+      jme-runtime-stack:
+        patterns:
+          - "org.jmonkeyengine:*"
+          - "com.github.stephengold:*"
+      test-and-tools:
+        patterns:
+          - "junit:junit"
+          - "org.jcommander:*"
+          - "org.apache.commons:*"
+          - "de.undercouch.download"
+      lua-runtime:
+        patterns:
+          - "org.luaj:*"
+      ui-example-stack:
+        patterns:
+          - "com.github.nifty-gui:*"
+          - "com.github.stephengold:jme3-utilities-nifty"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "09:00"
+      timezone: "Europe/Amsterdam"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    groups:
+      github-actions:
+        patterns:
+          - "actions/*"
+          - "gradle/actions*"
+          - "softprops/action-gh-release"
