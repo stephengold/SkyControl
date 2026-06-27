@@ -4,13 +4,6 @@ plugins {
     id 'base' // to add a "clean" task to the root project
 }
 
-ext {
-    jmeTarget = '' // distinguish non-JME libraries built for specific JME releases
-    skySnapshot = '-SNAPSHOT' // for development builds
-    //skySnapshot = '' // for release builds
-    skycontrolVersion = '1.1.1' + jmeTarget + skySnapshot
-}
-
 subprojects {
     apply from: rootProject.file('common.gradle')
 }
