@@ -1,5 +1,18 @@
 # SkySimulation
 
+<p align="center">
+  <img src="docs/sky-simulation-banner.svg" alt="SkySimulation banner" width="100%" />
+</p>
+
+<p align="center">
+  <a href="https://github.com/Take-Some/SkySimulation/actions/workflows/push.yml"><img alt="CI" src="https://github.com/Take-Some/SkySimulation/actions/workflows/push.yml/badge.svg?branch=master" /></a>
+  <a href="https://github.com/Take-Some/SkySimulation/actions/workflows/release.yml"><img alt="Release" src="https://github.com/Take-Some/SkySimulation/actions/workflows/release.yml/badge.svg" /></a>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.4.3-blue" />
+  <img alt="Java" src="https://img.shields.io/badge/Java-17%2B-orange" />
+  <img alt="Artifact" src="https://img.shields.io/badge/artifact-dev.takesome%3Asky--simulation-7c3aed" />
+  <img alt="License" src="https://img.shields.io/badge/license-BSD--style-lightgrey" />
+</p>
+
 **SkySimulation** is the Take Some() sky and atmosphere package for Java / jMonkeyEngine worlds.
 
 We are **Take Some()** — a small engineering team building game-runtime infrastructure: simulation systems, rendering tools, world technology, and reusable engine modules for our own projects.

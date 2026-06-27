@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-labelledby="title desc">
+  <title id="title">SkySimulation banner</title>
+  <desc id="desc">A stylized sky runtime banner with sun, moon, clouds, stars, and atmosphere layers.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#08111f"/>
+      <stop offset="0.45" stop-color="#12345f"/>
+      <stop offset="1" stop-color="#f59e0b"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#fff7ad"/>
+      <stop offset="0.45" stop-color="#facc15"/>
+      <stop offset="1" stop-color="#f97316" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+  <rect width="1280" height="360" fill="url(#sky)"/>
+  <circle cx="1090" cy="78" r="92" fill="url(#sun)" opacity="0.95"/>
+  <circle cx="166" cy="86" r="34" fill="#dbeafe" opacity="0.95"/>
+  <circle cx="180" cy="78" r="34" fill="#08111f" opacity="0.88"/>
+  <g opacity="0.75" fill="#e0f2fe">
+    <circle cx="86" cy="52" r="2"/><circle cx="256" cy="38" r="2"/><circle cx="348" cy="86" r="1.6"/>
+    <circle cx="482" cy="48" r="2"/><circle cx="616" cy="76" r="1.8"/><circle cx="738" cy="40" r="1.5"/>
+    <circle cx="894" cy="90" r="1.7"/><circle cx="1002" cy="42" r="1.4"/>
+  </g>
+  <g opacity="0.55" filter="url(#soft)">
+    <ellipse cx="260" cy="224" rx="170" ry="42" fill="#bfdbfe"/>
+    <ellipse cx="432" cy="216" rx="142" ry="36" fill="#e0f2fe"/>
+    <ellipse cx="746" cy="238" rx="230" ry="48" fill="#bae6fd"/>
+    <ellipse cx="966" cy="220" rx="160" ry="38" fill="#fef3c7"/>
+  </g>
+  <path d="M0 280 C160 238 270 318 430 278 S760 232 940 282 1136 314 1280 250 L1280 360 L0 360 Z" fill="#03101d" opacity="0.62"/>
+  <path d="M0 314 C200 284 360 338 560 304 S880 268 1280 318 L1280 360 L0 360 Z" fill="#020617" opacity="0.82"/>
+  <text x="72" y="178" fill="#f8fafc" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="64" font-weight="800">SkySimulation</text>
+  <text x="76" y="224" fill="#dbeafe" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="25" font-weight="500">Take Some() sky, weather, atmosphere and world-runtime infrastructure</text>
+  <text x="78" y="264" fill="#fed7aa" font-family="JetBrains Mono, Consolas, monospace" font-size="20">dev.takesome:sky-simulation:1.4.3</text>
+</svg>
