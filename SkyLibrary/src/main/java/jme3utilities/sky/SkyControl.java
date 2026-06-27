@@ -45,6 +45,8 @@ import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.math.MyColor;
 import jme3utilities.mesh.DomeMesh;
+import jme3utilities.sky.atmosphere.SkyAtmosphereTransitionRuntime;
+import jme3utilities.sky.atmosphere.SkyGradientStyle;
 import jme3utilities.sky.cloud.SkyCloudPreset;
 import jme3utilities.sky.cloud.SkyCloudPresetDefinition;
 import jme3utilities.sky.control.SkyBaseColorRuntime;
@@ -159,6 +161,9 @@ public class SkyControl extends SkyControlCore {
     private SkyEnvironmentRuntime environmentRuntime = null;
     /** atmospheric lighting and realism profile */
     private SkyAtmosphere atmosphere = new SkyAtmosphere();
+    /** Smooth runtime atmosphere gradient transition. */
+    private SkyAtmosphereTransitionRuntime atmoTransition
+            = new SkyAtmosphereTransitionRuntime();
     /** custom moon texture asset path, or null to use the phase preset */
     private String moonAssetPath = null;
     /** custom moon texture object, or null for phase preset or path */
@@ -292,6 +297,47 @@ public class SkyControl extends SkyControlCore {
     public void setAtmosphere(SkyAtmosphere newAtmosphere) {
         Validate.nonNull(newAtmosphere, "atmosphere");
         this.atmosphere = newAtmosphere.copy();
+        this.atmoTransition = new SkyAtmosphereTransitionRuntime();
+    }
+
+    /**
+     * Transition the atmosphere gradient style.
+     *
+     * @param style target style (not null)
+     * @param seconds transition duration in seconds (&ge;0)
+     */
+    public void setGradientStyle(SkyGradientStyle style, float seconds) {
+        atmoTransition.transitionStyle(atmosphere, style, seconds);
+    }
+
+    /**
+     * Transition moon halo intensity.
+     *
+     * @param intensity target intensity (&ge;0)
+     * @param seconds transition duration in seconds (&ge;0)
+     */
+    public void setMoonHaloIntensity(float intensity, float seconds) {
+        atmoTransition.transitionMoon(atmosphere, intensity, seconds);
+    }
+
+    /**
+     * Transition sun halo intensity.
+     *
+     * @param intensity target intensity (&ge;0)
+     * @param seconds transition duration in seconds (&ge;0)
+     */
+    public void setSunHaloIntensity(float intensity, float seconds) {
+        atmoTransition.transitionSun(atmosphere, intensity, seconds);
+    }
+
+    /**
+     * Transition sunset intensity.
+     *
+     * @param intensity target intensity (&ge;0)
+     * @param seconds transition duration in seconds (&ge;0)
+     */
+    public void setSunsetIntensity(float intensity, float seconds) {
+        atmoTransition.transitionSunset(atmosphere, intensity, seconds);
     }
 
     /**
@@ -647,6 +693,7 @@ public class SkyControl extends SkyControlCore {
     @Override
     public void controlUpdate(float tpf) {
         super.controlUpdate(tpf);
+        atmoTransition.update(atmosphere, tpf);
         updateAll();
     }
 

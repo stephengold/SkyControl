@@ -1,5 +1,16 @@
 # release log for the SkyControl library and related software
 
+## Version 1.4.2 released on 27 June 2026
+
+Notable changes:
++ add smooth runtime atmosphere transitions for gradient style, sunset intensity, sun halo, and moon halo controls
++ add optional `transitionSeconds` arguments to atmosphere command ABI entries
++ add typed game-facing weather subscription API with listeners, filters, events, and cancellable subscription handles
++ add built-in filters for weather id, built-in preset, storm-like states, precipitation, cloudiness, wind, and all weather changes
++ add expanded logging for Lua weather ABI loading, cloud preset parsing, cloud transition lifecycle, material generation, and cloud normal-map application
++ add compressed DDS/BC texture diagnostics for dimensions, mip levels, FourCC, image format, and block size
++ add tests for atmosphere transitions and weather subscriptions
+
 ## Version 1.4.1 released on 25 June 2026
 
 Notable changes:

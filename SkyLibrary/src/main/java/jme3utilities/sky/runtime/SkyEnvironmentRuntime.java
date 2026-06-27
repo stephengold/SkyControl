@@ -27,6 +27,11 @@ package jme3utilities.sky.runtime;
 
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.sky.cloud.SkyCloudPreset;
 import jme3utilities.sky.cloud.SkyCloudPresetDefinition;
@@ -36,17 +41,28 @@ import jme3utilities.sky.cloud.SkyCloudPresetDefinition;
  * <p>
  * This object bridges existing visual sky controls with world simulation code:
  * weather changes still drive cloud presets, while games can read visibility,
- * precipitation, wind, light levels, and snapshots.
+ * precipitation, wind, light levels, and snapshots. Weather changes are also
+ * published as typed events so gameplay, AI, fog-of-war, UI, and audio systems
+ * can subscribe to exactly the states they care about.
  *
  * @author Take Some
  */
 final public class SkyEnvironmentRuntime {
+    /** Message logger for this class. */
+    final private static Logger logger
+            = Logger.getLogger(SkyEnvironmentRuntime.class.getName());
+
     /** World clock facade. */
     final private SkyWorldClock clock;
     /** Optional weather sink implemented by the visual sky control. */
     final private WeatherApplier weatherApplier;
+    /** Active weather subscriptions. */
+    final private List<SkyWeatherSubscription> weatherSubscriptions
+            = new ArrayList<SkyWeatherSubscription>();
     /** Latest lighting output. */
     private SkyLightingSnapshot lightingSnapshot = SkyLightingSnapshot.empty();
+    /** Runtime-local event sequence counter. */
+    private long weatherEventSequence = 0L;
     /** Current weather state. */
     private SkyWeatherState weatherState = SkyWeatherState.fair();
 
@@ -78,6 +94,19 @@ final public class SkyEnvironmentRuntime {
         ColorRGBA ambient = lightingSnapshot.ambientColor(null);
         float result = (ambient.r + ambient.g + ambient.b) / 3f;
         return result;
+    }
+
+    /**
+     * Remove all weather subscriptions.
+     */
+    public void clearWeatherSubscriptions() {
+        for (SkyWeatherSubscription subscription : weatherSubscriptions) {
+            subscription.markCancelled();
+        }
+        int removed = weatherSubscriptions.size();
+        weatherSubscriptions.clear();
+        logger.log(Level.FINE,
+                "sky weather subscriptions cleared: removed={0}", removed);
     }
 
     /**
@@ -136,6 +165,32 @@ final public class SkyEnvironmentRuntime {
     }
 
     /**
+     * Remove all subscriptions owned by the specified listener.
+     *
+     * @param listener listener to remove (not null)
+     * @return number of removed subscriptions
+     */
+    public int removeWeatherListener(SkyWeatherListener listener) {
+        Validate.nonNull(listener, "listener");
+
+        int removed = 0;
+        Iterator<SkyWeatherSubscription> iterator
+                = weatherSubscriptions.iterator();
+        while (iterator.hasNext()) {
+            SkyWeatherSubscription subscription = iterator.next();
+            if (subscription.listener() == listener) {
+                subscription.markCancelled();
+                iterator.remove();
+                ++removed;
+            }
+        }
+        logger.log(Level.FINE,
+                "sky weather listener removed: listener={0}, removed={1}",
+                new Object[]{listener, removed});
+        return removed;
+    }
+
+    /**
      * Restore weather state without applying a cloud transition.
      * <p>
      * This is used when cloning or loading runtime state that has already been
@@ -146,7 +201,10 @@ final public class SkyEnvironmentRuntime {
     public void restoreWeather(SkyWeatherState state) {
         Validate.nonNull(state, "state");
 
+        SkyWeatherState previous = weatherState.copy();
         this.weatherState = state.copy();
+        publishWeatherChange(previous, weatherState, 0f,
+                SkyWeatherChangeSource.RESTORE);
     }
 
     /**
@@ -156,7 +214,16 @@ final public class SkyEnvironmentRuntime {
      * @param seconds transition duration in seconds (&ge;0)
      */
     public void setWeather(SkyCloudPreset preset, float seconds) {
-        setWeather(SkyWeatherState.fromPreset(preset), seconds);
+        Validate.nonNull(preset, "preset");
+        Validate.nonNegative(seconds, "seconds");
+
+        SkyWeatherState previous = weatherState.copy();
+        this.weatherState = SkyWeatherState.fromPreset(preset);
+        if (weatherApplier != null) {
+            weatherApplier.applyWeather(preset, seconds);
+        }
+        publishWeatherChange(previous, weatherState, seconds,
+                SkyWeatherChangeSource.PRESET);
     }
 
     /**
@@ -170,10 +237,13 @@ final public class SkyEnvironmentRuntime {
         Validate.nonNull(definition, "definition");
         Validate.nonNegative(seconds, "seconds");
 
+        SkyWeatherState previous = weatherState.copy();
         this.weatherState = SkyWeatherState.fromDefinition(definition);
         if (weatherApplier != null) {
             weatherApplier.applyWeather(definition, seconds);
         }
+        publishWeatherChange(previous, weatherState, seconds,
+                SkyWeatherChangeSource.DEFINITION);
     }
 
     /**
@@ -186,10 +256,13 @@ final public class SkyEnvironmentRuntime {
         Validate.nonNull(state, "state");
         Validate.nonNegative(seconds, "seconds");
 
+        SkyWeatherState previous = weatherState.copy();
         this.weatherState = state.copy();
         if (weatherApplier != null && state.cloudPreset() != null) {
             weatherApplier.applyWeather(state.cloudPreset(), seconds);
         }
+        publishWeatherChange(previous, weatherState, seconds,
+                SkyWeatherChangeSource.STATE);
     }
 
     /**
@@ -204,6 +277,102 @@ final public class SkyEnvironmentRuntime {
     }
 
     /**
+     * Subscribe to every weather-state change.
+     *
+     * @param listener callback (not null)
+     * @return subscription handle
+     */
+    public SkyWeatherSubscription subscribeWeather(
+            SkyWeatherListener listener) {
+        SkyWeatherSubscription result = subscribeWeather(
+                SkyWeatherFilters.any(), listener, false);
+        return result;
+    }
+
+    /**
+     * Subscribe to every weather-state change.
+     *
+     * @param listener callback (not null)
+     * @param notifyCurrent true to immediately replay current weather if it
+     * matches
+     * @return subscription handle
+     */
+    public SkyWeatherSubscription subscribeWeather(
+            SkyWeatherListener listener, boolean notifyCurrent) {
+        SkyWeatherSubscription result = subscribeWeather(
+                SkyWeatherFilters.any(), listener, notifyCurrent);
+        return result;
+    }
+
+    /**
+     * Subscribe to a stable weather id, case-insensitively.
+     *
+     * @param weatherId weather id (not null, not empty)
+     * @param listener callback (not null)
+     * @return subscription handle
+     */
+    public SkyWeatherSubscription subscribeWeather(String weatherId,
+            SkyWeatherListener listener) {
+        SkyWeatherSubscription result = subscribeWeather(
+                SkyWeatherFilters.id(weatherId), listener, false);
+        return result;
+    }
+
+    /**
+     * Subscribe to a stable weather id, case-insensitively.
+     *
+     * @param weatherId weather id (not null, not empty)
+     * @param listener callback (not null)
+     * @param notifyCurrent true to immediately replay current weather if it
+     * matches
+     * @return subscription handle
+     */
+    public SkyWeatherSubscription subscribeWeather(String weatherId,
+            SkyWeatherListener listener, boolean notifyCurrent) {
+        SkyWeatherSubscription result = subscribeWeather(
+                SkyWeatherFilters.id(weatherId), listener, notifyCurrent);
+        return result;
+    }
+
+    /**
+     * Subscribe to weather states matching the specified filter.
+     *
+     * @param filter filter to apply to new/current state (not null)
+     * @param listener callback (not null)
+     * @return subscription handle
+     */
+    public SkyWeatherSubscription subscribeWeather(SkyWeatherFilter filter,
+            SkyWeatherListener listener) {
+        SkyWeatherSubscription result = subscribeWeather(
+                filter, listener, false);
+        return result;
+    }
+
+    /**
+     * Subscribe to weather states matching the specified filter.
+     *
+     * @param filter filter to apply to new/current state (not null)
+     * @param listener callback (not null)
+     * @param notifyCurrent true to immediately replay current weather if it
+     * matches
+     * @return subscription handle
+     */
+    public SkyWeatherSubscription subscribeWeather(SkyWeatherFilter filter,
+            SkyWeatherListener listener, boolean notifyCurrent) {
+        Validate.nonNull(filter, "filter");
+        Validate.nonNull(listener, "listener");
+
+        SkyWeatherSubscription result = new SkyWeatherSubscription(
+                this, filter, listener);
+        weatherSubscriptions.add(result);
+        logger.log(Level.FINE, "sky weather subscription added: {0}", result);
+        if (notifyCurrent) {
+            dispatchCurrent(result);
+        }
+        return result;
+    }
+
+    /**
      * Copy the main light direction as a sun-direction proxy.
      *
      * @param storeResult storage for the result (modified if not null)
@@ -211,6 +380,28 @@ final public class SkyEnvironmentRuntime {
      */
     public Vector3f sunDirection(Vector3f storeResult) {
         return mainLightDirection(storeResult);
+    }
+
+    /**
+     * Unsubscribe a weather subscription.
+     *
+     * @param subscription subscription handle (not null)
+     * @return true if an active subscription was removed
+     */
+    public boolean unsubscribeWeather(
+            SkyWeatherSubscription subscription) {
+        Validate.nonNull(subscription, "subscription");
+        if (subscription.owner() != this) {
+            return false;
+        }
+
+        boolean removed = weatherSubscriptions.remove(subscription);
+        if (removed) {
+            subscription.markCancelled();
+            logger.log(Level.FINE,
+                    "sky weather subscription removed: {0}", subscription);
+        }
+        return removed;
     }
 
     /**
@@ -243,12 +434,87 @@ final public class SkyEnvironmentRuntime {
     }
 
     /**
+     * Return the number of active weather subscriptions.
+     *
+     * @return subscription count
+     */
+    public int weatherSubscriptionCount() {
+        return weatherSubscriptions.size();
+    }
+
+    /**
      * Return wind intensity.
      *
      * @return wind strength fraction
      */
     public float windStrength() {
         return weatherState.windStrength();
+    }
+
+    /**
+     * Deliver a current-state replay to a new subscription.
+     *
+     * @param subscription subscription to notify
+     */
+    private void dispatchCurrent(SkyWeatherSubscription subscription) {
+        assert subscription != null;
+        if (!subscription.matches(weatherState)) {
+            return;
+        }
+
+        SkyWeatherEvent event = new SkyWeatherEvent(++weatherEventSequence,
+                weatherState, weatherState, 0f, SkyWeatherChangeSource.CURRENT);
+        dispatchSafely(subscription, event);
+    }
+
+    /**
+     * Dispatch an event and isolate listener failures.
+     *
+     * @param subscription destination subscription
+     * @param event event payload
+     */
+    private void dispatchSafely(SkyWeatherSubscription subscription,
+            SkyWeatherEvent event) {
+        assert subscription != null;
+        assert event != null;
+        try {
+            subscription.dispatch(event);
+        } catch (RuntimeException exception) {
+            logger.log(Level.WARNING,
+                    "sky weather listener failed: subscription="
+                    + subscription + ", event=" + event, exception);
+        }
+    }
+
+    /**
+     * Publish a weather-state change.
+     *
+     * @param previous previous state
+     * @param current current state
+     * @param seconds requested transition duration
+     * @param source source category
+     */
+    private void publishWeatherChange(SkyWeatherState previous,
+            SkyWeatherState current, float seconds,
+            SkyWeatherChangeSource source) {
+        assert previous != null;
+        assert current != null;
+        assert seconds >= 0f : seconds;
+        assert source != null;
+
+        SkyWeatherEvent event = new SkyWeatherEvent(++weatherEventSequence,
+                previous, current, seconds, source);
+        logger.log(Level.INFO, "sky weather changed: {0}", event);
+
+        SkyWeatherState eventState = event.currentWeather();
+        List<SkyWeatherSubscription> snapshot
+                = new ArrayList<SkyWeatherSubscription>(weatherSubscriptions);
+        for (SkyWeatherSubscription subscription : snapshot) {
+            if (weatherSubscriptions.contains(subscription)
+                    && subscription.matches(eventState)) {
+                dispatchSafely(subscription, event);
+            }
+        }
     }
 
     /**

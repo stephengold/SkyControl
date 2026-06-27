@@ -156,14 +156,9 @@ final public class SkyCommandBus {
         String styleId = requireArgument(args, 0,
                 SkyCommandIds.atmosphereSetGradient);
         SkyGradientStyle style = parseGradientStyle(styleId);
+        float seconds = optionalFloat(args, 1, 0f, "seconds");
 
-        skyControl.getAtmosphere().setGradientStyle(style);
-        skyControl.getAtmosphere().setSunsetIntensity(
-                style.presetSunset());
-        skyControl.getAtmosphere().setSunHaloIntensity(
-                style.presetSunHalo());
-        skyControl.getAtmosphere().setMoonHaloIntensity(
-                style.presetMoonHalo());
+        skyControl.setGradientStyle(style, seconds);
         SkyCommandResult result = SkyCommandResult.success(
                 SkyCommandIds.atmosphereSetGradient,
                 "atmosphere gradient set: " + style.name());
@@ -181,8 +176,9 @@ final public class SkyCommandBus {
         float intensity = parseFloat(requireArgument(args, 0,
                 SkyCommandIds.atmosphereSetMoonHaloIntensity),
                 "moon halo intensity");
+        float seconds = optionalFloat(args, 1, 0f, "seconds");
 
-        skyControl.getAtmosphere().setMoonHaloIntensity(intensity);
+        skyControl.setMoonHaloIntensity(intensity, seconds);
         SkyCommandResult result = SkyCommandResult.success(
                 SkyCommandIds.atmosphereSetMoonHaloIntensity,
                 "moon halo intensity set");
@@ -200,8 +196,9 @@ final public class SkyCommandBus {
         float intensity = parseFloat(requireArgument(args, 0,
                 SkyCommandIds.atmosphereSetSunHaloIntensity),
                 "sun halo intensity");
+        float seconds = optionalFloat(args, 1, 0f, "seconds");
 
-        skyControl.getAtmosphere().setSunHaloIntensity(intensity);
+        skyControl.setSunHaloIntensity(intensity, seconds);
         SkyCommandResult result = SkyCommandResult.success(
                 SkyCommandIds.atmosphereSetSunHaloIntensity,
                 "sun halo intensity set");
@@ -219,8 +216,9 @@ final public class SkyCommandBus {
         float intensity = parseFloat(requireArgument(args, 0,
                 SkyCommandIds.atmosphereSetSunsetIntensity),
                 "sunset intensity");
+        float seconds = optionalFloat(args, 1, 0f, "seconds");
 
-        skyControl.getAtmosphere().setSunsetIntensity(intensity);
+        skyControl.setSunsetIntensity(intensity, seconds);
         SkyCommandResult result = SkyCommandResult.success(
                 SkyCommandIds.atmosphereSetSunsetIntensity,
                 "sunset intensity set");

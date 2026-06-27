@@ -56,7 +56,7 @@ encapsulated. Public compatibility is preferred over cosmetic directory moves.
 
 ## Cloud weather and generated sky materials
 
-Version `1.4.1` adds runtime-controllable atmospheric gradient styling: Lua-configured gradient presets, cinematic/fantasy sunrise and sunset intensity, sun and moon halo intensity, atmosphere command ABI entries, and hardened GitHub CI.
+Version `1.4.2` adds smooth runtime atmosphere transitions, typed weather-state subscriptions, expanded cloud-weather diagnostics, generated sky material logging, and stronger DDS/BC normal-map inspection for cloud presets.
 
 - `SkyCloudPreset` provides `CLEAR`, `FAIR`, `OVERCAST`, `WISPY`, `CLOUDY`, `RAIN`, `STORM`, and `NIMBUS`.
 - `SkyControl.setCloudPreset(preset, seconds)` changes weather by fading current layers out, swapping alpha/normal/scale/motion while invisible, and fading target layers in.
@@ -89,7 +89,7 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.takesome:sky-simulation:1.4.1")
+    implementation("dev.takesome:sky-simulation:1.4.2")
 }
 ```
 
@@ -110,7 +110,7 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.takesome:sky-simulation:1.4.1-SNAPSHOT")
+    implementation("dev.takesome:sky-simulation:1.4.2-SNAPSHOT")
 }
 ```
 
@@ -132,7 +132,7 @@ gradlew.bat packageLocal
 Build release artifacts locally:
 
 ```bat
-gradlew.bat :SkyLibrary:assemble -PskySimulationVersion=1.4.1
+gradlew.bat :SkyLibrary:assemble -PskySimulationVersion=1.4.2
 ```
 
 Artifacts are generated in:
@@ -146,8 +146,8 @@ SkyLibrary/build/libs
 A GitHub release is produced by pushing a version tag:
 
 ```bat
-git tag -a v1.4.1 -m "SkySimulation v1.4.1"
-git push origin v1.4.1
+git tag -a v1.4.2 -m "SkySimulation v1.4.2"
+git push origin v1.4.2
 ```
 
 The release workflow publishes the Maven package to GitHub Packages and attaches the JAR, sources, Javadoc, POM, and Gradle module metadata to the GitHub Release.
@@ -170,6 +170,9 @@ The release workflow publishes the Maven package to GitHub Packages and attaches
 - DDS cloud preset resources plus `cloud-weather-presets.json` registry.
 - Generated sky MatDefs/GLSL via `:SkyAssets:skyMaterials`.
 - BC5/ATI2 DDS normal-map fallback loader for cloud normals.
+- Smooth atmosphere transitions for gradient style, sunset intensity, and halo intensity.
+- Game-facing weather subscriptions for exact weather ids, storm-like states, precipitation thresholds, wind thresholds, and all weather changes.
+- Expanded logging for Lua weather ABI loading, cloud preset transitions, generated sky material creation, and compressed DDS/BC cloud texture metadata.
 
 ## Attribution
 

@@ -116,6 +116,18 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
      */
     private SkyGradientStyle gradientStyle = SkyGradientStyle.CINEMATIC;
     /**
+     * Runtime color-shift style scale.
+     */
+    private float colorScale = SkyGradientStyle.CINEMATIC.colorScale();
+    /**
+     * Runtime halo/glow style scale.
+     */
+    private float haloScale = SkyGradientStyle.CINEMATIC.haloScale();
+    /**
+     * Runtime horizon gradient style scale.
+     */
+    private float horizonScale = SkyGradientStyle.CINEMATIC.horizonScale();
+    /**
      * Moon halo intensity multiplier.
      */
     private float moonHaloIntensity = 1f;
@@ -301,6 +313,9 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
         this.minSunTransmission = source.minSunTransmission;
         this.shadowContrast = source.shadowContrast;
         this.gradientStyle = source.gradientStyle;
+        this.colorScale = source.colorScale;
+        this.haloScale = source.haloScale;
+        this.horizonScale = source.horizonScale;
         this.moonHaloIntensity = source.moonHaloIntensity;
         this.sunHaloIntensity = source.sunHaloIntensity;
         this.sunsetIntensity = source.sunsetIntensity;
@@ -385,12 +400,39 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
     }
 
     /**
+     * Return the runtime color-shift style scale.
+     *
+     * @return multiplier
+     */
+    public float getColorScale() {
+        return colorScale;
+    }
+
+    /**
      * Return the gradient art-direction style.
      *
      * @return gradient style
      */
     public SkyGradientStyle getGradientStyle() {
         return gradientStyle;
+    }
+
+    /**
+     * Return the runtime halo/glow style scale.
+     *
+     * @return multiplier
+     */
+    public float getHaloScale() {
+        return haloScale;
+    }
+
+    /**
+     * Return the runtime horizon gradient style scale.
+     *
+     * @return multiplier
+     */
+    public float getHorizonScale() {
+        return horizonScale;
     }
 
     /**
@@ -562,6 +604,25 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
     public void setGradientStyle(SkyGradientStyle style) {
         Validate.nonNull(style, "style");
         this.gradientStyle = style;
+        setGradientScales(style.horizonScale(), style.colorScale(),
+                style.haloScale());
+    }
+
+    /**
+     * Alter runtime gradient style scales.
+     *
+     * @param horizon desired horizon scale (&ge;0)
+     * @param color desired color scale (&ge;0)
+     * @param halo desired halo scale (&ge;0)
+     */
+    public void setGradientScales(float horizon, float color, float halo) {
+        Validate.nonNegative(horizon, "horizon");
+        Validate.nonNegative(color, "color");
+        Validate.nonNegative(halo, "halo");
+
+        this.horizonScale = horizon;
+        this.colorScale = color;
+        this.haloScale = halo;
     }
 
     /**
@@ -768,8 +829,9 @@ public class SkyAtmosphere implements JmeCloneable, Savable {
         minSunTransmission
                 = capsule.readFloat("minSunTransmission", 0.08f);
         shadowContrast = capsule.readFloat("shadowContrast", 1f);
-        gradientStyle = capsule.readEnum("gradientStyle",
+        SkyGradientStyle style = capsule.readEnum("gradientStyle",
                 SkyGradientStyle.class, SkyGradientStyle.CINEMATIC);
+        setGradientStyle(style);
         moonHaloIntensity = capsule.readFloat("moonHaloIntensity", 1f);
         sunHaloIntensity = capsule.readFloat("sunHaloIntensity", 1f);
         sunsetIntensity = capsule.readFloat("sunsetIntensity", 1f);

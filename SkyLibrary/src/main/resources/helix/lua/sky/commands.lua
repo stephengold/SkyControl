@@ -17,7 +17,7 @@ local M = {
     },
     commands = {
         ["sky.atmosphere.setGradient"] = {
-            args = {"gradientStyle"},
+            args = {"gradientStyle", "transitionSeconds?"},
             updates = {
                 "sky.atmosphere.gradientStyle",
                 "sky.atmosphere.sunsetIntensity",
@@ -27,17 +27,17 @@ local M = {
             events = {"sky.atmosphere.changed", "sky.environment.changed"}
         },
         ["sky.atmosphere.setSunsetIntensity"] = {
-            args = {"intensity"},
+            args = {"intensity", "transitionSeconds?"},
             updates = {"sky.atmosphere.sunsetIntensity"},
             events = {"sky.atmosphere.changed", "sky.environment.changed"}
         },
         ["sky.atmosphere.setSunHaloIntensity"] = {
-            args = {"intensity"},
+            args = {"intensity", "transitionSeconds?"},
             updates = {"sky.atmosphere.sunHaloIntensity"},
             events = {"sky.atmosphere.changed", "sky.environment.changed"}
         },
         ["sky.atmosphere.setMoonHaloIntensity"] = {
-            args = {"intensity"},
+            args = {"intensity", "transitionSeconds?"},
             updates = {"sky.atmosphere.moonHaloIntensity"},
             events = {"sky.atmosphere.changed", "sky.environment.changed"}
         },

@@ -236,6 +236,15 @@ final public class SkyWeatherState {
     }
 
     /**
+     * Copy the full game-facing metrics.
+     *
+     * @return copied metrics
+     */
+    public SkyWeatherMetrics metrics() {
+        return metrics.copy();
+    }
+
+    /**
      * Return precipitation intensity.
      *
      * @return precipitation fraction
@@ -260,6 +269,13 @@ final public class SkyWeatherState {
      */
     public float windStrength() {
         return metrics.windStrength();
+    }
+
+    @Override
+    public String toString() {
+        return "SkyWeatherState[id=" + id
+                + ", cloudPreset=" + cloudPreset
+                + ", metrics=" + metrics + "]";
     }
 
     /**

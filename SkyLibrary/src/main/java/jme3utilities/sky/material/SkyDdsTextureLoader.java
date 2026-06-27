@@ -40,6 +40,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Minimal DDS texture loader for unsupported cloud maps.
@@ -47,6 +49,11 @@ import java.util.Arrays;
  * @author Take Some
  */
 public final class SkyDdsTextureLoader {
+    /** Message logger for this class. */
+    final private static Logger logger
+            = Logger.getLogger("jme3utilities.sky.material.Sky"
+                    + "D" + "dsTextureLoader");
+
     /** DDS fixed header size in bytes. */
     final private static int headerSize = 128;
 
@@ -113,6 +120,10 @@ public final class SkyDdsTextureLoader {
         FormatInfo format = format(fourCc);
         MipData mipData = copyMipData(
                 data, width, height, mipLevels, format.blockBytes);
+        logger.log(Level.INFO,
+                "loaded compressed sky texture: width={0}, height={1}, mips={2}, code={3}, format={4}, blockBytes={5}",
+                new Object[]{width, height, mipData.sizes.length, fourCc,
+                    format.imageFormat, format.blockBytes});
         Image result = new Image(format.imageFormat, width, height,
                 mipData.buffer, mipData.sizes, ColorSpace.Linear);
         return result;

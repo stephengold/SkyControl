@@ -36,6 +36,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.sky.runtime.SkyWeatherMetrics;
 import org.luaj.vm2.Globals;
@@ -50,6 +52,10 @@ import org.luaj.vm2.lib.jse.JsePlatform;
  * @author Take Some
  */
 final public class SkyCloudPresetLoader {
+    /** Message logger for this class. */
+    final private static Logger logger
+            = Logger.getLogger(SkyCloudPresetLoader.class.getName());
+
     /** Default Lua ABI registry resource. */
     final public static String defaultRegistry
             = SkyCloudAssets.luaRegistry;
@@ -71,6 +77,8 @@ final public class SkyCloudPresetLoader {
         Validate.nonNull(assetManager, "asset manager");
         Validate.nonEmpty(assetPath, "asset path");
 
+        logger.log(Level.INFO,
+                "loading sky weather Lua ABI registry: {0}", assetPath);
         String source = readText(assetManager, assetPath);
         Globals globals = JsePlatform.standardGlobals();
         LuaValue root;
@@ -81,6 +89,9 @@ final public class SkyCloudPresetLoader {
                     "Invalid sky weather Lua ABI: " + assetPath, exception);
         }
         SkyCloudPresetRegistry result = parseRegistry(root, assetPath);
+        logger.log(Level.INFO,
+                "loaded sky weather Lua ABI registry: path={0}, presets={1}",
+                new Object[]{assetPath, result.ids().size()});
         return result;
     }
 
@@ -113,6 +124,9 @@ final public class SkyCloudPresetLoader {
         List<SkyCloudLayerSpec> layers = parseLayers(value.get("layers"));
         SkyCloudPresetDefinition result = new SkyCloudPresetDefinition(
                 id, description, seconds, layers, metrics);
+        logger.log(Level.FINE,
+                "parsed sky weather preset: id={0}, seconds={1}, layers={2}, metrics={3}",
+                new Object[]{id, seconds, layers.size(), metrics});
         return result;
     }
 
@@ -139,6 +153,9 @@ final public class SkyCloudPresetLoader {
             result = new SkyCloudLayerSpec(
                     alphaMap, normalMap, opacity, scale, uRate, vRate);
         }
+        logger.log(Level.FINER,
+                "parsed cloud layer: alpha={0}, normal={1}, opacity={2}, scale={3}, uRate={4}, vRate={5}",
+                new Object[]{alphaMap, normalMap, opacity, scale, uRate, vRate});
         return result;
     }
 
@@ -204,6 +221,9 @@ final public class SkyCloudPresetLoader {
             list.add(parseDefinition(key.checkjstring(), value));
         }
         SkyCloudPresetRegistry result = new SkyCloudPresetRegistry(list);
+        logger.log(Level.FINE,
+                "parsed sky weather registry: path={0}, presetCount={1}",
+                new Object[]{assetPath, list.size()});
         return result;
     }
 
@@ -237,6 +257,9 @@ final public class SkyCloudPresetLoader {
                     exception);
         }
         String result = builder.toString();
+        logger.log(Level.FINE,
+                "read sky weather Lua ABI text: path={0}, chars={1}",
+                new Object[]{assetPath, result.length()});
         return result;
     }
 

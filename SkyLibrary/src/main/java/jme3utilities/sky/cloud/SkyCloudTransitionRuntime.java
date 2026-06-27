@@ -26,6 +26,8 @@
 package jme3utilities.sky.cloud;
 
 import com.jme3.math.FastMath;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.sky.CloudLayer;
 
@@ -38,6 +40,10 @@ import jme3utilities.sky.CloudLayer;
  * @author Take Some
  */
 final public class SkyCloudTransitionRuntime {
+    /** Message logger for this class. */
+    final private static Logger logger
+            = Logger.getLogger(SkyCloudTransitionRuntime.class.getName());
+
     /** Cloud layers being driven. */
     private CloudLayer[] layers;
     /** Opacities at transition start. */
@@ -65,6 +71,12 @@ final public class SkyCloudTransitionRuntime {
 
     /** Cancel any active transition. */
     public void cancel() {
+        if (active && elapsed < duration) {
+            logger.log(Level.FINE,
+                    "cloud weather transition cancelled: target={0}, elapsed={1}, duration={2}",
+                    new Object[]{target == null ? null : target.id(),
+                        elapsed, duration});
+        }
         this.active = false;
         this.swapped = false;
         this.elapsed = 0f;
@@ -120,9 +132,15 @@ final public class SkyCloudTransitionRuntime {
             startOpacities[layerI] = layers[layerI].getOpacity();
         }
 
+        logger.log(Level.INFO,
+                "cloud weather transition started: id={0}, seconds={1}, layers={2}",
+                new Object[]{definition.id(), seconds, definition.layerCount()});
         if (seconds == 0f) {
             applyTargetTextures();
             applyTargetOpacities();
+            logger.log(Level.FINE,
+                    "cloud weather transition applied immediately: id={0}",
+                    definition.id());
             cancel();
         } else {
             this.active = true;
@@ -151,6 +169,9 @@ final public class SkyCloudTransitionRuntime {
         if (!swapped) {
             applyTargetTextures();
             swapped = true;
+            logger.log(Level.FINE,
+                    "cloud weather transition textures swapped: id={0}",
+                    target.id());
         }
 
         float weight = smooth((elapsed - halfDuration) / halfDuration);
@@ -158,6 +179,9 @@ final public class SkyCloudTransitionRuntime {
 
         if (elapsed >= duration) {
             applyTargetOpacities();
+            logger.log(Level.INFO,
+                    "cloud weather transition completed: id={0}, duration={1}",
+                    new Object[]{target.id(), duration});
             cancel();
         }
     }
@@ -179,6 +203,10 @@ final public class SkyCloudTransitionRuntime {
             layer.setTexture(spec.alphaMap(), spec.scale());
             layer.setNormalMap(spec.normalMap());
             layer.setMotion(0f, spec.uRate(), 0f, spec.vRate());
+            logger.log(Level.FINER,
+                    "cloud layer target applied: index={0}, alpha={1}, normal={2}, scale={3}, opacity={4}, uRate={5}, vRate={6}",
+                    new Object[]{layerI, spec.alphaMap(), spec.normalMap(),
+                        spec.scale(), spec.opacity(), spec.uRate(), spec.vRate()});
         }
     }
 

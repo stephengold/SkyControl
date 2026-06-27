@@ -123,4 +123,13 @@ final public class SkyWeatherMetrics {
     public float windStrength() {
         return windStrength;
     }
+
+    @Override
+    public String toString() {
+        return "SkyWeatherMetrics[cloudiness=" + cloudiness
+                + ", visibility=" + visibility
+                + ", precipitation=" + precipitation
+                + ", windStrength=" + windStrength
+                + ", lightningChance=" + lightningChance + "]";
+    }
 }

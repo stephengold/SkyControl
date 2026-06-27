@@ -77,7 +77,7 @@ public final class SkyLightingModel {
                 sineSolarAltitude / atmosphere.getColorShiftAltitude());
         float horizonWeight = horizonWeight(
                 sineSolarAltitude, atmosphere.getTwilightLimit());
-        float styleScale = atmosphere.getGradientStyle().colorScale();
+        float styleScale = atmosphere.getColorScale();
         float shift = warmWeight * atmosphere.getSunsetWarmth()
                 * atmosphere.getSunsetIntensity() * styleScale;
         float amber = horizonWeight * atmosphere.getHazeStrength()
@@ -109,7 +109,7 @@ public final class SkyLightingModel {
         float strength = atmosphere.getSunsetWarmth()
                 * atmosphere.getSunsetIntensity()
                 * atmosphere.getHazeStrength()
-                * atmosphere.getGradientStyle().horizonScale();
+                * atmosphere.getHorizonScale();
         float amber = horizonWeight * strength;
         float violet = duskWeight * horizonWeight * strength;
 
@@ -147,7 +147,7 @@ public final class SkyLightingModel {
                 sineLunarAltitude, atmosphere.getTwilightLimit());
         float shift = horizonWeight * atmosphere.getSunsetWarmth()
                 * atmosphere.getSunsetIntensity()
-                * atmosphere.getGradientStyle().colorScale();
+                * atmosphere.getColorScale();
 
         result.r *= 1f + 0.10f * shift;
         result.g *= 1f - 0.10f * shift;
@@ -169,7 +169,7 @@ public final class SkyLightingModel {
         float horizonWeight = horizonWeight(
                 sineLunarAltitude, atmosphere.getTwilightLimit());
         float glow = 0.45f + 0.35f * horizonWeight
-                * atmosphere.getGradientStyle().haloScale();
+                * atmosphere.getHaloScale();
         result.multLocal(glow * atmosphere.getMoonHaloIntensity());
         return result;
     }
@@ -189,7 +189,7 @@ public final class SkyLightingModel {
         float glow = 1.15f + 1.10f * horizonWeight
                 * atmosphere.getSunsetWarmth()
                 * atmosphere.getSunsetIntensity()
-                * atmosphere.getGradientStyle().haloScale();
+                * atmosphere.getHaloScale();
         result.multLocal(glow * atmosphere.getSunHaloIntensity());
         return result;
     }

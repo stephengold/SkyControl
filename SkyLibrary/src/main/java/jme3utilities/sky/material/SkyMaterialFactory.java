@@ -28,6 +28,8 @@ package jme3utilities.sky.material;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jme3utilities.MyAsset;
 import jme3utilities.sky.SkyControlCore;
 import jme3utilities.sky.SkyMaterial;
@@ -39,6 +41,10 @@ import jme3utilities.sky.StarsOption;
  * @author Take Some
  */
 public final class SkyMaterialFactory {
+    /** Message logger for this class. */
+    final private static Logger logger
+            = Logger.getLogger(SkyMaterialFactory.class.getName());
+
     /**
      * Hidden constructor.
      */
@@ -57,6 +63,9 @@ public final class SkyMaterialFactory {
             boolean enabled) {
         Material result = enabled
                 ? MyAsset.createUnshadedMaterial(assetManager) : null;
+        logger.log(Level.FINE,
+                "bottom sky material requested: enabled={0}, created={1}",
+                new Object[]{enabled, result != null});
         return result;
     }
 
@@ -82,6 +91,9 @@ public final class SkyMaterialFactory {
             result = topMaterial;
         }
 
+        logger.log(Level.INFO,
+                "cloud sky material created: separateDome={0}, layers={1}",
+                new Object[]{separateDome, SkyControlCore.numCloudLayers});
         return result;
     }
 
@@ -105,6 +117,9 @@ public final class SkyMaterialFactory {
             result.addStars();
         }
 
+        logger.log(Level.INFO,
+                "top sky material created: objects={0}, cloudLayers={1}, stars={2}",
+                new Object[]{topObjects, topClouds, starsOption});
         return result;
     }
 }

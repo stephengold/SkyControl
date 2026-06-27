@@ -37,6 +37,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
 import com.jme3.texture.Texture;
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import jme3utilities.MyAsset;
 import jme3utilities.Validate;
@@ -176,11 +177,18 @@ public class SkyMaterialCore extends Material {
                 = SkyMaterialParamNames.cloudNormalMap(layerIndex);
         if (assetPath == null) {
             clearParam(parameterName);
+            logger.log(Level.FINE,
+                    "cloud normal map cleared: layer={0}, parameter={1}",
+                    new Object[]{layerIndex, parameterName});
         } else {
             Validate.nonEmpty(assetPath, "asset path");
             Texture normalMap = loadNormalMap(assetPath);
             normalMap.setWrap(Texture.WrapMode.Repeat);
             setTexture(parameterName, normalMap);
+            logger.log(Level.FINE,
+                    "cloud normal map applied: layer={0}, parameter={1}, path={2}, image={3}",
+                    new Object[]{layerIndex, parameterName, assetPath,
+                        normalMap.getImage()});
         }
     }
 
@@ -683,12 +691,18 @@ public class SkyMaterialCore extends Material {
         boolean mipmaps = false;
         Texture result;
         try {
+            logger.log(Level.FINER,
+                    "loading cloud normal map through AssetManager: {0}",
+                    assetPath);
             result = MyAsset.loadTexture(assetManager, assetPath, mipmaps);
         } catch (AssetLoadException exception) {
             if (!assetPath.toLowerCase(java.util.Locale.ROOT)
                     .endsWith(".dds")) {
                 throw exception;
             }
+            logger.log(Level.INFO,
+                    "using internal compressed texture reader for cloud normal map: {0}",
+                    assetPath);
             result = SkyDdsTextureLoader.loadTexture(assetManager, assetPath);
         }
 

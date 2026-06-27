@@ -33,6 +33,10 @@ import jme3utilities.sky.runtime.SkyEnvironmentRuntime;
 import jme3utilities.sky.runtime.SkyEnvironmentSnapshot;
 import jme3utilities.sky.runtime.SkyLightingSnapshot;
 import jme3utilities.sky.runtime.SkyLightingState;
+import jme3utilities.sky.runtime.SkyWeatherEvent;
+import jme3utilities.sky.runtime.SkyWeatherFilters;
+import jme3utilities.sky.runtime.SkyWeatherListener;
+import jme3utilities.sky.runtime.SkyWeatherSubscription;
 import jme3utilities.sky.runtime.SkyWorldClock;
 import org.junit.Assert;
 import org.junit.Test;
@@ -110,5 +114,72 @@ public class TestSkyEnvironmentRuntime {
         Assert.assertEquals(0.9f, snapshot.windStrength(), 0.0001f);
         Assert.assertEquals(0.7f, snapshot.bloom(), 0.0001f);
         Assert.assertEquals(0.4f, snapshot.shadowIntensity(), 0.0001f);
+    }
+
+    /**
+     * Test weather subscriptions and filtered delivery.
+     */
+    @Test
+    public void testWeatherSubscriptions() {
+        SkyEnvironmentRuntime runtime = new SkyEnvironmentRuntime();
+        final int[] allCount = {0};
+        final int[] stormCount = {0};
+        final int[] rainLikeCount = {0};
+        final String[] previousId = {null};
+        final String[] currentId = {null};
+        final float[] transitionSeconds = {-1f};
+
+        SkyWeatherSubscription all = runtime.subscribeWeather(
+                new SkyWeatherListener() {
+                    @Override
+                    public void onWeatherChanged(SkyWeatherEvent event) {
+                        ++allCount[0];
+                        previousId[0] = event.previousWeatherId();
+                        currentId[0] = event.currentWeatherId();
+                        transitionSeconds[0] = event.transitionSeconds();
+                    }
+                });
+        runtime.subscribeWeather("storm", new SkyWeatherListener() {
+            @Override
+            public void onWeatherChanged(SkyWeatherEvent event) {
+                ++stormCount[0];
+            }
+        });
+        runtime.subscribeWeather(SkyWeatherFilters.precipitating(0.5f),
+                new SkyWeatherListener() {
+                    @Override
+                    public void onWeatherChanged(SkyWeatherEvent event) {
+                        ++rainLikeCount[0];
+                    }
+                });
+
+        Assert.assertEquals(3, runtime.weatherSubscriptionCount());
+        runtime.setWeather(SkyCloudPreset.STORM, 12f);
+        Assert.assertEquals(1, allCount[0]);
+        Assert.assertEquals(1, stormCount[0]);
+        Assert.assertEquals(1, rainLikeCount[0]);
+        Assert.assertEquals("fair", previousId[0]);
+        Assert.assertEquals("storm", currentId[0]);
+        Assert.assertEquals(12f, transitionSeconds[0], 0f);
+
+        Assert.assertTrue(all.cancel());
+        Assert.assertFalse(all.isActive());
+        Assert.assertEquals(2, runtime.weatherSubscriptionCount());
+        runtime.setWeather(SkyCloudPreset.FAIR, 0f);
+        Assert.assertEquals(1, allCount[0]);
+        Assert.assertEquals(1, stormCount[0]);
+        Assert.assertEquals(1, rainLikeCount[0]);
+
+        final int[] currentReplayCount = {0};
+        runtime.subscribeWeather(SkyWeatherFilters.any(),
+                new SkyWeatherListener() {
+                    @Override
+                    public void onWeatherChanged(SkyWeatherEvent event) {
+                        if (event.isCurrentReplay()) {
+                            ++currentReplayCount[0];
+                        }
+                    }
+                }, true);
+        Assert.assertEquals(1, currentReplayCount[0]);
     }
 }
