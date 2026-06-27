@@ -27,11 +27,6 @@ package jme3utilities.sky.runtime;
 
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jme3utilities.Validate;
 import jme3utilities.sky.cloud.SkyCloudPreset;
 import jme3utilities.sky.cloud.SkyCloudPresetDefinition;
@@ -48,21 +43,15 @@ import jme3utilities.sky.cloud.SkyCloudPresetDefinition;
  * @author Take Some
  */
 final public class SkyEnvironmentRuntime {
-    /** Message logger for this class. */
-    final private static Logger logger
-            = Logger.getLogger(SkyEnvironmentRuntime.class.getName());
-
     /** World clock facade. */
     final private SkyWorldClock clock;
     /** Optional weather sink implemented by the visual sky control. */
     final private WeatherApplier weatherApplier;
-    /** Active weather subscriptions. */
-    final private List<SkyWeatherSubscription> weatherSubscriptions
-            = new ArrayList<SkyWeatherSubscription>();
+    /** Weather subscription registry and dispatcher. */
+    final private SkyWeatherSubscriptionRegistry weatherSubscriptions
+            = new SkyWeatherSubscriptionRegistry();
     /** Latest lighting output. */
     private SkyLightingSnapshot lightingSnapshot = SkyLightingSnapshot.empty();
-    /** Runtime-local event sequence counter. */
-    private long weatherEventSequence = 0L;
     /** Current weather state. */
     private SkyWeatherState weatherState = SkyWeatherState.fair();
 
@@ -100,13 +89,7 @@ final public class SkyEnvironmentRuntime {
      * Remove all weather subscriptions.
      */
     public void clearWeatherSubscriptions() {
-        for (SkyWeatherSubscription subscription : weatherSubscriptions) {
-            subscription.markCancelled();
-        }
-        int removed = weatherSubscriptions.size();
         weatherSubscriptions.clear();
-        logger.log(Level.FINE,
-                "sky weather subscriptions cleared: removed={0}", removed);
     }
 
     /**
@@ -173,21 +156,8 @@ final public class SkyEnvironmentRuntime {
     public int removeWeatherListener(SkyWeatherListener listener) {
         Validate.nonNull(listener, "listener");
 
-        int removed = 0;
-        Iterator<SkyWeatherSubscription> iterator
-                = weatherSubscriptions.iterator();
-        while (iterator.hasNext()) {
-            SkyWeatherSubscription subscription = iterator.next();
-            if (subscription.listener() == listener) {
-                subscription.markCancelled();
-                iterator.remove();
-                ++removed;
-            }
-        }
-        logger.log(Level.FINE,
-                "sky weather listener removed: listener={0}, removed={1}",
-                new Object[]{listener, removed});
-        return removed;
+        int result = weatherSubscriptions.removeListener(listener);
+        return result;
     }
 
     /**
@@ -362,13 +332,8 @@ final public class SkyEnvironmentRuntime {
         Validate.nonNull(filter, "filter");
         Validate.nonNull(listener, "listener");
 
-        SkyWeatherSubscription result = new SkyWeatherSubscription(
-                this, filter, listener);
-        weatherSubscriptions.add(result);
-        logger.log(Level.FINE, "sky weather subscription added: {0}", result);
-        if (notifyCurrent) {
-            dispatchCurrent(result);
-        }
+        SkyWeatherSubscription result = weatherSubscriptions.subscribe(
+                this, filter, listener, weatherState, notifyCurrent);
         return result;
     }
 
@@ -395,13 +360,8 @@ final public class SkyEnvironmentRuntime {
             return false;
         }
 
-        boolean removed = weatherSubscriptions.remove(subscription);
-        if (removed) {
-            subscription.markCancelled();
-            logger.log(Level.FINE,
-                    "sky weather subscription removed: {0}", subscription);
-        }
-        return removed;
+        boolean result = weatherSubscriptions.unsubscribe(subscription);
+        return result;
     }
 
     /**
@@ -452,41 +412,6 @@ final public class SkyEnvironmentRuntime {
     }
 
     /**
-     * Deliver a current-state replay to a new subscription.
-     *
-     * @param subscription subscription to notify
-     */
-    private void dispatchCurrent(SkyWeatherSubscription subscription) {
-        assert subscription != null;
-        if (!subscription.matches(weatherState)) {
-            return;
-        }
-
-        SkyWeatherEvent event = new SkyWeatherEvent(++weatherEventSequence,
-                weatherState, weatherState, 0f, SkyWeatherChangeSource.CURRENT);
-        dispatchSafely(subscription, event);
-    }
-
-    /**
-     * Dispatch an event and isolate listener failures.
-     *
-     * @param subscription destination subscription
-     * @param event event payload
-     */
-    private void dispatchSafely(SkyWeatherSubscription subscription,
-            SkyWeatherEvent event) {
-        assert subscription != null;
-        assert event != null;
-        try {
-            subscription.dispatch(event);
-        } catch (RuntimeException exception) {
-            logger.log(Level.WARNING,
-                    "sky weather listener failed: subscription="
-                    + subscription + ", event=" + event, exception);
-        }
-    }
-
-    /**
      * Publish a weather-state change.
      *
      * @param previous previous state
@@ -497,24 +422,7 @@ final public class SkyEnvironmentRuntime {
     private void publishWeatherChange(SkyWeatherState previous,
             SkyWeatherState current, float seconds,
             SkyWeatherChangeSource source) {
-        assert previous != null;
-        assert current != null;
-        assert seconds >= 0f : seconds;
-        assert source != null;
-
-        SkyWeatherEvent event = new SkyWeatherEvent(++weatherEventSequence,
-                previous, current, seconds, source);
-        logger.log(Level.INFO, "sky weather changed: {0}", event);
-
-        SkyWeatherState eventState = event.currentWeather();
-        List<SkyWeatherSubscription> snapshot
-                = new ArrayList<SkyWeatherSubscription>(weatherSubscriptions);
-        for (SkyWeatherSubscription subscription : snapshot) {
-            if (weatherSubscriptions.contains(subscription)
-                    && subscription.matches(eventState)) {
-                dispatchSafely(subscription, event);
-            }
-        }
+        weatherSubscriptions.publish(previous, current, seconds, source);
     }
 
     /**

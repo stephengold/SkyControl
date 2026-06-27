@@ -1,5 +1,13 @@
 # release log for the SkyControl library and related software
 
+## Version 1.4.3 released on 27 June 2026
+
+Notable changes:
++ extract weather subscription dispatcher from the environment runtime
++ reduce weather event dispatch allocation and active subscription scans
++ preserve weather listener replay, cancellation, and failure isolation behavior
++ update package coordinates and release documentation for version 1.4.3
+
 ## Version 1.4.2 released on 27 June 2026
 
 Notable changes:
