@@ -22,7 +22,7 @@ jobs:
     name: ${{ matrix.name }}
     if: ${{ !contains(github.event.head_commit.message || '', '[ci skip]') }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 25
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -30,12 +30,12 @@ jobs:
           - name: Linux Java 17
             os: ubuntu-24.04
             java: '17'
-            command: ./gradlew --no-daemon clean build packageLocal --console=plain --stacktrace
+            command: ./tools/check-release.sh 1.4.4
             shell: bash
           - name: Windows Java 17
             os: windows-2025
             java: '17'
-            command: gradlew.bat --no-daemon clean build packageLocal --console=plain --stacktrace
+            command: tools\check-release.bat 1.4.4
             shell: cmd
 
     steps:

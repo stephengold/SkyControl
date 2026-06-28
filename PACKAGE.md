@@ -3,7 +3,7 @@
 Internal Maven/Gradle package coordinates:
 
 ```kotlin
-implementation("dev.takesome:sky-simulation:1.4.3")
+implementation("dev.takesome:sky-simulation:1.4.4")
 ```
 
 Install the package into Maven Local:
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.takesome:sky-simulation:1.4.3-SNAPSHOT")
+    implementation("dev.takesome:sky-simulation:1.4.4-SNAPSHOT")
 }
 ```
 

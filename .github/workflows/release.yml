@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Release version without the v prefix, for example 1.0.0'
+        description: 'Release version without the v prefix, for example 1.4.4'
         required: true
-        default: '1.0.0'
+        default: '1.4.4'
 
 permissions:
   contents: write
@@ -42,9 +42,9 @@ jobs:
           java-version: '17'
           cache: gradle
 
-      - name: Build and test
+      - name: Validate release build
         shell: cmd
-        run: gradlew.bat --no-daemon clean build packageLocal --console=plain --stacktrace -PskySimulationVersion=${{ steps.version.outputs.version }}
+        run: tools\check-release.bat ${{ steps.version.outputs.version }}
 
       - name: Publish to GitHub Packages
         shell: cmd

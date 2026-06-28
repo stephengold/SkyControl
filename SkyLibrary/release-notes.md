@@ -1,5 +1,14 @@
 # release log for the SkyControl library and related software
 
+## Version 1.4.4 released on 28 June 2026
+
+Notable changes:
++ add shared release-check scripts for Windows and Unix-like shells
++ harden CI and release workflows around the full clean build package path
++ document the protected branch release discipline: branch, PR, green CI, merge, tag, release
++ expand weather subscription tests for listener removal, failure isolation, and cancellation during dispatch
++ update package coordinates and release documentation for `dev.takesome:sky-simulation:1.4.4`
+
 ## Version 1.4.3 released on 27 June 2026
 
 Notable changes:

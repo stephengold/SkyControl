@@ -182,4 +182,95 @@ public class TestSkyEnvironmentRuntime {
                 }, true);
         Assert.assertEquals(1, currentReplayCount[0]);
     }
+
+    /**
+     * Test removal of all subscriptions for a listener.
+     */
+    @Test
+    public void testRemoveWeatherListener() {
+        SkyEnvironmentRuntime runtime = new SkyEnvironmentRuntime();
+        final int[] removedCount = {0};
+        final int[] keptCount = {0};
+        SkyWeatherListener removed = new SkyWeatherListener() {
+            @Override
+            public void onWeatherChanged(SkyWeatherEvent event) {
+                ++removedCount[0];
+            }
+        };
+        SkyWeatherListener kept = new SkyWeatherListener() {
+            @Override
+            public void onWeatherChanged(SkyWeatherEvent event) {
+                ++keptCount[0];
+            }
+        };
+
+        runtime.subscribeWeather(removed);
+        runtime.subscribeWeather("storm", removed);
+        runtime.subscribeWeather(kept);
+        Assert.assertEquals(3, runtime.weatherSubscriptionCount());
+
+        Assert.assertEquals(2, runtime.removeWeatherListener(removed));
+        Assert.assertEquals(1, runtime.weatherSubscriptionCount());
+        runtime.setWeather(SkyCloudPreset.STORM, 1f);
+        Assert.assertEquals(0, removedCount[0]);
+        Assert.assertEquals(1, keptCount[0]);
+    }
+
+    /**
+     * Test listener failure isolation during weather dispatch.
+     */
+    @Test
+    public void testListenerFailure() {
+        SkyEnvironmentRuntime runtime = new SkyEnvironmentRuntime();
+        final int[] deliveredCount = {0};
+        runtime.subscribeWeather(new SkyWeatherListener() {
+            @Override
+            public void onWeatherChanged(SkyWeatherEvent event) {
+                throw new IllegalStateException("expected test failure");
+            }
+        });
+        runtime.subscribeWeather(new SkyWeatherListener() {
+            @Override
+            public void onWeatherChanged(SkyWeatherEvent event) {
+                ++deliveredCount[0];
+            }
+        });
+
+        runtime.setWeather(SkyCloudPreset.CLOUDY, 2f);
+        Assert.assertEquals(1, deliveredCount[0]);
+    }
+
+    /**
+     * Test cancellation during active dispatch.
+     */
+    @Test
+    public void testCancelDuringDispatch() {
+        SkyEnvironmentRuntime runtime = new SkyEnvironmentRuntime();
+        final SkyWeatherSubscription[] self = new SkyWeatherSubscription[1];
+        final int[] selfCount = {0};
+        final int[] keptCount = {0};
+        self[0] = runtime.subscribeWeather(new SkyWeatherListener() {
+            @Override
+            public void onWeatherChanged(SkyWeatherEvent event) {
+                ++selfCount[0];
+                self[0].cancel();
+            }
+        });
+        runtime.subscribeWeather(new SkyWeatherListener() {
+            @Override
+            public void onWeatherChanged(SkyWeatherEvent event) {
+                ++keptCount[0];
+            }
+        });
+
+        runtime.setWeather(SkyCloudPreset.RAIN, 3f);
+        Assert.assertEquals(1, selfCount[0]);
+        Assert.assertEquals(1, keptCount[0]);
+        Assert.assertEquals(1, runtime.weatherSubscriptionCount());
+
+        runtime.setWeather(SkyCloudPreset.FAIR, 0f);
+        Assert.assertEquals(1, selfCount[0]);
+        Assert.assertEquals(2, keptCount[0]);
+    }
+
 }

@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://github.com/Take-Some/SkySimulation/actions/workflows/push.yml"><img alt="CI" src="https://github.com/Take-Some/SkySimulation/actions/workflows/push.yml/badge.svg?branch=master" /></a>
   <a href="https://github.com/Take-Some/SkySimulation/actions/workflows/release.yml"><img alt="Release" src="https://github.com/Take-Some/SkySimulation/actions/workflows/release.yml/badge.svg" /></a>
-  <img alt="Version" src="https://img.shields.io/badge/version-1.4.3-blue" />
+  <img alt="Version" src="https://img.shields.io/badge/version-1.4.4-blue" />
   <img alt="Java" src="https://img.shields.io/badge/Java-17%2B-orange" />
   <img alt="Artifact" src="https://img.shields.io/badge/artifact-dev.takesome%3Asky--simulation-7c3aed" />
   <img alt="License" src="https://img.shields.io/badge/license-BSD--style-lightgrey" />
@@ -69,7 +69,7 @@ encapsulated. Public compatibility is preferred over cosmetic directory moves.
 
 ## Cloud weather and generated sky materials
 
-Version `1.4.3` extracts weather subscription dispatch from the environment runtime, reduces per-event allocation during weather notifications, and keeps cloud/weather runtime state observable for gameplay systems.
+Version `1.4.4` hardens the release pipeline, aligns local validation with GitHub Actions, expands weather subscription tests, and keeps the 1.4.x weather runtime stable.
 
 - `SkyCloudPreset` provides `CLEAR`, `FAIR`, `OVERCAST`, `WISPY`, `CLOUDY`, `RAIN`, `STORM`, and `NIMBUS`.
 - `SkyControl.setCloudPreset(preset, seconds)` changes weather by fading current layers out, swapping alpha/normal/scale/motion while invisible, and fading target layers in.
@@ -102,7 +102,7 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.takesome:sky-simulation:1.4.3")
+    implementation("dev.takesome:sky-simulation:1.4.4")
 }
 ```
 
@@ -123,7 +123,7 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.takesome:sky-simulation:1.4.3-SNAPSHOT")
+    implementation("dev.takesome:sky-simulation:1.4.4-SNAPSHOT")
 }
 ```
 
@@ -145,7 +145,7 @@ gradlew.bat packageLocal
 Build release artifacts locally:
 
 ```bat
-gradlew.bat :SkyLibrary:assemble -PskySimulationVersion=1.4.3
+gradlew.bat :SkyLibrary:assemble -PskySimulationVersion=1.4.4
 ```
 
 Artifacts are generated in:
@@ -154,16 +154,34 @@ Artifacts are generated in:
 SkyLibrary/build/libs
 ```
 
-## Release
+## Release validation
 
-A GitHub release is produced by pushing a version tag:
+Run the full release gate before opening a release PR:
 
 ```bat
-git tag -a v1.4.3 -m "SkySimulation v1.4.3"
-git push origin v1.4.3
+tools\check-release.bat 1.4.4
 ```
 
-The release workflow publishes the Maven package to GitHub Packages and attaches the JAR, sources, Javadoc, POM, and Gradle module metadata to the GitHub Release.
+or on Unix-like shells:
+
+```bash
+./tools/check-release.sh 1.4.4
+```
+
+Both scripts run `clean build packageLocal` with the selected version.
+
+## Release
+
+Releases follow a protected-branch flow:
+
+```text
+branch -> PR -> green CI -> merge master -> tag -> release workflow
+```
+
+Do not push `v1.4.4` until the PR is green and merged into `master`.
+See `docs/release.md` for the exact process.
+
+The release workflow validates the full build again, publishes the Maven package to GitHub Packages, and attaches the JAR, sources, Javadoc, POM, and Gradle module metadata to the GitHub Release.
 
 ## Modules
 

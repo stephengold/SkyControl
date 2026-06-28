@@ -33,5 +33,5 @@
   <path d="M0 314 C200 284 360 338 560 304 S880 268 1280 318 L1280 360 L0 360 Z" fill="#020617" opacity="0.82"/>
   <text x="72" y="178" fill="#f8fafc" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="64" font-weight="800">SkySimulation</text>
   <text x="76" y="224" fill="#dbeafe" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="25" font-weight="500">Take Some() sky, weather, atmosphere and world-runtime infrastructure</text>
-  <text x="78" y="264" fill="#fed7aa" font-family="JetBrains Mono, Consolas, monospace" font-size="20">dev.takesome:sky-simulation:1.4.3</text>
+  <text x="78" y="264" fill="#fed7aa" font-family="JetBrains Mono, Consolas, monospace" font-size="20">dev.takesome:sky-simulation:1.4.4</text>
 </svg>
