@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022, Stephen Gold
+// Copyright (c) 2014-2026 Stephen Gold
 
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -78,7 +78,7 @@ MaterialDef dome60 {
 
 	Color HazeColor
         Color HazeGlow
-	Texture2D HazeAlphaMap
+	Texture2D HazeAlphaMap -LINEAR
     }
 
     Technique {
