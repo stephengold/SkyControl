@@ -74,6 +74,10 @@ tasks.register('AppChooser', JavaExec) {
 tasks.register('CubeMapExample', JavaExec) {
     mainClass = 'jme3utilities.sky.test.CubeMapExample'
 }
+tasks.register('debugCubeMapExampleAfter', JavaExec) {
+    debug true
+    mainClass = 'jme3utilities.sky.test.CubeMapExampleAfter'
+}
 tasks.register('CubeMapExampleAfter', JavaExec) {
     mainClass = 'jme3utilities.sky.test.CubeMapExampleAfter'
 }
