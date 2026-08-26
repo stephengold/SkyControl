@@ -116,7 +116,7 @@ final class AppChooser extends GuiApplication {
     /**
      * environment variables passed to the executor
      */
-    private static Map<String, String> env = new TreeMap<>();
+    final private static Map<String, String> env = new TreeMap<>();
     // *************************************************************************
     // constructors
 
@@ -135,7 +135,7 @@ final class AppChooser extends GuiApplication {
      * @param arguments array of command-line arguments (not null)
      */
     public static void main(String[] arguments) {
-        String title = applicationName + " " + MyString.join(arguments);
+        final String title = applicationName + " " + MyString.join(arguments);
         AppChooser application = new AppChooser();
         Heart.parseAppArgs(application, arguments);
 
