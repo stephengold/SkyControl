@@ -78,6 +78,10 @@ final class AppChooser extends GuiApplication {
     final private static Logger logger
             = Logger.getLogger(AppChooser.class.getName());
     /**
+     * action prefix to choose an app from a popup menu
+     */
+    final private static String apChooseApp = "choose app ";
+    /**
      * application name (for the title bar of the app's window)
      */
     final private static String applicationName
@@ -86,10 +90,6 @@ final class AppChooser extends GuiApplication {
      * action string to choose an app from a popup menu
      */
     final private static String asChooseApp = "choose app";
-    /**
-     * action prefix to choose an app from a popup menu
-     */
-    final private static String apChooseApp = "choose app ";
     /**
      * action string to delete any persistent settings of the chosen app
      */
