@@ -53,7 +53,7 @@ import org.apache.commons.exec.ExecuteStreamHandler;
 import org.apache.commons.exec.PumpStreamHandler;
 
 /**
- * Choose an application from a list, then execute it.
+ * Choose a SkyControl example application from a list, then execute it.
  *
  * @author Stephen Gold sgold@sonic.net
  */
@@ -87,7 +87,7 @@ final class AppChooser extends GuiApplication {
      */
     final private static String asChooseApp = "choose app";
     /**
-     * action prefix to choose an app
+     * action prefix to choose an app from a popup menu
      */
     final private static String apChooseApp = "choose app ";
     /**
@@ -291,7 +291,7 @@ final class AppChooser extends GuiApplication {
 
     /**
      * Look for the shell script (or batch file) to execute in
-     * "./build/install/tests/bin".
+     * "./build/install/SkyExamples/bin".
      *
      * @return a new file instance that refers to a pre-existing script file
      * (not null)
