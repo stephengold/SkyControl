@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2024 Stephen Gold
+ Copyright (c) 2014-2026 Stephen Gold
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -215,7 +215,7 @@ final class WaterExample extends SimpleApplication {
         rootNode.addControl(skyControl);
         skyControl.setCloudiness(0.2f);
         skyControl.setCloudsYOffset(0.4f);
-        //skyControl.getSunAndStars().setHour(12f);
+        // skyControl.getSunAndStars().setHour(12f);
         skyControl.setEnabled(true);
 
         Updater updater = skyControl.getUpdater();

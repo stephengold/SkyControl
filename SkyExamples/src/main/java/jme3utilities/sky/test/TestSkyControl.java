@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2023, Stephen Gold
+ Copyright (c) 2013-2026 Stephen Gold
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -159,8 +159,6 @@ final class TestSkyControl extends GuiApplication {
                 MyString.quote(JmeVersion.FULL_NAME));
         logger.log(Level.INFO, "SkyControl version is {0}",
                 MyString.quote(Constants.versionShort()));
-
-        //Heart.detachAll(stateManager, DebugKeysAppState.class);
         /*
          * Disable display of jME3 statistics.
          * These displays can be re-enabled by pressing the F5 hotkey.

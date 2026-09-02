@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2024, Stephen Gold
+ Copyright (c) 2013-2026 Stephen Gold
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -583,7 +583,6 @@ final class TestSkyControlRun
         viewPort.addProcessor(wp);
         wp.addListener(skyControl.getUpdater());
         wp.addListener(this);
-        //wp.setDebug(true);
         wp.setDistortionMix(1f);
         wp.setDistortionScale(0.1f);
         wp.setReflectionClippingOffset(0f);
