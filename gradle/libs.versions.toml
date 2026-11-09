@@ -3,13 +3,13 @@
 [versions]
 
 checkstyle = "14.4.0"
-jme = "3.10.0-alpha4"
+jme = "3.10.0-beta3"
 
 [libraries]
 
 acorus = "com.github.stephengold:Acorus:2.0.2"
 commons-exec = "org.apache.commons:commons-exec:1.6.0"
-heart = "com.github.stephengold:Heart:9.3.0"
+heart = "com.github.stephengold:Heart:9.4.0-test2"
 jcommander = "org.jcommander:jcommander:1.85"
 
 jme3-awt-dialogs = { module = "org.jmonkeyengine:jme3-awt-dialogs", version.ref = "jme" }
@@ -20,7 +20,7 @@ jme3-jogg = { module = "org.jmonkeyengine:jme3-jogg", version.ref = "jme" }
 jme3-lwjgl3 = { module = "org.jmonkeyengine:jme3-lwjgl3", version.ref = "jme" }
 jme3-plugins = { module = "org.jmonkeyengine:jme3-plugins", version.ref = "jme" }
 jme3-terrain = { module = "org.jmonkeyengine:jme3-terrain", version.ref = "jme" }
-jme3-testdata = { module = "org.jmonkeyengine:jme3-testdata", version.ref = "jme" }
+jme3-testdata = { module = "org.jmonkeyengine:jme3-testdata", version = "3.9.0-stable" }
 
 jme3-utilities-nifty = "com.github.stephengold:jme3-utilities-nifty:0.9.37"
 junit4 = "junit:junit:4.13.2"
