@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2023, Stephen Gold
+ Copyright (c) 2014-2026 Stephen Gold
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -164,9 +164,11 @@ final class TestGlobeRenderer
          */
         application.setPauseOnLostFocus(false);
 
-        // Customize the window's resolution.
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
+        settings.setRenderer(AppSettings.LWJGL_OPENGL32); // default=ANGLE_GLES3
+
+        // Customize the window's resolution.
         settings.setResolution(640, 480);
 
         // Customize the window's title bar.

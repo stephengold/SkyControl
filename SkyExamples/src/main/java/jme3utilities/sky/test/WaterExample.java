@@ -82,6 +82,7 @@ final class WaterExample extends SimpleApplication {
 
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
+        settings.setRenderer(AppSettings.LWJGL_OPENGL32); // default=ANGLE_GLES3
         settings.setTitle(applicationName);
         application.setSettings(settings);
         application.setShowSettings(false);

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2023, Stephen Gold
+ Copyright (c) 2013-2026 Stephen Gold
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -174,11 +174,13 @@ final class TestSkyMaterial extends GuiApplication {
          */
         application.setPauseOnLostFocus(false);
 
-        // Initialize viewport settings.
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
-
-        // This test wants a square viewport.
+        settings.setRenderer(AppSettings.LWJGL_OPENGL32); // default=ANGLE_GLES3
+        /*
+         * Initialize viewport settings.
+         * This test wants a square viewport.
+         */
         settings.setResolution(viewportSize, viewportSize);
 
         // Customize the window's title bar.

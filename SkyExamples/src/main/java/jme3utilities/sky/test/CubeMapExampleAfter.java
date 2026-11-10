@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2024 Stephen Gold
+ Copyright (c) 2014-2026 Stephen Gold
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -76,6 +76,7 @@ final class CubeMapExampleAfter extends SimpleApplication {
 
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
+        settings.setRenderer(AppSettings.LWJGL_OPENGL32); // default=ANGLE_GLES3
         settings.setTitle("CubeMapExampleAfter");
         application.setSettings(settings);
         application.setShowSettings(false);

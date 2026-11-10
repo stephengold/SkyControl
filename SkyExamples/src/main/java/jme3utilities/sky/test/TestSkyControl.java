@@ -124,6 +124,7 @@ final class TestSkyControl extends GuiApplication {
 
         boolean loadDefaults = true;
         AppSettings settings = new AppSettings(loadDefaults);
+        settings.setRenderer(AppSettings.LWJGL_OPENGL32); // default=ANGLE_GLES3
 
         // Customize the window's title bar.
         String title = applicationName + " " + MyString.join(arguments);
