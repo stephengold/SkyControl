@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2025 Stephen Gold
+ Copyright (c) 2025-2026 Stephen Gold
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -31,7 +31,7 @@ import com.jme3.asset.plugins.ClasspathLocator;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.material.plugins.J3MLoader;
 import com.jme3.renderer.Camera;
-import com.jme3.texture.plugins.AWTLoader;
+import com.jme3.texture.plugins.StbImageLoader;
 import jme3utilities.Heart;
 import jme3utilities.sky.LunarPhase;
 import jme3utilities.sky.SkyControl;
@@ -61,7 +61,7 @@ public class TestClone {
     @Test
     public void testCloneSky() {
         assetManager.registerLoader(J3MLoader.class, "j3m", "j3md");
-        assetManager.registerLoader(AWTLoader.class, "jpg", "png");
+        assetManager.registerLoader(StbImageLoader.class, "jpg", "png");
         assetManager.registerLocator(null, ClasspathLocator.class);
 
         Camera camera = new Camera(640, 480);
